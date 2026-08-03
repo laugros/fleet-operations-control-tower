@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/reset/demo-r1-reset-recovery-policy.schema.json",
+  "title": "DEMO-R1 Reset Recovery Policy v2.1.3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "policy_version",
+    "release",
+    "status",
+    "worker_code",
+    "clock_source",
+    "locking",
+    "lease",
+    "normal_execution",
+    "recovery",
+    "api_behavior",
+    "audit"
+  ],
+  "properties": {
+    "policy_version": {
+      "const": "2.1.3"
+    },
+    "release": {
+      "const": "DEMO-R1"
+    },
+    "status": {
+      "const": "NORMATIVE_RESET_RECOVERY_POLICY"
+    },
+    "worker_code": {
+      "const": "demo-reset-recovery-watchdog"
+    },
+    "clock_source": {
+      "const": "DATABASE_TIME"
+    },
+    "locking": {
+      "type": "object",
+      "required": [
+        "advisory_lock_key",
+        "runtime_row_lock",
+        "execution_row_lock",
+        "transaction_isolation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "advisory_lock_key": {
+          "type": "string"
+        },
+        "runtime_row_lock": {
+          "type": "string"
+        },
+        "execution_row_lock": {
+          "type": "string"
+        },
+        "transaction_isolation": {
+          "const": "SERIALIZABLE"
+        }
+      }
+    },
+    "lease": {
+      "type": "object",
+      "required": [
+        "heartbeat_interval_seconds",
+        "lease_ttl_seconds",
+        "watchdog_scan_interval_seconds",
+        "maximum_recovery_attempts",
+        "stale_condition"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "heartbeat_interval_seconds": {
+          "const": 10
+        },
+        "lease_ttl_seconds": {
+          "const": 30
+        },
+        "watchdog_scan_interval_seconds": {
+          "const": 15
+        },
+        "maximum_recovery_attempts": {
+          "const": 3
+        },
+        "stale_condition": {
+          "type": "string"
+        }
+      }
+    },
+    "normal_execution": {
+      "type": "object"
+    },
+    "recovery": {
+      "type": "object"
+    },
+    "api_behavior": {
+      "type": "object"
+    },
+    "audit": {
+      "type": "object"
+    }
+  }
+}

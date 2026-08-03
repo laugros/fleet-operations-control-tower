@@ -1,0 +1,6169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/events/fleet-operations-control-tower-demo-r1.events.schema.json",
+  "title": "Fleet Operations Control Tower DEMO-R1 Event Bundle v2.1.3",
+  "description": "Bundle canônico de 33 eventos da DEMO-R1 no baseline v2.1.3.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/DemoClockAdvancedEvent"
+    },
+    {
+      "$ref": "#/$defs/DemoResetRequestedEvent"
+    },
+    {
+      "$ref": "#/$defs/CaseWorkStartedEvent"
+    },
+    {
+      "$ref": "#/$defs/CaseWaitingForSupplierEvent"
+    },
+    {
+      "$ref": "#/$defs/CaseResumedAfterSupplierUpdateEvent"
+    },
+    {
+      "$ref": "#/$defs/CaseResolvedEvent"
+    },
+    {
+      "$ref": "#/$defs/TaskCreatedEvent"
+    },
+    {
+      "$ref": "#/$defs/TaskAssignedEvent"
+    },
+    {
+      "$ref": "#/$defs/TaskStartedEvent"
+    },
+    {
+      "$ref": "#/$defs/TaskWaitingForSupplierEvent"
+    },
+    {
+      "$ref": "#/$defs/TaskResumedAfterSupplierUpdateEvent"
+    },
+    {
+      "$ref": "#/$defs/TaskCompletedEvent"
+    },
+    {
+      "$ref": "#/$defs/TaskCancelledEvent"
+    },
+    {
+      "$ref": "#/$defs/StopPreparedForArrivalEvent"
+    },
+    {
+      "$ref": "#/$defs/ArrivalReportedEvent"
+    },
+    {
+      "$ref": "#/$defs/ArrivalConflictDetectedEvent"
+    },
+    {
+      "$ref": "#/$defs/ArrivalConfirmedEvent"
+    },
+    {
+      "$ref": "#/$defs/ArrivalCorrectedEvent"
+    },
+    {
+      "$ref": "#/$defs/ServiceStartedEvent"
+    },
+    {
+      "$ref": "#/$defs/CompletionForecastUpdatedEvent"
+    },
+    {
+      "$ref": "#/$defs/ServiceCompletedEvent"
+    },
+    {
+      "$ref": "#/$defs/VehicleReleasedEvent"
+    },
+    {
+      "$ref": "#/$defs/DepartureConfirmedEvent"
+    },
+    {
+      "$ref": "#/$defs/VehicleStopClosedEvent"
+    },
+    {
+      "$ref": "#/$defs/AlertCreatedEvent"
+    },
+    {
+      "$ref": "#/$defs/AlertOccurrenceAddedEvent"
+    },
+    {
+      "$ref": "#/$defs/AlertResolvedEvent"
+    },
+    {
+      "$ref": "#/$defs/InboundCommunicationReceivedEvent"
+    },
+    {
+      "$ref": "#/$defs/ConversationCaseLinkSuggestedEvent"
+    },
+    {
+      "$ref": "#/$defs/CommunicationLinkedEvent"
+    },
+    {
+      "$ref": "#/$defs/PhoneCallRecordedEvent"
+    },
+    {
+      "$ref": "#/$defs/ExternalAccessTokenIssuedEvent"
+    },
+    {
+      "$ref": "#/$defs/ExternalAccessTokenRevokedEvent"
+    }
+  ],
+  "$defs": {
+    "DemoClockAdvancedPayload": {
+      "type": "object",
+      "properties": {
+        "previous_demo_now": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "current_demo_now": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "amount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "MINUTES",
+            "HOURS"
+          ]
+        },
+        "clock_version": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "reevaluation_job_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "previous_demo_now",
+        "current_demo_now",
+        "amount",
+        "unit",
+        "clock_version",
+        "reevaluation_job_id"
+      ]
+    },
+    "DemoResetRequestedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "reset_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "target_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "requested_by_identity_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requested_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "reset_id",
+        "seed_version",
+        "source_generation_id",
+        "target_generation_id",
+        "requested_by_identity_code",
+        "requested_at"
+      ]
+    },
+    "CaseWorkStartedPayload": {
+      "type": "object",
+      "properties": {
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "previous_state": {
+          "const": "NEW"
+        },
+        "current_state": {
+          "const": "IN_PROGRESS"
+        },
+        "assigned_team_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "assigned_user_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "case_number",
+        "previous_state",
+        "current_state",
+        "assigned_team_id",
+        "assigned_user_id",
+        "started_at"
+      ]
+    },
+    "CaseWaitingForSupplierPayload": {
+      "type": "object",
+      "properties": {
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "previous_state": {
+          "const": "IN_PROGRESS"
+        },
+        "current_state": {
+          "const": "WAITING_THIRD_PARTY"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "supplier_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_action": {
+          "const": "UPDATE_COMPLETION_FORECAST"
+        },
+        "expected_by": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason_code": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "case_number",
+        "previous_state",
+        "current_state",
+        "vehicle_stop_id",
+        "supplier_id",
+        "expected_action",
+        "expected_by",
+        "reason_code"
+      ]
+    },
+    "CaseResumedAfterSupplierUpdatePayload": {
+      "type": "object",
+      "properties": {
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "previous_state": {
+          "const": "WAITING_THIRD_PARTY"
+        },
+        "current_state": {
+          "const": "IN_PROGRESS"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "supplier_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "source_forecast_event_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "case_number",
+        "previous_state",
+        "current_state",
+        "vehicle_stop_id",
+        "supplier_id",
+        "source_forecast_event_id"
+      ]
+    },
+    "CaseResolvedPayload": {
+      "type": "object",
+      "properties": {
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "previous_state": {
+          "const": "IN_PROGRESS"
+        },
+        "current_state": {
+          "const": "RESOLVED"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "resolution_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resolution_summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "resolved_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "case_number",
+        "previous_state",
+        "current_state",
+        "vehicle_stop_id",
+        "resolution_code",
+        "resolution_summary",
+        "resolved_at"
+      ]
+    },
+    "TaskCreatedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "task_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "task_type_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "creation_mode": {
+          "type": "string",
+          "enum": [
+            "USER",
+            "ARRIVAL_CONFLICT"
+          ]
+        },
+        "assigned_team_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "system_source_event_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "started_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "is_mandatory": {
+          "type": "boolean"
+        },
+        "mandatory_for": {
+          "type": "string",
+          "enum": [
+            "NONE",
+            "CASE_RESOLUTION",
+            "STOP_CLOSURE"
+          ]
+        },
+        "current_state": {
+          "type": "string",
+          "enum": [
+            "NOT_STARTED",
+            "IN_PROGRESS"
+          ]
+        }
+      },
+      "required": [
+        "task_id",
+        "task_number",
+        "case_id",
+        "vehicle_stop_id",
+        "title",
+        "task_type_code",
+        "creation_mode",
+        "assigned_team_id",
+        "system_source_event_id",
+        "started_at",
+        "is_mandatory",
+        "mandatory_for",
+        "current_state"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "creation_mode": {
+                "const": "USER"
+              }
+            },
+            "required": [
+              "creation_mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "current_state": {
+                "const": "NOT_STARTED"
+              },
+              "system_source_event_id": {
+                "type": "null"
+              },
+              "started_at": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "creation_mode": {
+                "const": "ARRIVAL_CONFLICT"
+              }
+            },
+            "required": [
+              "creation_mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "task_type_code": {
+                "const": "VALIDATE_ARRIVAL_CONFLICT"
+              },
+              "assigned_team_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "system_source_event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "started_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "is_mandatory": {
+                "const": true
+              },
+              "mandatory_for": {
+                "const": "STOP_CLOSURE"
+              },
+              "current_state": {
+                "const": "IN_PROGRESS"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "TaskAssignedPayload": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "task_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previous_state": {
+          "const": "NOT_STARTED"
+        },
+        "current_state": {
+          "const": "ASSIGNED"
+        },
+        "assigned_team_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "assigned_user_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "task_number",
+        "case_id",
+        "vehicle_stop_id",
+        "previous_state",
+        "current_state",
+        "assigned_team_id",
+        "assigned_user_id"
+      ]
+    },
+    "TaskStartedPayload": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "task_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previous_state": {
+          "const": "ASSIGNED"
+        },
+        "current_state": {
+          "const": "IN_PROGRESS"
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "task_number",
+        "case_id",
+        "vehicle_stop_id",
+        "previous_state",
+        "current_state",
+        "started_at"
+      ]
+    },
+    "TaskWaitingForSupplierPayload": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "task_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_state": {
+          "const": "IN_PROGRESS"
+        },
+        "current_state": {
+          "const": "WAITING_THIRD_PARTY"
+        },
+        "supplier_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "expected_action": {
+          "const": "UPDATE_COMPLETION_FORECAST"
+        },
+        "expected_by": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason_code": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "task_number",
+        "case_id",
+        "vehicle_stop_id",
+        "previous_state",
+        "current_state",
+        "supplier_id",
+        "expected_action",
+        "expected_by",
+        "reason_code"
+      ]
+    },
+    "TaskResumedAfterSupplierUpdatePayload": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "task_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_state": {
+          "const": "WAITING_THIRD_PARTY"
+        },
+        "current_state": {
+          "const": "IN_PROGRESS"
+        },
+        "supplier_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "source_forecast_event_id": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "task_number",
+        "case_id",
+        "vehicle_stop_id",
+        "previous_state",
+        "current_state",
+        "supplier_id",
+        "source_forecast_event_id"
+      ]
+    },
+    "TaskCompletedPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "task_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previous_state": {
+          "const": "IN_PROGRESS"
+        },
+        "current_state": {
+          "const": "COMPLETED"
+        },
+        "completion_mode": {
+          "type": "string",
+          "enum": [
+            "USER",
+            "ARRIVAL_CONFIRMATION"
+          ]
+        },
+        "system_source_event_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "result_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "result_summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "task_id",
+        "task_number",
+        "case_id",
+        "vehicle_stop_id",
+        "previous_state",
+        "current_state",
+        "completion_mode",
+        "system_source_event_id",
+        "result_code",
+        "result_summary",
+        "completed_at"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "completion_mode": {
+                "const": "USER"
+              }
+            },
+            "required": [
+              "completion_mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "system_source_event_id": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "completion_mode": {
+                "const": "ARRIVAL_CONFIRMATION"
+              }
+            },
+            "required": [
+              "completion_mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "system_source_event_id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "result_code": {
+                "const": "ARRIVAL_CONFIRMED"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "TaskCancelledPayload": {
+      "type": "object",
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "task_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previous_state": {
+          "type": "string",
+          "enum": [
+            "NOT_STARTED",
+            "ASSIGNED",
+            "IN_PROGRESS",
+            "WAITING_THIRD_PARTY"
+          ]
+        },
+        "current_state": {
+          "const": "CANCELLED"
+        },
+        "reason_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "closure_impact": {
+          "type": "string",
+          "enum": [
+            "DOES_NOT_BLOCK",
+            "REPLACED_BY_OTHER_TASK"
+          ]
+        },
+        "replacement_task_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cancelled_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "task_number",
+        "case_id",
+        "vehicle_stop_id",
+        "previous_state",
+        "current_state",
+        "reason_code",
+        "closure_impact",
+        "replacement_task_id",
+        "cancelled_at"
+      ]
+    },
+    "StopPreparedForArrivalPayload": {
+      "type": "object",
+      "properties": {
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "stop_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "supplier_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_state": {
+          "const": "SCHEDULED"
+        },
+        "current_state": {
+          "const": "AWAITING_ARRIVAL"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "vehicle_stop_id",
+        "stop_number",
+        "case_id",
+        "vehicle_id",
+        "supplier_id",
+        "previous_state",
+        "current_state"
+      ]
+    },
+    "ArrivalReportedPayload": {
+      "type": "object",
+      "properties": {
+        "arrival_report_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reported_arrival_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "const": "INTERNAL_USER"
+        },
+        "channel_code": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "arrival_report_id",
+        "vehicle_stop_id",
+        "case_id",
+        "reported_arrival_at",
+        "source_type",
+        "channel_code"
+      ]
+    },
+    "ArrivalConflictDetectedPayload": {
+      "type": "object",
+      "properties": {
+        "arrival_conflict_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "report_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minItems": 2,
+          "uniqueItems": true
+        },
+        "minimum_reported_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "maximum_reported_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "difference_seconds": {
+          "type": "integer",
+          "exclusiveMinimum": 900
+        },
+        "tolerance_seconds": {
+          "const": 900
+        },
+        "validation_task_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "alert_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "deduplication_key": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "arrival_conflict_id",
+        "vehicle_stop_id",
+        "case_id",
+        "report_ids",
+        "minimum_reported_at",
+        "maximum_reported_at",
+        "difference_seconds",
+        "tolerance_seconds",
+        "validation_task_id",
+        "alert_id",
+        "deduplication_key"
+      ]
+    },
+    "ArrivalConfirmedPayload": {
+      "type": "object",
+      "properties": {
+        "arrival_confirmation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "considered_report_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "confirmed_arrival_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "confirmation_method": {
+          "type": "string",
+          "enum": [
+            "MANUAL_VALIDATION",
+            "MATCHED_REPORTS"
+          ]
+        },
+        "arrival_conflict_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previous_state": {
+          "const": "AWAITING_ARRIVAL"
+        },
+        "current_state": {
+          "const": "VEHICLE_RECEIVED"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "arrival_confirmation_id",
+        "vehicle_stop_id",
+        "case_id",
+        "considered_report_ids",
+        "confirmed_arrival_at",
+        "confirmation_method",
+        "arrival_conflict_id",
+        "previous_state",
+        "current_state"
+      ]
+    },
+    "ArrivalCorrectedPayload": {
+      "type": "object",
+      "properties": {
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_confirmation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "current_confirmation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_confirmed_arrival_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "current_confirmed_arrival_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "current_stop_state": {
+          "type": "string",
+          "enum": [
+            "VEHICLE_RECEIVED",
+            "IN_EXECUTION",
+            "SERVICE_COMPLETED",
+            "AWAITING_PICKUP",
+            "VEHICLE_PICKED_UP"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "vehicle_stop_id",
+        "case_id",
+        "previous_confirmation_id",
+        "current_confirmation_id",
+        "previous_confirmed_arrival_at",
+        "current_confirmed_arrival_at",
+        "reason_code",
+        "current_stop_state"
+      ]
+    },
+    "ServiceStartedPayload": {
+      "type": "object",
+      "properties": {
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_state": {
+          "const": "VEHICLE_RECEIVED"
+        },
+        "current_state": {
+          "const": "IN_EXECUTION"
+        },
+        "confirmed_arrival_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "service_started_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "vehicle_stop_id",
+        "case_id",
+        "previous_state",
+        "current_state",
+        "confirmed_arrival_at",
+        "service_started_at"
+      ]
+    },
+    "CompletionForecastUpdatedPayload": {
+      "type": "object",
+      "properties": {
+        "forecast_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "supplier_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_forecast_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "previous_forecast_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "current_forecast_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "INTERNAL_USER",
+            "EXTERNAL_SUPPLIER"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "forecast_id",
+        "vehicle_stop_id",
+        "case_id",
+        "supplier_id",
+        "previous_forecast_id",
+        "previous_forecast_at",
+        "current_forecast_at",
+        "reason_code",
+        "source_type"
+      ]
+    },
+    "ServiceCompletedPayload": {
+      "type": "object",
+      "properties": {
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_state": {
+          "const": "IN_EXECUTION"
+        },
+        "current_state": {
+          "const": "SERVICE_COMPLETED"
+        },
+        "service_started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "service_completed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000
+        },
+        "departure_confirmed": {
+          "const": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "vehicle_stop_id",
+        "case_id",
+        "previous_state",
+        "current_state",
+        "service_started_at",
+        "service_completed_at",
+        "summary",
+        "departure_confirmed"
+      ]
+    },
+    "VehicleReleasedPayload": {
+      "type": "object",
+      "properties": {
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_state": {
+          "const": "SERVICE_COMPLETED"
+        },
+        "current_state": {
+          "const": "AWAITING_PICKUP"
+        },
+        "service_completed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "vehicle_released_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "vehicle_stop_id",
+        "case_id",
+        "previous_state",
+        "current_state",
+        "service_completed_at",
+        "vehicle_released_at"
+      ]
+    },
+    "DepartureConfirmedPayload": {
+      "type": "object",
+      "properties": {
+        "departure_confirmation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "driver_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_state": {
+          "const": "AWAITING_PICKUP"
+        },
+        "current_state": {
+          "const": "VEHICLE_PICKED_UP"
+        },
+        "confirmed_arrival_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "confirmed_departure_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "stopped_duration_seconds": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "departure_confirmation_id",
+        "vehicle_stop_id",
+        "case_id",
+        "driver_id",
+        "previous_state",
+        "current_state",
+        "confirmed_arrival_at",
+        "confirmed_departure_at",
+        "stopped_duration_seconds"
+      ]
+    },
+    "VehicleStopClosedPayload": {
+      "type": "object",
+      "properties": {
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "stop_number": {
+          "type": "string",
+          "minLength": 1
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_state": {
+          "const": "VEHICLE_PICKED_UP"
+        },
+        "current_state": {
+          "const": "CLOSED"
+        },
+        "confirmed_arrival_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "confirmed_departure_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "stopped_duration_seconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "closure_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "closed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "vehicle_stop_id",
+        "stop_number",
+        "case_id",
+        "vehicle_id",
+        "previous_state",
+        "current_state",
+        "confirmed_arrival_at",
+        "confirmed_departure_at",
+        "stopped_duration_seconds",
+        "closure_reason",
+        "closed_at"
+      ]
+    },
+    "AlertCreatedPayload": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "alert_type": {
+          "type": "string",
+          "enum": [
+            "STOP_NO_UPDATE",
+            "ARRIVAL_CONFLICT"
+          ]
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "MEDIUM",
+            "HIGH"
+          ]
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "task_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deduplication_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "opened_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "current_state": {
+          "const": "OPEN"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "alert_id",
+        "alert_type",
+        "severity",
+        "case_id",
+        "vehicle_stop_id",
+        "task_id",
+        "deduplication_key",
+        "opened_at",
+        "source_event_id",
+        "current_state"
+      ]
+    },
+    "AlertOccurrenceAddedPayload": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "alert_type": {
+          "type": "string",
+          "enum": [
+            "STOP_NO_UPDATE",
+            "ARRIVAL_CONFLICT"
+          ]
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurrence_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "evaluated_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "occurrence_count": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "current_state": {
+          "const": "OPEN"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "alert_id",
+        "alert_type",
+        "vehicle_stop_id",
+        "occurrence_id",
+        "evaluated_at",
+        "source_event_id",
+        "occurrence_count",
+        "current_state"
+      ]
+    },
+    "AlertResolvedPayload": {
+      "type": "object",
+      "properties": {
+        "alert_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "alert_type": {
+          "type": "string",
+          "enum": [
+            "STOP_NO_UPDATE",
+            "ARRIVAL_CONFLICT"
+          ]
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "previous_state": {
+          "const": "OPEN"
+        },
+        "current_state": {
+          "const": "RESOLVED"
+        },
+        "resolution_code": {
+          "type": "string",
+          "enum": [
+            "SUPPLIER_FORECAST_UPDATED",
+            "ARRIVAL_CONFIRMED"
+          ]
+        },
+        "resolution_source_event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "resolved_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "alert_id",
+        "alert_type",
+        "case_id",
+        "vehicle_stop_id",
+        "previous_state",
+        "current_state",
+        "resolution_code",
+        "resolution_source_event_id",
+        "resolved_at"
+      ]
+    },
+    "InboundCommunicationReceivedPayload": {
+      "type": "object",
+      "properties": {
+        "conversation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "communication_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "provider_message_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider_thread_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sender_type": {
+          "type": "string",
+          "enum": [
+            "DRIVER",
+            "SUPPLIER",
+            "UNKNOWN"
+          ]
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "body_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "conversation_id",
+        "communication_id",
+        "provider_message_id",
+        "provider_thread_id",
+        "sender_type",
+        "occurred_at",
+        "body_included"
+      ]
+    },
+    "ConversationCaseLinkSuggestedPayload": {
+      "type": "object",
+      "properties": {
+        "conversation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "suggested_case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "confidence_band": {
+          "type": "string",
+          "enum": [
+            "HIGH",
+            "MEDIUM",
+            "LOW"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "conversation_id",
+        "suggested_case_id",
+        "reason_codes",
+        "confidence_band"
+      ]
+    },
+    "CommunicationLinkedPayload": {
+      "type": "object",
+      "properties": {
+        "conversation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "decision": {
+          "const": "CONFIRM"
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "previous_link_status": {
+          "type": "string",
+          "enum": [
+            "UNLINKED",
+            "SUGGESTED"
+          ]
+        },
+        "current_link_status": {
+          "const": "CONFIRMED"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "conversation_id",
+        "case_id",
+        "decision",
+        "reason_codes",
+        "previous_link_status",
+        "current_link_status"
+      ]
+    },
+    "PhoneCallRecordedPayload": {
+      "type": "object",
+      "properties": {
+        "phone_call_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "case_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vehicle_stop_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "contact_type": {
+          "type": "string",
+          "enum": [
+            "SUPPLIER",
+            "DRIVER"
+          ]
+        },
+        "result_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "next_action_present": {
+          "const": true
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "notes_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "phone_call_id",
+        "case_id",
+        "vehicle_stop_id",
+        "contact_type",
+        "result_code",
+        "next_action_present",
+        "occurred_at",
+        "notes_included"
+      ]
+    },
+    "ExternalAccessTokenIssuedPayload": {
+      "type": "object",
+      "properties": {
+        "token_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "audience": {
+          "type": "string",
+          "enum": [
+            "SUPPLIER",
+            "DRIVER"
+          ]
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "subject_type": {
+          "type": "string",
+          "enum": [
+            "SUPPLIER",
+            "DRIVER"
+          ]
+        },
+        "subject_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "allowed_actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "issued_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "raw_token_included": {
+          "const": false
+        },
+        "token_hash_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "token_id",
+        "audience",
+        "vehicle_stop_id",
+        "subject_type",
+        "subject_id",
+        "allowed_actions",
+        "issued_at",
+        "expires_at",
+        "raw_token_included",
+        "token_hash_included"
+      ]
+    },
+    "ExternalAccessTokenRevokedPayload": {
+      "type": "object",
+      "properties": {
+        "token_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "audience": {
+          "type": "string",
+          "enum": [
+            "SUPPLIER",
+            "DRIVER"
+          ]
+        },
+        "vehicle_stop_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "reason_code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revoked_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "replaced_by_token_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "raw_token_included": {
+          "const": false
+        },
+        "token_hash_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "token_id",
+        "audience",
+        "vehicle_stop_id",
+        "reason_code",
+        "revoked_at",
+        "replaced_by_token_id",
+        "raw_token_included",
+        "token_hash_included"
+      ]
+    },
+    "DemoClockAdvancedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "DemoClockAdvanced"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "DEMO_CLOCK"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/DemoClockAdvancedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "DemoResetRequestedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "DemoResetRequested"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "DEMO_RESET"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "CONFIDENTIAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/DemoResetRequestedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "CaseWorkStartedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "CaseWorkStarted"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "CASE"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/CaseWorkStartedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "CaseWaitingForSupplierEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "CaseWaitingForSupplier"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "CASE"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/CaseWaitingForSupplierPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "CaseResumedAfterSupplierUpdateEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "CaseResumedAfterSupplierUpdate"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "CASE"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/CaseResumedAfterSupplierUpdatePayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "CaseResolvedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "CaseResolved"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "CASE"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/CaseResolvedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "TaskCreatedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "TaskCreated"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "TASK"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/TaskCreatedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "TaskAssignedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "TaskAssigned"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "TASK"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/TaskAssignedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "TaskStartedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "TaskStarted"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "TASK"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/TaskStartedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "TaskWaitingForSupplierEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "TaskWaitingForSupplier"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "TASK"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/TaskWaitingForSupplierPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "TaskResumedAfterSupplierUpdateEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "TaskResumedAfterSupplierUpdate"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "TASK"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/TaskResumedAfterSupplierUpdatePayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "TaskCompletedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "TaskCompleted"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "TASK"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/TaskCompletedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "TaskCancelledEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "TaskCancelled"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "TASK"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/TaskCancelledPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "StopPreparedForArrivalEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "StopPreparedForArrival"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "VEHICLE_STOP"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/StopPreparedForArrivalPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "ArrivalReportedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "ArrivalReported"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "VEHICLE_STOP"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/ArrivalReportedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "ArrivalConflictDetectedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "ArrivalConflictDetected"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "VEHICLE_STOP"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/ArrivalConflictDetectedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "ArrivalConfirmedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "ArrivalConfirmed"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "VEHICLE_STOP"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/ArrivalConfirmedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "ArrivalCorrectedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "ArrivalCorrected"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "VEHICLE_STOP"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/ArrivalCorrectedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "ServiceStartedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "ServiceStarted"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "VEHICLE_STOP"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/ServiceStartedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "CompletionForecastUpdatedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "CompletionForecastUpdated"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "VEHICLE_STOP"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/CompletionForecastUpdatedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "ServiceCompletedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "ServiceCompleted"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "VEHICLE_STOP"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/ServiceCompletedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "VehicleReleasedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "VehicleReleased"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "VEHICLE_STOP"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/VehicleReleasedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "DepartureConfirmedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "DepartureConfirmed"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "VEHICLE_STOP"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/DepartureConfirmedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "VehicleStopClosedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "VehicleStopClosed"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "VEHICLE_STOP"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/VehicleStopClosedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "AlertCreatedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "AlertCreated"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "ALERT"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/AlertCreatedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "AlertOccurrenceAddedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "AlertOccurrenceAdded"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "ALERT"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/AlertOccurrenceAddedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "AlertResolvedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "AlertResolved"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "ALERT"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "INTERNAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/AlertResolvedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "InboundCommunicationReceivedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "InboundCommunicationReceived"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "CONVERSATION"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "CONFIDENTIAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/InboundCommunicationReceivedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "ConversationCaseLinkSuggestedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "ConversationCaseLinkSuggested"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "CONVERSATION"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "CONFIDENTIAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/ConversationCaseLinkSuggestedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "CommunicationLinkedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "CommunicationLinked"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "CONVERSATION"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "CONFIDENTIAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/CommunicationLinkedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "PhoneCallRecordedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "PhoneCallRecorded"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "CASE"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "CONFIDENTIAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/PhoneCallRecordedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "ExternalAccessTokenIssuedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "ExternalAccessTokenIssued"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "EXTERNAL_ACCESS_TOKEN"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "CONFIDENTIAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/ExternalAccessTokenIssuedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    },
+    "ExternalAccessTokenRevokedEvent": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "demo_generation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "event_type": {
+          "const": "ExternalAccessTokenRevoked"
+        },
+        "schema_version": {
+          "const": 2
+        },
+        "aggregate_type": {
+          "const": "EXTERNAL_ACCESS_TOKEN"
+        },
+        "aggregate_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "aggregate_version": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "aggregate_sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "DEMO_INTERNAL_USER",
+            "DEMO_ADMIN_USER",
+            "EXTERNAL_SUPPLIER",
+            "EXTERNAL_DRIVER",
+            "SYSTEM_WORKER",
+            "FAKE_EMAIL_ADAPTER",
+            "SYSTEM_DEMO_MAINTENANCE"
+          ]
+        },
+        "source_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_record_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "data_classification": {
+          "const": "CONFIDENTIAL"
+        },
+        "demo_seed_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "demo_mode": {
+          "const": true
+        },
+        "payload": {
+          "$ref": "#/$defs/ExternalAccessTokenRevokedPayload"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "demo_generation_id",
+        "event_type",
+        "schema_version",
+        "aggregate_type",
+        "aggregate_id",
+        "aggregate_version",
+        "aggregate_sequence",
+        "occurred_at",
+        "recorded_at",
+        "source_type",
+        "source_id",
+        "correlation_id",
+        "causation_id",
+        "idempotency_record_id",
+        "data_classification",
+        "demo_seed_version",
+        "demo_mode",
+        "payload"
+      ]
+    }
+  }
+}

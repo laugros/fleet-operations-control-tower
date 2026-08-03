@@ -1,0 +1,621 @@
+registry_version: 2.1.3
+release: DEMO-R1
+status: NORMATIVE_COMMAND_REGISTRY
+event_registry: events/fleet-operations-control-tower-demo-r1.event-registry.yaml
+policies:
+  one_primary_event_per_command_transaction: true
+  system_commands_replay_execution: FORBIDDEN
+  generation_guard_required: true
+  manual_external_access_revocation: FORBIDDEN
+  forbidden_command_codes:
+  - RevokeExternalAccess
+commands:
+- command_code: AdvanceDemoClock
+  mode: CONTROL
+  execution: DIRECT_CONTROL
+  aggregate_types:
+  - DEMO_CLOCK
+  primary_event_types:
+  - DemoClockAdvanced
+  producer_codes:
+  - demo-service
+  source_operation_ids:
+  - advanceDemoClock
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: AssignTask
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - TASK
+  primary_event_types:
+  - TaskAssigned
+  producer_codes:
+  - task-service
+  source_operation_ids:
+  - assignTask
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: AutoRevokeExternalAccess
+  mode: SYSTEM
+  execution: LIVE_ONLY
+  aggregate_types:
+  - EXTERNAL_ACCESS_TOKEN
+  primary_event_types:
+  - ExternalAccessTokenRevoked
+  producer_codes:
+  - external-access-service
+  - token-lifecycle-handler
+  source_operation_ids: []
+  source_event_types:
+  - ExternalAccessTokenIssued
+  - DepartureConfirmed
+  - VehicleStopClosed
+  trigger_conditions:
+  - replacement by a newly issued token
+  - token expiration
+  - supplier or driver subject changed
+  - departure confirmed
+  - vehicle stop closed
+  - successful use limit reached
+  - demo reset
+  - security failure
+  idempotency_rule: demo_generation_id + token_id + revocation_reason_code + causing_event_id or lifecycle_occurrence_id
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: CancelTask
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - TASK
+  primary_event_types:
+  - TaskCancelled
+  producer_codes:
+  - task-service
+  source_operation_ids:
+  - cancelTask
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: CloseVehicleStop
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - VEHICLE_STOP
+  primary_event_types:
+  - VehicleStopClosed
+  producer_codes:
+  - stop-service
+  source_operation_ids:
+  - closeVehicleStop
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: CompleteArrivalConflictTask
+  mode: SYSTEM
+  execution: LIVE_ONLY
+  aggregate_types:
+  - TASK
+  primary_event_types:
+  - TaskCompleted
+  producer_codes:
+  - task-service
+  source_operation_ids:
+  - completeTask
+  source_event_types:
+  - ArrivalConfirmed
+  trigger_conditions: []
+  idempotency_rule: demo_generation_id + consumer_code + ArrivalConfirmed.event_id
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: CompleteService
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - VEHICLE_STOP
+  primary_event_types:
+  - ServiceCompleted
+  producer_codes:
+  - stop-service
+  source_operation_ids:
+  - completeService
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: CompleteTask
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - TASK
+  primary_event_types:
+  - TaskCompleted
+  producer_codes:
+  - task-service
+  source_operation_ids:
+  - completeTask
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: ConfirmArrival
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - VEHICLE_STOP
+  primary_event_types:
+  - ArrivalConfirmed
+  producer_codes:
+  - stop-service
+  source_operation_ids:
+  - confirmArrival
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: ConfirmConversationCaseLink
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - CONVERSATION
+  primary_event_types:
+  - CommunicationLinked
+  producer_codes:
+  - communication-service
+  source_operation_ids:
+  - confirmConversationCaseLink
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: ConfirmDeparture
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - VEHICLE_STOP
+  primary_event_types:
+  - DepartureConfirmed
+  producer_codes:
+  - stop-service
+  source_operation_ids:
+  - confirmDepartureExternal
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: CorrectArrival
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - VEHICLE_STOP
+  primary_event_types:
+  - ArrivalCorrected
+  producer_codes:
+  - stop-service
+  source_operation_ids:
+  - correctArrival
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: CreateArrivalConflictAlert
+  mode: SYSTEM
+  execution: LIVE_ONLY
+  aggregate_types:
+  - ALERT
+  primary_event_types:
+  - AlertCreated
+  producer_codes:
+  - alert-service
+  source_operation_ids: []
+  source_event_types:
+  - ArrivalConflictDetected
+  trigger_conditions: []
+  idempotency_rule: demo_generation_id + consumer_code + ArrivalConflictDetected.event_id
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: CreateArrivalConflictTask
+  mode: SYSTEM
+  execution: LIVE_ONLY
+  aggregate_types:
+  - TASK
+  primary_event_types:
+  - TaskCreated
+  producer_codes:
+  - task-service
+  source_operation_ids:
+  - createTask
+  source_event_types:
+  - ArrivalConflictDetected
+  trigger_conditions: []
+  idempotency_rule: demo_generation_id + consumer_code + ArrivalConflictDetected.event_id
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: CreateTask
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - TASK
+  primary_event_types:
+  - TaskCreated
+  producer_codes:
+  - task-service
+  source_operation_ids:
+  - createTask
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: EvaluateArrivalReports
+  mode: SYSTEM
+  execution: LIVE_ONLY
+  aggregate_types:
+  - VEHICLE_STOP
+  primary_event_types:
+  - ArrivalConflictDetected
+  producer_codes:
+  - arrival-evaluator
+  source_operation_ids: []
+  source_event_types:
+  - ArrivalReported
+  trigger_conditions: []
+  idempotency_rule: demo_generation_id + consumer_code + source event id
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: EvaluateStopInactivity
+  mode: SYSTEM
+  execution: LIVE_ONLY
+  aggregate_types:
+  - ALERT
+  primary_event_types:
+  - AlertCreated
+  - AlertOccurrenceAdded
+  producer_codes:
+  - alert-service
+  source_operation_ids: []
+  source_event_types: []
+  trigger_conditions:
+  - demo_clock reaches inactivity threshold
+  - vehicle stop remains open
+  idempotency_rule: demo_generation_id + consumer_code + source event id
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: IssueDriverAccess
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - EXTERNAL_ACCESS_TOKEN
+  primary_event_types:
+  - ExternalAccessTokenIssued
+  producer_codes:
+  - external-access-service
+  source_operation_ids:
+  - issueDriverAccess
+  - issueSupplierAccess
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: IssueSupplierAccess
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - EXTERNAL_ACCESS_TOKEN
+  primary_event_types:
+  - ExternalAccessTokenIssued
+  producer_codes:
+  - external-access-service
+  source_operation_ids:
+  - issueDriverAccess
+  - issueSupplierAccess
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: PrepareStopForArrival
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - VEHICLE_STOP
+  primary_event_types:
+  - StopPreparedForArrival
+  producer_codes:
+  - stop-service
+  source_operation_ids:
+  - prepareStopForArrival
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: ReceiveInboundEmail
+  mode: ADAPTER
+  execution: DIRECT_ADAPTER
+  aggregate_types:
+  - CONVERSATION
+  primary_event_types:
+  - InboundCommunicationReceived
+  producer_codes:
+  - integration-inbox-processor
+  source_operation_ids:
+  - receiveDemoEmail
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: RecordPhoneCall
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - CASE
+  primary_event_types:
+  - PhoneCallRecorded
+  producer_codes:
+  - communication-service
+  source_operation_ids:
+  - recordPhoneCall
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: ReleaseVehicle
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - VEHICLE_STOP
+  primary_event_types:
+  - VehicleReleased
+  producer_codes:
+  - stop-service
+  source_operation_ids:
+  - releaseVehicle
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: ReportArrival
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - VEHICLE_STOP
+  primary_event_types:
+  - ArrivalReported
+  producer_codes:
+  - stop-service
+  source_operation_ids:
+  - reportArrivalInternal
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: ResetDemoScenario
+  mode: CONTROL
+  execution: DIRECT_CONTROL
+  aggregate_types:
+  - DEMO_RESET
+  primary_event_types:
+  - DemoResetRequested
+  producer_codes:
+  - demo-service
+  source_operation_ids:
+  - resetDemoScenario
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: CONTROL_GENERATION_TRANSITION
+- command_code: ResolveArrivalConflictAlert
+  mode: SYSTEM
+  execution: LIVE_ONLY
+  aggregate_types:
+  - ALERT
+  primary_event_types:
+  - AlertResolved
+  producer_codes:
+  - alert-service
+  source_operation_ids: []
+  source_event_types:
+  - ArrivalConfirmed
+  trigger_conditions: []
+  idempotency_rule: demo_generation_id + consumer_code + ArrivalConfirmed.event_id
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: ResolveCase
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - CASE
+  primary_event_types:
+  - CaseResolved
+  producer_codes:
+  - case-service
+  source_operation_ids:
+  - resolveCase
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: ResolveStopNoUpdateAlert
+  mode: SYSTEM
+  execution: LIVE_ONLY
+  aggregate_types:
+  - ALERT
+  primary_event_types:
+  - AlertResolved
+  producer_codes:
+  - alert-service
+  source_operation_ids: []
+  source_event_types:
+  - CompletionForecastUpdated
+  trigger_conditions: []
+  idempotency_rule: demo_generation_id + consumer_code + source event id
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: ResumeCaseAfterSupplierUpdate
+  mode: SYSTEM
+  execution: LIVE_ONLY
+  aggregate_types:
+  - CASE
+  primary_event_types:
+  - CaseResumedAfterSupplierUpdate
+  producer_codes:
+  - case-resume-handler
+  source_operation_ids: []
+  source_event_types:
+  - CompletionForecastUpdated
+  trigger_conditions: []
+  idempotency_rule: demo_generation_id + consumer_code + source event id
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: ResumeTaskAfterSupplierUpdate
+  mode: SYSTEM
+  execution: LIVE_ONLY
+  aggregate_types:
+  - TASK
+  primary_event_types:
+  - TaskResumedAfterSupplierUpdate
+  producer_codes:
+  - task-resume-handler
+  source_operation_ids: []
+  source_event_types:
+  - CompletionForecastUpdated
+  trigger_conditions: []
+  idempotency_rule: demo_generation_id + consumer_code + source event id
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: StartCaseWork
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - CASE
+  primary_event_types:
+  - CaseWorkStarted
+  producer_codes:
+  - case-service
+  source_operation_ids:
+  - startCaseWork
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: StartService
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - VEHICLE_STOP
+  primary_event_types:
+  - ServiceStarted
+  producer_codes:
+  - stop-service
+  source_operation_ids:
+  - startService
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: StartTask
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - TASK
+  primary_event_types:
+  - TaskStarted
+  producer_codes:
+  - task-service
+  source_operation_ids:
+  - startTask
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: SuggestConversationCaseLink
+  mode: SYSTEM
+  execution: LIVE_ONLY
+  aggregate_types:
+  - CONVERSATION
+  primary_event_types:
+  - ConversationCaseLinkSuggested
+  producer_codes:
+  - conversation-link-suggester
+  source_operation_ids: []
+  source_event_types:
+  - InboundCommunicationReceived
+  trigger_conditions: []
+  idempotency_rule: demo_generation_id + consumer_code + source event id
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: UpdateCompletionForecast
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - VEHICLE_STOP
+  primary_event_types:
+  - CompletionForecastUpdated
+  producer_codes:
+  - stop-service
+  source_operation_ids:
+  - updateForecastExternal
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: WaitCaseForSupplier
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - CASE
+  primary_event_types:
+  - CaseWaitingForSupplier
+  producer_codes:
+  - case-service
+  source_operation_ids:
+  - waitCaseForSupplier
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+- command_code: WaitTaskForSupplier
+  mode: USER_OR_EXTERNAL
+  execution: DIRECT
+  aggregate_types:
+  - TASK
+  primary_event_types:
+  - TaskWaitingForSupplier
+  producer_codes:
+  - task-service
+  source_operation_ids:
+  - waitTaskForSupplier
+  source_event_types: []
+  trigger_conditions: []
+  idempotency_rule: Idempotency-Key + canonical request fingerprint
+  replay_execution: FORBIDDEN
+  generation_guard: ACTIVE_GENERATION_REQUIRED

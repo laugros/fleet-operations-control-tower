@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/tests/demo-r1-test-runner-workers.schema.json",
+  "title": "DEMO-R1 Test Runner Worker Registry v2.1.3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "registry_version",
+    "release",
+    "status",
+    "workers"
+  ],
+  "properties": {
+    "registry_version": {
+      "const": "2.1.3"
+    },
+    "release": {
+      "const": "DEMO-R1"
+    },
+    "status": {
+      "const": "NORMATIVE_PENDING_FINAL_REVIEW"
+    },
+    "workers": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "worker_code",
+          "executor_kind",
+          "event_consumer_code",
+          "source_code",
+          "policy_ref",
+          "command_codes",
+          "drain_semantics",
+          "generation_guard",
+          "replay_execution"
+        ],
+        "properties": {
+          "worker_code": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]+$"
+          },
+          "executor_kind": {
+            "enum": [
+              "EVENT_CONSUMER",
+              "EVENT_CONSUMER_ALIAS",
+              "INTEGRATION_INBOX",
+              "CONTROL_WATCHDOG"
+            ]
+          },
+          "event_consumer_code": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source_code": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "policy_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "command_codes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "drain_semantics": {
+            "enum": [
+              "UNTIL_IDLE",
+              "SINGLE_SCAN"
+            ]
+          },
+          "generation_guard": {
+            "enum": [
+              "ACTIVE_GENERATION_REQUIRED",
+              "CONTROL_GENERATION_TRANSITION"
+            ]
+          },
+          "replay_execution": {
+            "const": "FORBIDDEN"
+          }
+        }
+      }
+    }
+  }
+}

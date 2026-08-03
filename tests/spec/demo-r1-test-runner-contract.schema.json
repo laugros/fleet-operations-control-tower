@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/tests/demo-r1-test-runner-contract.schema.json",
+  "title": "DEMO-R1 Test Runner Contract v2.1.3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "runner_version",
+    "release",
+    "status",
+    "catalog_file",
+    "programs_file",
+    "fixtures_file",
+    "resolved_seeds_file",
+    "openapi_file",
+    "event_registry_file",
+    "event_schema_file",
+    "contract_schema_file",
+    "worker_registry_file",
+    "actor_registry_file",
+    "db_operation_registry_file",
+    "reference_protocols",
+    "action_executors",
+    "database_dsl",
+    "scenario_dsl",
+    "evidence_contract",
+    "failure_policy"
+  ],
+  "properties": {
+    "runner_version": {
+      "const": "2.1.3"
+    },
+    "release": {
+      "const": "DEMO-R1"
+    },
+    "status": {
+      "const": "NORMATIVE_PENDING_FINAL_REVIEW"
+    },
+    "catalog_file": {
+      "type": "string"
+    },
+    "programs_file": {
+      "type": "string"
+    },
+    "fixtures_file": {
+      "type": "string"
+    },
+    "resolved_seeds_file": {
+      "type": "string"
+    },
+    "openapi_file": {
+      "type": "string"
+    },
+    "event_registry_file": {
+      "type": "string"
+    },
+    "event_schema_file": {
+      "type": "string"
+    },
+    "contract_schema_file": {
+      "type": "string"
+    },
+    "worker_registry_file": {
+      "type": "string"
+    },
+    "actor_registry_file": {
+      "type": "string"
+    },
+    "db_operation_registry_file": {
+      "type": "string"
+    },
+    "reference_protocols": {
+      "type": "object"
+    },
+    "action_executors": {
+      "type": "object"
+    },
+    "database_dsl": {
+      "type": "object"
+    },
+    "scenario_dsl": {
+      "type": "object"
+    },
+    "evidence_contract": {
+      "type": "object"
+    },
+    "failure_policy": {
+      "type": "object"
+    }
+  }
+}

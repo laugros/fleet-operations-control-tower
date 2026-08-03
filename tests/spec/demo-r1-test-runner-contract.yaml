@@ -1,0 +1,154 @@
+runner_version: 2.1.3
+release: DEMO-R1
+status: NORMATIVE_PENDING_FINAL_REVIEW
+catalog_file: tests/spec/demo-r1-test-catalog.yaml
+programs_file: tests/spec/demo-r1-test-runner-programs.yaml
+fixtures_file: tests/spec/demo-r1-test-fixtures.yaml
+resolved_seeds_file: tests/spec/demo-r1-resolved-seeds.json
+openapi_file: openapi/fleet-operations-control-tower-demo-r1.openapi.yaml
+event_registry_file: events/fleet-operations-control-tower-demo-r1.event-registry.yaml
+event_schema_file: events/fleet-operations-control-tower-demo-r1.events.schema.json
+reference_protocols:
+  seed:
+    syntax: seed://<fixture-id>/tables/<table>/<zero-based-index>/<field>
+    resolution_time: after fixture restore, before step execution
+    fail_on_missing: true
+  capture:
+    syntax: capture://<step-id>/<capture-name>
+    resolution_time: immediately before dependent step
+    fail_on_missing: true
+  fixture_secret:
+    syntax: fixture://credentials/<credential-id>
+    resolution_time: before transport invocation
+    redaction: ALWAYS
+  environment:
+    syntax: env://<variable-name>
+    resolution_time: runner startup
+    fail_on_missing: true
+  expression:
+    object_key: $expr
+    supported_operations:
+    - ADD_DURATION
+    - SUBTRACT_DURATION
+    - ALERT_THRESHOLD_AFTER
+    - CURRENT_AGGREGATE_VERSION
+    - EXTRACT_FRAGMENT_PARAM
+    evaluation_clock: DemoClock only
+action_executors:
+  HTTP:
+    adapter: openapi-http
+    validates_request: true
+    validates_response: true
+    injects_correlation_id_when_absent: true
+  CONCURRENT_HTTP:
+    adapter: barrier-http
+    barrier_hooks:
+    - AFTER_AUTHORIZATION_BEFORE_ROW_LOCK
+    completion_policies:
+    - ALL
+  CLI:
+    adapter: subprocess
+    shell: false
+    working_directory_protocol: repository://
+  UI_FLOW:
+    adapter: playwright
+    browser: CHROMIUM
+    trace_on_failure: true
+  DB_PROGRAM:
+    adapter: postgres-program
+    transaction_default: SERIALIZABLE
+    raw_statement_strings: FORBIDDEN
+  DOMAIN_PROGRAM:
+    adapter: in-process-command-bus
+    one_command_one_primary_event: true
+  EVENT_PROGRAM:
+    adapter: event-harness
+    schema_version: 2
+    generation_guard: true
+  WORKER_PROGRAM:
+    adapter: worker-harness
+    lease_generation_guard: true
+  PARAMETERIZED_PROGRAM:
+    adapter: case-expander
+    wildcards: FORBIDDEN
+    case_ids_must_be_explicit: true
+  STATIC_ASSERTION:
+    adapter: artifact-scanner
+    network_access: false
+  SCENARIO:
+    adapter: scenario-orchestrator
+    program_lookup: programs_file.scenario_programs
+    step_output_capture: true
+database_dsl:
+  operations:
+    CLONE_INSERT: Load source row or valid table template, deep-clone, apply JSON Pointer mutations, attempt INSERT, and compare outcome/error.
+    PATCH_UPDATE: Load the selected row, apply JSON Pointer mutations, attempt UPDATE, and compare outcome/error.
+    QUERY_ASSERT: Execute a registered read-only query code and compare typed result.
+    SERVICE_CALL: Invoke a named application service transaction with structured args.
+    FAULT_INJECTION: Enable a named deterministic hook, execute the registered operation, then disable the hook in finally.
+    RESET_AND_ASSERT: Run reset through the control service and execute preserved-data assertions.
+    METRIC_ASSERT: Calculate the four canonical metrics from base tables and compare projections.
+  mutation_format:
+    path: RFC 6901 JSON Pointer
+    value: structured value; $seed_field copies a field from source row
+  error_matching:
+    postgres:
+    - '23503'
+    - '23505'
+    - '23514'
+    domain:
+    - DOMAIN_ERROR
+    constraint_name_required_when_declared: true
+scenario_dsl:
+  operations:
+  - HTTP_OPERATION
+  - DOMAIN_COMMAND
+  - ADVANCE_CLOCK
+  - RUN_WORKER
+  - WAIT_EVENT
+  - ASSERT_STATE
+  - DB_OPERATION
+  ordering: steps execute sequentially unless a step explicitly declares parallelism
+  capture_visibility: only subsequent steps
+  event_wait_scope: same demo_generation_id and scenario correlation root
+  registries:
+    RUN_WORKER.worker_code: worker_registry_file
+    HTTP_OPERATION.actor: actor_registry_file
+    HTTP_OPERATION.actor_output_profile: actor_registry_file
+    DB_OPERATION.operation_code: db_operation_registry_file
+  dynamic_actor_binding: createExternalSession must capture session_cookie and csrf_token and declare actor_output_profile before that profile
+    is used.
+evidence_contract:
+  required_fields:
+  - test_id
+  - fixture_id
+  - fixture_state_sha256
+  - action_type
+  - started_at
+  - completed_at
+  - duration_ms
+  - status
+  - correlation_ids
+  - generation_id
+  - resolved_non_sensitive_inputs
+  - captures
+  - assertions
+  - database_diff
+  - event_ids
+  secret_redaction: ALWAYS
+  artifact_directory: test-results/<run-id>/<test-id>/
+failure_policy:
+  assertion_retry: FORBIDDEN
+  transport_retry: ONLY_WHEN_OPERATION_CONTRACT_ALLOWS
+  cleanup: restore fixture before next test
+  unknown_action_type: FAIL_RUN
+  unknown_program_id: FAIL_RUN
+  unresolved_reference: FAIL_TEST_BEFORE_EXECUTION
+  unknown_worker_code: FAIL_RUN
+  unknown_actor_profile: FAIL_RUN
+  unknown_db_operation_code: FAIL_RUN
+  unbound_dynamic_actor_profile: FAIL_TEST_BEFORE_TRANSPORT
+contract_schema_file: tests/spec/demo-r1-test-runner-contract.schema.json
+worker_registry_file: tests/spec/demo-r1-test-runner-workers.yaml
+actor_registry_file: tests/spec/demo-r1-test-runner-actors.yaml
+db_operation_registry_file: tests/spec/demo-r1-test-runner-db-operations.yaml

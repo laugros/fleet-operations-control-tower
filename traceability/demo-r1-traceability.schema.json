@@ -1,0 +1,442 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/traceability/demo-r1-traceability.schema.json",
+  "title": "DEMO-R1 Traceability Registry v2.1.2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "registry_version",
+    "release",
+    "status",
+    "id_policy",
+    "contract_inventory",
+    "source_artifacts",
+    "screens",
+    "operation_sets",
+    "event_sets",
+    "rows",
+    "invariant_rows",
+    "data_adr_rows",
+    "test_reverse_index"
+  ],
+  "properties": {
+    "registry_version": {
+      "const": "2.1.3"
+    },
+    "release": {
+      "const": "DEMO-R1"
+    },
+    "status": {
+      "const": "NORMATIVE_PENDING_FINAL_REVIEW"
+    },
+    "id_policy": {
+      "type": "object"
+    },
+    "contract_inventory": {
+      "type": "object",
+      "required": [
+        "requirements",
+        "openapi_operations",
+        "event_types",
+        "test_definitions",
+        "event_schema_version",
+        "canonical_invariants",
+        "data_adrs",
+        "mapped_test_definitions",
+        "unmapped_test_definitions"
+      ],
+      "properties": {
+        "requirements": {
+          "const": 59
+        },
+        "openapi_operations": {
+          "const": 44
+        },
+        "event_types": {
+          "const": 33
+        },
+        "test_definitions": {
+          "const": 208
+        },
+        "event_schema_version": {
+          "const": 2
+        },
+        "canonical_invariants": {
+          "const": 18
+        },
+        "data_adrs": {
+          "const": 15
+        },
+        "mapped_test_definitions": {
+          "const": 208
+        },
+        "unmapped_test_definitions": {
+          "const": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "source_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "screens": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "operation_sets": {
+      "type": "object"
+    },
+    "event_sets": {
+      "type": "object"
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 59,
+      "maxItems": 59,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "requirement_id",
+          "title",
+          "classification",
+          "work_package_id",
+          "gate",
+          "actors",
+          "ui_ids",
+          "commands",
+          "operation_ids",
+          "operation_sets",
+          "permissions_or_capabilities",
+          "tables",
+          "events",
+          "event_sets",
+          "test_ids",
+          "e2e_ids",
+          "source_refs",
+          "notes",
+          "status"
+        ],
+        "properties": {
+          "requirement_id": {
+            "type": "string",
+            "pattern": "^DEMO-[A-Z]+-[0-9]{3}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "classification": {
+            "type": "string"
+          },
+          "work_package_id": {
+            "type": "string",
+            "pattern": "^WP-DEMO-[A-Z]+-[0-9]{3}$"
+          },
+          "gate": {
+            "type": "string"
+          },
+          "actors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "ui_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "commands": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "operation_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "operation_sets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "permissions_or_capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "tables": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "event_sets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "test_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "e2e_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "const": "COMPLETE_V2.1.3"
+          }
+        }
+      }
+    },
+    "invariant_rows": {
+      "type": "array",
+      "minItems": 18,
+      "maxItems": 18,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "invariant_id",
+          "statement",
+          "source_ref",
+          "requirement_ids",
+          "work_package_ids",
+          "test_ids",
+          "status"
+        ],
+        "properties": {
+          "invariant_id": {
+            "type": "string",
+            "pattern": "^INV-DEMO-[0-9]{3}$"
+          },
+          "statement": {
+            "type": "string"
+          },
+          "source_ref": {
+            "type": "string"
+          },
+          "requirement_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "work_package_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "test_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "status": {
+            "const": "COVERED_V2.1.3"
+          }
+        }
+      }
+    },
+    "data_adr_rows": {
+      "type": "array",
+      "minItems": 15,
+      "maxItems": 15,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "data_adr_id",
+          "title",
+          "decision_summary",
+          "source_ref",
+          "requirement_ids",
+          "work_package_ids",
+          "test_ids",
+          "status"
+        ],
+        "properties": {
+          "data_adr_id": {
+            "type": "string",
+            "pattern": "^DATA-ADR-[0-9]{3}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "decision_summary": {
+            "type": "string"
+          },
+          "source_ref": {
+            "type": "string"
+          },
+          "requirement_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "work_package_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "test_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "status": {
+            "const": "COVERED_V2.1.3"
+          }
+        }
+      }
+    },
+    "test_reverse_index": {
+      "type": "array",
+      "minItems": 208,
+      "maxItems": 208,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "test_id",
+          "title",
+          "layer",
+          "priority",
+          "fixture_id",
+          "action_type",
+          "requirement_ids",
+          "invariant_ids",
+          "data_adr_ids",
+          "work_package_ids",
+          "gate_ids",
+          "status"
+        ],
+        "properties": {
+          "test_id": {
+            "type": "string",
+            "pattern": "^(TST|E2E)-"
+          },
+          "title": {
+            "type": "string"
+          },
+          "layer": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "fixture_id": {
+            "type": "string",
+            "pattern": "^FX-"
+          },
+          "action_type": {
+            "type": "string"
+          },
+          "requirement_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^DEMO-[A-Z]+-[0-9]{3}$"
+            },
+            "uniqueItems": true
+          },
+          "invariant_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "data_adr_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "work_package_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^WP-DEMO-[A-Z]+-[0-9]{3}$"
+            },
+            "uniqueItems": true
+          },
+          "gate_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "status": {
+            "const": "MAPPED_V2.1.3"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,7781 @@
+registry_version: 2.1.3
+release: DEMO-R1
+status: NORMATIVE_PENDING_FINAL_REVIEW
+id_policy:
+  rule: work_package_id MUST equal 'WP-' + requirement_id
+  renumbering: FORBIDDEN
+  secondary_sequences: FORBIDDEN
+  document_23_obligation: Backlog must reuse work_package_id unchanged.
+contract_inventory:
+  requirements: 59
+  openapi_operations: 44
+  event_types: 33
+  test_definitions: 208
+  event_schema_version: 2
+  canonical_invariants: 18
+  data_adrs: 15
+  mapped_test_definitions: 208
+  unmapped_test_definitions: 0
+source_artifacts:
+- docs/16-demo-r1-executable-spec.md
+- docs/17-domain-state-machines.md
+- docs/18-authorization-and-external-access.md
+- docs/19-logical-data-model.md
+- docs/20-demo-r1-api-contracts.md
+- openapi/fleet-operations-control-tower-demo-r1.openapi.yaml
+- docs/21-demo-r1-event-catalog.md
+- domain/demo-r1-command-registry.yaml
+- events/fleet-operations-control-tower-demo-r1.event-registry.yaml
+- events/fleet-operations-control-tower-demo-r1.events.schema.json
+- docs/25-demo-r1-executable-test-catalog.md
+- tests/spec/demo-r1-test-catalog.yaml
+- tests/spec/demo-r1-test-runner-contract.yaml
+- tests/spec/demo-r1-test-runner-programs.yaml
+- tests/spec/demo-r1-test-runner-workers.yaml
+- tests/spec/demo-r1-test-runner-actors.yaml
+- tests/spec/demo-r1-test-runner-db-operations.yaml
+- tests/spec/demo-r1-seed-manifest.yaml
+- tests/spec/demo-r1-resolved-seeds.json
+- policies/demo-r1-reset-recovery-policy.yaml
+screens:
+- ui_id: UI-DEMO-SHELL
+  name: Shell interno e banner
+  route: /
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  - DEMO_ADMIN
+- ui_id: UI-DEMO-IDENTITY
+  name: Seletor de identidade
+  route: /demo/select-identity
+  actors:
+  - ANONYMOUS
+  - DEMO_INTERNAL_USER
+- ui_id: UI-DEMO-ADMIN
+  name: Controles da demonstração
+  route: /demo/admin
+  actors:
+  - DEMO_ADMIN
+- ui_id: UI-DEMO-SEARCH
+  name: Busca operacional
+  route: /search
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+- ui_id: UI-DEMO-DASHBOARD
+  name: Painel de paradas
+  route: /dashboard/stops
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+- ui_id: UI-DEMO-CASE
+  name: Visão operacional do caso
+  route: /cases/:caseId
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+- ui_id: UI-DEMO-TASKS
+  name: Painel de tarefas do caso
+  route: /cases/:caseId#tasks
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+- ui_id: UI-DEMO-STOP
+  name: Visão operacional da parada
+  route: /stops/:stopId
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+- ui_id: UI-DEMO-SUPPLIER
+  name: Página externa do fornecedor
+  route: /external/action
+  actors:
+  - EXTERNAL_SUPPLIER
+- ui_id: UI-DEMO-DRIVER
+  name: Página externa do condutor
+  route: /external/action
+  actors:
+  - EXTERNAL_DRIVER
+- ui_id: UI-DEMO-COMMUNICATION
+  name: Comunicações e vínculo de conversa
+  route: /cases/:caseId#communications
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+- ui_id: UI-DEMO-TIMELINE
+  name: Timeline de caso e parada
+  route: /cases/:caseId#timeline | /stops/:stopId#timeline
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+- ui_id: UI-DEMO-PHONE-CALL
+  name: Registro de ligação
+  route: /cases/:caseId/phone-calls/new
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+operation_sets:
+  SET-API-ALL:
+  - advanceDemoClock
+  - assignTask
+  - cancelTask
+  - closeVehicleStop
+  - completeService
+  - completeTask
+  - confirmArrival
+  - confirmConversationCaseLink
+  - confirmDepartureExternal
+  - correctArrival
+  - createDemoSession
+  - createExternalSession
+  - createTask
+  - deleteDemoSession
+  - getCaseOperationalView
+  - getCaseTimeline
+  - getCurrentSession
+  - getDemoMetrics
+  - getDemoReset
+  - getDemoStatus
+  - getExternalContext
+  - getLiveness
+  - getReadiness
+  - getStopOperationalView
+  - getStopTimeline
+  - issueDriverAccess
+  - issueSupplierAccess
+  - listCaseConversations
+  - listCaseTasks
+  - listStopDashboard
+  - prepareStopForArrival
+  - receiveDemoEmail
+  - recordPhoneCall
+  - releaseVehicle
+  - reportArrivalInternal
+  - resetDemoScenario
+  - resolveCase
+  - searchOperationalResources
+  - startCaseWork
+  - startService
+  - startTask
+  - updateForecastExternal
+  - waitCaseForSupplier
+  - waitTaskForSupplier
+  SET-API-INTERNAL-PROTECTED:
+  - advanceDemoClock
+  - assignTask
+  - cancelTask
+  - closeVehicleStop
+  - completeService
+  - completeTask
+  - confirmArrival
+  - confirmConversationCaseLink
+  - correctArrival
+  - createTask
+  - deleteDemoSession
+  - getCaseOperationalView
+  - getCaseTimeline
+  - getCurrentSession
+  - getDemoMetrics
+  - getDemoReset
+  - getDemoStatus
+  - getStopOperationalView
+  - getStopTimeline
+  - issueDriverAccess
+  - issueSupplierAccess
+  - listCaseConversations
+  - listCaseTasks
+  - listStopDashboard
+  - prepareStopForArrival
+  - recordPhoneCall
+  - releaseVehicle
+  - reportArrivalInternal
+  - resetDemoScenario
+  - resolveCase
+  - searchOperationalResources
+  - startCaseWork
+  - startService
+  - startTask
+  - waitCaseForSupplier
+  - waitTaskForSupplier
+  SET-API-MUTATIONS:
+  - advanceDemoClock
+  - assignTask
+  - cancelTask
+  - closeVehicleStop
+  - completeService
+  - completeTask
+  - confirmArrival
+  - confirmConversationCaseLink
+  - confirmDepartureExternal
+  - correctArrival
+  - createDemoSession
+  - createExternalSession
+  - createTask
+  - deleteDemoSession
+  - issueDriverAccess
+  - issueSupplierAccess
+  - prepareStopForArrival
+  - receiveDemoEmail
+  - recordPhoneCall
+  - releaseVehicle
+  - reportArrivalInternal
+  - resetDemoScenario
+  - resolveCase
+  - startCaseWork
+  - startService
+  - startTask
+  - updateForecastExternal
+  - waitCaseForSupplier
+  - waitTaskForSupplier
+  SET-API-DOMAIN-EVENT-MUTATIONS:
+  - advanceDemoClock
+  - assignTask
+  - cancelTask
+  - closeVehicleStop
+  - completeService
+  - completeTask
+  - confirmArrival
+  - confirmConversationCaseLink
+  - confirmDepartureExternal
+  - correctArrival
+  - createTask
+  - issueDriverAccess
+  - issueSupplierAccess
+  - prepareStopForArrival
+  - receiveDemoEmail
+  - recordPhoneCall
+  - releaseVehicle
+  - reportArrivalInternal
+  - resetDemoScenario
+  - resolveCase
+  - startCaseWork
+  - startService
+  - startTask
+  - updateForecastExternal
+  - waitCaseForSupplier
+  - waitTaskForSupplier
+  SET-API-SENSITIVE-AUDITED:
+  - createDemoSession
+  - advanceDemoClock
+  - resetDemoScenario
+  - confirmArrival
+  - correctArrival
+  - cancelTask
+  - issueSupplierAccess
+  - issueDriverAccess
+  - confirmDepartureExternal
+  - closeVehicleStop
+  - resolveCase
+event_sets:
+  SET-EVT-ALL-V2:
+  - AlertCreated
+  - AlertOccurrenceAdded
+  - AlertResolved
+  - ArrivalConfirmed
+  - ArrivalConflictDetected
+  - ArrivalCorrected
+  - ArrivalReported
+  - CaseResolved
+  - CaseResumedAfterSupplierUpdate
+  - CaseWaitingForSupplier
+  - CaseWorkStarted
+  - CommunicationLinked
+  - CompletionForecastUpdated
+  - ConversationCaseLinkSuggested
+  - DemoClockAdvanced
+  - DemoResetRequested
+  - DepartureConfirmed
+  - ExternalAccessTokenIssued
+  - ExternalAccessTokenRevoked
+  - InboundCommunicationReceived
+  - PhoneCallRecorded
+  - ServiceCompleted
+  - ServiceStarted
+  - StopPreparedForArrival
+  - TaskAssigned
+  - TaskCancelled
+  - TaskCompleted
+  - TaskCreated
+  - TaskResumedAfterSupplierUpdate
+  - TaskStarted
+  - TaskWaitingForSupplier
+  - VehicleReleased
+  - VehicleStopClosed
+  SET-EVT-TIMELINE-V2:
+  - AlertCreated
+  - AlertOccurrenceAdded
+  - AlertResolved
+  - ArrivalConfirmed
+  - ArrivalConflictDetected
+  - ArrivalCorrected
+  - ArrivalReported
+  - CaseResolved
+  - CaseResumedAfterSupplierUpdate
+  - CaseWaitingForSupplier
+  - CaseWorkStarted
+  - CommunicationLinked
+  - CompletionForecastUpdated
+  - DepartureConfirmed
+  - ExternalAccessTokenIssued
+  - ExternalAccessTokenRevoked
+  - PhoneCallRecorded
+  - ServiceCompleted
+  - ServiceStarted
+  - StopPreparedForArrival
+  - TaskAssigned
+  - TaskCancelled
+  - TaskCompleted
+  - TaskCreated
+  - TaskResumedAfterSupplierUpdate
+  - TaskStarted
+  - TaskWaitingForSupplier
+  - VehicleReleased
+  - VehicleStopClosed
+  SET-EVT-PROJECTIONS-V2:
+  - AlertCreated
+  - AlertOccurrenceAdded
+  - AlertResolved
+  - ArrivalConfirmed
+  - ArrivalConflictDetected
+  - ArrivalCorrected
+  - ArrivalReported
+  - CaseResolved
+  - CaseResumedAfterSupplierUpdate
+  - CaseWaitingForSupplier
+  - CaseWorkStarted
+  - CommunicationLinked
+  - CompletionForecastUpdated
+  - DepartureConfirmed
+  - ExternalAccessTokenIssued
+  - ExternalAccessTokenRevoked
+  - PhoneCallRecorded
+  - ServiceCompleted
+  - ServiceStarted
+  - StopPreparedForArrival
+  - TaskAssigned
+  - TaskCancelled
+  - TaskCompleted
+  - TaskCreated
+  - TaskResumedAfterSupplierUpdate
+  - TaskStarted
+  - TaskWaitingForSupplier
+  - VehicleReleased
+  - VehicleStopClosed
+rows:
+- requirement_id: DEMO-ENV-001
+  title: Inicialização local
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-ENV-001
+  gate: G1_FOUNDATION
+  actors:
+  - SYSTEM_DEMO_MAINTENANCE
+  ui_ids: []
+  commands: []
+  operation_ids:
+  - getLiveness
+  - getReadiness
+  operation_sets: []
+  permissions_or_capabilities: []
+  tables: []
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-GET-LIVENESS-001
+  - TST-API-GET-READINESS-001
+  - TST-DEMO-ENV-001
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-ENV-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-ENV-002
+  title: Identificação visual da demo
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-ENV-002
+  gate: G1_FOUNDATION
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  - DEMO_ADMIN
+  - EXTERNAL_SUPPLIER
+  - EXTERNAL_DRIVER
+  ui_ids:
+  - UI-DEMO-SHELL
+  - UI-DEMO-SUPPLIER
+  - UI-DEMO-DRIVER
+  commands: []
+  operation_ids: []
+  operation_sets: []
+  permissions_or_capabilities: []
+  tables: []
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-DEMO-BANNER-001
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-ENV-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-ENV-003
+  title: Bloqueio fora do modo demo
+  classification: TECHNICAL-SUPPORT
+  work_package_id: WP-DEMO-ENV-003
+  gate: G1_FOUNDATION
+  actors:
+  - ANONYMOUS
+  - DEMO_ADMIN
+  - FAKE_EMAIL_ADAPTER
+  ui_ids:
+  - UI-DEMO-IDENTITY
+  - UI-DEMO-ADMIN
+  commands: []
+  operation_ids:
+  - createDemoSession
+  - advanceDemoClock
+  - resetDemoScenario
+  - receiveDemoEmail
+  operation_sets: []
+  permissions_or_capabilities:
+  - DEMO_MODE guard
+  tables: []
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-ADVANCE-DEMO-CLOCK-001
+  - TST-API-CREATE-DEMO-SESSION-001
+  - TST-API-POLICY-001
+  - TST-API-RECEIVE-DEMO-EMAIL-001
+  - TST-API-RESET-DEMO-SCENARIO-001
+  - TST-DEMO-MODE-001
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-ENV-003
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-DATA-001
+  title: Seed determinístico
+  classification: TECHNICAL-SUPPORT
+  work_package_id: WP-DEMO-DATA-001
+  gate: G1_FOUNDATION
+  actors:
+  - SYSTEM_DEMO_MAINTENANCE
+  ui_ids: []
+  commands: []
+  operation_ids: []
+  operation_sets: []
+  permissions_or_capabilities: []
+  tables:
+  - demo_seed_manifest
+  - demo_scenario
+  - operating_unit
+  - team
+  - app_user
+  - customer
+  - vehicle
+  - driver
+  - supplier
+  - case_record
+  - vehicle_stop
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-DEMO-SEED-001
+  - TST-SM-CROSS-010
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-DATA-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-DATA-002
+  title: Reset determinístico
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-DATA-002
+  gate: G1_FOUNDATION
+  actors:
+  - DEMO_ADMIN
+  - SYSTEM_DEMO_MAINTENANCE
+  ui_ids:
+  - UI-DEMO-ADMIN
+  commands:
+  - ResetDemoScenario
+  operation_ids:
+  - resetDemoScenario
+  - getDemoReset
+  operation_sets: []
+  permissions_or_capabilities:
+  - demo.reset
+  - demo.read_status
+  tables:
+  - demo_reset_execution
+  - demo_clock
+  - demo_seed_manifest
+  - demo_generation
+  - demo_runtime_control
+  - worker_lease
+  events:
+  - DemoResetRequested
+  event_sets: []
+  test_ids:
+  - TST-API-GET-DEMO-RESET-001
+  - TST-API-POLICY-001
+  - TST-API-POLICY-009
+  - TST-API-RESET-DEMO-SCENARIO-001
+  - TST-AUDIT-003
+  - TST-DATA-RESET-001
+  - TST-DATA-RESET-002
+  - TST-DATA-RESET-003
+  - TST-DATA-RESET-004
+  - TST-DATA-RESET-005
+  - TST-DEMO-RESET-001
+  - TST-EVT-CONTRACT-011
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-DATA-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes:
+  - Reset aplica barrier de geração e snapshots do ator sem FK para app_user.
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-DATA-003
+  title: Exclusão de dados reais
+  classification: TECHNICAL-SUPPORT
+  work_package_id: WP-DEMO-DATA-003
+  gate: G1_FOUNDATION
+  actors:
+  - SYSTEM_DEMO_MAINTENANCE
+  ui_ids: []
+  commands: []
+  operation_ids: []
+  operation_sets: []
+  permissions_or_capabilities: []
+  tables:
+  - app_user
+  - customer
+  - vehicle
+  - vehicle_registration
+  - driver
+  - supplier
+  - conversation
+  - communication
+  - phone_call
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-DEMO-DATA-001
+  - TST-DEMO-SEED-001
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-DATA-003
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-IAM-001
+  title: Seleção de identidade
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-IAM-001
+  gate: G1_FOUNDATION
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  - DEMO_ADMIN
+  ui_ids:
+  - UI-DEMO-IDENTITY
+  - UI-DEMO-SHELL
+  commands: []
+  operation_ids:
+  - createDemoSession
+  - deleteDemoSession
+  - getCurrentSession
+  operation_sets: []
+  permissions_or_capabilities: []
+  tables:
+  - app_user
+  - role
+  - permission
+  - role_permission
+  - user_role
+  - demo_internal_session
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-CREATE-DEMO-SESSION-001
+  - TST-API-DELETE-DEMO-SESSION-001
+  - TST-API-GET-CURRENT-SESSION-001
+  - TST-API-POLICY-001
+  - TST-API-POLICY-007
+  - TST-AUTH-SESSION-001
+  - TST-AUTH-SESSION-003
+  - TST-DATA-IAM-001
+  - TST-DATA-RESET-005
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-IAM-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-IAM-002
+  title: Sessão da demo
+  classification: TECHNICAL-SUPPORT
+  work_package_id: WP-DEMO-IAM-002
+  gate: G1_FOUNDATION
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  - DEMO_ADMIN
+  ui_ids:
+  - UI-DEMO-SHELL
+  commands: []
+  operation_ids:
+  - createDemoSession
+  - deleteDemoSession
+  - getCurrentSession
+  operation_sets: []
+  permissions_or_capabilities:
+  - session.read
+  tables:
+  - demo_internal_session
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-CREATE-DEMO-SESSION-001
+  - TST-API-DELETE-DEMO-SESSION-001
+  - TST-API-GET-CURRENT-SESSION-001
+  - TST-API-POLICY-001
+  - TST-API-POLICY-002
+  - TST-API-POLICY-007
+  - TST-AUTH-SESSION-003
+  - TST-AUTH-SESSION-004
+  - TST-AUTH-SESSION-005
+  - TST-AUTH-SESSION-006
+  - TST-DATA-IAM-002
+  - TST-DATA-IAM-003
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-IAM-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-IAM-003
+  title: Autorização no servidor
+  classification: TECHNICAL-SUPPORT
+  work_package_id: WP-DEMO-IAM-003
+  gate: G1_FOUNDATION
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  - DEMO_ADMIN
+  ui_ids: []
+  commands: []
+  operation_ids: []
+  operation_sets:
+  - SET-API-INTERNAL-PROTECTED
+  permissions_or_capabilities:
+  - all x-permission policies
+  tables:
+  - user_operating_unit_scope
+  - user_customer_scope
+  - team_member
+  - role_permission
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-AUTH-SCOPE-001
+  - TST-AUTH-SCOPE-002
+  - TST-AUTH-SCOPE-003
+  - TST-AUTH-SCOPE-004
+  - TST-AUTH-SCOPE-005
+  - TST-AUTH-SCOPE-006
+  - TST-AUTH-SCOPE-007
+  - TST-AUTH-SESSION-002
+  - TST-DATA-IAM-001
+  - TST-DATA-IAM-004
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-IAM-003
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-IAM-004
+  title: Separação do Demo Admin
+  classification: TECHNICAL-SUPPORT
+  work_package_id: WP-DEMO-IAM-004
+  gate: G1_FOUNDATION
+  actors:
+  - DEMO_ADMIN
+  ui_ids:
+  - UI-DEMO-ADMIN
+  commands: []
+  operation_ids:
+  - getDemoStatus
+  - advanceDemoClock
+  - resetDemoScenario
+  operation_sets: []
+  permissions_or_capabilities:
+  - demo.read_status
+  - demo.advance_clock
+  - demo.reset
+  tables:
+  - role_permission
+  - user_role
+  - user_operating_unit_scope
+  - user_customer_scope
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-ADVANCE-DEMO-CLOCK-001
+  - TST-API-GET-DEMO-STATUS-001
+  - TST-API-POLICY-001
+  - TST-API-RESET-DEMO-SCENARIO-001
+  - TST-AUTH-SESSION-007
+  - TST-DATA-IAM-005
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-IAM-004
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-SEARCH-001
+  title: Busca por placa
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-SEARCH-001
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  ui_ids:
+  - UI-DEMO-SEARCH
+  commands: []
+  operation_ids:
+  - searchOperationalResources
+  operation_sets: []
+  permissions_or_capabilities:
+  - search.read
+  tables:
+  - search_document
+  - vehicle_registration
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-SEARCH-OPERATIONAL-RESOURCES-001
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-SEARCH-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-SEARCH-002
+  title: Busca por número público
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-SEARCH-002
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  ui_ids:
+  - UI-DEMO-SEARCH
+  commands: []
+  operation_ids:
+  - searchOperationalResources
+  operation_sets: []
+  permissions_or_capabilities:
+  - search.read
+  tables:
+  - search_document
+  - case_record
+  - vehicle_stop
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-SEARCH-OPERATIONAL-RESOURCES-001
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-SEARCH-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-DASH-001
+  title: Lista de paradas ativas
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-DASH-001
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  ui_ids:
+  - UI-DEMO-DASHBOARD
+  commands: []
+  operation_ids:
+  - listStopDashboard
+  operation_sets: []
+  permissions_or_capabilities:
+  - dashboard.stop.read
+  tables:
+  - stop_operational_projection
+  events: []
+  event_sets:
+  - SET-EVT-PROJECTIONS-V2
+  test_ids:
+  - TST-API-LIST-STOP-DASHBOARD-001
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-DASH-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-DASH-002
+  title: Filtros do painel
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-DASH-002
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  ui_ids:
+  - UI-DEMO-DASHBOARD
+  commands: []
+  operation_ids:
+  - listStopDashboard
+  operation_sets: []
+  permissions_or_capabilities:
+  - dashboard.stop.read
+  tables:
+  - stop_operational_projection
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-LIST-STOP-DASHBOARD-001
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-DASH-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-METRIC-001
+  title: Contagem de paradas ativas
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-METRIC-001
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  ui_ids:
+  - UI-DEMO-DASHBOARD
+  commands: []
+  operation_ids:
+  - getDemoMetrics
+  operation_sets: []
+  permissions_or_capabilities:
+  - metrics.demo.read
+  tables:
+  - demo_metric_projection
+  - vehicle_stop
+  events:
+  - VehicleStopClosed
+  event_sets: []
+  test_ids:
+  - TST-API-GET-DEMO-METRICS-001
+  - TST-DATA-METRIC-001
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-METRIC-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-METRIC-002
+  title: Contagem de paradas sem atualização
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-METRIC-002
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  ui_ids:
+  - UI-DEMO-DASHBOARD
+  commands: []
+  operation_ids:
+  - getDemoMetrics
+  operation_sets: []
+  permissions_or_capabilities:
+  - metrics.demo.read
+  tables:
+  - demo_metric_projection
+  - alert
+  events:
+  - AlertCreated
+  - AlertResolved
+  event_sets: []
+  test_ids:
+  - TST-API-GET-DEMO-METRICS-001
+  - TST-DATA-METRIC-001
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-001
+  source_refs:
+  - 16 requirement DEMO-METRIC-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-METRIC-003
+  title: Contagem de tarefas abertas
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-METRIC-003
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  ui_ids:
+  - UI-DEMO-DASHBOARD
+  commands: []
+  operation_ids:
+  - getDemoMetrics
+  operation_sets: []
+  permissions_or_capabilities:
+  - metrics.demo.read
+  tables:
+  - demo_metric_projection
+  - task
+  events:
+  - TaskCreated
+  - TaskCompleted
+  - TaskCancelled
+  event_sets: []
+  test_ids:
+  - TST-API-GET-DEMO-METRICS-001
+  - TST-DATA-METRIC-001
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-004
+  source_refs:
+  - 16 requirement DEMO-METRIC-003
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-METRIC-004
+  title: Contagem de contatos telefônicos
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-METRIC-004
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  ui_ids:
+  - UI-DEMO-DASHBOARD
+  commands: []
+  operation_ids:
+  - getDemoMetrics
+  operation_sets: []
+  permissions_or_capabilities:
+  - metrics.demo.read
+  tables:
+  - demo_metric_projection
+  - phone_call
+  events:
+  - PhoneCallRecorded
+  event_sets: []
+  test_ids:
+  - TST-API-GET-DEMO-METRICS-001
+  - TST-DATA-METRIC-001
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-METRIC-004
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-CASE-001
+  title: Iniciar trabalho no caso
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-CASE-001
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-CASE
+  commands:
+  - StartCaseWork
+  operation_ids:
+  - startCaseWork
+  operation_sets: []
+  permissions_or_capabilities:
+  - case.start_work
+  tables:
+  - case_record
+  - case_state_history
+  events:
+  - CaseWorkStarted
+  event_sets: []
+  test_ids:
+  - TST-API-START-CASE-WORK-001
+  - TST-DATA-CASE-001
+  - TST-SM-CASE-001
+  - TST-SM-CASE-002
+  - TST-SM-CASE-003
+  - TST-SM-CASE-004
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-CASE-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-CASE-002
+  title: Consultar visão operacional
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-CASE-002
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  ui_ids:
+  - UI-DEMO-CASE
+  - UI-DEMO-TASKS
+  - UI-DEMO-COMMUNICATION
+  - UI-DEMO-TIMELINE
+  commands: []
+  operation_ids:
+  - getCaseOperationalView
+  - getCaseTimeline
+  - listCaseTasks
+  - listCaseConversations
+  operation_sets: []
+  permissions_or_capabilities:
+  - case.read
+  - task.read
+  - communication.read
+  - timeline.read
+  tables:
+  - case_operational_projection
+  - timeline_entry
+  - contextual_rule_seed
+  - stop_budget_context_seed
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-GET-CASE-OPERATIONAL-VIEW-001
+  - TST-API-GET-CASE-TIMELINE-001
+  - TST-API-LIST-CASE-CONVERSATIONS-001
+  - TST-API-LIST-CASE-TASKS-001
+  - TST-DATA-CASE-003
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-CASE-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-CASE-003
+  title: Aguardar fornecedor
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-CASE-003
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-CASE
+  commands:
+  - WaitCaseForSupplier
+  operation_ids:
+  - waitCaseForSupplier
+  operation_sets: []
+  permissions_or_capabilities:
+  - case.wait_for_supplier
+  tables:
+  - case_record
+  - case_state_history
+  events:
+  - CaseWaitingForSupplier
+  event_sets: []
+  test_ids:
+  - TST-API-POLICY-001
+  - TST-API-WAIT-CASE-FOR-SUPPLIER-001
+  - TST-DATA-CASE-001
+  - TST-SM-CASE-001
+  - TST-SM-CASE-002
+  - TST-SM-CASE-003
+  - TST-SM-CASE-004
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-CASE-003
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-CASE-004
+  title: Retomar após atualização
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-CASE-004
+  gate: G2_DOMAIN
+  actors:
+  - SYSTEM
+  ui_ids:
+  - UI-DEMO-CASE
+  commands:
+  - ResumeCaseAfterSupplierUpdate
+  operation_ids: []
+  operation_sets: []
+  permissions_or_capabilities:
+  - internal system policy
+  tables:
+  - case_record
+  - case_state_history
+  - consumer_receipt
+  events:
+  - CaseResumedAfterSupplierUpdate
+  event_sets: []
+  test_ids:
+  - TST-SM-CASE-001
+  - TST-SM-CASE-002
+  - TST-SM-CASE-003
+  - TST-SM-CASE-004
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-CASE-004
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-CASE-005
+  title: Resolver caso
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-CASE-005
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-CASE
+  commands:
+  - ResolveCase
+  operation_ids:
+  - resolveCase
+  operation_sets: []
+  permissions_or_capabilities:
+  - case.resolve
+  tables:
+  - case_record
+  - case_state_history
+  events:
+  - CaseResolved
+  event_sets: []
+  test_ids:
+  - TST-API-POLICY-001
+  - TST-API-RESOLVE-CASE-001
+  - TST-DATA-CASE-001
+  - TST-DATA-CASE-002
+  - TST-SM-CASE-001
+  - TST-SM-CASE-002
+  - TST-SM-CASE-003
+  - TST-SM-CASE-004
+  - TST-SM-CROSS-001
+  - TST-SM-CROSS-002
+  - TST-SM-CROSS-003
+  - TST-SM-CROSS-017
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-CASE-005
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-TASK-001
+  title: Criar tarefa
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-TASK-001
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-TASKS
+  commands:
+  - CreateTask
+  operation_ids:
+  - createTask
+  operation_sets: []
+  permissions_or_capabilities:
+  - task.create
+  tables:
+  - task
+  - task_state_history
+  events:
+  - TaskCreated
+  event_sets: []
+  test_ids:
+  - TST-API-CREATE-TASK-001
+  - TST-API-POLICY-001
+  - TST-DATA-TASK-001
+  - TST-DATA-TASK-005
+  - TST-SM-TASK-001
+  - TST-SM-TASK-002
+  - TST-SM-TASK-003
+  - TST-SM-TASK-004
+  - TST-SM-TASK-005
+  - TST-SM-TASK-006
+  - TST-SM-TASK-007
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-004
+  source_refs:
+  - 16 requirement DEMO-TASK-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-TASK-002
+  title: Atribuir tarefa
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-TASK-002
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-TASKS
+  commands:
+  - AssignTask
+  operation_ids:
+  - assignTask
+  operation_sets: []
+  permissions_or_capabilities:
+  - task.assign
+  tables:
+  - task
+  - task_state_history
+  events:
+  - TaskAssigned
+  event_sets: []
+  test_ids:
+  - TST-API-ASSIGN-TASK-001
+  - TST-API-POLICY-001
+  - TST-DATA-TASK-005
+  - TST-SM-TASK-001
+  - TST-SM-TASK-002
+  - TST-SM-TASK-003
+  - TST-SM-TASK-004
+  - TST-SM-TASK-005
+  - TST-SM-TASK-006
+  - TST-SM-TASK-007
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-004
+  source_refs:
+  - 16 requirement DEMO-TASK-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-TASK-003
+  title: Iniciar tarefa
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-TASK-003
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-TASKS
+  commands:
+  - StartTask
+  operation_ids:
+  - startTask
+  operation_sets: []
+  permissions_or_capabilities:
+  - task.start
+  tables:
+  - task
+  - task_state_history
+  events:
+  - TaskStarted
+  event_sets: []
+  test_ids:
+  - TST-API-START-TASK-001
+  - TST-DATA-TASK-005
+  - TST-SM-TASK-001
+  - TST-SM-TASK-002
+  - TST-SM-TASK-003
+  - TST-SM-TASK-004
+  - TST-SM-TASK-005
+  - TST-SM-TASK-006
+  - TST-SM-TASK-007
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-004
+  source_refs:
+  - 16 requirement DEMO-TASK-003
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-TASK-004
+  title: Aguardar terceiro
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-TASK-004
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-TASKS
+  commands:
+  - WaitTaskForSupplier
+  operation_ids:
+  - waitTaskForSupplier
+  operation_sets: []
+  permissions_or_capabilities:
+  - task.wait_for_supplier
+  tables:
+  - task
+  - task_state_history
+  events:
+  - TaskWaitingForSupplier
+  event_sets: []
+  test_ids:
+  - TST-API-POLICY-001
+  - TST-API-WAIT-TASK-FOR-SUPPLIER-001
+  - TST-SM-TASK-001
+  - TST-SM-TASK-002
+  - TST-SM-TASK-003
+  - TST-SM-TASK-004
+  - TST-SM-TASK-005
+  - TST-SM-TASK-006
+  - TST-SM-TASK-007
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-TASK-004
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-TASK-005
+  title: Retomar tarefa
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-TASK-005
+  gate: G2_DOMAIN
+  actors:
+  - SYSTEM
+  ui_ids:
+  - UI-DEMO-TASKS
+  commands:
+  - ResumeTaskAfterSupplierUpdate
+  operation_ids: []
+  operation_sets: []
+  permissions_or_capabilities:
+  - internal system policy
+  tables:
+  - task
+  - task_state_history
+  - consumer_receipt
+  events:
+  - TaskResumedAfterSupplierUpdate
+  event_sets: []
+  test_ids:
+  - TST-SM-TASK-001
+  - TST-SM-TASK-002
+  - TST-SM-TASK-003
+  - TST-SM-TASK-004
+  - TST-SM-TASK-005
+  - TST-SM-TASK-006
+  - TST-SM-TASK-007
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-TASK-005
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-TASK-006
+  title: Concluir tarefa
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-TASK-006
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-TASKS
+  commands:
+  - CompleteTask
+  operation_ids:
+  - completeTask
+  operation_sets: []
+  permissions_or_capabilities:
+  - task.complete
+  tables:
+  - task
+  - task_state_history
+  events:
+  - TaskCompleted
+  event_sets: []
+  test_ids:
+  - TST-API-COMPLETE-TASK-001
+  - TST-API-POLICY-001
+  - TST-DATA-TASK-001
+  - TST-DATA-TASK-002
+  - TST-DATA-TASK-005
+  - TST-SM-CROSS-002
+  - TST-SM-CROSS-005
+  - TST-SM-CROSS-017
+  - TST-SM-TASK-001
+  - TST-SM-TASK-002
+  - TST-SM-TASK-003
+  - TST-SM-TASK-004
+  - TST-SM-TASK-005
+  - TST-SM-TASK-006
+  - TST-SM-TASK-007
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-004
+  source_refs:
+  - 16 requirement DEMO-TASK-006
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-TASK-007
+  title: Cancelar tarefa
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-TASK-007
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-TASKS
+  commands:
+  - CancelTask
+  operation_ids:
+  - cancelTask
+  operation_sets: []
+  permissions_or_capabilities:
+  - task.cancel
+  tables:
+  - task
+  - task_state_history
+  - security_audit_record
+  events:
+  - TaskCancelled
+  event_sets: []
+  test_ids:
+  - TST-API-CANCEL-TASK-001
+  - TST-API-POLICY-001
+  - TST-DATA-TASK-001
+  - TST-DATA-TASK-003
+  - TST-DATA-TASK-004
+  - TST-SM-CROSS-002
+  - TST-SM-CROSS-005
+  - TST-SM-CROSS-017
+  - TST-SM-TASK-001
+  - TST-SM-TASK-002
+  - TST-SM-TASK-003
+  - TST-SM-TASK-004
+  - TST-SM-TASK-005
+  - TST-SM-TASK-006
+  - TST-SM-TASK-007
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-TASK-007
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-TASK-008
+  title: Executar tarefas em paralelo
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-TASK-008
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-TASKS
+  commands:
+  - CreateTask
+  - AssignTask
+  - StartTask
+  - CompleteTask
+  operation_ids:
+  - createTask
+  - assignTask
+  - startTask
+  - completeTask
+  operation_sets: []
+  permissions_or_capabilities:
+  - task.create
+  - task.assign
+  - task.start
+  - task.complete
+  tables:
+  - task
+  - task_state_history
+  events:
+  - TaskCreated
+  - TaskAssigned
+  - TaskStarted
+  - TaskCompleted
+  event_sets: []
+  test_ids:
+  - TST-API-ASSIGN-TASK-001
+  - TST-API-COMPLETE-TASK-001
+  - TST-API-CREATE-TASK-001
+  - TST-API-POLICY-001
+  - TST-API-START-TASK-001
+  - TST-SM-CROSS-016
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-004
+  source_refs:
+  - 16 requirement DEMO-TASK-008
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-STOP-001
+  title: Consultar visão operacional
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-STOP-001
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  ui_ids:
+  - UI-DEMO-STOP
+  - UI-DEMO-TIMELINE
+  commands: []
+  operation_ids:
+  - getStopOperationalView
+  - getStopTimeline
+  operation_sets: []
+  permissions_or_capabilities:
+  - stop.read
+  - timeline.read
+  tables:
+  - stop_operational_projection
+  - timeline_entry
+  - stop_budget_context_seed
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-GET-STOP-OPERATIONAL-VIEW-001
+  - TST-API-GET-STOP-TIMELINE-001
+  - TST-DATA-CASE-003
+  - TST-DATA-STOP-001
+  - TST-SM-CROSS-010
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-STOP-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-STOP-002
+  title: Preparar chegada
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-STOP-002
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-STOP
+  commands:
+  - PrepareStopForArrival
+  operation_ids:
+  - prepareStopForArrival
+  operation_sets: []
+  permissions_or_capabilities:
+  - stop.prepare_arrival
+  tables:
+  - vehicle_stop
+  - stop_state_history
+  events:
+  - StopPreparedForArrival
+  event_sets: []
+  test_ids:
+  - TST-API-PREPARE-STOP-FOR-ARRIVAL-001
+  - TST-DATA-STOP-002
+  - TST-SM-STOP-001
+  - TST-SM-STOP-002
+  - TST-SM-STOP-003
+  - TST-SM-STOP-004
+  - TST-SM-STOP-005
+  - TST-SM-STOP-006
+  - TST-SM-STOP-007
+  - TST-SM-STOP-008
+  - TST-SM-STOP-009
+  - TST-SM-STOP-010
+  - TST-SM-STOP-011
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-STOP-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-STOP-003
+  title: Registrar relato de chegada
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-STOP-003
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-STOP
+  commands:
+  - ReportArrival
+  operation_ids:
+  - reportArrivalInternal
+  operation_sets: []
+  permissions_or_capabilities:
+  - stop.report_arrival
+  tables:
+  - arrival_report
+  - vehicle_stop
+  events:
+  - ArrivalReported
+  event_sets: []
+  test_ids:
+  - TST-API-POLICY-001
+  - TST-API-REPORT-ARRIVAL-INTERNAL-001
+  - TST-DATA-EVT-005
+  - TST-SM-ARRIVAL-001
+  - TST-SM-ARRIVAL-002
+  - TST-SM-ARRIVAL-003
+  - TST-SM-ARRIVAL-004
+  - TST-SM-ARRIVAL-005
+  - TST-SM-STOP-001
+  - TST-SM-STOP-002
+  - TST-SM-STOP-003
+  - TST-SM-STOP-004
+  - TST-SM-STOP-005
+  - TST-SM-STOP-006
+  - TST-SM-STOP-007
+  - TST-SM-STOP-008
+  - TST-SM-STOP-009
+  - TST-SM-STOP-010
+  - TST-SM-STOP-011
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-002
+  source_refs:
+  - 16 requirement DEMO-STOP-003
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes:
+  - Relato de chegada é exclusivamente interno na DEMO-R1.
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-STOP-004
+  title: Detectar conflito de chegada
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-STOP-004
+  gate: G2_DOMAIN
+  actors:
+  - SYSTEM
+  ui_ids:
+  - UI-DEMO-STOP
+  commands:
+  - EvaluateArrivalReports
+  - CreateArrivalConflictTask
+  operation_ids: []
+  operation_sets: []
+  permissions_or_capabilities:
+  - internal system policy
+  tables:
+  - arrival_report
+  - arrival_conflict
+  - task
+  - alert
+  events:
+  - ArrivalConflictDetected
+  - TaskCreated
+  - AlertCreated
+  event_sets: []
+  test_ids:
+  - TST-EVT-CONTRACT-001
+  - TST-EVT-CONTRACT-008
+  - TST-SM-ARRIVAL-001
+  - TST-SM-ARRIVAL-002
+  - TST-SM-ARRIVAL-003
+  - TST-SM-ARRIVAL-004
+  - TST-SM-ARRIVAL-005
+  - TST-SM-CROSS-003
+  - TST-SM-CROSS-006
+  e2e_ids:
+  - E2E-DEMO-002
+  source_refs:
+  - 16 requirement DEMO-STOP-004
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-STOP-005
+  title: Confirmar chegada
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-STOP-005
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - SYSTEM
+  ui_ids:
+  - UI-DEMO-STOP
+  commands:
+  - ConfirmArrival
+  - CompleteArrivalConflictTask
+  operation_ids:
+  - confirmArrival
+  operation_sets: []
+  permissions_or_capabilities:
+  - stop.confirm_arrival
+  - stop.confirm_arrival_conflict
+  - internal system policy
+  tables:
+  - arrival_confirmation
+  - arrival_confirmation_report
+  - arrival_conflict
+  - task
+  - alert
+  events:
+  - ArrivalConfirmed
+  - TaskCompleted
+  - AlertResolved
+  event_sets: []
+  test_ids:
+  - TST-API-CONFIRM-ARRIVAL-001
+  - TST-API-POLICY-001
+  - TST-DATA-ARRIVAL-001
+  - TST-DATA-STOP-002
+  - TST-EVT-CONTRACT-008
+  - TST-SM-ARRIVAL-001
+  - TST-SM-ARRIVAL-002
+  - TST-SM-ARRIVAL-003
+  - TST-SM-ARRIVAL-004
+  - TST-SM-ARRIVAL-005
+  - TST-SM-CROSS-003
+  - TST-SM-CROSS-006
+  - TST-SM-CROSS-009
+  - TST-SM-CROSS-012
+  - TST-SM-STOP-001
+  - TST-SM-STOP-002
+  - TST-SM-STOP-003
+  - TST-SM-STOP-004
+  - TST-SM-STOP-005
+  - TST-SM-STOP-006
+  - TST-SM-STOP-007
+  - TST-SM-STOP-008
+  - TST-SM-STOP-009
+  - TST-SM-STOP-010
+  - TST-SM-STOP-011
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-002
+  source_refs:
+  - 16 requirement DEMO-STOP-005
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-STOP-006
+  title: Iniciar serviço
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-STOP-006
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-STOP
+  commands:
+  - StartService
+  operation_ids:
+  - startService
+  operation_sets: []
+  permissions_or_capabilities:
+  - stop.start_service
+  tables:
+  - vehicle_stop
+  - stop_state_history
+  events:
+  - ServiceStarted
+  event_sets: []
+  test_ids:
+  - TST-API-POLICY-001
+  - TST-API-START-SERVICE-001
+  - TST-DATA-STOP-002
+  - TST-SM-STOP-001
+  - TST-SM-STOP-002
+  - TST-SM-STOP-003
+  - TST-SM-STOP-004
+  - TST-SM-STOP-005
+  - TST-SM-STOP-006
+  - TST-SM-STOP-007
+  - TST-SM-STOP-008
+  - TST-SM-STOP-009
+  - TST-SM-STOP-010
+  - TST-SM-STOP-011
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-STOP-006
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-EXT-001
+  title: Emitir acesso de fornecedor
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-EXT-001
+  gate: G5_EXTERNAL
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-STOP
+  commands:
+  - IssueSupplierAccess
+  operation_ids:
+  - issueSupplierAccess
+  operation_sets: []
+  permissions_or_capabilities:
+  - external_access.issue_supplier
+  tables:
+  - external_action_token
+  - external_action_capability
+  events:
+  - ExternalAccessTokenIssued
+  event_sets: []
+  test_ids:
+  - TST-API-ISSUE-SUPPLIER-ACCESS-001
+  - TST-API-POLICY-010
+  - TST-AUTH-EXT-001
+  - TST-AUTH-EXT-002
+  - TST-AUTH-EXT-009
+  - TST-AUTH-EXT-012
+  - TST-DATA-EXT-001
+  - TST-DATA-EXT-002
+  - TST-DATA-EXT-006
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-EXT-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-EXT-002
+  title: Consultar contexto mínimo do fornecedor
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-EXT-002
+  gate: G5_EXTERNAL
+  actors:
+  - EXTERNAL_SUPPLIER
+  ui_ids:
+  - UI-DEMO-SUPPLIER
+  commands: []
+  operation_ids:
+  - createExternalSession
+  - getExternalContext
+  operation_sets: []
+  permissions_or_capabilities:
+  - VIEW_SUPPLIER_CONTEXT
+  tables:
+  - external_session
+  - external_action_token
+  - external_action_capability
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-CREATE-EXTERNAL-SESSION-001
+  - TST-API-GET-EXTERNAL-CONTEXT-001
+  - TST-API-POLICY-001
+  - TST-API-POLICY-008
+  - TST-API-POLICY-010
+  - TST-AUTH-EXT-003
+  - TST-AUTH-EXT-004
+  - TST-AUTH-EXT-011
+  - TST-AUTH-EXT-012
+  - TST-AUTH-EXT-013
+  - TST-AUTH-EXT-015
+  - TST-AUTH-EXT-016
+  - TST-DATA-EXT-004
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-EXT-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-EXT-003
+  title: Atualizar previsão pelo fornecedor
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-EXT-003
+  gate: G5_EXTERNAL
+  actors:
+  - EXTERNAL_SUPPLIER
+  ui_ids:
+  - UI-DEMO-SUPPLIER
+  commands:
+  - UpdateCompletionForecast
+  operation_ids:
+  - updateForecastExternal
+  operation_sets: []
+  permissions_or_capabilities:
+  - UPDATE_COMPLETION_FORECAST
+  tables:
+  - completion_forecast
+  - external_token_usage
+  - idempotency_record
+  events:
+  - CompletionForecastUpdated
+  event_sets: []
+  test_ids:
+  - TST-API-POLICY-001
+  - TST-API-POLICY-010
+  - TST-API-UPDATE-FORECAST-EXTERNAL-001
+  - TST-AUTH-EXT-005
+  - TST-AUTH-EXT-007
+  - TST-AUTH-EXT-008
+  - TST-AUTH-EXT-010
+  - TST-AUTH-EXT-015
+  - TST-AUTH-EXT-016
+  - TST-DATA-EXT-003
+  - TST-DATA-EXT-005
+  - TST-DATA-FORECAST-001
+  - TST-SM-CROSS-011
+  - TST-SM-CROSS-014
+  - TST-SM-STOP-001
+  - TST-SM-STOP-002
+  - TST-SM-STOP-003
+  - TST-SM-STOP-004
+  - TST-SM-STOP-005
+  - TST-SM-STOP-006
+  - TST-SM-STOP-007
+  - TST-SM-STOP-008
+  - TST-SM-STOP-009
+  - TST-SM-STOP-010
+  - TST-SM-STOP-011
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-001
+  source_refs:
+  - 16 requirement DEMO-EXT-003
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes:
+  - Owner único da operação externa de forecast.
+  - O efeito derivado resolve alerta e retoma caso/tarefa por consumers live-only.
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-CLOCK-001
+  title: Avançar relógio
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-CLOCK-001
+  gate: G4_TIME_COMMUNICATION
+  actors:
+  - DEMO_ADMIN
+  - SYSTEM
+  ui_ids:
+  - UI-DEMO-ADMIN
+  commands:
+  - AdvanceDemoClock
+  operation_ids:
+  - advanceDemoClock
+  operation_sets: []
+  permissions_or_capabilities:
+  - demo.advance_clock
+  tables:
+  - demo_clock
+  - background_job
+  events:
+  - DemoClockAdvanced
+  event_sets: []
+  test_ids:
+  - TST-API-ADVANCE-DEMO-CLOCK-001
+  - TST-API-POLICY-001
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-001
+  source_refs:
+  - 16 requirement DEMO-CLOCK-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-ALERT-001
+  title: Criar alerta de inatividade
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-ALERT-001
+  gate: G4_TIME_COMMUNICATION
+  actors:
+  - SYSTEM
+  ui_ids:
+  - UI-DEMO-DASHBOARD
+  - UI-DEMO-STOP
+  commands:
+  - EvaluateStopInactivity
+  operation_ids: []
+  operation_sets: []
+  permissions_or_capabilities:
+  - alert.evaluate_inactivity
+  tables:
+  - alert
+  - alert_occurrence
+  - background_job
+  events:
+  - AlertCreated
+  event_sets: []
+  test_ids:
+  - TST-DATA-ALERT-001
+  - TST-SM-ALERT-001
+  - TST-SM-ALERT-002
+  - TST-SM-ALERT-003
+  - TST-SM-CROSS-013
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-001
+  source_refs:
+  - 16 requirement DEMO-ALERT-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-ALERT-002
+  title: Deduplicar alerta
+  classification: TECHNICAL-SUPPORT
+  work_package_id: WP-DEMO-ALERT-002
+  gate: G4_TIME_COMMUNICATION
+  actors:
+  - SYSTEM
+  ui_ids:
+  - UI-DEMO-DASHBOARD
+  - UI-DEMO-STOP
+  commands:
+  - EvaluateStopInactivity
+  operation_ids: []
+  operation_sets: []
+  permissions_or_capabilities:
+  - alert.evaluate_inactivity
+  tables:
+  - alert
+  - alert_occurrence
+  events:
+  - AlertOccurrenceAdded
+  event_sets: []
+  test_ids:
+  - TST-DATA-ALERT-001
+  - TST-DATA-ALERT-003
+  - TST-SM-ALERT-001
+  - TST-SM-ALERT-002
+  - TST-SM-ALERT-003
+  - TST-SM-CROSS-013
+  e2e_ids:
+  - E2E-DEMO-001
+  source_refs:
+  - 16 requirement DEMO-ALERT-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-ALERT-003
+  title: Resolver alerta por atualização
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-ALERT-003
+  gate: G4_TIME_COMMUNICATION
+  actors:
+  - SYSTEM
+  - EXTERNAL_SUPPLIER
+  ui_ids:
+  - UI-DEMO-DASHBOARD
+  - UI-DEMO-STOP
+  - UI-DEMO-SUPPLIER
+  commands:
+  - ResolveStopNoUpdateAlert
+  operation_ids: []
+  operation_sets: []
+  permissions_or_capabilities:
+  - alert.resolve_no_update
+  tables:
+  - alert
+  - alert_state_history
+  - completion_forecast
+  events:
+  - CompletionForecastUpdated
+  - AlertResolved
+  event_sets: []
+  test_ids:
+  - TST-DATA-ALERT-002
+  - TST-SM-ALERT-001
+  - TST-SM-ALERT-002
+  - TST-SM-ALERT-003
+  - TST-SM-CROSS-017
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-001
+  source_refs:
+  - 16 requirement DEMO-ALERT-003
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes:
+  - Consumidor live-only de CompletionForecastUpdated; não é owner do endpoint updateForecastExternal.
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-COM-001
+  title: Receber e-mail fictício
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-COM-001
+  gate: G4_TIME_COMMUNICATION
+  actors:
+  - FAKE_EMAIL_ADAPTER
+  - SYSTEM
+  ui_ids:
+  - UI-DEMO-COMMUNICATION
+  commands:
+  - ReceiveInboundEmail
+  operation_ids:
+  - receiveDemoEmail
+  operation_sets: []
+  permissions_or_capabilities:
+  - integration.receive_demo_email
+  tables:
+  - integration_inbox
+  - conversation
+  - communication
+  events:
+  - InboundCommunicationReceived
+  event_sets: []
+  test_ids:
+  - TST-API-POLICY-001
+  - TST-API-RECEIVE-DEMO-EMAIL-001
+  - TST-AUTH-ADAPTER-001
+  - TST-AUTH-ADAPTER-002
+  - TST-AUTH-ADAPTER-003
+  - TST-AUTH-ADAPTER-004
+  - TST-DATA-INBOX-001
+  e2e_ids:
+  - E2E-DEMO-003
+  source_refs:
+  - 16 requirement DEMO-COM-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-COM-002
+  title: Sugerir vínculo
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-COM-002
+  gate: G4_TIME_COMMUNICATION
+  actors:
+  - SYSTEM
+  ui_ids:
+  - UI-DEMO-COMMUNICATION
+  commands:
+  - SuggestConversationCaseLink
+  operation_ids: []
+  operation_sets: []
+  permissions_or_capabilities:
+  - internal system policy
+  tables:
+  - conversation
+  - conversation_case_link
+  events:
+  - ConversationCaseLinkSuggested
+  event_sets: []
+  test_ids:
+  - TST-AUTH-ADAPTER-001
+  e2e_ids:
+  - E2E-DEMO-003
+  source_refs:
+  - 16 requirement DEMO-COM-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-COM-003
+  title: Confirmar vínculo
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-COM-003
+  gate: G4_TIME_COMMUNICATION
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-COMMUNICATION
+  commands:
+  - ConfirmConversationCaseLink
+  operation_ids:
+  - confirmConversationCaseLink
+  operation_sets: []
+  permissions_or_capabilities:
+  - communication.link_case
+  tables:
+  - conversation
+  - conversation_case_link
+  events:
+  - CommunicationLinked
+  event_sets: []
+  test_ids:
+  - TST-API-CONFIRM-CONVERSATION-CASE-LINK-001
+  - TST-API-POLICY-001
+  e2e_ids:
+  - E2E-DEMO-003
+  source_refs:
+  - 16 requirement DEMO-COM-003
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-COM-004
+  title: Registrar ligação
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-COM-004
+  gate: G4_TIME_COMMUNICATION
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-PHONE-CALL
+  - UI-DEMO-COMMUNICATION
+  commands:
+  - RecordPhoneCall
+  operation_ids:
+  - recordPhoneCall
+  operation_sets: []
+  permissions_or_capabilities:
+  - communication.record_phone_call
+  tables:
+  - phone_call
+  events:
+  - PhoneCallRecorded
+  event_sets: []
+  test_ids:
+  - TST-API-POLICY-001
+  - TST-API-RECORD-PHONE-CALL-001
+  - TST-DATA-EVT-006
+  e2e_ids:
+  - E2E-DEMO-000
+  source_refs:
+  - 16 requirement DEMO-COM-004
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-STOP-007
+  title: Concluir serviço
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-STOP-007
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-STOP
+  commands:
+  - CompleteService
+  operation_ids:
+  - completeService
+  operation_sets: []
+  permissions_or_capabilities:
+  - stop.complete_service
+  tables:
+  - vehicle_stop
+  - stop_state_history
+  events:
+  - ServiceCompleted
+  event_sets: []
+  test_ids:
+  - TST-API-COMPLETE-SERVICE-001
+  - TST-API-POLICY-001
+  - TST-DATA-STOP-002
+  - TST-DATA-STOP-003
+  - TST-DATA-STOP-004
+  - TST-SM-CROSS-007
+  - TST-SM-CROSS-008
+  - TST-SM-STOP-001
+  - TST-SM-STOP-002
+  - TST-SM-STOP-003
+  - TST-SM-STOP-004
+  - TST-SM-STOP-005
+  - TST-SM-STOP-006
+  - TST-SM-STOP-007
+  - TST-SM-STOP-008
+  - TST-SM-STOP-009
+  - TST-SM-STOP-010
+  - TST-SM-STOP-011
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-005
+  source_refs:
+  - 16 requirement DEMO-STOP-007
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-STOP-008
+  title: Liberar veículo
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-STOP-008
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-STOP
+  commands:
+  - ReleaseVehicle
+  operation_ids:
+  - releaseVehicle
+  operation_sets: []
+  permissions_or_capabilities:
+  - stop.release_vehicle
+  tables:
+  - vehicle_stop
+  - stop_state_history
+  events:
+  - VehicleReleased
+  event_sets: []
+  test_ids:
+  - TST-API-POLICY-001
+  - TST-API-RELEASE-VEHICLE-001
+  - TST-DATA-STOP-002
+  - TST-DATA-STOP-004
+  - TST-DATA-STOP-005
+  - TST-SM-CROSS-008
+  - TST-SM-STOP-001
+  - TST-SM-STOP-002
+  - TST-SM-STOP-003
+  - TST-SM-STOP-004
+  - TST-SM-STOP-005
+  - TST-SM-STOP-006
+  - TST-SM-STOP-007
+  - TST-SM-STOP-008
+  - TST-SM-STOP-009
+  - TST-SM-STOP-010
+  - TST-SM-STOP-011
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-005
+  source_refs:
+  - 16 requirement DEMO-STOP-008
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-EXT-004
+  title: Emitir acesso de condutor
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-EXT-004
+  gate: G5_EXTERNAL
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-STOP
+  commands:
+  - IssueDriverAccess
+  operation_ids:
+  - issueDriverAccess
+  operation_sets: []
+  permissions_or_capabilities:
+  - external_access.issue_driver
+  tables:
+  - external_action_token
+  - external_action_capability
+  events:
+  - ExternalAccessTokenIssued
+  event_sets: []
+  test_ids:
+  - TST-API-ISSUE-DRIVER-ACCESS-001
+  - TST-API-POLICY-010
+  - TST-AUTH-EXT-001
+  - TST-AUTH-EXT-002
+  - TST-AUTH-EXT-009
+  - TST-AUTH-EXT-012
+  - TST-DATA-EXT-001
+  - TST-DATA-EXT-002
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-005
+  source_refs:
+  - 16 requirement DEMO-EXT-004
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-EXT-005
+  title: Consultar contexto mínimo do condutor
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-EXT-005
+  gate: G5_EXTERNAL
+  actors:
+  - EXTERNAL_DRIVER
+  ui_ids:
+  - UI-DEMO-DRIVER
+  commands: []
+  operation_ids:
+  - createExternalSession
+  - getExternalContext
+  operation_sets: []
+  permissions_or_capabilities:
+  - VIEW_DRIVER_CONTEXT
+  tables:
+  - external_session
+  - external_action_token
+  - external_action_capability
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-API-CREATE-EXTERNAL-SESSION-001
+  - TST-API-GET-EXTERNAL-CONTEXT-001
+  - TST-API-POLICY-001
+  - TST-API-POLICY-008
+  - TST-API-POLICY-010
+  - TST-AUTH-EXT-003
+  - TST-AUTH-EXT-004
+  - TST-AUTH-EXT-006
+  - TST-AUTH-EXT-008
+  - TST-AUTH-EXT-011
+  - TST-AUTH-EXT-012
+  - TST-AUTH-EXT-014
+  - TST-AUTH-EXT-015
+  - TST-AUTH-EXT-016
+  - TST-DATA-EXT-004
+  - TST-SM-CROSS-015
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-005
+  source_refs:
+  - 16 requirement DEMO-EXT-005
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-STOP-009
+  title: Confirmar retirada pelo condutor
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-STOP-009
+  gate: G5_EXTERNAL
+  actors:
+  - EXTERNAL_DRIVER
+  - SYSTEM
+  ui_ids:
+  - UI-DEMO-DRIVER
+  commands:
+  - ConfirmDeparture
+  operation_ids:
+  - confirmDepartureExternal
+  operation_sets: []
+  permissions_or_capabilities:
+  - CONFIRM_DEPARTURE
+  tables:
+  - departure_confirmation
+  - vehicle_stop
+  - external_token_usage
+  events:
+  - DepartureConfirmed
+  - ExternalAccessTokenRevoked
+  event_sets: []
+  test_ids:
+  - TST-API-CONFIRM-DEPARTURE-EXTERNAL-001
+  - TST-API-POLICY-001
+  - TST-API-POLICY-010
+  - TST-AUTH-EXT-006
+  - TST-AUTH-EXT-007
+  - TST-AUTH-EXT-010
+  - TST-AUTH-EXT-015
+  - TST-AUTH-EXT-016
+  - TST-DATA-EXT-003
+  - TST-DATA-EXT-005
+  - TST-DATA-STOP-002
+  - TST-DATA-STOP-003
+  - TST-DATA-STOP-005
+  - TST-DATA-STOP-007
+  - TST-SM-CROSS-004
+  - TST-SM-CROSS-007
+  - TST-SM-CROSS-009
+  - TST-SM-CROSS-015
+  - TST-SM-STOP-001
+  - TST-SM-STOP-002
+  - TST-SM-STOP-003
+  - TST-SM-STOP-004
+  - TST-SM-STOP-005
+  - TST-SM-STOP-006
+  - TST-SM-STOP-007
+  - TST-SM-STOP-008
+  - TST-SM-STOP-009
+  - TST-SM-STOP-010
+  - TST-SM-STOP-011
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-005
+  source_refs:
+  - 16 requirement DEMO-STOP-009
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-STOP-010
+  title: Fechar parada
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-STOP-010
+  gate: G2_DOMAIN
+  actors:
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  ui_ids:
+  - UI-DEMO-STOP
+  commands:
+  - CloseVehicleStop
+  operation_ids:
+  - closeVehicleStop
+  operation_sets: []
+  permissions_or_capabilities:
+  - stop.close
+  tables:
+  - vehicle_stop
+  - stop_state_history
+  - security_audit_record
+  events:
+  - VehicleStopClosed
+  - ExternalAccessTokenRevoked
+  event_sets: []
+  test_ids:
+  - TST-API-CLOSE-VEHICLE-STOP-001
+  - TST-API-POLICY-001
+  - TST-DATA-STOP-002
+  - TST-DATA-STOP-006
+  - TST-SM-CROSS-001
+  - TST-SM-CROSS-004
+  - TST-SM-CROSS-005
+  - TST-SM-CROSS-006
+  - TST-SM-CROSS-017
+  - TST-SM-STOP-001
+  - TST-SM-STOP-002
+  - TST-SM-STOP-003
+  - TST-SM-STOP-004
+  - TST-SM-STOP-005
+  - TST-SM-STOP-006
+  - TST-SM-STOP-007
+  - TST-SM-STOP-008
+  - TST-SM-STOP-009
+  - TST-SM-STOP-010
+  - TST-SM-STOP-011
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-005
+  source_refs:
+  - 16 requirement DEMO-STOP-010
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-EVT-001
+  title: Persistência transacional
+  classification: TECHNICAL-SUPPORT
+  work_package_id: WP-DEMO-EVT-001
+  gate: G2_DOMAIN
+  actors:
+  - SYSTEM
+  ui_ids: []
+  commands: []
+  operation_ids: []
+  operation_sets:
+  - SET-API-DOMAIN-EVENT-MUTATIONS
+  permissions_or_capabilities:
+  - outbox.publish
+  tables:
+  - domain_event
+  - integration_outbox
+  - idempotency_record
+  - case_state_history
+  - task_state_history
+  - stop_state_history
+  - alert_state_history
+  events: []
+  event_sets:
+  - SET-EVT-ALL-V2
+  test_ids:
+  - TST-API-POLICY-003
+  - TST-API-POLICY-004
+  - TST-API-POLICY-005
+  - TST-API-POLICY-006
+  - TST-AUTH-EXT-010
+  - TST-AUTH-EXT-011
+  - TST-DATA-EVT-001
+  - TST-DATA-EVT-002
+  - TST-DATA-EVT-003
+  - TST-DATA-EVT-005
+  - TST-DATA-EVT-006
+  - TST-DATA-EXT-005
+  - TST-EVT-CONTRACT-001
+  - TST-EVT-CONTRACT-002
+  - TST-EVT-CONTRACT-003
+  - TST-EVT-CONTRACT-004
+  - TST-EVT-CONTRACT-005
+  - TST-EVT-CONTRACT-006
+  - TST-EVT-CONTRACT-007
+  - TST-EVT-CONTRACT-010
+  - TST-EVT-CONTRACT-012
+  - TST-SM-CROSS-018
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-EVT-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes:
+  - O conjunto inclui apenas mutações com x-primary-event; sessões e controles sem evento de domínio não são incluídos.
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-EVT-002
+  title: Consumo idempotente
+  classification: TECHNICAL-SUPPORT
+  work_package_id: WP-DEMO-EVT-002
+  gate: G2_DOMAIN
+  actors:
+  - SYSTEM_WORKER
+  ui_ids: []
+  commands: []
+  operation_ids: []
+  operation_sets: []
+  permissions_or_capabilities:
+  - project.timeline
+  - project.case_view
+  - project.stop_view
+  - project.search
+  - project.metrics
+  - outbox.publish
+  tables:
+  - consumer_receipt
+  - integration_outbox
+  - background_job
+  - dead_letter_message
+  - demo_generation
+  - demo_runtime_control
+  - worker_lease
+  events: []
+  event_sets:
+  - SET-EVT-ALL-V2
+  test_ids:
+  - TST-DATA-ALERT-003
+  - TST-DATA-DLQ-001
+  - TST-DATA-EVT-004
+  - TST-DATA-INBOX-001
+  - TST-DATA-RESET-004
+  - TST-EVT-CONTRACT-008
+  - TST-EVT-CONTRACT-009
+  - TST-EVT-CONTRACT-011
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-EVT-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes:
+  - Consumer receipt e commit são isolados por demo_generation_id.
+  - Commit tardio falha com STALE_DEMO_GENERATION.
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-TIMELINE-001
+  title: Timeline de caso e parada
+  classification: DEMO-MUST
+  work_package_id: WP-DEMO-TIMELINE-001
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_ATTENDANT
+  - DEMO_OPERATIONS_ANALYST
+  - DEMO_SUPERVISOR
+  - DEMO_MANAGER
+  - SYSTEM_WORKER
+  ui_ids:
+  - UI-DEMO-TIMELINE
+  commands: []
+  operation_ids:
+  - getCaseTimeline
+  - getStopTimeline
+  operation_sets: []
+  permissions_or_capabilities:
+  - timeline.read
+  - project.timeline
+  tables:
+  - timeline_entry
+  events: []
+  event_sets:
+  - SET-EVT-TIMELINE-V2
+  test_ids:
+  - TST-API-GET-CASE-TIMELINE-001
+  - TST-API-GET-STOP-TIMELINE-001
+  e2e_ids:
+  - E2E-DEMO-000
+  - E2E-DEMO-002
+  - E2E-DEMO-003
+  source_refs:
+  - 16 requirement DEMO-TIMELINE-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-TIMELINE-002
+  title: Preservar correções
+  classification: TECHNICAL-SUPPORT
+  work_package_id: WP-DEMO-TIMELINE-002
+  gate: G3_PROJECTIONS
+  actors:
+  - DEMO_SUPERVISOR
+  - SYSTEM_WORKER
+  ui_ids:
+  - UI-DEMO-TIMELINE
+  commands:
+  - CorrectArrival
+  operation_ids:
+  - correctArrival
+  operation_sets: []
+  permissions_or_capabilities:
+  - stop.correct_arrival
+  - project.timeline
+  tables:
+  - arrival_report
+  - arrival_confirmation
+  - timeline_entry
+  events:
+  - ArrivalReported
+  - ArrivalConfirmed
+  - ArrivalCorrected
+  event_sets: []
+  test_ids:
+  - TST-API-CORRECT-ARRIVAL-001
+  - TST-API-POLICY-001
+  - TST-DATA-ARRIVAL-001
+  - TST-EVT-CONTRACT-009
+  - TST-SM-ARRIVAL-005
+  - TST-SM-CROSS-012
+  e2e_ids:
+  - E2E-DEMO-002
+  source_refs:
+  - 16 requirement DEMO-TIMELINE-002
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes: []
+  status: COMPLETE_V2.1.3
+- requirement_id: DEMO-AUDIT-001
+  title: Auditoria mínima
+  classification: TECHNICAL-SUPPORT
+  work_package_id: WP-DEMO-AUDIT-001
+  gate: G1_FOUNDATION
+  actors:
+  - SYSTEM
+  ui_ids: []
+  commands: []
+  operation_ids: []
+  operation_sets:
+  - SET-API-SENSITIVE-AUDITED
+  permissions_or_capabilities:
+  - automatic security audit policy
+  tables:
+  - security_audit_record
+  events: []
+  event_sets: []
+  test_ids:
+  - TST-AUDIT-001
+  - TST-AUDIT-002
+  - TST-AUDIT-003
+  - TST-AUTH-EXT-002
+  - TST-DATA-RESET-003
+  e2e_ids: []
+  source_refs:
+  - 16 requirement DEMO-AUDIT-001
+  - 17 commands/state machines v2.1.3
+  - 18 authorization matrix v2.1.3
+  - 19 logical data model v2.1.3
+  - 20 OpenAPI v2.1.3
+  - 21 event registry/schema v2.1.3
+  - 28 seed manifest v2.1.3
+  - 29 runner contract v2.1.3
+  notes:
+  - Cobertura exige ALLOW, DENY, redaction e persistência após reset.
+  status: COMPLETE_V2.1.3
+invariant_rows:
+- invariant_id: INV-DEMO-001
+  statement: Caso `RESOLVED` exige parada principal `CLOSED`.
+  source_ref: 17 INV-DEMO-001 v2.1.3
+  requirement_ids:
+  - DEMO-CASE-005
+  - DEMO-STOP-010
+  work_package_ids:
+  - WP-DEMO-CASE-005
+  - WP-DEMO-STOP-010
+  test_ids:
+  - TST-SM-CROSS-001
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-002
+  statement: Caso `RESOLVED` não pode ter tarefa obrigatória ativa.
+  source_ref: 17 INV-DEMO-002 v2.1.3
+  requirement_ids:
+  - DEMO-CASE-005
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  work_package_ids:
+  - WP-DEMO-CASE-005
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  test_ids:
+  - TST-SM-CROSS-002
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-003
+  statement: Parada `CLOSED` exige chegada e retirada confirmadas.
+  source_ref: 17 INV-DEMO-003 v2.1.3
+  requirement_ids:
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  work_package_ids:
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  test_ids:
+  - TST-DATA-STOP-006
+  - TST-SM-CROSS-004
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-004
+  statement: '`SERVICE_COMPLETED` não implica `confirmed_departure_at`.'
+  source_ref: 17 INV-DEMO-004 v2.1.3
+  requirement_ids:
+  - DEMO-STOP-007
+  - DEMO-STOP-009
+  work_package_ids:
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-009
+  test_ids:
+  - TST-DATA-STOP-003
+  - TST-SM-CROSS-007
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-005
+  statement: '`AWAITING_PICKUP` exige `vehicle_released_at`.'
+  source_ref: 17 INV-DEMO-005 v2.1.3
+  requirement_ids:
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  work_package_ids:
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  test_ids:
+  - TST-SM-CROSS-008
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-006
+  statement: '`VEHICLE_PICKED_UP` exige retirada confirmada.'
+  source_ref: 17 INV-DEMO-006 v2.1.3
+  requirement_ids:
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  work_package_ids:
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  test_ids:
+  - TST-DATA-STOP-005
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-007
+  statement: 'A duração da parada é: ```text confirmed_departure_at - confirmed_arrival_at ``` e nunca pode ser negativa.'
+  source_ref: 17 INV-DEMO-007 v2.1.3
+  requirement_ids:
+  - DEMO-STOP-005
+  - DEMO-STOP-009
+  work_package_ids:
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-009
+  test_ids:
+  - TST-DATA-STOP-007
+  - TST-SM-CROSS-009
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-008
+  statement: Existe somente uma confirmação de chegada corrente.
+  source_ref: 17 INV-DEMO-008 v2.1.3
+  requirement_ids:
+  - DEMO-STOP-005
+  - DEMO-TIMELINE-002
+  work_package_ids:
+  - WP-DEMO-STOP-005
+  - WP-DEMO-TIMELINE-002
+  test_ids:
+  - TST-DATA-ARRIVAL-001
+  - TST-SM-CROSS-012
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-009
+  statement: Existe somente uma previsão corrente.
+  source_ref: 17 INV-DEMO-009 v2.1.3
+  requirement_ids:
+  - DEMO-EXT-003
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  test_ids:
+  - TST-DATA-FORECAST-001
+  - TST-SM-CROSS-011
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-010
+  statement: Existe somente um alerta aberto `STOP_NO_UPDATE` por parada.
+  source_ref: 17 INV-DEMO-010 v2.1.3
+  requirement_ids:
+  - DEMO-ALERT-001
+  - DEMO-ALERT-002
+  work_package_ids:
+  - WP-DEMO-ALERT-001
+  - WP-DEMO-ALERT-002
+  test_ids:
+  - TST-DATA-ALERT-001
+  - TST-SM-CROSS-013
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-011
+  statement: Uma atualização de previsão externa só pode afetar a parada do token.
+  source_ref: 17 INV-DEMO-011 v2.1.3
+  requirement_ids:
+  - DEMO-EXT-003
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  test_ids:
+  - TST-AUTH-EXT-005
+  - TST-SM-CROSS-014
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-012
+  statement: Uma confirmação de retirada externa só pode afetar a parada e o condutor do token.
+  source_ref: 17 INV-DEMO-012 v2.1.3
+  requirement_ids:
+  - DEMO-EXT-005
+  - DEMO-STOP-009
+  work_package_ids:
+  - WP-DEMO-EXT-005
+  - WP-DEMO-STOP-009
+  test_ids:
+  - TST-AUTH-EXT-006
+  - TST-SM-CROSS-015
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-013
+  statement: Tarefas independentes podem estar simultaneamente `IN_PROGRESS`.
+  source_ref: 17 INV-DEMO-013 v2.1.3
+  requirement_ids:
+  - DEMO-TASK-008
+  work_package_ids:
+  - WP-DEMO-TASK-008
+  test_ids:
+  - TST-SM-CROSS-016
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-014
+  statement: Tarefa terminal não aceita novo comando.
+  source_ref: 17 INV-DEMO-014 v2.1.3
+  requirement_ids:
+  - DEMO-ALERT-003
+  - DEMO-CASE-005
+  - DEMO-STOP-010
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  work_package_ids:
+  - WP-DEMO-ALERT-003
+  - WP-DEMO-CASE-005
+  - WP-DEMO-STOP-010
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  test_ids:
+  - TST-SM-CROSS-017
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-015
+  statement: 'Aggregate terminal da demo não aceita comandos modificadores: ```text Case = RESOLVED VehicleStop = CLOSED Task = COMPLETED or CANCELLED
+    Alert = RESOLVED ```'
+  source_ref: 17 INV-DEMO-015 v2.1.3
+  requirement_ids:
+  - DEMO-ALERT-003
+  - DEMO-CASE-005
+  - DEMO-STOP-010
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  work_package_ids:
+  - WP-DEMO-ALERT-003
+  - WP-DEMO-CASE-005
+  - WP-DEMO-STOP-010
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  test_ids:
+  - TST-SM-CROSS-017
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-016
+  statement: Eventos, históricos e ocorrências são append-only.
+  source_ref: 17 INV-DEMO-016 v2.1.3
+  requirement_ids:
+  - DEMO-ALERT-002
+  - DEMO-EVT-001
+  - DEMO-EVT-002
+  - DEMO-STOP-003
+  - DEMO-TIMELINE-002
+  work_package_ids:
+  - WP-DEMO-ALERT-002
+  - WP-DEMO-EVT-001
+  - WP-DEMO-EVT-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-TIMELINE-002
+  test_ids:
+  - TST-DATA-ALERT-003
+  - TST-DATA-EVT-005
+  - TST-EVT-CONTRACT-007
+  - TST-EVT-CONTRACT-009
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-017
+  statement: Cada comando idempotente confirmado produz no máximo um evento principal.
+  source_ref: 17 INV-DEMO-017 v2.1.3
+  requirement_ids:
+  - DEMO-EVT-001
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  test_ids:
+  - TST-API-POLICY-003
+  - TST-API-POLICY-004
+  - TST-DATA-EVT-002
+  - TST-SM-CROSS-018
+  status: COVERED_V2.1.3
+- invariant_id: INV-DEMO-018
+  statement: Consumidores registram `consumer_id + event_id` antes de confirmar efeito irreversível.
+  source_ref: 17 INV-DEMO-018 v2.1.3
+  requirement_ids:
+  - DEMO-EVT-002
+  - DEMO-STOP-004
+  - DEMO-STOP-005
+  work_package_ids:
+  - WP-DEMO-EVT-002
+  - WP-DEMO-STOP-004
+  - WP-DEMO-STOP-005
+  test_ids:
+  - TST-DATA-EVT-004
+  - TST-EVT-CONTRACT-008
+  status: COVERED_V2.1.3
+data_adr_rows:
+- data_adr_id: DATA-ADR-001
+  title: UUID interno
+  decision_summary: Toda entidade persistida possui PK `UUID`. IDs corporativos, números públicos, placas e IDs de adapters não são PKs.
+  source_ref: 19 DATA-ADR-001 v2.1.3
+  requirement_ids:
+  - DEMO-DATA-001
+  - DEMO-DATA-003
+  work_package_ids:
+  - WP-DEMO-DATA-001
+  - WP-DEMO-DATA-003
+  test_ids:
+  - TST-DEMO-SEED-001
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-002
+  title: Números públicos separados
+  decision_summary: '```text Case.case_number Task.task_number VehicleStop.stop_number ``` são identificadores públicos únicos, mas não substituem
+    UUID.'
+  source_ref: 19 DATA-ADR-002 v2.1.3
+  requirement_ids:
+  - DEMO-SEARCH-001
+  - DEMO-SEARCH-002
+  work_package_ids:
+  - WP-DEMO-SEARCH-001
+  - WP-DEMO-SEARCH-002
+  test_ids:
+  - TST-API-SEARCH-OPERATIONAL-RESOURCES-001
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-003
+  title: Estado como `TEXT CHECK`
+  decision_summary: Estados e códigos controlados usam `TEXT` com `CHECK`, em vez de enum nativo do PostgreSQL, para reduzir acoplamento de migrations.
+  source_ref: 19 DATA-ADR-003 v2.1.3
+  requirement_ids:
+  - DEMO-ALERT-001
+  - DEMO-ALERT-002
+  - DEMO-ALERT-003
+  - DEMO-CASE-001
+  - DEMO-CASE-003
+  - DEMO-CASE-005
+  - DEMO-EXT-001
+  - DEMO-EXT-002
+  - DEMO-EXT-004
+  - DEMO-EXT-005
+  - DEMO-STOP-002
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  - DEMO-TASK-001
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  work_package_ids:
+  - WP-DEMO-ALERT-001
+  - WP-DEMO-ALERT-002
+  - WP-DEMO-ALERT-003
+  - WP-DEMO-CASE-001
+  - WP-DEMO-CASE-003
+  - WP-DEMO-CASE-005
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-004
+  - WP-DEMO-EXT-005
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  test_ids:
+  - TST-DATA-ALERT-001
+  - TST-DATA-ALERT-002
+  - TST-DATA-CASE-001
+  - TST-DATA-CASE-002
+  - TST-DATA-EXT-001
+  - TST-DATA-EXT-004
+  - TST-DATA-STOP-002
+  - TST-DATA-STOP-003
+  - TST-DATA-STOP-006
+  - TST-DATA-STOP-007
+  - TST-DATA-TASK-001
+  - TST-DATA-TASK-002
+  - TST-DATA-TASK-003
+  - TST-DATA-TASK-004
+  - TST-SM-CROSS-013
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-004
+  title: Timestamps
+  decision_summary: 'Todos os instantes usam: ```text TIMESTAMPTZ ``` `occurred_at` representa o instante do negócio. `recorded_at` representa
+    persistência.'
+  source_ref: 19 DATA-ADR-004 v2.1.3
+  requirement_ids:
+  - DEMO-ALERT-003
+  - DEMO-CASE-005
+  - DEMO-EXT-002
+  - DEMO-EXT-005
+  - DEMO-STOP-002
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  work_package_ids:
+  - WP-DEMO-ALERT-003
+  - WP-DEMO-CASE-005
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-005
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  test_ids:
+  - TST-DATA-ALERT-002
+  - TST-DATA-CASE-002
+  - TST-DATA-EXT-004
+  - TST-DATA-STOP-002
+  - TST-DATA-STOP-003
+  - TST-DATA-STOP-004
+  - TST-DATA-STOP-005
+  - TST-DATA-STOP-006
+  - TST-DATA-TASK-002
+  - TST-DATA-TASK-003
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-005
+  title: Concorrência otimista
+  decision_summary: 'Aggregates mutáveis possuem: ```text version INTEGER NOT NULL DEFAULT 1 CHECK (version > 0) ```'
+  source_ref: 19 DATA-ADR-005 v2.1.3
+  requirement_ids:
+  - DEMO-EVT-001
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  test_ids:
+  - TST-API-POLICY-005
+  - TST-API-POLICY-006
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-006
+  title: Append-only
+  decision_summary: 'São append-only: - históricos de estado; - relatos; - confirmações; - previsões; - eventos; - ocorrências de alerta; - uso
+    de token; - auditoria. Correção cria nova linha e referencia a anterior.'
+  source_ref: 19 DATA-ADR-006 v2.1.3
+  requirement_ids:
+  - DEMO-ALERT-002
+  - DEMO-EVT-001
+  - DEMO-EVT-002
+  - DEMO-EXT-003
+  - DEMO-STOP-005
+  - DEMO-STOP-009
+  - DEMO-TIMELINE-002
+  work_package_ids:
+  - WP-DEMO-ALERT-002
+  - WP-DEMO-EVT-001
+  - WP-DEMO-EVT-002
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-009
+  - WP-DEMO-TIMELINE-002
+  test_ids:
+  - TST-DATA-ALERT-003
+  - TST-DATA-ARRIVAL-001
+  - TST-DATA-EVT-002
+  - TST-DATA-EVT-003
+  - TST-DATA-EXT-003
+  - TST-DATA-EXT-005
+  - TST-DATA-FORECAST-001
+  - TST-EVT-CONTRACT-007
+  - TST-SM-CROSS-011
+  - TST-SM-CROSS-012
+  - TST-SM-CROSS-018
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-007
+  title: Projeções reconstruíveis
+  decision_summary: Projeções podem ser apagadas e reconstruídas a partir de eventos e dados canônicos.
+  source_ref: 19 DATA-ADR-007 v2.1.3
+  requirement_ids:
+  - DEMO-EVT-002
+  - DEMO-METRIC-001
+  - DEMO-METRIC-002
+  - DEMO-METRIC-003
+  - DEMO-METRIC-004
+  - DEMO-TIMELINE-002
+  work_package_ids:
+  - WP-DEMO-EVT-002
+  - WP-DEMO-METRIC-001
+  - WP-DEMO-METRIC-002
+  - WP-DEMO-METRIC-003
+  - WP-DEMO-METRIC-004
+  - WP-DEMO-TIMELINE-002
+  test_ids:
+  - TST-DATA-METRIC-001
+  - TST-EVT-CONTRACT-009
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-008
+  title: Caso e parada são 1:1 na demo
+  decision_summary: Cada caso da `DEMO-R1` possui exatamente uma parada principal. Cada parada possui exatamente um caso principal. Expansão para
+    múltiplas paradas por caso fica adiada.
+  source_ref: 19 DATA-ADR-008 v2.1.3
+  requirement_ids:
+  - DEMO-CASE-002
+  - DEMO-STOP-001
+  work_package_ids:
+  - WP-DEMO-CASE-002
+  - WP-DEMO-STOP-001
+  test_ids:
+  - TST-DATA-CASE-003
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-009
+  title: Uma parada ativa por veículo
+  decision_summary: Um veículo não pode possuir duas paradas cujo estado seja diferente de `CLOSED`.
+  source_ref: 19 DATA-ADR-009 v2.1.3
+  requirement_ids:
+  - DEMO-DATA-001
+  - DEMO-STOP-001
+  work_package_ids:
+  - WP-DEMO-DATA-001
+  - WP-DEMO-STOP-001
+  test_ids:
+  - TST-DATA-STOP-001
+  - TST-SM-CROSS-010
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-010
+  title: Tokens brutos não são persistidos
+  decision_summary: 'São persistidos somente: - hash do capability token; - hash do token de sessão; - hash do CSRF token.'
+  source_ref: 19 DATA-ADR-010 v2.1.3
+  requirement_ids:
+  - DEMO-EXT-001
+  - DEMO-EXT-004
+  - DEMO-IAM-002
+  work_package_ids:
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-004
+  - WP-DEMO-IAM-002
+  test_ids:
+  - TST-DATA-EXT-002
+  - TST-DATA-IAM-002
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-011
+  title: Emissão de token não usa replay de resposta
+  decision_summary: '`IssueSupplierAccess` e `IssueDriverAccess` não persistem resposta em `idempotency_record`, pois o token bruto é one-time.
+    Esses comandos: - exigem versão da parada; - revogam token ativo anterior da mesma audiência; - criam um novo token; - retornam o segredo
+    uma única vez.'
+  source_ref: 19 DATA-ADR-011 v2.1.3
+  requirement_ids:
+  - DEMO-EXT-001
+  - DEMO-EXT-004
+  work_package_ids:
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-004
+  test_ids:
+  - TST-API-ISSUE-DRIVER-ACCESS-001
+  - TST-API-ISSUE-SUPPLIER-ACCESS-001
+  - TST-DATA-EXT-006
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-012
+  title: Segurança e reset possuem fronteiras distintas
+  decision_summary: Registros operacionais são resetados. Auditoria de segurança e registro de execuções de reset são preservados.
+  source_ref: 19 DATA-ADR-012 v2.1.3
+  requirement_ids:
+  - DEMO-AUDIT-001
+  - DEMO-DATA-002
+  - DEMO-IAM-001
+  work_package_ids:
+  - WP-DEMO-AUDIT-001
+  - WP-DEMO-DATA-002
+  - WP-DEMO-IAM-001
+  test_ids:
+  - TST-DATA-RESET-001
+  - TST-DATA-RESET-002
+  - TST-DATA-RESET-003
+  - TST-DATA-RESET-005
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-013
+  title: Toda execução pertence a uma geração operacional
+  decision_summary: Cada seed ativo possui um `demo_generation_id`. Comandos, eventos, filas, sessões externas, projeções e efeitos assíncronos
+    carregam essa geração. Um worker somente pode confirmar efeitos quando a geração capturada no claim continua ativa no momento do commit.
+  source_ref: 19 DATA-ADR-013 v2.1.3
+  requirement_ids:
+  - DEMO-COM-001
+  - DEMO-DATA-002
+  - DEMO-EVT-001
+  - DEMO-EVT-002
+  - DEMO-STOP-004
+  - DEMO-STOP-005
+  work_package_ids:
+  - WP-DEMO-COM-001
+  - WP-DEMO-DATA-002
+  - WP-DEMO-EVT-001
+  - WP-DEMO-EVT-002
+  - WP-DEMO-STOP-004
+  - WP-DEMO-STOP-005
+  test_ids:
+  - TST-DATA-DLQ-001
+  - TST-DATA-EVT-004
+  - TST-DATA-INBOX-001
+  - TST-DATA-RESET-001
+  - TST-DATA-RESET-002
+  - TST-DATA-RESET-004
+  - TST-EVT-CONTRACT-008
+  - TST-EVT-CONTRACT-011
+  - TST-EVT-CONTRACT-012
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-014
+  title: Evento de ocorrência incrementa a versão do aggregate proprietário
+  decision_summary: 'Uma mutação aceita incrementa a versão do aggregate mesmo quando não muda seu estado principal. Exemplos: ```text ArrivalReported
+    → VEHICLE_STOP CompletionForecastUpdated → VEHICLE_STOP ArrivalCorrected → VEHICLE_STOP PhoneCallRecorded → CASE AlertOccurrenceAdded → ALERT
+    ``` Para eventos canônicos da DEMO-R1: ```text aggregate_sequence = aggregate_version resultante ```'
+  source_ref: 19 DATA-ADR-014 v2.1.3
+  requirement_ids:
+  - DEMO-ALERT-002
+  - DEMO-COM-004
+  - DEMO-EVT-001
+  - DEMO-EVT-002
+  - DEMO-STOP-003
+  work_package_ids:
+  - WP-DEMO-ALERT-002
+  - WP-DEMO-COM-004
+  - WP-DEMO-EVT-001
+  - WP-DEMO-EVT-002
+  - WP-DEMO-STOP-003
+  test_ids:
+  - TST-DATA-ALERT-003
+  - TST-DATA-EVT-001
+  - TST-DATA-EVT-005
+  - TST-DATA-EVT-006
+  - TST-EVT-CONTRACT-006
+  status: COVERED_V2.1.3
+- data_adr_id: DATA-ADR-015
+  title: Emissão de acesso externo é serializada no banco
+  decision_summary: 'A emissão não usa replay de resposta nem `Idempotency-Key`. A transação: 1. bloqueia a linha de `vehicle_stop` com `FOR UPDATE`;
+    2. revoga o token ativo da audiência; 3. cria o novo token; 4. confirma uma constraint partial unique; 5. grava evento, Outbox e auditoria.
+    A versão concorrente é controlada pelo lock e pela constraint, não por ETag da parada. O OpenAPI deverá remover `If-Match` e `ETag` dessas
+    duas operações. Se a resposta one-time for perdida, uma nova emissão revoga o token anterior desconhecido e devolve um novo segredo. ---'
+  source_ref: 19 DATA-ADR-015 v2.1.3
+  requirement_ids:
+  - DEMO-EXT-001
+  - DEMO-EXT-004
+  work_package_ids:
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-004
+  test_ids:
+  - TST-API-ISSUE-DRIVER-ACCESS-001
+  - TST-API-ISSUE-SUPPLIER-ACCESS-001
+  - TST-DATA-EXT-006
+  status: COVERED_V2.1.3
+test_reverse_index:
+- test_id: TST-DEMO-ENV-001
+  title: Inicialização local por comando canônico
+  layer: SMOKE
+  priority: P0
+  fixture_id: FX-EMPTY-LOCAL
+  action_type: CLI
+  requirement_ids:
+  - DEMO-ENV-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ENV-001
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DEMO-BANNER-001
+  title: Banner permanente de dados fictícios
+  layer: UI
+  priority: P0
+  fixture_id: FX-E2E-BASE
+  action_type: UI_FLOW
+  requirement_ids:
+  - DEMO-ENV-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ENV-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DEMO-MODE-001
+  title: Recursos de demo falham fechados
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-DEMO-MODE-OFF
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-ENV-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ENV-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DEMO-SEED-001
+  title: Seed determinístico por versão
+  layer: DATA
+  priority: P0
+  fixture_id: FX-SEED-V213
+  action_type: CLI
+  requirement_ids:
+  - DEMO-DATA-001
+  - DEMO-DATA-003
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-001
+  work_package_ids:
+  - WP-DEMO-DATA-001
+  - WP-DEMO-DATA-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DEMO-RESET-001
+  title: Reset restaura a versão seedada
+  layer: E2E
+  priority: P0
+  fixture_id: FX-MUTATED-DEMO
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-DATA-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-DATA-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DEMO-DATA-001
+  title: Catálogo e seed não contêm dados reais
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-SEED-V213
+  action_type: STATIC_ASSERTION
+  requirement_ids:
+  - DEMO-DATA-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-DATA-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CASE-001
+  title: StartCaseWork move NEW para IN_PROGRESS
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-CASE-NEW
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-CASE-001
+  - DEMO-CASE-003
+  - DEMO-CASE-004
+  - DEMO-CASE-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-001
+  - WP-DEMO-CASE-003
+  - WP-DEMO-CASE-004
+  - WP-DEMO-CASE-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CASE-002
+  title: WaitCaseForSupplier move IN_PROGRESS para WAITING_THIRD_PARTY
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-CASE-IN-PROGRESS-SUPPLIER-TASK
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-CASE-001
+  - DEMO-CASE-003
+  - DEMO-CASE-004
+  - DEMO-CASE-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-001
+  - WP-DEMO-CASE-003
+  - WP-DEMO-CASE-004
+  - WP-DEMO-CASE-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CASE-003
+  title: Forecast retoma caso em espera
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-CASE-WAITING-SUPPLIER
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-CASE-001
+  - DEMO-CASE-003
+  - DEMO-CASE-004
+  - DEMO-CASE-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-001
+  - WP-DEMO-CASE-003
+  - WP-DEMO-CASE-004
+  - WP-DEMO-CASE-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CASE-004
+  title: ResolveCase move IN_PROGRESS para RESOLVED
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-CASE-READY-TO-RESOLVE
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-CASE-001
+  - DEMO-CASE-003
+  - DEMO-CASE-004
+  - DEMO-CASE-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-001
+  - WP-DEMO-CASE-003
+  - WP-DEMO-CASE-004
+  - WP-DEMO-CASE-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-TASK-001
+  title: CreateTask cria NOT_STARTED
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-CASE-INPROG-01
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-001
+  - DEMO-TASK-002
+  - DEMO-TASK-003
+  - DEMO-TASK-004
+  - DEMO-TASK-005
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-003
+  - WP-DEMO-TASK-004
+  - WP-DEMO-TASK-005
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-TASK-002
+  title: AssignTask move NOT_STARTED para ASSIGNED
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-TASK-NOT-STARTED
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-001
+  - DEMO-TASK-002
+  - DEMO-TASK-003
+  - DEMO-TASK-004
+  - DEMO-TASK-005
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-003
+  - WP-DEMO-TASK-004
+  - WP-DEMO-TASK-005
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-TASK-003
+  title: StartTask move ASSIGNED para IN_PROGRESS
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-TASK-ASSIGNED
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-001
+  - DEMO-TASK-002
+  - DEMO-TASK-003
+  - DEMO-TASK-004
+  - DEMO-TASK-005
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-003
+  - WP-DEMO-TASK-004
+  - WP-DEMO-TASK-005
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-TASK-004
+  title: WaitTaskForSupplier move IN_PROGRESS para WAITING_THIRD_PARTY
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-TASK-INPROG-SUPPLIER
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-001
+  - DEMO-TASK-002
+  - DEMO-TASK-003
+  - DEMO-TASK-004
+  - DEMO-TASK-005
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-003
+  - WP-DEMO-TASK-004
+  - WP-DEMO-TASK-005
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-TASK-005
+  title: Forecast retoma tarefa em espera
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-TASK-WAITING-SUPPLIER
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-001
+  - DEMO-TASK-002
+  - DEMO-TASK-003
+  - DEMO-TASK-004
+  - DEMO-TASK-005
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-003
+  - WP-DEMO-TASK-004
+  - WP-DEMO-TASK-005
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-TASK-006
+  title: CompleteTask move IN_PROGRESS para COMPLETED
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-TASK-IN-PROGRESS
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-001
+  - DEMO-TASK-002
+  - DEMO-TASK-003
+  - DEMO-TASK-004
+  - DEMO-TASK-005
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-003
+  - WP-DEMO-TASK-004
+  - WP-DEMO-TASK-005
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-TASK-007
+  title: CancelTask por supervisor move estado ativo para CANCELLED
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-TASK-IN-PROGRESS
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-001
+  - DEMO-TASK-002
+  - DEMO-TASK-003
+  - DEMO-TASK-004
+  - DEMO-TASK-005
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-003
+  - WP-DEMO-TASK-004
+  - WP-DEMO-TASK-005
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-STOP-001
+  title: PrepareStopForArrival move SCHEDULED para AWAITING_ARRIVAL
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-SCHEDULED
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-STOP-002
+  title: ReportArrival cria ocorrência sem confirmar chegada
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-AWAITING-ARRIVAL
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-STOP-003
+  title: ConfirmArrival move AWAITING_ARRIVAL para VEHICLE_RECEIVED
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-ARRIVAL-REPORTED
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-STOP-004
+  title: CorrectArrival preserva confirmação anterior
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-ARRIVAL-CONFIRMED
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-STOP-005
+  title: StartService move VEHICLE_RECEIVED para IN_EXECUTION
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-RECEIVED
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-STOP-006
+  title: UpdateCompletionForecast preserva histórico e previsão corrente
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-IN-EXECUTION
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-STOP-007
+  title: CompleteService move IN_EXECUTION para SERVICE_COMPLETED
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-IN-EXECUTION
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-STOP-008
+  title: ReleaseVehicle move SERVICE_COMPLETED para AWAITING_PICKUP
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-SERVICE-COMPLETED
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-STOP-009
+  title: ConfirmDeparture move AWAITING_PICKUP para VEHICLE_PICKED_UP
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-AWAITING-PICKUP
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-STOP-010
+  title: CloseVehicleStop move VEHICLE_PICKED_UP para CLOSED
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-READY-TO-CLOSE
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-STOP-011
+  title: Fluxo principal respeita a ordem de oito estados
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-SCHEDULED
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-ARRIVAL-001
+  title: Um relato mantém confirmação em REPORTED
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-AWAITING-ARRIVAL
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-003
+  - DEMO-STOP-004
+  - DEMO-STOP-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-004
+  - WP-DEMO-STOP-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-ARRIVAL-002
+  title: Relatos dentro de 15 minutos não geram conflito
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-TWO-ARRIVAL-REPORTS
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-003
+  - DEMO-STOP-004
+  - DEMO-STOP-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-004
+  - WP-DEMO-STOP-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-ARRIVAL-003
+  title: Relatos acima de 15 minutos criam conflito, tarefa e alerta
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-TWO-ARRIVAL-REPORTS
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-003
+  - DEMO-STOP-004
+  - DEMO-STOP-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-004
+  - WP-DEMO-STOP-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-ARRIVAL-004
+  title: Conflito exige confirmação por supervisor com justificativa
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-ARRIVAL-CONFLICT
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-003
+  - DEMO-STOP-004
+  - DEMO-STOP-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-004
+  - WP-DEMO-STOP-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-ARRIVAL-005
+  title: Correção não apaga relatos ou confirmação anterior
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-ARRIVAL-CONFIRMED
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-003
+  - DEMO-STOP-004
+  - DEMO-STOP-005
+  - DEMO-TIMELINE-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-004
+  - WP-DEMO-STOP-005
+  - WP-DEMO-TIMELINE-002
+  gate_ids:
+  - G2_DOMAIN
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-ALERT-001
+  title: Inatividade cria um alerta STOP_NO_UPDATE
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-INACTIVE-NO-ALERT
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-ALERT-001
+  - DEMO-ALERT-002
+  - DEMO-ALERT-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ALERT-001
+  - WP-DEMO-ALERT-002
+  - WP-DEMO-ALERT-003
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-ALERT-002
+  title: Nova avaliação adiciona ocorrência sem duplicar alerta
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-INACTIVE-OPEN-ALERT
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-ALERT-001
+  - DEMO-ALERT-002
+  - DEMO-ALERT-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ALERT-001
+  - WP-DEMO-ALERT-002
+  - WP-DEMO-ALERT-003
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-ALERT-003
+  title: Forecast válido resolve alerta STOP_NO_UPDATE
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-INACTIVE-OPEN-ALERT
+  action_type: EVENT_PROGRAM
+  requirement_ids:
+  - DEMO-ALERT-001
+  - DEMO-ALERT-002
+  - DEMO-ALERT-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ALERT-001
+  - WP-DEMO-ALERT-002
+  - WP-DEMO-ALERT-003
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-001
+  title: ResolveCase é bloqueado enquanto a parada não estiver CLOSED
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-CASE-STOP-OPEN
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-CASE-005
+  - DEMO-STOP-010
+  invariant_ids:
+  - INV-DEMO-001
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-005
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-002
+  title: ResolveCase é bloqueado por tarefa obrigatória aberta
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-CASE-STOP-CLOSED-MANDATORY-TASK
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-CASE-005
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  invariant_ids:
+  - INV-DEMO-002
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-005
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-003
+  title: ResolveCase é bloqueado por conflito de chegada aberto
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-CASE-STOP-CLOSED-CONFLICT
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-CASE-005
+  - DEMO-STOP-004
+  - DEMO-STOP-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-005
+  - WP-DEMO-STOP-004
+  - WP-DEMO-STOP-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-004
+  title: CloseVehicleStop é bloqueado sem retirada confirmada
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-AWAITING-PICKUP
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids:
+  - INV-DEMO-003
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-005
+  title: CloseVehicleStop é bloqueado por tarefa obrigatória de fechamento
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-PICKED-UP-MANDATORY-TASK
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-010
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-010
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-006
+  title: CloseVehicleStop é bloqueado por conflito de chegada
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-PICKED-UP-CONFLICT
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-004
+  - DEMO-STOP-005
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-004
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-007
+  title: CompleteService não preenche retirada
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-IN-EXECUTION
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-007
+  - DEMO-STOP-009
+  invariant_ids:
+  - INV-DEMO-004
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-008
+  title: ReleaseVehicle é transição separada
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-SERVICE-COMPLETED
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  invariant_ids:
+  - INV-DEMO-005
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-009
+  title: Duração usa retirada menos chegada
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-AWAITING-PICKUP
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-005
+  - DEMO-STOP-009
+  invariant_ids:
+  - INV-DEMO-007
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-010
+  title: Veículo não aceita duas paradas ativas
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-VEHICLE-ACTIVE-STOP
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-DATA-001
+  - DEMO-STOP-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-009
+  work_package_ids:
+  - WP-DEMO-DATA-001
+  - WP-DEMO-STOP-001
+  gate_ids:
+  - G1_FOUNDATION
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-011
+  title: Só uma previsão pode ser corrente
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-CURRENT-FORECAST
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  invariant_ids:
+  - INV-DEMO-009
+  data_adr_ids:
+  - DATA-ADR-006
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-012
+  title: Só uma confirmação de chegada pode ser corrente
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-CURRENT-ARRIVAL
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-005
+  - DEMO-TIMELINE-002
+  invariant_ids:
+  - INV-DEMO-008
+  data_adr_ids:
+  - DATA-ADR-006
+  work_package_ids:
+  - WP-DEMO-STOP-005
+  - WP-DEMO-TIMELINE-002
+  gate_ids:
+  - G2_DOMAIN
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-013
+  title: Só um alerta STOP_NO_UPDATE pode estar aberto
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-STOP-OPEN-NO-UPDATE
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-ALERT-001
+  - DEMO-ALERT-002
+  invariant_ids:
+  - INV-DEMO-010
+  data_adr_ids:
+  - DATA-ADR-003
+  work_package_ids:
+  - WP-DEMO-ALERT-001
+  - WP-DEMO-ALERT-002
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-014
+  title: Forecast externo não atravessa recurso
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-EXTERNAL-SUPPLIER-SUBJECT-CHANGED
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-003
+  invariant_ids:
+  - INV-DEMO-011
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-015
+  title: Retirada externa não atravessa recurso
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-EXTERNAL-DRIVER-SUBJECT-CHANGED
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-005
+  - DEMO-STOP-009
+  invariant_ids:
+  - INV-DEMO-012
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-005
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-016
+  title: Tarefas independentes executam em paralelo
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-TWO-ASSIGNED-TASKS
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-008
+  invariant_ids:
+  - INV-DEMO-013
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-008
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-017
+  title: Aggregates terminais são imutáveis
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-TERMINAL-AGGREGATES
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-ALERT-003
+  - DEMO-CASE-005
+  - DEMO-STOP-010
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  invariant_ids:
+  - INV-DEMO-014
+  - INV-DEMO-015
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ALERT-003
+  - WP-DEMO-CASE-005
+  - WP-DEMO-STOP-010
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-SM-CROSS-018
+  title: Replay idempotente não cria segundo evento principal
+  layer: DOMAIN
+  priority: P0
+  fixture_id: FX-IDEMPOTENT-COMMAND
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids:
+  - INV-DEMO-017
+  data_adr_ids:
+  - DATA-ADR-006
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SESSION-001
+  title: Identity allowlist aceita somente identidade seedada
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-NO-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-001
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SESSION-002
+  title: Role forjado é rejeitado pelo schema
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-NO-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SESSION-003
+  title: Nova seleção revoga sessão anterior
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-ACTIVE-ATTENDANT-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-001
+  - DEMO-IAM-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-001
+  - WP-DEMO-IAM-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SESSION-004
+  title: Sessão expirada por inatividade é rejeitada
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-EXPIRED-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SESSION-005
+  title: Mutação sem CSRF é rejeitada
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-DEMO-ADMIN-SESSION-NO-CSRF
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SESSION-006
+  title: Mutação com CSRF inválido é rejeitada
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-DEMO-ADMIN-SESSION-BAD-CSRF
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SESSION-007
+  title: Demo Admin não possui permissão operacional
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-DEMO-ADMIN-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-004
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SCOPE-001
+  title: Customer scope filtra recurso
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-ATTENDANT-CUSTOMER-A
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SCOPE-002
+  title: Operating unit scope filtra recurso
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-ATTENDANT-UNIT-A
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SCOPE-003
+  title: Relação de equipe é exigida para escrita
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-ATTENDANT-TEAM-A
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SCOPE-004
+  title: Supervisor pode escrever em outra equipe dentro do escopo
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-SUPERVISOR-UNIT-A-CUSTOMER-A
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SCOPE-005
+  title: Supervisor é negado fora do escopo
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-SUPERVISOR-UNIT-A
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SCOPE-006
+  title: Manager não executa escrita
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-MANAGER-SCOPE-A
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-SCOPE-007
+  title: Fora do escopo é indistinguível de inexistente
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-ATTENDANT-SCOPE-A
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-001
+  title: Troca token do fragmento por sessão
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-VALID-SUPPLIER-TOKEN
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-001
+  - DEMO-EXT-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-004
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-002
+  title: Token não aparece em access log
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-VALID-SUPPLIER-TOKEN
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-AUDIT-001
+  - DEMO-EXT-001
+  - DEMO-EXT-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-AUDIT-001
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-004
+  gate_ids:
+  - G1_FOUNDATION
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-003
+  title: Token expirado é rejeitado
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-EXPIRED-SUPPLIER-TOKEN
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-002
+  - DEMO-EXT-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-005
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-004
+  title: Token revogado é rejeitado
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-REVOKED-SUPPLIER-TOKEN
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-002
+  - DEMO-EXT-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-005
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-005
+  title: Fornecedor não acessa outra parada
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-EXTERNAL-SUPPLIER-SUBJECT-CHANGED
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-003
+  invariant_ids:
+  - INV-DEMO-011
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-006
+  title: Condutor não acessa outra parada
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-EXTERNAL-DRIVER-SUBJECT-CHANGED
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-005
+  - DEMO-STOP-009
+  invariant_ids:
+  - INV-DEMO-012
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-005
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-007
+  title: Fornecedor não confirma retirada
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-SUPPLIER-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-009
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-008
+  title: Condutor não atualiza previsão
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-DRIVER-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-EXT-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-EXT-005
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-009
+  title: Limite de usos da ação é aplicado
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-SUPPLIER-TOKEN-5-USES
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-001
+  - DEMO-EXT-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-004
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-010
+  title: Replay idempotente não consome novo uso
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-SUPPLIER-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EVT-001
+  - DEMO-EXT-003
+  - DEMO-STOP-009
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-011
+  title: GET externo não emite evento de domínio
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-SUPPLIER-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EVT-001
+  - DEMO-EXT-002
+  - DEMO-EXT-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-005
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-012
+  title: Revogação invalida sessão externa
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-REVOKED-ACTIVE-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-001
+  - DEMO-EXT-002
+  - DEMO-EXT-004
+  - DEMO-EXT-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-004
+  - WP-DEMO-EXT-005
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-013
+  title: Resposta do fornecedor é minimizada
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-SUPPLIER-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-002
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-014
+  title: Resposta do condutor é minimizada
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-DRIVER-SESSION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-005
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-015
+  title: CSRF externo é obrigatório
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-SUPPLIER-SESSION-NO-CSRF
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-002
+  - DEMO-EXT-003
+  - DEMO-EXT-005
+  - DEMO-STOP-009
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-003
+  - WP-DEMO-EXT-005
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-EXT-016
+  title: Rate limit externo retorna Retry-After
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-SUPPLIER-SESSION-RATE-LIMIT
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-002
+  - DEMO-EXT-003
+  - DEMO-EXT-005
+  - DEMO-STOP-009
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-003
+  - WP-DEMO-EXT-005
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-ADAPTER-001
+  title: Assinatura HMAC válida é aceita
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-ADAPTER-VALID
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-COM-001
+  - DEMO-COM-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-COM-001
+  - WP-DEMO-COM-002
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-ADAPTER-002
+  title: Assinatura HMAC inválida é rejeitada
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-ADAPTER-BAD-SIGNATURE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-COM-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-COM-001
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-ADAPTER-003
+  title: Timestamp fora da janela é rejeitado
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-ADAPTER-OLD-TIMESTAMP
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-COM-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-COM-001
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUTH-ADAPTER-004
+  title: Mesmo message ID com payload diferente gera conflito
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-ADAPTER-REPLAY-CONFLICT
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-COM-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-COM-001
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-IAM-001
+  title: Um papel por usuário
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-IAM-001
+  - DEMO-IAM-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-001
+  - WP-DEMO-IAM-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-IAM-002
+  title: Hash de sessão interna é único
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-IAM-002
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-010
+  work_package_ids:
+  - WP-DEMO-IAM-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-IAM-003
+  title: Revogação exige reason code
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-IAM-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-IAM-004
+  title: Grants de escopo respeitam FKs
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-IAM-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-003
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-IAM-005
+  title: Demo Admin não possui grants operacionais
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-IAM-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-004
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-CASE-001
+  title: Case aceita somente estados canônicos
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-CASE-001
+  - DEMO-CASE-003
+  - DEMO-CASE-005
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-003
+  work_package_ids:
+  - WP-DEMO-CASE-001
+  - WP-DEMO-CASE-003
+  - WP-DEMO-CASE-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-CASE-002
+  title: Case RESOLVED exige campos de resolução
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-CASE-005
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-003
+  - DATA-ADR-004
+  work_package_ids:
+  - WP-DEMO-CASE-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-CASE-003
+  title: Um stop principal por case
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-CASE-002
+  - DEMO-STOP-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-008
+  work_package_ids:
+  - WP-DEMO-CASE-002
+  - WP-DEMO-STOP-001
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-TASK-001
+  title: mandatory_for é coerente com is_mandatory
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-001
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-003
+  work_package_ids:
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-TASK-002
+  title: Task COMPLETED exige resultado
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-006
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-003
+  - DATA-ADR-004
+  work_package_ids:
+  - WP-DEMO-TASK-006
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-TASK-003
+  title: Task CANCELLED exige motivo e impacto
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-003
+  - DATA-ADR-004
+  work_package_ids:
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-TASK-004
+  title: Replacement task não aponta para si
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-003
+  work_package_ids:
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-STOP-001
+  title: Uma parada ativa por veículo
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-009
+  work_package_ids:
+  - WP-DEMO-STOP-001
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-STOP-002
+  title: Estados exigem timestamps correspondentes
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-002
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-003
+  - DATA-ADR-004
+  work_package_ids:
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-STOP-003
+  title: Service complete permite departure nulo
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-007
+  - DEMO-STOP-009
+  invariant_ids:
+  - INV-DEMO-004
+  data_adr_ids:
+  - DATA-ADR-003
+  - DATA-ADR-004
+  work_package_ids:
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-STOP-004
+  title: Liberação não antecede conclusão
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-004
+  work_package_ids:
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-STOP-005
+  title: Retirada não antecede liberação
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  invariant_ids:
+  - INV-DEMO-006
+  data_adr_ids:
+  - DATA-ADR-004
+  work_package_ids:
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-STOP-006
+  title: CLOSED exige closed_at e closure_reason
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-010
+  invariant_ids:
+  - INV-DEMO-003
+  data_adr_ids:
+  - DATA-ADR-003
+  - DATA-ADR-004
+  work_package_ids:
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-STOP-007
+  title: Duração não pode ser negativa
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-009
+  invariant_ids:
+  - INV-DEMO-007
+  data_adr_ids:
+  - DATA-ADR-003
+  work_package_ids:
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-ARRIVAL-001
+  title: Uma confirmação de chegada corrente
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-STOP-005
+  - DEMO-TIMELINE-002
+  invariant_ids:
+  - INV-DEMO-008
+  data_adr_ids:
+  - DATA-ADR-006
+  work_package_ids:
+  - WP-DEMO-STOP-005
+  - WP-DEMO-TIMELINE-002
+  gate_ids:
+  - G2_DOMAIN
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-FORECAST-001
+  title: Uma previsão corrente
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  invariant_ids:
+  - INV-DEMO-009
+  data_adr_ids:
+  - DATA-ADR-006
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-ALERT-001
+  title: Uma chave de alerta aberta
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-ALERT-001
+  - DEMO-ALERT-002
+  invariant_ids:
+  - INV-DEMO-010
+  data_adr_ids:
+  - DATA-ADR-003
+  work_package_ids:
+  - WP-DEMO-ALERT-001
+  - WP-DEMO-ALERT-002
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-ALERT-002
+  title: Alerta RESOLVED exige resolução
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-ALERT-003
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-003
+  - DATA-ADR-004
+  work_package_ids:
+  - WP-DEMO-ALERT-003
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-ALERT-003
+  title: Ocorrência é idempotente por source event
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-ALERT-002
+  - DEMO-EVT-002
+  invariant_ids:
+  - INV-DEMO-016
+  data_adr_ids:
+  - DATA-ADR-006
+  - DATA-ADR-014
+  work_package_ids:
+  - WP-DEMO-ALERT-002
+  - WP-DEMO-EVT-002
+  gate_ids:
+  - G2_DOMAIN
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EXT-001
+  title: Token possui exatamente um sujeito
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-001
+  - DEMO-EXT-004
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-003
+  work_package_ids:
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-004
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EXT-002
+  title: Hash de capability token é único
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-001
+  - DEMO-EXT-004
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-010
+  work_package_ids:
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-004
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EXT-003
+  title: Uso de capability não excede limite
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-003
+  - DEMO-STOP-009
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-006
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EXT-004
+  title: Sessão externa não expira após token
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-002
+  - DEMO-EXT-005
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-003
+  - DATA-ADR-004
+  work_package_ids:
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-005
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EXT-005
+  title: Uso de ação é único por idempotency record
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  - DEMO-EXT-003
+  - DEMO-STOP-009
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-006
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  - WP-DEMO-EXT-003
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EVT-001
+  title: Sequence é única por aggregate
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-014
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EVT-002
+  title: Um evento principal por idempotency record
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids:
+  - INV-DEMO-017
+  data_adr_ids:
+  - DATA-ADR-006
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EVT-003
+  title: Uma Outbox por evento
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-006
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EVT-004
+  title: Receipt é único por consumer e evento
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-002
+  invariant_ids:
+  - INV-DEMO-018
+  data_adr_ids:
+  - DATA-ADR-013
+  work_package_ids:
+  - WP-DEMO-EVT-002
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-INBOX-001
+  title: Message ID é único por source
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-COM-001
+  - DEMO-EVT-002
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-013
+  work_package_ids:
+  - WP-DEMO-COM-001
+  - WP-DEMO-EVT-002
+  gate_ids:
+  - G2_DOMAIN
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-DLQ-001
+  title: Uma DLQ por source
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-002
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-013
+  work_package_ids:
+  - WP-DEMO-EVT-002
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-RESET-001
+  title: Somente um reset ativo
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-DATA-002
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-012
+  - DATA-ADR-013
+  work_package_ids:
+  - WP-DEMO-DATA-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-RESET-002
+  title: Crash do owner após a barreira preserva o dataset e é recuperado pelo watchdog
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-DATA-002
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-012
+  - DATA-ADR-013
+  work_package_ids:
+  - WP-DEMO-DATA-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-RESET-003
+  title: Auditoria sobrevive ao reset
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-AUDIT-001
+  - DEMO-DATA-002
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-012
+  work_package_ids:
+  - WP-DEMO-AUDIT-001
+  - WP-DEMO-DATA-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-METRIC-001
+  title: Fórmulas de métricas correspondem aos dados canônicos
+  layer: DATA
+  priority: P0
+  fixture_id: FX-DATA-INTEGRITY
+  action_type: DB_PROGRAM
+  requirement_ids:
+  - DEMO-METRIC-001
+  - DEMO-METRIC-002
+  - DEMO-METRIC-003
+  - DEMO-METRIC-004
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-007
+  work_package_ids:
+  - WP-DEMO-METRIC-001
+  - WP-DEMO-METRIC-002
+  - WP-DEMO-METRIC-003
+  - WP-DEMO-METRIC-004
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: E2E-DEMO-000
+  title: Jornada executiva completa
+  layer: E2E
+  priority: P0
+  fixture_id: FX-E2E-EXECUTIVE
+  action_type: SCENARIO
+  requirement_ids:
+  - DEMO-ALERT-001
+  - DEMO-ALERT-003
+  - DEMO-CASE-001
+  - DEMO-CASE-002
+  - DEMO-CASE-003
+  - DEMO-CASE-004
+  - DEMO-CASE-005
+  - DEMO-CLOCK-001
+  - DEMO-COM-004
+  - DEMO-DASH-001
+  - DEMO-DASH-002
+  - DEMO-DATA-002
+  - DEMO-EXT-001
+  - DEMO-EXT-002
+  - DEMO-EXT-003
+  - DEMO-EXT-004
+  - DEMO-EXT-005
+  - DEMO-METRIC-001
+  - DEMO-METRIC-002
+  - DEMO-METRIC-003
+  - DEMO-METRIC-004
+  - DEMO-SEARCH-001
+  - DEMO-SEARCH-002
+  - DEMO-STOP-001
+  - DEMO-STOP-002
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  - DEMO-TASK-001
+  - DEMO-TASK-002
+  - DEMO-TASK-003
+  - DEMO-TASK-004
+  - DEMO-TASK-005
+  - DEMO-TASK-006
+  - DEMO-TASK-008
+  - DEMO-TIMELINE-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ALERT-001
+  - WP-DEMO-ALERT-003
+  - WP-DEMO-CASE-001
+  - WP-DEMO-CASE-002
+  - WP-DEMO-CASE-003
+  - WP-DEMO-CASE-004
+  - WP-DEMO-CASE-005
+  - WP-DEMO-CLOCK-001
+  - WP-DEMO-COM-004
+  - WP-DEMO-DASH-001
+  - WP-DEMO-DASH-002
+  - WP-DEMO-DATA-002
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-003
+  - WP-DEMO-EXT-004
+  - WP-DEMO-EXT-005
+  - WP-DEMO-METRIC-001
+  - WP-DEMO-METRIC-002
+  - WP-DEMO-METRIC-003
+  - WP-DEMO-METRIC-004
+  - WP-DEMO-SEARCH-001
+  - WP-DEMO-SEARCH-002
+  - WP-DEMO-STOP-001
+  - WP-DEMO-STOP-002
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-003
+  - WP-DEMO-TASK-004
+  - WP-DEMO-TASK-005
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-008
+  - WP-DEMO-TIMELINE-001
+  gate_ids:
+  - G1_FOUNDATION
+  - G2_DOMAIN
+  - G3_PROJECTIONS
+  - G4_TIME_COMMUNICATION
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: E2E-DEMO-001
+  title: Inatividade e deduplicação
+  layer: E2E
+  priority: P0
+  fixture_id: FX-E2E-INACTIVITY
+  action_type: SCENARIO
+  requirement_ids:
+  - DEMO-ALERT-001
+  - DEMO-ALERT-002
+  - DEMO-ALERT-003
+  - DEMO-CLOCK-001
+  - DEMO-EXT-003
+  - DEMO-METRIC-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ALERT-001
+  - WP-DEMO-ALERT-002
+  - WP-DEMO-ALERT-003
+  - WP-DEMO-CLOCK-001
+  - WP-DEMO-EXT-003
+  - WP-DEMO-METRIC-002
+  gate_ids:
+  - G3_PROJECTIONS
+  - G4_TIME_COMMUNICATION
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: E2E-DEMO-002
+  title: Chegada divergente
+  layer: E2E
+  priority: P0
+  fixture_id: FX-E2E-ARRIVAL-CONFLICT
+  action_type: SCENARIO
+  requirement_ids:
+  - DEMO-STOP-003
+  - DEMO-STOP-004
+  - DEMO-STOP-005
+  - DEMO-TIMELINE-001
+  - DEMO-TIMELINE-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-004
+  - WP-DEMO-STOP-005
+  - WP-DEMO-TIMELINE-001
+  - WP-DEMO-TIMELINE-002
+  gate_ids:
+  - G2_DOMAIN
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: E2E-DEMO-003
+  title: E-mail vinculado ao caso existente
+  layer: E2E
+  priority: P0
+  fixture_id: FX-E2E-EMAIL-LINK
+  action_type: SCENARIO
+  requirement_ids:
+  - DEMO-COM-001
+  - DEMO-COM-002
+  - DEMO-COM-003
+  - DEMO-TIMELINE-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-COM-001
+  - WP-DEMO-COM-002
+  - WP-DEMO-COM-003
+  - WP-DEMO-TIMELINE-001
+  gate_ids:
+  - G3_PROJECTIONS
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: E2E-DEMO-004
+  title: Tarefas paralelas
+  layer: E2E
+  priority: P0
+  fixture_id: FX-E2E-PARALLEL-TASKS
+  action_type: SCENARIO
+  requirement_ids:
+  - DEMO-METRIC-003
+  - DEMO-TASK-001
+  - DEMO-TASK-002
+  - DEMO-TASK-003
+  - DEMO-TASK-006
+  - DEMO-TASK-008
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-METRIC-003
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-003
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-008
+  gate_ids:
+  - G2_DOMAIN
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: E2E-DEMO-005
+  title: Serviço concluído sem retirada
+  layer: E2E
+  priority: P0
+  fixture_id: FX-E2E-NO-PICKUP
+  action_type: SCENARIO
+  requirement_ids:
+  - DEMO-EXT-004
+  - DEMO-EXT-005
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-004
+  - WP-DEMO-EXT-005
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-API-GET-LIVENESS-001
+  title: Contrato de sucesso concreto de getLiveness
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-ENV-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ENV-001
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-GET-READINESS-001
+  title: Contrato de sucesso concreto de getReadiness
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-ENV-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ENV-001
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-CREATE-DEMO-SESSION-001
+  title: Contrato de sucesso concreto de createDemoSession
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-ENV-003
+  - DEMO-IAM-001
+  - DEMO-IAM-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-ENV-003
+  - WP-DEMO-IAM-001
+  - WP-DEMO-IAM-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-DELETE-DEMO-SESSION-001
+  title: Contrato de sucesso concreto de deleteDemoSession
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-001
+  - DEMO-IAM-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-001
+  - WP-DEMO-IAM-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-GET-CURRENT-SESSION-001
+  title: Contrato de sucesso concreto de getCurrentSession
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-001
+  - DEMO-IAM-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-001
+  - WP-DEMO-IAM-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-GET-DEMO-STATUS-001
+  title: Contrato de sucesso concreto de getDemoStatus
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-IAM-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-004
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-ADVANCE-DEMO-CLOCK-001
+  title: Contrato de sucesso concreto de advanceDemoClock
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-RESET
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-CLOCK-001
+  - DEMO-ENV-003
+  - DEMO-IAM-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CLOCK-001
+  - WP-DEMO-ENV-003
+  - WP-DEMO-IAM-004
+  gate_ids:
+  - G1_FOUNDATION
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-RESET-DEMO-SCENARIO-001
+  title: Contrato de sucesso concreto de resetDemoScenario
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-RESET
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-DATA-002
+  - DEMO-ENV-003
+  - DEMO-IAM-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-DATA-002
+  - WP-DEMO-ENV-003
+  - WP-DEMO-IAM-004
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-GET-DEMO-RESET-001
+  title: Contrato de sucesso concreto de getDemoReset
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-RESET
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-DATA-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-DATA-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-SEARCH-OPERATIONAL-RESOURCES-001
+  title: Contrato de sucesso concreto de searchOperationalResources
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-SEARCH-001
+  - DEMO-SEARCH-002
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-002
+  work_package_ids:
+  - WP-DEMO-SEARCH-001
+  - WP-DEMO-SEARCH-002
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-API-LIST-STOP-DASHBOARD-001
+  title: Contrato de sucesso concreto de listStopDashboard
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-DASH-001
+  - DEMO-DASH-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-DASH-001
+  - WP-DEMO-DASH-002
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-API-GET-DEMO-METRICS-001
+  title: Contrato de sucesso concreto de getDemoMetrics
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-METRIC-001
+  - DEMO-METRIC-002
+  - DEMO-METRIC-003
+  - DEMO-METRIC-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-METRIC-001
+  - WP-DEMO-METRIC-002
+  - WP-DEMO-METRIC-003
+  - WP-DEMO-METRIC-004
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-API-GET-CASE-OPERATIONAL-VIEW-001
+  title: Contrato de sucesso concreto de getCaseOperationalView
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-CASE-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-002
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-API-GET-CASE-TIMELINE-001
+  title: Contrato de sucesso concreto de getCaseTimeline
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-CASE-002
+  - DEMO-TIMELINE-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-002
+  - WP-DEMO-TIMELINE-001
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-API-START-CASE-WORK-001
+  title: Contrato de sucesso concreto de startCaseWork
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-CASE-NEW
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-CASE-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-WAIT-CASE-FOR-SUPPLIER-001
+  title: Contrato de sucesso concreto de waitCaseForSupplier
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-CASE-IN-PROGRESS
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-CASE-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-003
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-RESOLVE-CASE-001
+  title: Contrato de sucesso concreto de resolveCase
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-CASE-READY
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-CASE-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-LIST-CASE-TASKS-001
+  title: Contrato de sucesso concreto de listCaseTasks
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-CASE-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-002
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-API-CREATE-TASK-001
+  title: Contrato de sucesso concreto de createTask
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-CASE-IN-PROGRESS
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-TASK-001
+  - DEMO-TASK-008
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-008
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-ASSIGN-TASK-001
+  title: Contrato de sucesso concreto de assignTask
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-TASK-NOT-STARTED
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-TASK-002
+  - DEMO-TASK-008
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-008
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-START-TASK-001
+  title: Contrato de sucesso concreto de startTask
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-TASK-ASSIGNED
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-TASK-003
+  - DEMO-TASK-008
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-003
+  - WP-DEMO-TASK-008
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-WAIT-TASK-FOR-SUPPLIER-001
+  title: Contrato de sucesso concreto de waitTaskForSupplier
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-TASK-IN-PROGRESS
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-TASK-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-004
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-COMPLETE-TASK-001
+  title: Contrato de sucesso concreto de completeTask
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-TASK-IN-PROGRESS
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-TASK-006
+  - DEMO-TASK-008
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-008
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-CANCEL-TASK-001
+  title: Contrato de sucesso concreto de cancelTask
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-TASK-IN-PROGRESS
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-TASK-007
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-GET-STOP-OPERATIONAL-VIEW-001
+  title: Contrato de sucesso concreto de getStopOperationalView
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-STOP-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-001
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-API-GET-STOP-TIMELINE-001
+  title: Contrato de sucesso concreto de getStopTimeline
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-STOP-001
+  - DEMO-TIMELINE-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-001
+  - WP-DEMO-TIMELINE-001
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-API-PREPARE-STOP-FOR-ARRIVAL-001
+  title: Contrato de sucesso concreto de prepareStopForArrival
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-STOP-SCHEDULED
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-STOP-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-002
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-REPORT-ARRIVAL-INTERNAL-001
+  title: Contrato de sucesso concreto de reportArrivalInternal
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-STOP-AWAITING-ARRIVAL
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-STOP-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-003
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-CONFIRM-ARRIVAL-001
+  title: Contrato de sucesso concreto de confirmArrival
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-STOP-ARRIVAL-REPORTED
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-STOP-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-CORRECT-ARRIVAL-001
+  title: Contrato de sucesso concreto de correctArrival
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-STOP-ARRIVAL-CONFLICT
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-TIMELINE-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TIMELINE-002
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-API-START-SERVICE-001
+  title: Contrato de sucesso concreto de startService
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-STOP-RECEIVED
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-STOP-006
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-006
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-COMPLETE-SERVICE-001
+  title: Contrato de sucesso concreto de completeService
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-STOP-IN-EXECUTION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-STOP-007
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-007
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-RELEASE-VEHICLE-001
+  title: Contrato de sucesso concreto de releaseVehicle
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-STOP-SERVICE-COMPLETED
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-STOP-008
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-008
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-CLOSE-VEHICLE-STOP-001
+  title: Contrato de sucesso concreto de closeVehicleStop
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-STOP-PICKED-UP
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-STOP-010
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-010
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-LIST-CASE-CONVERSATIONS-001
+  title: Contrato de sucesso concreto de listCaseConversations
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-CASE-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-002
+  gate_ids:
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-API-CONFIRM-CONVERSATION-CASE-LINK-001
+  title: Contrato de sucesso concreto de confirmConversationCaseLink
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-CONVERSATION-SUGGESTED
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-COM-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-COM-003
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-RECORD-PHONE-CALL-001
+  title: Contrato de sucesso concreto de recordPhoneCall
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-CASE-IN-PROGRESS
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-COM-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-COM-004
+  gate_ids:
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-RECEIVE-DEMO-EMAIL-001
+  title: Contrato de sucesso concreto de receiveDemoEmail
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-EMAIL
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-COM-001
+  - DEMO-ENV-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-COM-001
+  - WP-DEMO-ENV-003
+  gate_ids:
+  - G1_FOUNDATION
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-ISSUE-SUPPLIER-ACCESS-001
+  title: Contrato de sucesso concreto de issueSupplierAccess
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-STOP-IN-EXECUTION
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-011
+  - DATA-ADR-015
+  work_package_ids:
+  - WP-DEMO-EXT-001
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-API-ISSUE-DRIVER-ACCESS-001
+  title: Contrato de sucesso concreto de issueDriverAccess
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-STOP-AWAITING-PICKUP
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-004
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-011
+  - DATA-ADR-015
+  work_package_ids:
+  - WP-DEMO-EXT-004
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-API-CREATE-EXTERNAL-SESSION-001
+  title: Contrato de sucesso concreto de createExternalSession
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-EXTERNAL-SUPPLIER
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-002
+  - DEMO-EXT-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-005
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-API-GET-EXTERNAL-CONTEXT-001
+  title: Contrato de sucesso concreto de getExternalContext
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-EXTERNAL-SUPPLIER
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-002
+  - DEMO-EXT-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-005
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-API-UPDATE-FORECAST-EXTERNAL-001
+  title: Contrato de sucesso concreto de updateForecastExternal
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-EXTERNAL-SUPPLIER
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-EXT-003
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-003
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-API-CONFIRM-DEPARTURE-EXTERNAL-001
+  title: Contrato de sucesso concreto de confirmDepartureExternal
+  layer: API_CONTRACT
+  priority: P0
+  fixture_id: FX-API-EXTERNAL-DRIVER
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-STOP-009
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-API-POLICY-001
+  title: Body rejeita propriedade desconhecida
+  layer: API_POLICY
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-CASE-003
+  - DEMO-CASE-005
+  - DEMO-CLOCK-001
+  - DEMO-COM-001
+  - DEMO-COM-003
+  - DEMO-COM-004
+  - DEMO-DATA-002
+  - DEMO-ENV-003
+  - DEMO-EXT-002
+  - DEMO-EXT-003
+  - DEMO-EXT-005
+  - DEMO-IAM-001
+  - DEMO-IAM-002
+  - DEMO-IAM-004
+  - DEMO-STOP-003
+  - DEMO-STOP-005
+  - DEMO-STOP-006
+  - DEMO-STOP-007
+  - DEMO-STOP-008
+  - DEMO-STOP-009
+  - DEMO-STOP-010
+  - DEMO-TASK-001
+  - DEMO-TASK-002
+  - DEMO-TASK-004
+  - DEMO-TASK-006
+  - DEMO-TASK-007
+  - DEMO-TASK-008
+  - DEMO-TIMELINE-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-CASE-003
+  - WP-DEMO-CASE-005
+  - WP-DEMO-CLOCK-001
+  - WP-DEMO-COM-001
+  - WP-DEMO-COM-003
+  - WP-DEMO-COM-004
+  - WP-DEMO-DATA-002
+  - WP-DEMO-ENV-003
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-003
+  - WP-DEMO-EXT-005
+  - WP-DEMO-IAM-001
+  - WP-DEMO-IAM-002
+  - WP-DEMO-IAM-004
+  - WP-DEMO-STOP-003
+  - WP-DEMO-STOP-005
+  - WP-DEMO-STOP-006
+  - WP-DEMO-STOP-007
+  - WP-DEMO-STOP-008
+  - WP-DEMO-STOP-009
+  - WP-DEMO-STOP-010
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-004
+  - WP-DEMO-TASK-006
+  - WP-DEMO-TASK-007
+  - WP-DEMO-TASK-008
+  - WP-DEMO-TIMELINE-002
+  gate_ids:
+  - G1_FOUNDATION
+  - G2_DOMAIN
+  - G3_PROJECTIONS
+  - G4_TIME_COMMUNICATION
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-API-POLICY-002
+  title: Mutação por cookie exige CSRF
+  layer: API_POLICY
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-IAM-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-POLICY-003
+  title: Replay idempotente retorna resposta original
+  layer: API_POLICY
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids:
+  - INV-DEMO-017
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-POLICY-004
+  title: Chave idempotente com request diferente conflita
+  layer: API_POLICY
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids:
+  - INV-DEMO-017
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-POLICY-005
+  title: If-Match ausente retorna 428
+  layer: API_POLICY
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-005
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-POLICY-006
+  title: If-Match obsoleto retorna 412
+  layer: API_POLICY
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-005
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-API-POLICY-007
+  title: Operação interna exige sessão
+  layer: API_POLICY
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-IAM-001
+  - DEMO-IAM-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-IAM-001
+  - WP-DEMO-IAM-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-POLICY-008
+  title: Respostas externas usam headers de proteção
+  layer: API_POLICY
+  priority: P0
+  fixture_id: FX-API-EXTERNAL-SUPPLIER
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EXT-002
+  - DEMO-EXT-005
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-005
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-API-POLICY-009
+  title: Mutação falha fechada durante reset
+  layer: API_POLICY
+  priority: P0
+  fixture_id: FX-RESET-LATE-WORKER
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-DATA-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-DATA-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-API-POLICY-010
+  title: Operações retiradas não existem
+  layer: API_POLICY
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: STATIC_ASSERTION
+  requirement_ids:
+  - DEMO-EXT-001
+  - DEMO-EXT-002
+  - DEMO-EXT-003
+  - DEMO-EXT-004
+  - DEMO-EXT-005
+  - DEMO-STOP-009
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EXT-001
+  - WP-DEMO-EXT-002
+  - WP-DEMO-EXT-003
+  - WP-DEMO-EXT-004
+  - WP-DEMO-EXT-005
+  - WP-DEMO-STOP-009
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-001
+  title: Envelope e payload v2 válidos
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  - DEMO-STOP-004
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  - WP-DEMO-STOP-004
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-002
+  title: Campo obrigatório ausente é rejeitado
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-003
+  title: Campo adicional é rejeitado
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-004
+  title: Classificação coincide com registry
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-005
+  title: Produtor, comando e aggregate coincidem
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-006
+  title: Sequence equivale à versão resultante
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: EVENT_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-014
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-007
+  title: Aggregate, histórico, evento e Outbox são atômicos
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: EVENT_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids:
+  - INV-DEMO-016
+  data_adr_ids:
+  - DATA-ADR-006
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-008
+  title: Entrega repetida não duplica efeito
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-002
+  - DEMO-STOP-004
+  - DEMO-STOP-005
+  invariant_ids:
+  - INV-DEMO-018
+  data_adr_ids:
+  - DATA-ADR-013
+  work_package_ids:
+  - WP-DEMO-EVT-002
+  - WP-DEMO-STOP-004
+  - WP-DEMO-STOP-005
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-009
+  title: Projection rebuild desabilita handlers live-only
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: EVENT_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-002
+  - DEMO-TIMELINE-002
+  invariant_ids:
+  - INV-DEMO-016
+  data_adr_ids:
+  - DATA-ADR-007
+  work_package_ids:
+  - WP-DEMO-EVT-002
+  - WP-DEMO-TIMELINE-002
+  gate_ids:
+  - G2_DOMAIN
+  - G3_PROJECTIONS
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-010
+  title: Dados proibidos não aparecem
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-011
+  title: Commit de geração antiga é rejeitado
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-RESET-LATE-WORKER
+  action_type: WORKER_PROGRAM
+  requirement_ids:
+  - DEMO-DATA-002
+  - DEMO-EVT-002
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-013
+  work_package_ids:
+  - WP-DEMO-DATA-002
+  - WP-DEMO-EVT-002
+  gate_ids:
+  - G1_FOUNDATION
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-EVT-CONTRACT-012
+  title: Todos os eventos usam schema version 2 e generation ID
+  layer: EVENT_CONTRACT
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-013
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-TASK-005
+  title: Constraint de origem permite transições válidas
+  layer: DATA
+  priority: P0
+  fixture_id: FX-API-TASK-NOT-STARTED
+  action_type: SCENARIO
+  requirement_ids:
+  - DEMO-TASK-001
+  - DEMO-TASK-002
+  - DEMO-TASK-003
+  - DEMO-TASK-006
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-TASK-001
+  - WP-DEMO-TASK-002
+  - WP-DEMO-TASK-003
+  - WP-DEMO-TASK-006
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-RESET-004
+  title: Commit tardio de worker é rejeitado
+  layer: DATA
+  priority: P0
+  fixture_id: FX-RESET-LATE-WORKER
+  action_type: WORKER_PROGRAM
+  requirement_ids:
+  - DEMO-DATA-002
+  - DEMO-EVT-002
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-013
+  work_package_ids:
+  - WP-DEMO-DATA-002
+  - WP-DEMO-EVT-002
+  gate_ids:
+  - G1_FOUNDATION
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-RESET-005
+  title: Execução preservada não bloqueia reseed de usuários
+  layer: DATA
+  priority: P0
+  fixture_id: FX-API-RESET
+  action_type: SCENARIO
+  requirement_ids:
+  - DEMO-DATA-002
+  - DEMO-IAM-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-012
+  work_package_ids:
+  - WP-DEMO-DATA-002
+  - WP-DEMO-IAM-001
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EXT-006
+  title: Emissões concorrentes deixam um token ativo
+  layer: DATA
+  priority: P0
+  fixture_id: FX-TOKEN-CONCURRENT-ISSUANCE
+  action_type: CONCURRENT_HTTP
+  requirement_ids:
+  - DEMO-EXT-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-011
+  - DATA-ADR-015
+  work_package_ids:
+  - WP-DEMO-EXT-001
+  gate_ids:
+  - G5_EXTERNAL
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EVT-005
+  title: Ocorrência incrementa versão uma vez
+  layer: DATA
+  priority: P0
+  fixture_id: FX-API-STOP-AWAITING-ARRIVAL
+  action_type: DOMAIN_PROGRAM
+  requirement_ids:
+  - DEMO-EVT-001
+  - DEMO-STOP-003
+  invariant_ids:
+  - INV-DEMO-016
+  data_adr_ids:
+  - DATA-ADR-014
+  work_package_ids:
+  - WP-DEMO-EVT-001
+  - WP-DEMO-STOP-003
+  gate_ids:
+  - G2_DOMAIN
+  status: MAPPED_V2.1.3
+- test_id: TST-DATA-EVT-006
+  title: PhoneCallRecorded usa aggregate CASE
+  layer: DATA
+  priority: P0
+  fixture_id: FX-API-CASE-IN-PROGRESS
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-COM-004
+  - DEMO-EVT-001
+  invariant_ids: []
+  data_adr_ids:
+  - DATA-ADR-014
+  work_package_ids:
+  - WP-DEMO-COM-004
+  - WP-DEMO-EVT-001
+  gate_ids:
+  - G2_DOMAIN
+  - G4_TIME_COMMUNICATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUDIT-001
+  title: Ações sensíveis permitidas geram auditoria sanitizada
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-AUDIT-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-AUDIT-001
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUDIT-002
+  title: Negação sensível gera auditoria DENY
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-API-READ-BASE
+  action_type: PARAMETERIZED_PROGRAM
+  requirement_ids:
+  - DEMO-AUDIT-001
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-AUDIT-001
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3
+- test_id: TST-AUDIT-003
+  title: Auditoria permanece após reset
+  layer: SECURITY
+  priority: P0
+  fixture_id: FX-API-RESET
+  action_type: HTTP
+  requirement_ids:
+  - DEMO-AUDIT-001
+  - DEMO-DATA-002
+  invariant_ids: []
+  data_adr_ids: []
+  work_package_ids:
+  - WP-DEMO-AUDIT-001
+  - WP-DEMO-DATA-002
+  gate_ids:
+  - G1_FOUNDATION
+  status: MAPPED_V2.1.3

@@ -1,0 +1,2074 @@
+program_version: 2.1.3
+release: DEMO-R1
+database_programs:
+  TST-SM-CROSS-010:
+    program_id: TST-SM-CROSS-010
+    fixture_id: FX-VEHICLE-ACTIVE-STOP
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: vehicle_stop
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-VEHICLE-ACTIVE-STOP/tables/vehicle_stop/0
+      mutations: []
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_vehicle_stop_active_vehicle
+        database_unchanged_after_rejection: true
+  TST-SM-CROSS-011:
+    program_id: TST-SM-CROSS-011
+    fixture_id: FX-STOP-CURRENT-FORECAST
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: completion_forecast
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-STOP-CURRENT-FORECAST/tables/completion_forecast/0
+      mutations: []
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_completion_forecast_current_stop
+        database_unchanged_after_rejection: true
+  TST-SM-CROSS-012:
+    program_id: TST-SM-CROSS-012
+    fixture_id: FX-STOP-CURRENT-ARRIVAL
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: arrival_confirmation
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-STOP-CURRENT-ARRIVAL/tables/arrival_confirmation/0
+      mutations: []
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_arrival_confirmation_current_stop
+        database_unchanged_after_rejection: true
+  TST-SM-CROSS-013:
+    program_id: TST-SM-CROSS-013
+    fixture_id: FX-STOP-OPEN-NO-UPDATE
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: alert
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-STOP-OPEN-NO-UPDATE/tables/alert/0
+      mutations: []
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_alert_open_dedup
+        database_unchanged_after_rejection: true
+  TST-DATA-IAM-001:
+    program_id: TST-DATA-IAM-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: user_role
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/user_role/0
+      mutations: []
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: pk_user_role
+        database_unchanged_after_rejection: true
+  TST-DATA-IAM-002:
+    program_id: TST-DATA-IAM-002
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: demo_internal_session
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_DEMO_INTERNAL_SESSION
+      mutations:
+      - path: /id
+        value: 42c9db37-6c01-56af-bff7-2498a31ec220
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_demo_internal_session_token_hash
+        database_unchanged_after_rejection: true
+  TST-DATA-IAM-003:
+    program_id: TST-DATA-IAM-003
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: PATCH_UPDATE
+      target_table: demo_internal_session
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_DEMO_INTERNAL_SESSION
+      mutations:
+      - path: /revoked_at
+        value: '2026-08-01T15:00:00Z'
+      - path: /revocation_reason_code
+        value: null
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_demo_internal_session_revocation
+        database_unchanged_after_rejection: true
+  TST-DATA-IAM-004:
+    program_id: TST-DATA-IAM-004
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: user_customer_scope
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/user_customer_scope/0
+      mutations:
+      - path: /customer_id
+        value: bcf07ead-1f1b-548f-87d8-6a74db2fa602
+      expect:
+        outcome: REJECT
+        error_code: '23503'
+        constraint: fk_user_customer_scope_customer
+        database_unchanged_after_rejection: true
+  TST-DATA-IAM-005:
+    program_id: TST-DATA-IAM-005
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: QUERY_ASSERT
+      target_table: role_permission
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/role_permission/0
+      mutations: []
+      expect:
+        outcome: ASSERT
+        error_code: null
+        constraint: zero_operational_grants_for_admin
+        database_unchanged_after_rejection: false
+  TST-DATA-CASE-001:
+    program_id: TST-DATA-CASE-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: case_record
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/case_record/0
+      mutations:
+      - path: /id
+        value: 51b1c886-dcb9-5d1f-a483-8b4c5515dcdd
+      - path: /status
+        value: CLOSED
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_case_record_status
+        database_unchanged_after_rejection: true
+  TST-DATA-CASE-002:
+    program_id: TST-DATA-CASE-002
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: case_record
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/case_record/0
+      mutations:
+      - path: /id
+        value: bf9976e1-90a5-534e-9a8f-81bede0cf1aa
+      - path: /status
+        value: RESOLVED
+      - path: /resolution_summary
+        value: null
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_case_record_resolution_fields
+        database_unchanged_after_rejection: true
+  TST-DATA-CASE-003:
+    program_id: TST-DATA-CASE-003
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: vehicle_stop
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/vehicle_stop/0
+      mutations:
+      - path: /id
+        value: 73b2d436-ae39-5bb8-a906-0bdc08b3ad29
+      - path: /vehicle_id
+        value: 49710536-926b-5739-81e3-80cbd6353d3e
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_vehicle_stop_primary_case_id
+        database_unchanged_after_rejection: true
+  TST-DATA-TASK-001:
+    program_id: TST-DATA-TASK-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: task
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/task/0
+      mutations:
+      - path: /id
+        value: 0e396208-2f5b-53ca-a92b-29ee0cce05c4
+      - path: /is_mandatory
+        value: false
+      - path: /mandatory_for
+        value: CASE_RESOLUTION
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_task_mandatory
+        database_unchanged_after_rejection: true
+  TST-DATA-TASK-002:
+    program_id: TST-DATA-TASK-002
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: task
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/task/0
+      mutations:
+      - path: /id
+        value: 8a04da4a-f931-5ab2-ad3e-9d272a4add9a
+      - path: /status
+        value: COMPLETED
+      - path: /completed_at
+        value: '2026-08-01T15:00:00Z'
+      - path: /result_code
+        value: null
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_task_completed
+        database_unchanged_after_rejection: true
+  TST-DATA-TASK-003:
+    program_id: TST-DATA-TASK-003
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: task
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/task/0
+      mutations:
+      - path: /id
+        value: 2b1aad99-e448-525b-9cbe-526d00e6bb7e
+      - path: /status
+        value: CANCELLED
+      - path: /cancelled_at
+        value: '2026-08-01T15:00:00Z'
+      - path: /closure_impact
+        value: null
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_task_cancelled
+        database_unchanged_after_rejection: true
+  TST-DATA-TASK-004:
+    program_id: TST-DATA-TASK-004
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: PATCH_UPDATE
+      target_table: task
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/task/0
+      mutations:
+      - path: /replacement_task_id
+        value:
+          $seed_field: id
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_task_no_self_replacement
+        database_unchanged_after_rejection: true
+  TST-DATA-STOP-001:
+    program_id: TST-DATA-STOP-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: vehicle_stop
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/vehicle_stop/0
+      mutations:
+      - path: /id
+        value: 57271014-cf1a-5315-847c-8fdaf8b8fb0d
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_vehicle_stop_active_vehicle
+        database_unchanged_after_rejection: true
+  TST-DATA-STOP-002:
+    program_id: TST-DATA-STOP-002
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: vehicle_stop
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/vehicle_stop/0
+      mutations:
+      - path: /id
+        value: fcf2bfb3-8a99-52f3-8af3-cd9b39e0e664
+      - path: /status
+        value: IN_EXECUTION
+      - path: /service_started_at
+        value: null
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_vehicle_stop_service_started
+        database_unchanged_after_rejection: true
+  TST-DATA-STOP-003:
+    program_id: TST-DATA-STOP-003
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: vehicle_stop
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/vehicle_stop/0
+      mutations:
+      - path: /id
+        value: 6c7cc38a-6a92-555b-b6a4-316640422e9e
+      - path: /status
+        value: SERVICE_COMPLETED
+      - path: /confirmed_departure_at
+        value: null
+      - path: /service_completed_at
+        value: '2026-08-01T14:00:00Z'
+      - path: /service_completion_summary
+        value: Concluído
+      expect:
+        outcome: ACCEPT
+        error_code: null
+        constraint: null
+        database_unchanged_after_rejection: false
+  TST-DATA-STOP-004:
+    program_id: TST-DATA-STOP-004
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: vehicle_stop
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/vehicle_stop/0
+      mutations:
+      - path: /id
+        value: 987f96d8-e2b1-5d88-9080-4fd137d96c6b
+      - path: /service_completed_at
+        value: '2026-08-01T15:00:00Z'
+      - path: /vehicle_released_at
+        value: '2026-08-01T14:59:59Z'
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_vehicle_stop_release_order
+        database_unchanged_after_rejection: true
+  TST-DATA-STOP-005:
+    program_id: TST-DATA-STOP-005
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: vehicle_stop
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/vehicle_stop/0
+      mutations:
+      - path: /id
+        value: 9b3b7b2b-18a3-527b-8c42-35bab2d53242
+      - path: /vehicle_released_at
+        value: '2026-08-01T15:00:00Z'
+      - path: /confirmed_departure_at
+        value: '2026-08-01T14:59:59Z'
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_vehicle_stop_departure_order
+        database_unchanged_after_rejection: true
+  TST-DATA-STOP-006:
+    program_id: TST-DATA-STOP-006
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: vehicle_stop
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/vehicle_stop/0
+      mutations:
+      - path: /id
+        value: dac73628-6477-53c4-9374-0be9de394b90
+      - path: /status
+        value: CLOSED
+      - path: /closure_reason
+        value: null
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_vehicle_stop_closed
+        database_unchanged_after_rejection: true
+  TST-DATA-STOP-007:
+    program_id: TST-DATA-STOP-007
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: vehicle_stop
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/vehicle_stop/0
+      mutations:
+      - path: /id
+        value: a806cfb4-9542-587a-a121-bf1d37c6996d
+      - path: /stopped_duration_seconds
+        value: -1
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_vehicle_stop_duration
+        database_unchanged_after_rejection: true
+  TST-DATA-ARRIVAL-001:
+    program_id: TST-DATA-ARRIVAL-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: arrival_confirmation
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_ARRIVAL_CONFIRMATION
+      mutations:
+      - path: /id
+        value: be6832e4-2dcc-5994-b143-668ee4ca139c
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_arrival_confirmation_current_stop
+        database_unchanged_after_rejection: true
+  TST-DATA-FORECAST-001:
+    program_id: TST-DATA-FORECAST-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: completion_forecast
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_COMPLETION_FORECAST
+      mutations:
+      - path: /id
+        value: eeff4265-b2a1-5717-9c86-69e179773c38
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_completion_forecast_current_stop
+        database_unchanged_after_rejection: true
+  TST-DATA-ALERT-001:
+    program_id: TST-DATA-ALERT-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: alert
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_ALERT
+      mutations:
+      - path: /id
+        value: ef7a4de9-203e-5f97-afe8-ad4bc5b1b544
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_alert_open_dedup
+        database_unchanged_after_rejection: true
+  TST-DATA-ALERT-002:
+    program_id: TST-DATA-ALERT-002
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: alert
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_ALERT
+      mutations:
+      - path: /id
+        value: 59838d2c-f492-5e24-9c32-0effaeecf34d
+      - path: /status
+        value: RESOLVED
+      - path: /resolved_at
+        value: null
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_alert_resolution
+        database_unchanged_after_rejection: true
+  TST-DATA-ALERT-003:
+    program_id: TST-DATA-ALERT-003
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: alert_occurrence
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_ALERT_OCCURRENCE
+      mutations:
+      - path: /id
+        value: c906b29f-c909-5d6f-ae5d-3672ef38ee0e
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_alert_occurrence_event
+        database_unchanged_after_rejection: true
+  TST-DATA-EXT-001:
+    program_id: TST-DATA-EXT-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: external_action_token
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_EXTERNAL_ACTION_TOKEN
+      mutations:
+      - path: /id
+        value: 49b7e5a2-81e5-5199-b856-e4342a7990b1
+      - path: /audience
+        value: SUPPLIER
+      - path: /driver_id
+        value: 1b11ff98-b852-5ddf-8d27-0dabae90c29a
+      expect:
+        outcome: REJECT
+        error_code: '23514'
+        constraint: ck_external_action_token_subject
+        database_unchanged_after_rejection: true
+  TST-DATA-EXT-002:
+    program_id: TST-DATA-EXT-002
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: external_action_token
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_EXTERNAL_ACTION_TOKEN
+      mutations:
+      - path: /id
+        value: ac8f9f38-b169-5549-873f-77c27a5f5717
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_external_action_token_hash
+        database_unchanged_after_rejection: true
+  TST-DATA-EXT-003:
+    program_id: TST-DATA-EXT-003
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: SERVICE_CALL
+      target_table: external_token_usage
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_EXTERNAL_TOKEN_USAGE
+      mutations:
+      - path: /successful_uses
+        value: 6
+      expect:
+        outcome: REJECT
+        error_code: DOMAIN_ERROR
+        constraint: TOKEN_USE_LIMIT
+        database_unchanged_after_rejection: true
+  TST-DATA-EXT-004:
+    program_id: TST-DATA-EXT-004
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: external_session
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_EXTERNAL_SESSION
+      mutations:
+      - path: /id
+        value: 273cf746-8349-51ab-8ad2-faacf874113d
+      - path: /expires_at
+        value: '2026-08-03T12:00:00Z'
+      expect:
+        outcome: REJECT
+        error_code: DOMAIN_ERROR
+        constraint: TX-DATA-006
+        database_unchanged_after_rejection: true
+  TST-DATA-EXT-005:
+    program_id: TST-DATA-EXT-005
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: external_token_usage
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_EXTERNAL_TOKEN_USAGE
+      mutations:
+      - path: /id
+        value: 22c9f515-a06a-5a49-9acc-3056cd534358
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_external_token_usage_idempotency
+        database_unchanged_after_rejection: true
+  TST-DATA-EVT-001:
+    program_id: TST-DATA-EVT-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: domain_event
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_DOMAIN_EVENT
+      mutations:
+      - path: /id
+        value: 882e356b-23b0-5b00-a0e1-023d724f0747
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_domain_event_aggregate_sequence
+        database_unchanged_after_rejection: true
+  TST-DATA-EVT-002:
+    program_id: TST-DATA-EVT-002
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: domain_event
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_DOMAIN_EVENT
+      mutations:
+      - path: /id
+        value: 87e11c53-8ad9-520f-999a-772bfb4463dc
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_domain_event_idempotency
+        database_unchanged_after_rejection: true
+  TST-DATA-EVT-003:
+    program_id: TST-DATA-EVT-003
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: integration_outbox
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_INTEGRATION_OUTBOX
+      mutations:
+      - path: /id
+        value: 54dbdc0f-8b26-58bf-a08f-5619ca8c5569
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_integration_outbox_domain_event
+        database_unchanged_after_rejection: true
+  TST-DATA-EVT-004:
+    program_id: TST-DATA-EVT-004
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: consumer_receipt
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_CONSUMER_RECEIPT
+      mutations: []
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: pk_consumer_receipt
+        database_unchanged_after_rejection: true
+  TST-DATA-INBOX-001:
+    program_id: TST-DATA-INBOX-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: integration_inbox
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_INTEGRATION_INBOX
+      mutations:
+      - path: /id
+        value: 6c9a32de-674a-5f58-84a5-750d658699df
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_integration_inbox_source_message
+        database_unchanged_after_rejection: true
+  TST-DATA-DLQ-001:
+    program_id: TST-DATA-DLQ-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: dead_letter_message
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_DEAD_LETTER_MESSAGE
+      mutations:
+      - path: /id
+        value: 20689d25-0444-54d5-bf20-40363ee76240
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_dead_letter_source
+        database_unchanged_after_rejection: true
+  TST-DATA-RESET-001:
+    program_id: TST-DATA-RESET-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: CLONE_INSERT
+      target_table: demo_reset_execution
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/demo_reset_execution/0
+      mutations:
+      - path: /id
+        value: a895d29b-7bd9-549f-9179-b341668a0c59
+      - path: /status
+        value: RUNNING
+      expect:
+        outcome: REJECT
+        error_code: '23505'
+        constraint: uq_demo_reset_running
+        database_unchanged_after_rejection: true
+  TST-DATA-RESET-002:
+    program_id: TST-DATA-RESET-002
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: inject-owner-crash-after-barrier
+      op: FAULT_INJECTION
+      target_table: demo_runtime_control
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/demo_runtime_control/0
+      mutations: []
+      expect:
+        outcome: ASSERT
+        error_code: null
+        constraint: RESET_OWNER_CRASH_AFTER_BARRIER
+        database_unchanged_after_rejection: true
+    - step_id: watchdog-recovers-source-generation
+      op: RESET_AND_ASSERT
+      target_table: demo_reset_execution
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/demo_reset_execution/0
+      mutations:
+      - path: /status
+        value: RUNNING
+      - path: /heartbeat_at
+        value: '2026-08-01T14:59:00Z'
+      - path: /lease_expires_at
+        value: '2026-08-01T14:59:30Z'
+      expect:
+        outcome: ASSERT
+        error_code: null
+        constraint: WATCHDOG_RECOVERS_TO_SOURCE_ACTIVE
+        database_unchanged_after_rejection: false
+  TST-DATA-RESET-003:
+    program_id: TST-DATA-RESET-003
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: RESET_AND_ASSERT
+      target_table: security_audit_record
+      source:
+        kind: SEED_ROW
+        ref: seed://FX-DATA-INTEGRITY/tables/security_audit_record/0
+      mutations: []
+      expect:
+        outcome: ASSERT
+        error_code: null
+        constraint: AUDIT_PRESERVED
+        database_unchanged_after_rejection: false
+  TST-DATA-METRIC-001:
+    program_id: TST-DATA-METRIC-001
+    fixture_id: FX-DATA-INTEGRITY
+    transaction:
+      isolation: SERIALIZABLE
+      rollback: ALWAYS
+    steps:
+    - step_id: db-step-1
+      op: METRIC_ASSERT
+      target_table: demo_metric_projection
+      source:
+        kind: ROW_TEMPLATE
+        template_id: VALID_DEMO_METRIC_PROJECTION
+      mutations: []
+      expect:
+        outcome: ASSERT
+        error_code: null
+        constraint: FOUR_CANONICAL_METRICS
+        database_unchanged_after_rejection: false
+scenario_programs:
+  E2E-DEMO-000:
+    program_id: E2E-DEMO-000
+    fixture_id: FX-E2E-EXECUTIVE
+    timeout_ms: 180000
+    steps:
+    - op: HTTP_OPERATION
+      step_id: dashboard
+      operation_id: listStopDashboard
+      actor: DEMO_ATTENDANT
+      path_params: {}
+      query: {}
+      body: null
+      idempotency_key: scenario-dashboard
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: case-view
+      operation_id: getCaseOperationalView
+      actor: DEMO_ATTENDANT
+      path_params:
+        caseId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/case_record/0/id
+      query: {}
+      body: null
+      idempotency_key: scenario-case-view
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: case-start
+      operation_id: startCaseWork
+      actor: DEMO_ATTENDANT
+      path_params:
+        caseId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/case_record/0/id
+      query: {}
+      body: null
+      idempotency_key: scenario-case-start
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: prepare-arrival
+      operation_id: prepareStopForArrival
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+      query: {}
+      body: null
+      idempotency_key: scenario-prepare-arrival
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: arrival-report
+      operation_id: reportArrivalInternal
+      actor: DEMO_ATTENDANT
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+      query: {}
+      body:
+        reported_arrival_at:
+          $expr: SUBTRACT_DURATION
+          base:
+            $seed: seed://FX-E2E-EXECUTIVE/tables/demo_clock/0/current_time
+          duration: PT10M
+        channel: PHONE
+        comment: Relato executivo fictício.
+      idempotency_key: scenario-arrival-report
+      expect_status: 201
+      capture:
+        report_id: response.data.id
+    - op: HTTP_OPERATION
+      step_id: arrival-confirm
+      operation_id: confirmArrival
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+      query: {}
+      body:
+        confirmed_arrival_at:
+          $expr: SUBTRACT_DURATION
+          base:
+            $seed: seed://FX-E2E-EXECUTIVE/tables/demo_clock/0/current_time
+          duration: PT10M
+        confirmation_method: MATCHED_REPORTS
+        considered_report_ids:
+        - $capture: capture://arrival-report/report_id
+        justification: null
+      idempotency_key: scenario-arrival-confirm
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: service-start
+      operation_id: startService
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+      query: {}
+      body:
+        started_at:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/demo_clock/0/current_time
+      idempotency_key: scenario-service-start
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: task-a-create
+      operation_id: createTask
+      actor: DEMO_ATTENDANT
+      path_params:
+        caseId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/case_record/0/id
+      query: {}
+      body:
+        vehicle_stop_id:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+        title: Tarefa executiva A
+        description: Dados fictícios.
+        task_type_code: EXEC_A
+        is_mandatory: true
+        mandatory_for: CASE_RESOLUTION
+      idempotency_key: scenario-task-a-create
+      expect_status: 201
+      capture:
+        task_id: response.data.id
+    - op: HTTP_OPERATION
+      step_id: task-b-create
+      operation_id: createTask
+      actor: DEMO_ATTENDANT
+      path_params:
+        caseId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/case_record/0/id
+      query: {}
+      body:
+        vehicle_stop_id:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+        title: Tarefa executiva B
+        description: Dados fictícios.
+        task_type_code: EXEC_B
+        is_mandatory: true
+        mandatory_for: CASE_RESOLUTION
+      idempotency_key: scenario-task-b-create
+      expect_status: 201
+      capture:
+        task_id: response.data.id
+    - op: HTTP_OPERATION
+      step_id: task-a-assign
+      operation_id: assignTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://task-a-create/task_id
+      query: {}
+      body:
+        assigned_team_id:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/team/0/id
+        assigned_user_id: null
+      idempotency_key: scenario-task-a-assign
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: task-a-start
+      operation_id: startTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://task-a-create/task_id
+      query: {}
+      body: null
+      idempotency_key: scenario-task-a-start
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: task-b-assign
+      operation_id: assignTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://task-b-create/task_id
+      query: {}
+      body:
+        assigned_team_id:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/team/0/id
+        assigned_user_id: null
+      idempotency_key: scenario-task-b-assign
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: task-b-start
+      operation_id: startTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://task-b-create/task_id
+      query: {}
+      body: null
+      idempotency_key: scenario-task-b-start
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: case-wait
+      operation_id: waitCaseForSupplier
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        caseId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/case_record/0/id
+      query: {}
+      body:
+        supplier_id:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/supplier/0/id
+        vehicle_stop_id:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+        reason_code: FORECAST_REQUIRED
+        reason_text: Aguardar previsão.
+        expected_action: UPDATE_COMPLETION_FORECAST
+        expected_by:
+          $expr: ADD_DURATION
+          base:
+            $seed: seed://FX-E2E-EXECUTIVE/tables/demo_clock/0/current_time
+          duration: PT2H
+      idempotency_key: scenario-case-wait
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: task-a-wait
+      operation_id: waitTaskForSupplier
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://task-a-create/task_id
+      query: {}
+      body:
+        supplier_id:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/supplier/0/id
+        expected_action: UPDATE_COMPLETION_FORECAST
+        expected_by:
+          $expr: ADD_DURATION
+          base:
+            $seed: seed://FX-E2E-EXECUTIVE/tables/demo_clock/0/current_time
+          duration: PT2H
+        reason_code: FORECAST_REQUIRED
+        reason_text: Aguardar previsão.
+      idempotency_key: scenario-task-a-wait
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: supplier-access
+      operation_id: issueSupplierAccess
+      actor: DEMO_SUPERVISOR
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+      query: {}
+      body: null
+      idempotency_key: scenario-supplier-access
+      expect_status: 201
+      capture:
+        access_url: response.data.access_url
+    - op: HTTP_OPERATION
+      step_id: supplier-session
+      operation_id: createExternalSession
+      actor: EXTERNAL_ANONYMOUS
+      path_params: {}
+      query: {}
+      body:
+        token:
+          $expr: EXTRACT_FRAGMENT_PARAM
+          source:
+            $capture: capture://supplier-access/access_url
+          name: token
+      idempotency_key: scenario-supplier-session
+      expect_status: 201
+      capture:
+        session_cookie: response.cookies.fotc_external_session
+        csrf_token: response.data.csrf_token
+      actor_output_profile: CAPTURED_EXTERNAL_SUPPLIER
+    - op: HTTP_OPERATION
+      step_id: forecast-1
+      operation_id: updateForecastExternal
+      actor: CAPTURED_EXTERNAL_SUPPLIER
+      path_params: {}
+      query: {}
+      body:
+        forecast_at:
+          $expr: ADD_DURATION
+          base:
+            $seed: seed://FX-E2E-EXECUTIVE/tables/demo_clock/0/current_time
+          duration: PT4H
+        reason_code: PARTS
+        reason_text: Aguardar peça fictícia.
+      idempotency_key: scenario-forecast-1
+      expect_status: 200
+      capture: {}
+    - op: WAIT_EVENT
+      step_id: resume-events
+      event_types:
+      - CaseResumedAfterSupplierUpdate
+      - TaskResumedAfterSupplierUpdate
+      minimum_count: 2
+      timeout_ms: 10000
+    - op: ADVANCE_CLOCK
+      step_id: advance-alert-clock
+      duration: PT3H
+      actor: DEMO_ADMIN
+    - op: RUN_WORKER
+      step_id: run-alert-evaluator
+      worker_code: alert-evaluator
+      drain: true
+      timeout_ms: 10000
+    - op: WAIT_EVENT
+      step_id: alert-created
+      event_types:
+      - AlertCreated
+      minimum_count: 1
+      timeout_ms: 10000
+    - op: HTTP_OPERATION
+      step_id: phone-call
+      operation_id: recordPhoneCall
+      actor: DEMO_ATTENDANT
+      path_params:
+        caseId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/case_record/0/id
+      query: {}
+      body:
+        vehicle_stop_id:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+        contact_type: SUPPLIER
+        contact_display_name: Fornecedor Demo A
+        result_code: CONTACTED
+        notes: Notas fictícias.
+        next_action: Atualizar previsão.
+        occurred_at:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/demo_clock/0/current_time
+      idempotency_key: scenario-phone-call
+      expect_status: 201
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: forecast-2
+      operation_id: updateForecastExternal
+      actor: CAPTURED_EXTERNAL_SUPPLIER
+      path_params: {}
+      query: {}
+      body:
+        forecast_at:
+          $expr: ADD_DURATION
+          base:
+            $seed: seed://FX-E2E-EXECUTIVE/tables/demo_clock/0/current_time
+          duration: PT2H
+        reason_code: UPDATED
+        reason_text: Previsão fictícia atualizada.
+      idempotency_key: scenario-forecast-2
+      expect_status: 200
+      capture: {}
+    - op: WAIT_EVENT
+      step_id: alert-resolved
+      event_types:
+      - AlertResolved
+      minimum_count: 1
+      timeout_ms: 10000
+    - op: HTTP_OPERATION
+      step_id: task-b-complete
+      operation_id: completeTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://task-b-create/task_id
+      query: {}
+      body:
+        result_code: COMPLETED
+        result_summary: Tarefa concluída.
+      idempotency_key: scenario-task-b-complete
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: task-a-complete
+      operation_id: completeTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://task-a-create/task_id
+      query: {}
+      body:
+        result_code: COMPLETED
+        result_summary: Tarefa concluída.
+      idempotency_key: scenario-task-a-complete
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: service-complete
+      operation_id: completeService
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+      query: {}
+      body:
+        completed_at:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/demo_clock/0/current_time
+        summary: Serviço concluído.
+      idempotency_key: scenario-service-complete
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: vehicle-release
+      operation_id: releaseVehicle
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+      query: {}
+      body:
+        released_at:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/demo_clock/0/current_time
+      idempotency_key: scenario-vehicle-release
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: driver-access
+      operation_id: issueDriverAccess
+      actor: DEMO_SUPERVISOR
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+      query: {}
+      body: null
+      idempotency_key: scenario-driver-access
+      expect_status: 201
+      capture:
+        access_url: response.data.access_url
+    - op: HTTP_OPERATION
+      step_id: driver-session
+      operation_id: createExternalSession
+      actor: EXTERNAL_ANONYMOUS
+      path_params: {}
+      query: {}
+      body:
+        token:
+          $expr: EXTRACT_FRAGMENT_PARAM
+          source:
+            $capture: capture://driver-access/access_url
+          name: token
+      idempotency_key: scenario-driver-session
+      expect_status: 201
+      capture:
+        session_cookie: response.cookies.fotc_external_session
+        csrf_token: response.data.csrf_token
+      actor_output_profile: CAPTURED_EXTERNAL_DRIVER
+    - op: HTTP_OPERATION
+      step_id: departure
+      operation_id: confirmDepartureExternal
+      actor: CAPTURED_EXTERNAL_DRIVER
+      path_params: {}
+      query: {}
+      body:
+        confirmed_departure_at:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/demo_clock/0/current_time
+        confirmation: true
+      idempotency_key: scenario-departure
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: stop-close
+      operation_id: closeVehicleStop
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/vehicle_stop/0/id
+      query: {}
+      body:
+        closure_reason: Operação concluída.
+      idempotency_key: scenario-stop-close
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: case-resolve
+      operation_id: resolveCase
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        caseId:
+          $seed: seed://FX-E2E-EXECUTIVE/tables/case_record/0/id
+      query: {}
+      body:
+        resolution_code: OPERATION_COMPLETED
+        resolution_summary: Jornada executiva concluída.
+      idempotency_key: scenario-case-resolve
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: metrics
+      operation_id: getDemoMetrics
+      actor: DEMO_MANAGER
+      path_params: {}
+      query: {}
+      body: null
+      idempotency_key: scenario-metrics
+      expect_status: 200
+      capture: {}
+    - op: ASSERT_STATE
+      step_id: final-state
+      assertions:
+      - path: case_record[0].status
+        operator: EQ
+        expected: RESOLVED
+      - path: vehicle_stop[0].status
+        operator: EQ
+        expected: CLOSED
+      - path: alert[?status=='OPEN' && alert_type=='STOP_NO_UPDATE']
+        operator: COUNT_EQ
+        expected: 0
+  E2E-DEMO-001:
+    program_id: E2E-DEMO-001
+    fixture_id: FX-E2E-INACTIVITY
+    timeout_ms: 90000
+    steps:
+    - op: HTTP_OPERATION
+      step_id: supplier-access
+      operation_id: issueSupplierAccess
+      actor: DEMO_SUPERVISOR
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-INACTIVITY/tables/vehicle_stop/0/id
+      query: {}
+      body: null
+      idempotency_key: scenario-supplier-access
+      expect_status: 201
+      capture:
+        access_url: response.data.access_url
+    - op: HTTP_OPERATION
+      step_id: supplier-session
+      operation_id: createExternalSession
+      actor: EXTERNAL_ANONYMOUS
+      path_params: {}
+      query: {}
+      body:
+        token:
+          $expr: EXTRACT_FRAGMENT_PARAM
+          source:
+            $capture: capture://supplier-access/access_url
+          name: token
+      idempotency_key: scenario-supplier-session
+      expect_status: 201
+      capture:
+        session_cookie: response.cookies.fotc_external_session
+        csrf_token: response.data.csrf_token
+      actor_output_profile: CAPTURED_EXTERNAL_SUPPLIER
+    - op: ADVANCE_CLOCK
+      step_id: advance-threshold
+      duration: PT2H1S
+      actor: DEMO_ADMIN
+    - op: RUN_WORKER
+      step_id: evaluate-1
+      worker_code: alert-evaluator
+      drain: true
+      timeout_ms: 10000
+    - op: WAIT_EVENT
+      step_id: created
+      event_types:
+      - AlertCreated
+      minimum_count: 1
+      timeout_ms: 10000
+    - op: ADVANCE_CLOCK
+      step_id: advance-occurrence
+      duration: PT30M
+      actor: DEMO_ADMIN
+    - op: RUN_WORKER
+      step_id: evaluate-2
+      worker_code: alert-evaluator
+      drain: true
+      timeout_ms: 10000
+    - op: WAIT_EVENT
+      step_id: occurrence
+      event_types:
+      - AlertOccurrenceAdded
+      minimum_count: 1
+      timeout_ms: 10000
+    - op: HTTP_OPERATION
+      step_id: forecast
+      operation_id: updateForecastExternal
+      actor: CAPTURED_EXTERNAL_SUPPLIER
+      path_params: {}
+      query: {}
+      body:
+        forecast_at:
+          $expr: ADD_DURATION
+          base:
+            $seed: seed://FX-E2E-INACTIVITY/tables/demo_clock/0/current_time
+          duration: PT2H
+        reason_code: UPDATED
+        reason_text: Previsão atualizada.
+      idempotency_key: scenario-forecast
+      expect_status: 200
+      capture: {}
+    - op: WAIT_EVENT
+      step_id: resolved
+      event_types:
+      - AlertResolved
+      minimum_count: 1
+      timeout_ms: 10000
+    - op: ASSERT_STATE
+      step_id: final-state
+      assertions:
+      - path: alert[?alert_type=='STOP_NO_UPDATE' && status=='OPEN']
+        operator: COUNT_EQ
+        expected: 0
+  E2E-DEMO-002:
+    program_id: E2E-DEMO-002
+    fixture_id: FX-E2E-ARRIVAL-CONFLICT
+    timeout_ms: 90000
+    steps:
+    - op: HTTP_OPERATION
+      step_id: report-a
+      operation_id: reportArrivalInternal
+      actor: DEMO_ATTENDANT
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-ARRIVAL-CONFLICT/tables/vehicle_stop/0/id
+      query: {}
+      body:
+        reported_arrival_at: '2026-08-01T10:00:00Z'
+        channel: PHONE
+        comment: Relato A.
+      idempotency_key: scenario-report-a
+      expect_status: 201
+      capture:
+        report_id: response.data.id
+    - op: HTTP_OPERATION
+      step_id: report-b
+      operation_id: reportArrivalInternal
+      actor: DEMO_ATTENDANT
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-ARRIVAL-CONFLICT/tables/vehicle_stop/0/id
+      query: {}
+      body:
+        reported_arrival_at: '2026-08-01T10:16:00Z'
+        channel: PHONE
+        comment: Relato B.
+      idempotency_key: scenario-report-b
+      expect_status: 201
+      capture:
+        report_id: response.data.id
+    - op: RUN_WORKER
+      step_id: arrival-evaluator
+      worker_code: arrival-evaluator
+      drain: true
+      timeout_ms: 10000
+    - op: WAIT_EVENT
+      step_id: conflict-events
+      event_types:
+      - ArrivalConflictDetected
+      - TaskCreated
+      - AlertCreated
+      minimum_count: 3
+      timeout_ms: 10000
+    - op: HTTP_OPERATION
+      step_id: confirm
+      operation_id: confirmArrival
+      actor: DEMO_SUPERVISOR
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-ARRIVAL-CONFLICT/tables/vehicle_stop/0/id
+      query: {}
+      body:
+        confirmed_arrival_at: '2026-08-01T10:00:00Z'
+        confirmation_method: SUPERVISOR_DECISION
+        considered_report_ids:
+        - $capture: capture://report-a/report_id
+        - $capture: capture://report-b/report_id
+        justification: Conferência fictícia do supervisor.
+      idempotency_key: scenario-confirm
+      expect_status: 200
+      capture: {}
+    - op: WAIT_EVENT
+      step_id: resolution-events
+      event_types:
+      - TaskCompleted
+      - AlertResolved
+      minimum_count: 2
+      timeout_ms: 10000
+    - op: ASSERT_STATE
+      step_id: final-state
+      assertions:
+      - path: vehicle_stop[0].status
+        operator: EQ
+        expected: VEHICLE_RECEIVED
+      - path: arrival_report
+        operator: COUNT_EQ
+        expected: 2
+      - path: alert[?alert_type=='ARRIVAL_CONFLICT' && status=='OPEN']
+        operator: COUNT_EQ
+        expected: 0
+  E2E-DEMO-003:
+    program_id: E2E-DEMO-003
+    fixture_id: FX-E2E-EMAIL-LINK
+    timeout_ms: 90000
+    steps:
+    - op: HTTP_OPERATION
+      step_id: email
+      operation_id: receiveDemoEmail
+      actor: FAKE_EMAIL_ADAPTER
+      path_params: {}
+      query: {}
+      body:
+        provider_thread_id: thread-e2e-003
+        from:
+          display_name: Fornecedor Demo A
+          address: supplier-a@demo.invalid
+        to:
+        - display_name: Operação Demo
+          address: operations@demo.invalid
+        subject: Caso seedado — atualização
+        body_text: Mensagem fictícia.
+        occurred_at:
+          $seed: seed://FX-E2E-EMAIL-LINK/tables/demo_clock/0/current_time
+      idempotency_key: scenario-email
+      expect_status: 202
+      capture: {}
+    - op: RUN_WORKER
+      step_id: inbox
+      worker_code: fake-email-inbox-consumer
+      drain: true
+      timeout_ms: 10000
+    - op: WAIT_EVENT
+      step_id: suggested
+      event_types:
+      - ConversationCaseLinkSuggested
+      minimum_count: 1
+      timeout_ms: 10000
+    - op: HTTP_OPERATION
+      step_id: confirm-link
+      operation_id: confirmConversationCaseLink
+      actor: DEMO_ATTENDANT
+      path_params:
+        conversationId:
+          $seed: seed://FX-E2E-EMAIL-LINK/tables/conversation/0/id
+      query: {}
+      body:
+        case_id:
+          $seed: seed://FX-E2E-EMAIL-LINK/tables/case_record/0/id
+        reason_codes:
+        - CASE_NUMBER_IN_SUBJECT
+        reason_text: Vínculo confirmado.
+      idempotency_key: scenario-confirm-link
+      expect_status: 200
+      capture: {}
+    - op: WAIT_EVENT
+      step_id: linked
+      event_types:
+      - CommunicationLinked
+      minimum_count: 1
+      timeout_ms: 10000
+    - op: ASSERT_STATE
+      step_id: final-state
+      assertions:
+      - path: conversation[0].link_status
+        operator: EQ
+        expected: CONFIRMED
+      - path: case_record
+        operator: COUNT_EQ
+        expected: 1
+  E2E-DEMO-004:
+    program_id: E2E-DEMO-004
+    fixture_id: FX-E2E-PARALLEL-TASKS
+    timeout_ms: 90000
+    steps:
+    - op: HTTP_OPERATION
+      step_id: create-a
+      operation_id: createTask
+      actor: DEMO_ATTENDANT
+      path_params:
+        caseId:
+          $seed: seed://FX-E2E-PARALLEL-TASKS/tables/case_record/0/id
+      query: {}
+      body:
+        vehicle_stop_id:
+          $seed: seed://FX-E2E-PARALLEL-TASKS/tables/vehicle_stop/0/id
+        title: Tarefa A
+        description: Dados fictícios.
+        task_type_code: PARALLEL_A
+        is_mandatory: true
+        mandatory_for: CASE_RESOLUTION
+      idempotency_key: scenario-create-a
+      expect_status: 201
+      capture:
+        task_id: response.data.id
+    - op: HTTP_OPERATION
+      step_id: assign-a
+      operation_id: assignTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://create-a/task_id
+      query: {}
+      body:
+        assigned_team_id:
+          $seed: seed://FX-E2E-PARALLEL-TASKS/tables/team/0/id
+        assigned_user_id: null
+      idempotency_key: scenario-assign-a
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: start-a
+      operation_id: startTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://create-a/task_id
+      query: {}
+      body: null
+      idempotency_key: scenario-start-a
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: create-b
+      operation_id: createTask
+      actor: DEMO_ATTENDANT
+      path_params:
+        caseId:
+          $seed: seed://FX-E2E-PARALLEL-TASKS/tables/case_record/0/id
+      query: {}
+      body:
+        vehicle_stop_id:
+          $seed: seed://FX-E2E-PARALLEL-TASKS/tables/vehicle_stop/0/id
+        title: Tarefa B
+        description: Dados fictícios.
+        task_type_code: PARALLEL_B
+        is_mandatory: true
+        mandatory_for: CASE_RESOLUTION
+      idempotency_key: scenario-create-b
+      expect_status: 201
+      capture:
+        task_id: response.data.id
+    - op: HTTP_OPERATION
+      step_id: assign-b
+      operation_id: assignTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://create-b/task_id
+      query: {}
+      body:
+        assigned_team_id:
+          $seed: seed://FX-E2E-PARALLEL-TASKS/tables/team/0/id
+        assigned_user_id: null
+      idempotency_key: scenario-assign-b
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: start-b
+      operation_id: startTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://create-b/task_id
+      query: {}
+      body: null
+      idempotency_key: scenario-start-b
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: complete-b
+      operation_id: completeTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://create-b/task_id
+      query: {}
+      body:
+        result_code: DONE
+        result_summary: B concluída.
+      idempotency_key: scenario-complete-b
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: resolve-blocked
+      operation_id: resolveCase
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        caseId:
+          $seed: seed://FX-E2E-PARALLEL-TASKS/tables/case_record/0/id
+      query: {}
+      body:
+        resolution_code: OPERATION_COMPLETED
+        resolution_summary: Tentativa bloqueada.
+      idempotency_key: scenario-resolve-blocked
+      expect_status: 409
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: complete-a
+      operation_id: completeTask
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        taskId:
+          $capture: capture://create-a/task_id
+      query: {}
+      body:
+        result_code: DONE
+        result_summary: A concluída.
+      idempotency_key: scenario-complete-a
+      expect_status: 200
+      capture: {}
+    - op: ASSERT_STATE
+      step_id: final-state
+      assertions:
+      - path: task[?status!='COMPLETED' && is_mandatory==true]
+        operator: COUNT_EQ
+        expected: 0
+  E2E-DEMO-005:
+    program_id: E2E-DEMO-005
+    fixture_id: FX-E2E-NO-PICKUP
+    timeout_ms: 90000
+    steps:
+    - op: ASSERT_STATE
+      step_id: departure-null
+      assertions:
+      - path: vehicle_stop[0].confirmed_departure_at
+        operator: IS_NULL
+        expected: true
+    - op: HTTP_OPERATION
+      step_id: release
+      operation_id: releaseVehicle
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-NO-PICKUP/tables/vehicle_stop/0/id
+      query: {}
+      body:
+        released_at:
+          $seed: seed://FX-E2E-NO-PICKUP/tables/demo_clock/0/current_time
+      idempotency_key: scenario-release
+      expect_status: 200
+      capture: {}
+    - op: ADVANCE_CLOCK
+      step_id: advance
+      duration: PT1H
+      actor: DEMO_ADMIN
+    - op: HTTP_OPERATION
+      step_id: driver-access
+      operation_id: issueDriverAccess
+      actor: DEMO_SUPERVISOR
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-NO-PICKUP/tables/vehicle_stop/0/id
+      query: {}
+      body: null
+      idempotency_key: scenario-driver-access
+      expect_status: 201
+      capture:
+        access_url: response.data.access_url
+    - op: HTTP_OPERATION
+      step_id: driver-session
+      operation_id: createExternalSession
+      actor: EXTERNAL_ANONYMOUS
+      path_params: {}
+      query: {}
+      body:
+        token:
+          $expr: EXTRACT_FRAGMENT_PARAM
+          source:
+            $capture: capture://driver-access/access_url
+          name: token
+      idempotency_key: scenario-driver-session
+      expect_status: 201
+      capture:
+        session_cookie: response.cookies.fotc_external_session
+        csrf_token: response.data.csrf_token
+      actor_output_profile: CAPTURED_EXTERNAL_DRIVER
+    - op: HTTP_OPERATION
+      step_id: departure
+      operation_id: confirmDepartureExternal
+      actor: CAPTURED_EXTERNAL_DRIVER
+      path_params: {}
+      query: {}
+      body:
+        confirmed_departure_at:
+          $seed: seed://FX-E2E-NO-PICKUP/tables/demo_clock/0/current_time
+        confirmation: true
+      idempotency_key: scenario-departure
+      expect_status: 200
+      capture: {}
+    - op: HTTP_OPERATION
+      step_id: close
+      operation_id: closeVehicleStop
+      actor: DEMO_OPERATIONS_ANALYST
+      path_params:
+        stopId:
+          $seed: seed://FX-E2E-NO-PICKUP/tables/vehicle_stop/0/id
+      query: {}
+      body:
+        closure_reason: Retirada confirmada.
+      idempotency_key: scenario-close
+      expect_status: 200
+      capture: {}
+    - op: ASSERT_STATE
+      step_id: final-state
+      assertions:
+      - path: vehicle_stop[0].status
+        operator: EQ
+        expected: CLOSED
+      - path: vehicle_stop[0].confirmed_departure_at
+        operator: NOT_NULL
+        expected: true
+      - path: vehicle_stop[0].stopped_duration_seconds
+        operator: GT
+        expected: 0
+  TST-DATA-TASK-005:
+    program_id: TST-DATA-TASK-005
+    fixture_id: FX-API-TASK-NOT-STARTED
+    timeout_ms: 30000
+    steps:
+    - op: DOMAIN_COMMAND
+      step_id: task-sequence-1
+      command_step:
+        op: COMMAND
+        step_id: command-1
+        command: AssignTask
+        aggregate_ref:
+          $seed: seed://FX-API-TASK-NOT-STARTED/tables/task/0/id
+        payload:
+          task_id:
+            $seed: seed://FX-API-TASK-NOT-STARTED/tables/task/0/id
+          assigned_team_id:
+            $seed: seed://FX-API-TASK-NOT-STARTED/tables/team/0/id
+          assigned_user_id: null
+        expected_version:
+          $expr: CURRENT_AGGREGATE_VERSION
+          aggregate_ref:
+            $seed: seed://FX-API-TASK-NOT-STARTED/tables/task/0/id
+        idempotency_key: runner-assigntask-fx-api-task-not-started
+        caused_by_event_ref: null
+        expect: SUCCESS
+        capture:
+          aggregate_version: result.aggregate_version
+          event_id: result.event_id
+    - op: DOMAIN_COMMAND
+      step_id: task-sequence-2
+      command_step:
+        op: COMMAND
+        step_id: command-2
+        command: StartTask
+        aggregate_ref:
+          $seed: seed://FX-API-TASK-NOT-STARTED/tables/task/0/id
+        payload:
+          task_id:
+            $seed: seed://FX-API-TASK-NOT-STARTED/tables/task/0/id
+        expected_version:
+          $expr: CURRENT_AGGREGATE_VERSION
+          aggregate_ref:
+            $seed: seed://FX-API-TASK-NOT-STARTED/tables/task/0/id
+        idempotency_key: runner-starttask-fx-api-task-not-started
+        caused_by_event_ref: null
+        expect: SUCCESS
+        capture:
+          aggregate_version: result.aggregate_version
+          event_id: result.event_id
+    - op: DOMAIN_COMMAND
+      step_id: task-sequence-3
+      command_step:
+        op: COMMAND
+        step_id: command-3
+        command: CompleteTask
+        aggregate_ref:
+          $seed: seed://FX-API-TASK-NOT-STARTED/tables/task/0/id
+        payload:
+          task_id:
+            $seed: seed://FX-API-TASK-NOT-STARTED/tables/task/0/id
+          result_code: COMPLETED
+          result_summary: Tarefa fictícia concluída.
+        expected_version:
+          $expr: CURRENT_AGGREGATE_VERSION
+          aggregate_ref:
+            $seed: seed://FX-API-TASK-NOT-STARTED/tables/task/0/id
+        idempotency_key: runner-completetask-fx-api-task-not-started
+        caused_by_event_ref: null
+        expect: SUCCESS
+        capture:
+          aggregate_version: result.aggregate_version
+          event_id: result.event_id
+    - op: ASSERT_STATE
+      step_id: task-completed
+      assertions:
+      - path: task[0].status
+        operator: EQ
+        expected: COMPLETED
+  TST-DATA-RESET-005:
+    program_id: TST-DATA-RESET-005
+    fixture_id: FX-API-RESET
+    timeout_ms: 30000
+    steps:
+    - op: DB_OPERATION
+      step_id: delete-users
+      operation_code: DELETE_AND_RESEED_APP_USER
+      args:
+        seed_version: 2.1.3
+    - op: ASSERT_STATE
+      step_id: preserved-reset
+      assertions:
+      - path: demo_reset_execution[0].requested_by_user_id_snapshot
+        operator: NOT_NULL
+        expected: true
+      - path: demo_reset_execution[0].requested_by_identity_code
+        operator: EQ
+        expected: demo.admin

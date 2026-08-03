@@ -1,0 +1,1181 @@
+registry_version: 2.1.3
+release: DEMO-R1
+schema_bundle: fleet-operations-control-tower-demo-r1.events.schema.json
+delivery_semantics:
+  guarantee: AT_LEAST_ONCE
+  global_order: false
+  aggregate_order: true
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+  consumer_idempotency_key: demo_generation_id + consumer_code + domain_event_id
+  generation_commit_guard:
+    required_runtime_status: ACTIVE
+    required_relation: event.demo_generation_id = demo_runtime_control.active_generation_id
+    failure_code: STALE_DEMO_GENERATION
+  retry_schedule:
+  - PT1M
+  - PT5M
+  - PT15M
+  - PT30M
+  - PT60M
+  after_retry_exhaustion: DEAD_LETTER
+replay_modes:
+  LIVE: Todos os consumidores habilitados; commit exige geração ativa.
+  PROJECTION_REBUILD: Somente LIVE_AND_REPLAY; handlers LIVE_ONLY ficam desabilitados; rebuild grava a geração ativa.
+  CONTROL_EVENT: Eventos de controle não participam de rebuild nem são reexecutados.
+consumers:
+- consumer_code: alert-resolver
+  mode: LIVE_ONLY
+  dedup: demo_generation_id + consumer_code + event_id
+- consumer_code: arrival-conflict-alert-handler
+  mode: LIVE_ONLY
+  dedup: demo_generation_id + consumer_code + event_id
+  description: Executa CreateArrivalConflictAlert após ArrivalConflictDetected; efeito LIVE_ONLY e idempotente por geração, consumer e evento.
+- consumer_code: arrival-conflict-task-handler
+  mode: LIVE_ONLY
+  dedup: demo_generation_id + consumer_code + event_id
+  description: Executa CreateArrivalConflictTask após ArrivalConflictDetected e CompleteArrivalConflictTask após ArrivalConfirmed; efeitos LIVE_ONLY.
+- consumer_code: arrival-evaluator
+  mode: LIVE_ONLY
+  dedup: demo_generation_id + consumer_code + event_id
+- consumer_code: case-resume-handler
+  mode: LIVE_ONLY
+  dedup: demo_generation_id + consumer_code + event_id
+- consumer_code: case-view-projector
+  mode: LIVE_AND_REPLAY
+  dedup: demo_generation_id + domain_event_id
+- consumer_code: conversation-link-suggester
+  mode: LIVE_ONLY
+  dedup: demo_generation_id + consumer_code + event_id
+- consumer_code: demo-reset-coordinator
+  mode: LIVE_ONLY_CONTROL
+  dedup: demo_generation_id + consumer_code + event_id
+- consumer_code: metrics-projector
+  mode: LIVE_AND_REPLAY
+  dedup: demo_generation_id + domain_event_id
+- consumer_code: search-projector
+  mode: LIVE_AND_REPLAY
+  dedup: demo_generation_id + domain_event_id
+- consumer_code: stop-inactivity-evaluator
+  mode: LIVE_ONLY
+  dedup: demo_generation_id + consumer_code + event_id
+- consumer_code: stop-view-projector
+  mode: LIVE_AND_REPLAY
+  dedup: demo_generation_id + domain_event_id
+- consumer_code: task-resume-handler
+  mode: LIVE_ONLY
+  dedup: demo_generation_id + consumer_code + event_id
+- consumer_code: timeline-projector
+  mode: LIVE_AND_REPLAY
+  dedup: demo_generation_id + domain_event_id
+- consumer_code: token-lifecycle-handler
+  mode: LIVE_ONLY
+  dedup: demo_generation_id + consumer_code + event_id
+  description: Executa AutoRevokeExternalAccess para condições automáticas de ciclo de vida.
+events:
+- event_type: DemoClockAdvanced
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/DemoClockAdvancedEvent
+  payload_schema: DemoClockAdvancedPayload
+  aggregate_type: DEMO_CLOCK
+  producers:
+  - demo-service
+  causing_commands:
+  - AdvanceDemoClock
+  source_operations:
+  - operation_id: advanceDemoClock
+    command: AdvanceDemoClock
+    method: POST
+    path: /api/v1/demo/clock/advance
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: CONTROL_EVENT_NO_REPLAY_EFFECTS
+  description: Registra avanço monotônico do relógio. Timestamps históricos não são alterados.
+  consumers:
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: stop-inactivity-evaluator
+    effect: Avaliar STOP_NO_UPDATE usando o novo DemoClock.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: DemoResetRequested
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/DemoResetRequestedEvent
+  payload_schema: DemoResetRequestedPayload
+  aggregate_type: DEMO_RESET
+  producers:
+  - demo-service
+  causing_commands:
+  - ResetDemoScenario
+  source_operations:
+  - operation_id: resetDemoScenario
+    command: ResetDemoScenario
+    method: POST
+    path: /api/v1/demo/reset
+  data_classification: CONFIDENTIAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: NON_REPLAYABLE_CONTROL
+  description: Evento de controle emitido na geração de origem; identifica a geração alvo em PREPARING e é não reexecutável.
+  consumers:
+  - mode: LIVE_ONLY_CONTROL
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: demo-reset-coordinator
+    effect: Executar reset sob advisory lock e boundary transacional.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: CaseWorkStarted
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/CaseWorkStartedEvent
+  payload_schema: CaseWorkStartedPayload
+  aggregate_type: CASE
+  producers:
+  - case-service
+  causing_commands:
+  - StartCaseWork
+  source_operations:
+  - operation_id: startCaseWork
+    command: StartCaseWork
+    method: POST
+    path: /api/v1/cases/{caseId}/start-work
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Caso saiu de NEW para IN_PROGRESS.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Atualizar estado e responsável do caso.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar início do trabalho.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: CaseWaitingForSupplier
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/CaseWaitingForSupplierEvent
+  payload_schema: CaseWaitingForSupplierPayload
+  aggregate_type: CASE
+  producers:
+  - case-service
+  causing_commands:
+  - WaitCaseForSupplier
+  source_operations:
+  - operation_id: waitCaseForSupplier
+    command: WaitCaseForSupplier
+    method: POST
+    path: /api/v1/cases/{caseId}/wait-for-supplier
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Caso aguarda atualização de previsão do fornecedor.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Atualizar condição e próxima ação.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar espera pelo fornecedor.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: CaseResumedAfterSupplierUpdate
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/CaseResumedAfterSupplierUpdateEvent
+  payload_schema: CaseResumedAfterSupplierUpdatePayload
+  aggregate_type: CASE
+  producers:
+  - case-resume-handler
+  causing_commands:
+  - ResumeCaseAfterSupplierUpdate
+  source_operations: []
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: case-resume-handler + source_forecast_event_id
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Retomada idempotente causada por CompletionForecastUpdated.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Retornar o caso a IN_PROGRESS.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Registrar retomada causada pela previsão.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: CaseResolved
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/CaseResolvedEvent
+  payload_schema: CaseResolvedPayload
+  aggregate_type: CASE
+  producers:
+  - case-service
+  causing_commands:
+  - ResolveCase
+  source_operations:
+  - operation_id: resolveCase
+    command: ResolveCase
+    method: POST
+    path: /api/v1/cases/{caseId}/resolve
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Caso atingiu o estado terminal RESOLVED.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Atualizar estado final e resolução.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: search-projector
+    effect: Atualizar status pesquisável.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar resolução do caso.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: TaskCreated
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/TaskCreatedEvent
+  payload_schema: TaskCreatedPayload
+  aggregate_type: TASK
+  producers:
+  - task-service
+  causing_commands:
+  - CreateTask
+  - CreateArrivalConflictTask
+  source_operations:
+  - operation_id: createTask
+    command: CreateTask
+    method: POST
+    path: /api/v1/cases/{caseId}/tasks
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Tarefa criada por usuário em NOT_STARTED ou pelo fluxo de conflito de chegada em IN_PROGRESS, conforme creation_mode.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Atualizar tarefas do caso.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar tarefas da parada quando vinculada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: metrics-projector
+    effect: Recalcular OPEN_TASKS.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar ocorrência de tarefa.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: TaskAssigned
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/TaskAssignedEvent
+  payload_schema: TaskAssignedPayload
+  aggregate_type: TASK
+  producers:
+  - task-service
+  causing_commands:
+  - AssignTask
+  source_operations:
+  - operation_id: assignTask
+    command: AssignTask
+    method: POST
+    path: /api/v1/tasks/{taskId}/assign
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Tarefa atribuída a uma equipe e, opcionalmente, usuário.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Atualizar atribuição.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar atribuição quando vinculada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar atribuição.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: TaskStarted
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/TaskStartedEvent
+  payload_schema: TaskStartedPayload
+  aggregate_type: TASK
+  producers:
+  - task-service
+  causing_commands:
+  - StartTask
+  source_operations:
+  - operation_id: startTask
+    command: StartTask
+    method: POST
+    path: /api/v1/tasks/{taskId}/start
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Tarefa entrou em IN_PROGRESS.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Atualizar estado da tarefa.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar estado quando vinculada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar início.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: TaskWaitingForSupplier
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/TaskWaitingForSupplierEvent
+  payload_schema: TaskWaitingForSupplierPayload
+  aggregate_type: TASK
+  producers:
+  - task-service
+  causing_commands:
+  - WaitTaskForSupplier
+  source_operations:
+  - operation_id: waitTaskForSupplier
+    command: WaitTaskForSupplier
+    method: POST
+    path: /api/v1/tasks/{taskId}/wait-for-supplier
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Tarefa aguarda UPDATE_COMPLETION_FORECAST.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Atualizar espera e próxima ação.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar espera na parada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar espera.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: TaskResumedAfterSupplierUpdate
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/TaskResumedAfterSupplierUpdateEvent
+  payload_schema: TaskResumedAfterSupplierUpdatePayload
+  aggregate_type: TASK
+  producers:
+  - task-resume-handler
+  causing_commands:
+  - ResumeTaskAfterSupplierUpdate
+  source_operations: []
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: task-resume-handler + source_forecast_event_id + task_id
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Retomada idempotente causada por CompletionForecastUpdated.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Retornar tarefa a IN_PROGRESS.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar tarefa na parada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Registrar retomada.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: TaskCompleted
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/TaskCompletedEvent
+  payload_schema: TaskCompletedPayload
+  aggregate_type: TASK
+  producers:
+  - task-service
+  causing_commands:
+  - CompleteTask
+  - CompleteArrivalConflictTask
+  source_operations:
+  - operation_id: completeTask
+    command: CompleteTask
+    method: POST
+    path: /api/v1/tasks/{taskId}/complete
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Tarefa concluída por usuário ou automaticamente após confirmação da chegada conflitante.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Atualizar tarefas do caso.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar tarefas da parada quando vinculada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: metrics-projector
+    effect: Recalcular OPEN_TASKS.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar ocorrência de tarefa.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: TaskCancelled
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/TaskCancelledEvent
+  payload_schema: TaskCancelledPayload
+  aggregate_type: TASK
+  producers:
+  - task-service
+  causing_commands:
+  - CancelTask
+  source_operations:
+  - operation_id: cancelTask
+    command: CancelTask
+    method: POST
+    path: /api/v1/tasks/{taskId}/cancel
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Tarefa atingiu CANCELLED por supervisor.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Atualizar tarefas do caso.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar tarefas da parada quando vinculada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: metrics-projector
+    effect: Recalcular OPEN_TASKS.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar ocorrência de tarefa.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: StopPreparedForArrival
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/StopPreparedForArrivalEvent
+  payload_schema: StopPreparedForArrivalPayload
+  aggregate_type: VEHICLE_STOP
+  producers:
+  - stop-service
+  causing_commands:
+  - PrepareStopForArrival
+  source_operations:
+  - operation_id: prepareStopForArrival
+    command: PrepareStopForArrival
+    method: POST
+    path: /api/v1/stops/{stopId}/prepare-arrival
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Parada entrou em AWAITING_ARRIVAL.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar visão da parada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar fato da parada.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: ArrivalReported
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/ArrivalReportedEvent
+  payload_schema: ArrivalReportedPayload
+  aggregate_type: VEHICLE_STOP
+  producers:
+  - stop-service
+  causing_commands:
+  - ReportArrival
+  source_operations:
+  - operation_id: reportArrivalInternal
+    command: ReportArrival
+    method: POST
+    path: /api/v1/stops/{stopId}/arrival-reports
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Relato exclusivamente interno, append-only; incrementa a versão de VEHICLE_STOP sem confirmar a chegada.
+  consumers:
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: arrival-evaluator
+    effect: Comparar todos os relatos da parada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Adicionar relato sem confirmar chegada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar relato de chegada.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: ArrivalConflictDetected
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/ArrivalConflictDetectedEvent
+  payload_schema: ArrivalConflictDetectedPayload
+  aggregate_type: VEHICLE_STOP
+  producers:
+  - arrival-evaluator
+  causing_commands:
+  - EvaluateArrivalReports
+  source_operations: []
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: arrival conflict deduplication_key
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Conflito superior a 900 segundos. Handlers live-only criam, de forma idempotente, a tarefa obrigatória e o alerta correlacionado.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Exibir conflito de chegada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar conflito e necessidade de validação.
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: arrival-conflict-task-handler
+    effect: Executar CreateArrivalConflictTask e produzir TaskCreated.
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: arrival-conflict-alert-handler
+    effect: Executar CreateArrivalConflictAlert e produzir AlertCreated.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: ArrivalConfirmed
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/ArrivalConfirmedEvent
+  payload_schema: ArrivalConfirmedPayload
+  aggregate_type: VEHICLE_STOP
+  producers:
+  - stop-service
+  causing_commands:
+  - ConfirmArrival
+  source_operations:
+  - operation_id: confirmArrival
+    command: ConfirmArrival
+    method: POST
+    path: /api/v1/stops/{stopId}/confirm-arrival
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Chegada confirmada. Quando existir conflito relacionado, handlers live-only concluem a tarefa obrigatória e resolvem o alerta.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar chegada confirmada e estado.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar confirmação de chegada.
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: arrival-conflict-task-handler
+    effect: Executar CompleteArrivalConflictTask quando houver conflito relacionado.
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: alert-resolver
+    effect: Executar ResolveArrivalConflictAlert quando houver alerta relacionado.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: ArrivalCorrected
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/ArrivalCorrectedEvent
+  payload_schema: ArrivalCorrectedPayload
+  aggregate_type: VEHICLE_STOP
+  producers:
+  - stop-service
+  causing_commands:
+  - CorrectArrival
+  source_operations:
+  - operation_id: correctArrival
+    command: CorrectArrival
+    method: POST
+    path: /api/v1/stops/{stopId}/correct-arrival
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Correção append-only; não altera o estado principal.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar confirmação corrente e durações.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: metrics-projector
+    effect: Recalcular métricas dependentes do tempo.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Preservar confirmação anterior e adicionar correção.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: ServiceStarted
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/ServiceStartedEvent
+  payload_schema: ServiceStartedPayload
+  aggregate_type: VEHICLE_STOP
+  producers:
+  - stop-service
+  causing_commands:
+  - StartService
+  source_operations:
+  - operation_id: startService
+    command: StartService
+    method: POST
+    path: /api/v1/stops/{stopId}/start-service
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Serviço iniciou após chegada confirmada.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar visão da parada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar fato da parada.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: CompletionForecastUpdated
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/CompletionForecastUpdatedEvent
+  payload_schema: CompletionForecastUpdatedPayload
+  aggregate_type: VEHICLE_STOP
+  producers:
+  - stop-service
+  causing_commands:
+  - UpdateCompletionForecast
+  source_operations:
+  - operation_id: updateForecastExternal
+    command: UpdateCompletionForecast
+    method: POST
+    path: /external/v1/forecast
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Previsão atualizada pelo fornecedor externo autorizado. Consumers live-only resolvem alerta e retomam caso/tarefas compatíveis.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar previsão corrente e last relevant event.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: metrics-projector
+    effect: Recalcular métricas afetadas.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar atualização de previsão.
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: alert-resolver
+    effect: Resolver STOP_NO_UPDATE aberto.
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: task-resume-handler
+    effect: Retomar tarefas compatíveis.
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: case-resume-handler
+    effect: Retomar o caso compatível.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: ServiceCompleted
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/ServiceCompletedEvent
+  payload_schema: ServiceCompletedPayload
+  aggregate_type: VEHICLE_STOP
+  producers:
+  - stop-service
+  causing_commands:
+  - CompleteService
+  source_operations:
+  - operation_id: completeService
+    command: CompleteService
+    method: POST
+    path: /api/v1/stops/{stopId}/complete-service
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Serviço concluído; departure_confirmed permanece false.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar visão da parada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar fato da parada.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: VehicleReleased
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/VehicleReleasedEvent
+  payload_schema: VehicleReleasedPayload
+  aggregate_type: VEHICLE_STOP
+  producers:
+  - stop-service
+  causing_commands:
+  - ReleaseVehicle
+  source_operations:
+  - operation_id: releaseVehicle
+    command: ReleaseVehicle
+    method: POST
+    path: /api/v1/stops/{stopId}/release-vehicle
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Veículo liberado e aguardando retirada.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar visão da parada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar fato da parada.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: DepartureConfirmed
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/DepartureConfirmedEvent
+  payload_schema: DepartureConfirmedPayload
+  aggregate_type: VEHICLE_STOP
+  producers:
+  - stop-service
+  causing_commands:
+  - ConfirmDeparture
+  source_operations:
+  - operation_id: confirmDepartureExternal
+    command: ConfirmDeparture
+    method: POST
+    path: /external/v1/departure
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Condutor confirmou retirada; encerra a duração da parada.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar retirada e duração final.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: metrics-projector
+    effect: Recalcular métricas.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar retirada confirmada.
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: token-lifecycle-handler
+    effect: Revogar token e sessões do condutor.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: VehicleStopClosed
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/VehicleStopClosedEvent
+  payload_schema: VehicleStopClosedPayload
+  aggregate_type: VEHICLE_STOP
+  producers:
+  - stop-service
+  causing_commands:
+  - CloseVehicleStop
+  source_operations:
+  - operation_id: closeVehicleStop
+    command: CloseVehicleStop
+    method: POST
+    path: /api/v1/stops/{stopId}/close
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Parada atingiu o estado terminal CLOSED.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Marcar parada como CLOSED.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Habilitar resolução do caso.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: search-projector
+    effect: Atualizar status pesquisável.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: metrics-projector
+    effect: Reduzir ACTIVE_STOPS.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar fechamento.
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: token-lifecycle-handler
+    effect: Revogar tokens restantes da parada.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: AlertCreated
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/AlertCreatedEvent
+  payload_schema: AlertCreatedPayload
+  aggregate_type: ALERT
+  producers:
+  - alert-service
+  causing_commands:
+  - EvaluateStopInactivity
+  - CreateArrivalConflictAlert
+  source_operations: []
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: deduplication_key while status = OPEN
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Alerta aberto com chave de deduplicação.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar alertas da parada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Atualizar alertas do caso.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: metrics-projector
+    effect: Recalcular NO_UPDATE_STOPS quando aplicável.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar abertura do alerta.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: AlertOccurrenceAdded
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/AlertOccurrenceAddedEvent
+  payload_schema: AlertOccurrenceAddedPayload
+  aggregate_type: ALERT
+  producers:
+  - alert-service
+  causing_commands:
+  - EvaluateStopInactivity
+  source_operations: []
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: alert_id + source_event_id
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Nova avaliação equivalente sem criar outro alerta.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar contagem de ocorrências.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar ocorrência somente quando relevante à demonstração.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: AlertResolved
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/AlertResolvedEvent
+  payload_schema: AlertResolvedPayload
+  aggregate_type: ALERT
+  producers:
+  - alert-service
+  causing_commands:
+  - ResolveStopNoUpdateAlert
+  - ResolveArrivalConflictAlert
+  source_operations: []
+  data_classification: INTERNAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: alert_id + resolution_source_event_id
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Alerta resolvido por evento de domínio correlacionado.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Remover alerta aberto da visão.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Atualizar alertas do caso.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: metrics-projector
+    effect: Recalcular NO_UPDATE_STOPS.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar resolução do alerta.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: InboundCommunicationReceived
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/InboundCommunicationReceivedEvent
+  payload_schema: InboundCommunicationReceivedPayload
+  aggregate_type: CONVERSATION
+  producers:
+  - integration-inbox-processor
+  causing_commands:
+  - ReceiveInboundEmail
+  source_operations:
+  - operation_id: receiveDemoEmail
+    command: ReceiveInboundEmail
+    method: POST
+    path: /webhooks/v1/demo/email/messages
+  data_classification: CONFIDENTIAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: source_code + provider_message_id
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Mensagem fictícia recebida. Payload não contém body nem endereço completo.
+  consumers:
+  - mode: LIVE_ONLY
+    dedup: demo_generation_id + consumer_code + event_id
+    consumer_code: conversation-link-suggester
+    effect: Gerar sugestão de vínculo sem criar caso.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: ConversationCaseLinkSuggested
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/ConversationCaseLinkSuggestedEvent
+  payload_schema: ConversationCaseLinkSuggestedPayload
+  aggregate_type: CONVERSATION
+  producers:
+  - conversation-link-suggester
+  causing_commands:
+  - SuggestConversationCaseLink
+  source_operations: []
+  data_classification: CONFIDENTIAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: conversation_id + suggested_case_id + source communication event
+  delivery: AT_LEAST_ONCE
+  replay_policy: STATE_RECONSTRUCTION_ONLY
+  description: Sugestão informativa aguardando confirmação humana.
+  consumers: []
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: CommunicationLinked
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/CommunicationLinkedEvent
+  payload_schema: CommunicationLinkedPayload
+  aggregate_type: CONVERSATION
+  producers:
+  - communication-service
+  causing_commands:
+  - ConfirmConversationCaseLink
+  source_operations:
+  - operation_id: confirmConversationCaseLink
+    command: ConfirmConversationCaseLink
+    method: POST
+    path: /api/v1/conversations/{conversationId}/link-case
+  data_classification: CONFIDENTIAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Conversa ligada ao caso existente.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Exibir conversa vinculada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar decisão humana de vínculo.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: PhoneCallRecorded
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/PhoneCallRecordedEvent
+  payload_schema: PhoneCallRecordedPayload
+  aggregate_type: CASE
+  producers:
+  - communication-service
+  causing_commands:
+  - RecordPhoneCall
+  source_operations:
+  - operation_id: recordPhoneCall
+    command: RecordPhoneCall
+    method: POST
+    path: /api/v1/cases/{caseId}/phone-calls
+  data_classification: CONFIDENTIAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: idempotency_record_id or causing consumer receipt
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Ligação registrada no aggregate CASE; incrementa case_record.version e não transporta notas completas.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: case-view-projector
+    effect: Exibir ligação no contexto.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: stop-view-projector
+    effect: Atualizar last relevant event quando vinculada.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: metrics-projector
+    effect: Incrementar PHONE_CALLS.
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar contato sem notas integrais.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: ExternalAccessTokenIssued
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/ExternalAccessTokenIssuedEvent
+  payload_schema: ExternalAccessTokenIssuedPayload
+  aggregate_type: EXTERNAL_ACCESS_TOKEN
+  producers:
+  - external-access-service
+  causing_commands:
+  - IssueSupplierAccess
+  - IssueDriverAccess
+  source_operations:
+  - operation_id: issueSupplierAccess
+    command: IssueSupplierAccess
+    method: POST
+    path: /api/v1/stops/{stopId}/external-access/supplier
+  - operation_id: issueDriverAccess
+    command: IssueDriverAccess
+    method: POST
+    path: /api/v1/stops/{stopId}/external-access/driver
+  data_classification: CONFIDENTIAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: token_id
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: Capability token emitido; segredo e hash nunca aparecem no evento.
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar emissão sanitizada ao contexto interno da parada.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version
+- event_type: ExternalAccessTokenRevoked
+  schema_version: 2
+  schema_ref: ./fleet-operations-control-tower-demo-r1.events.schema.json#/$defs/ExternalAccessTokenRevokedEvent
+  payload_schema: ExternalAccessTokenRevokedPayload
+  aggregate_type: EXTERNAL_ACCESS_TOKEN
+  producers:
+  - external-access-service
+  - token-lifecycle-handler
+  causing_commands:
+  - AutoRevokeExternalAccess
+  source_operations: []
+  data_classification: CONFIDENTIAL
+  ordering_key: demo_generation_id + aggregate_type + aggregate_id + aggregate_sequence
+  live_production_deduplication: token_id + revocation_reason_code + causing_event_id or lifecycle_occurrence_id
+  delivery: AT_LEAST_ONCE
+  replay_policy: PROJECTION_ONLY
+  description: 'Token revogado exclusivamente por política automática: substituição, expiração, mudança de sujeito, retirada, fechamento, limite
+    de uso, reset ou falha de segurança. Segredo e hash nunca são publicados.'
+  consumers:
+  - mode: LIVE_AND_REPLAY
+    dedup: demo_generation_id + domain_event_id
+    consumer_code: timeline-projector
+    effect: Adicionar revogação sanitizada.
+  generation_rule: event.demo_generation_id MUST equal the active generation at production
+  aggregate_version_rule: aggregate_sequence = resulting aggregate_version

@@ -1,0 +1,76 @@
+policy_version: 2.1.3
+release: DEMO-R1
+status: NORMATIVE_RESET_RECOVERY_POLICY
+worker_code: demo-reset-recovery-watchdog
+clock_source: DATABASE_TIME
+locking:
+  advisory_lock_key: FOTC_DEMO_RESET
+  runtime_row_lock: demo_runtime_control FOR UPDATE
+  execution_row_lock: demo_reset_execution FOR UPDATE SKIP LOCKED
+  transaction_isolation: SERIALIZABLE
+lease:
+  heartbeat_interval_seconds: 10
+  lease_ttl_seconds: 30
+  watchdog_scan_interval_seconds: 15
+  maximum_recovery_attempts: 3
+  stale_condition: runtime_status = RESETTING AND status IN (RUNNING, RECOVERING) AND lease_expires_at < database_now
+normal_execution:
+  phase_a:
+  - create target generation PREPARING
+  - create reset execution REQUESTED
+  - acquire reset advisory lock
+  - set execution RUNNING and acquire lease
+  - set runtime RESETTING
+  - stop new commands and worker claims
+  - drain or abort source-generation leases
+  phase_b_atomic_transaction:
+  - validate source generation and source checksum
+  - revoke sessions and external tokens
+  - clear CLEAR tables
+  - reseed RESEED tables with target generation
+  - restore DemoClock
+  - rebuild projections
+  - validate constraints, metrics and checksums
+  - retire source generation
+  - activate target generation
+  - set runtime ACTIVE
+  - set reset execution COMPLETED
+  heartbeat_rule: Owner updates heartbeat_at and lease_expires_at outside the phase B database transaction until phase B begins; phase B is bounded
+    by statement_timeout and transaction_timeout.
+recovery:
+  entry_conditions:
+  - runtime status is RESETTING
+  - active reset execution lease expired
+  - watchdog acquired advisory lock and both rows
+  recoverable_path:
+  - set execution status RECOVERING
+  - increment recovery_attempt_count
+  - validate source generation remains ACTIVE
+  - validate source dataset checksum
+  - mark target generation FAILED
+  - abort remaining target/source leases for the reset
+  - set runtime active_generation_id to source generation
+  - set runtime status ACTIVE
+  - set execution status FAILED
+  - set failure_code RESET_OWNER_LOST_RECOVERED_TO_SOURCE
+  failed_safe_path:
+  - set runtime status FAILED_SAFE
+  - set execution status FAILED
+  - set failure_code RESET_RECOVERY_VALIDATION_FAILED
+  - reject every mutation
+  - allow status, health and forensic reads only
+  idempotency_key: reset_execution_id + recovery_attempt_count + expired_lease_expires_at
+  phase_b_crash_rule: A process crash during phase B causes database rollback. Because source retirement, target activation, runtime activation
+    and execution completion are in the same transaction, a partial committed generation is impossible.
+api_behavior:
+  resetting_mutation_response: 503 DEMO_RESET_IN_PROGRESS
+  failed_safe_mutation_response: 503 DEMO_RESET_RECOVERY_REQUIRED
+  read_behavior: Status and health reads remain available. Operational reads may expose the last confirmed source generation only.
+audit:
+  required_action_codes:
+  - DEMO_RESET_LEASE_ACQUIRED
+  - DEMO_RESET_HEARTBEAT_EXPIRED
+  - DEMO_RESET_RECOVERY_STARTED
+  - DEMO_RESET_RECOVERED_TO_SOURCE
+  - DEMO_RESET_RECOVERY_FAILED_SAFE
+  secret_fields: FORBIDDEN

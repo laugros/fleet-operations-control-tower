@@ -1,0 +1,44 @@
+registry_version: 2.1.3
+release: DEMO-R1
+status: NORMATIVE_PENDING_FINAL_REVIEW
+workers:
+- worker_code: arrival-evaluator
+  executor_kind: EVENT_CONSUMER
+  event_consumer_code: arrival-evaluator
+  source_code: null
+  policy_ref: null
+  command_codes:
+  - EvaluateArrivalReports
+  drain_semantics: UNTIL_IDLE
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+  replay_execution: FORBIDDEN
+- worker_code: alert-evaluator
+  executor_kind: EVENT_CONSUMER_ALIAS
+  event_consumer_code: stop-inactivity-evaluator
+  source_code: null
+  policy_ref: null
+  command_codes:
+  - EvaluateStopInactivity
+  drain_semantics: UNTIL_IDLE
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+  replay_execution: FORBIDDEN
+- worker_code: fake-email-inbox-consumer
+  executor_kind: INTEGRATION_INBOX
+  event_consumer_code: conversation-link-suggester
+  source_code: FAKE_EMAIL
+  policy_ref: null
+  command_codes:
+  - ReceiveInboundEmail
+  - SuggestConversationCaseLink
+  drain_semantics: UNTIL_IDLE
+  generation_guard: ACTIVE_GENERATION_REQUIRED
+  replay_execution: FORBIDDEN
+- worker_code: demo-reset-recovery-watchdog
+  executor_kind: CONTROL_WATCHDOG
+  event_consumer_code: null
+  source_code: null
+  policy_ref: policies/demo-r1-reset-recovery-policy.yaml
+  command_codes: []
+  drain_semantics: SINGLE_SCAN
+  generation_guard: CONTROL_GENERATION_TRANSITION
+  replay_execution: FORBIDDEN
