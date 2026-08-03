@@ -1,29 +1,17 @@
-# Especificação Executável v2.1.3
+# Especificação Executável v2.1.4
 ## Catálogo de Eventos da DEMO-R1
 
-**Produto:** Fleet Operations Control Tower  
-**Release:** `DEMO-R1`  
-**Status:** `NORMATIVE_PENDING_FINAL_REVIEW`  
-**Não autoriza scaffold**
+**Status:** `NORMATIVE_AUTHORIZED_FOR_SCAFFOLD`  
+**Escopo autorizado:** `G1_FOUNDATION`
 
----
-
-SHA-256 do documento 17: `a1659cb16abddda87cf5bc586780c50b30a21eecb2d754912c2b42b9fb82f733`.  
-SHA-256 do command registry: `aa83bd25bce174e37eaf66cfaf81646eba151b5966ee4e66f1f213af03e864ef`.  
-SHA-256 do schema de comandos: `3ce511e4bba71904cf1afaa0d602b823307fe9223a30f83213136f2843bdeed3`.  
-SHA-256 do event registry: `4de63fee0ba1d6e7926755a14f29e4b4c5ea859cecba5b84f3d13cf1b010755a`.  
-SHA-256 do bundle de eventos: `8983c19559658a13106f7f357e1a7392a638bfe54f09e4d0c3b1144bea079f04`.
+SHA-256 do documento 17: `17869a2ac1cbcaf8b3cbbf710bb145d699c2c783afd4aa590bbf338698c1f166`.  
+SHA-256 do command registry: `cd959faa1eb65e1f5d5b7e8274de7ff860c0a495e1fccf51845c8d9f37ff994f`.  
+SHA-256 do schema de comandos: `818782c3a1cdfbf3cfad8cae9bdc57bf913b4c02700d1a8f7f19048e2c8b536e`.  
+SHA-256 do event registry: `e7a229ae5eb48c1ed34c4678690d75e7d863fa91fb4b765c2b6eab5ddccda6c1`.  
+SHA-256 do bundle de eventos: `f83476bcb82779ab8d984f26c348b318172a31eb6c846bdc515a3a2e5f817edf`.
 
 ```text
-COMMANDS = 37
-EVENT_TYPES = 33
-CONSUMERS = 15
-DELIVERY = AT_LEAST_ONCE
-GLOBAL_ORDER = NONE
-```
-
-```text
-EVENT_REGISTRY = V2.1.3
-FINAL_REVIEW = PENDING
-SCAFFOLD = NOT AUTHORIZED
+EVENT_TYPES_TOTAL = 33
+G1_EVENT = DemoResetRequested
+G2_EVENT_EXTENSION = BLOCKED
 ```

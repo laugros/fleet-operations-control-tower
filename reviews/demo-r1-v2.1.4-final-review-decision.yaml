@@ -1,0 +1,30 @@
+decision_version: 2.1.4
+review_id: R7
+release: DEMO-R1
+baseline_version: 2.1.4
+verdict: READY_FOR_G1_SCAFFOLD
+scaffold_authorized: true
+authorized_gate: G1_FOUNDATION
+gate_statuses:
+  G1_FOUNDATION: READY
+  G2_DOMAIN: BLOCKED_BY_PREVIOUS_GATE
+  G3_PROJECTIONS: BLOCKED_BY_PREVIOUS_GATE
+  G4_TIME_COMMUNICATION: BLOCKED_BY_PREVIOUS_GATE
+  G5_EXTERNAL: BLOCKED_BY_PREVIOUS_GATE
+  G6_EXECUTIVE: BLOCKED_BY_PREVIOUS_GATE
+authorization_scope:
+  allowed:
+  - create repository scaffold
+  - configure the G1 development environment
+  - create G1 database schema and migrations
+  - load the G1 seed bundle
+  - implement G1 work packages and slices
+  - run G1 activation tests
+  forbidden:
+  - implement G2 through G6 work packages
+  - load future-gate seed tables
+  - treat deferred tests as G1 blockers
+  - change normative contracts silently
+  - reintroduce removed operations
+source_of_truth: baseline/demo-r1-implementation-authorization.yaml
+next_action: START_G1_FOUNDATION_IN_CODEX

@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/tests/demo-r1-layered-resolved-seed.schema.json",
+  "title": "DEMO-R1 Layered Resolved Seed v2.1.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "layered_seed_version",
+    "release",
+    "status",
+    "gate",
+    "source_manifest",
+    "source_resolved_seed",
+    "seed_contract_sha256",
+    "table_contract_file",
+    "required_test_ids",
+    "required_fixture_ids",
+    "fixture_count",
+    "table_load_order",
+    "post_restore_policy",
+    "fixtures"
+  ],
+  "properties": {
+    "layered_seed_version": {
+      "const": "2.1.4"
+    },
+    "release": {
+      "const": "DEMO-R1"
+    },
+    "status": {
+      "const": "NORMATIVE_AUTHORIZED_FOR_SCAFFOLD"
+    },
+    "gate": {
+      "enum": [
+        "G1_FOUNDATION",
+        "G2_DOMAIN",
+        "G3_PROJECTIONS",
+        "G4_TIME_COMMUNICATION",
+        "G5_EXTERNAL",
+        "G6_EXECUTIVE"
+      ]
+    },
+    "source_manifest": {
+      "const": "tests/spec/demo-r1-seed-manifest.yaml"
+    },
+    "source_resolved_seed": {
+      "const": "tests/spec/demo-r1-resolved-seeds.json"
+    },
+    "seed_contract_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "table_contract_file": {
+      "const": "tests/spec/demo-r1-table-contract.yaml"
+    },
+    "required_test_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_fixture_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "fixture_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "table_load_order": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "post_restore_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "future_handlers",
+        "missing_future_handlers_are_errors"
+      ],
+      "properties": {
+        "future_handlers": {
+          "const": "SKIP_UNTIL_HANDLER_GATE"
+        },
+        "missing_future_handlers_are_errors": {
+          "const": false
+        }
+      }
+    },
+    "fixtures": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fixture_id",
+          "purpose",
+          "used_by_test_ids",
+          "restore_mode",
+          "tables",
+          "post_restore",
+          "full_state_sha256",
+          "layer_state_sha256"
+        ],
+        "properties": {
+          "fixture_id": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "used_by_test_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "restore_mode": {
+            "type": "string"
+          },
+          "tables": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array"
+            }
+          },
+          "post_restore": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "full_state_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "layer_state_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    }
+  }
+}

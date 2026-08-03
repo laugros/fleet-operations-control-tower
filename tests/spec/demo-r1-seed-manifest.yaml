@@ -1,8 +1,8 @@
-manifest_version: 2.1.3
+manifest_version: 2.1.4
 release: DEMO-R1
-seed_version: 2.1.3
-status: NORMATIVE_PENDING_FINAL_REVIEW
-namespace: https://fotc.local/demo-r1/v2.1.3/
+seed_version: 2.1.4
+status: NORMATIVE_AUTHORIZED_FOR_SCAFFOLD
+namespace: https://fotc.local/demo-r1/v2.1.4/
 clock:
   initial_time: '2026-08-01T15:00:00Z'
   timezone: UTC
@@ -79,91 +79,104 @@ restore_protocol:
     source: seed_contract_sha256
     target_column: demo_seed_manifest.manifest_sha256
     fail_on_mismatch: true
+  layer_contract_file: tests/spec/demo-r1-seed-layers.yaml
+  table_contract_file: tests/spec/demo-r1-table-contract.yaml
+  restore_profile_required: true
+  full_release_profile: G6_EXECUTIVE
+  layered_resolved_seed_files:
+    G1_FOUNDATION: tests/spec/seed-layers/g1-foundation.json
+    G2_DOMAIN: tests/spec/seed-layers/g2-domain.json
+    G3_PROJECTIONS: tests/spec/seed-layers/g3-projections.json
+    G4_TIME_COMMUNICATION: tests/spec/seed-layers/g4-time-communication.json
+    G5_EXTERNAL: tests/spec/seed-layers/g5-external.json
+    G6_EXECUTIVE: tests/spec/seed-layers/g6-executive.json
+  source_projection_policy: USE_GATE_BUNDLE; FUTURE_TABLES_MUST_NOT_ENTER_VALIDATION
+  post_restore_action_policy: EXECUTE_ONLY_HANDLERS_INSTALLED_BY_SELECTED_GATE
 compatibility_aliases: {}
 fixtures:
   FX-ACTIVE-ATTENDANT-SESSION:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ACTIVE-ATTENDANT-SESSION
-    state_sha256: 186c5593712e876c7e812c0e373762fe98722c7f2eab170300dfa9ea405452cd
+    state_sha256: 74534f5ee31394c220671de8f512548c3b7e0f084c185c8f2cdb53aeff5508b0
     used_by_test_ids:
     - TST-AUTH-SESSION-003
     purpose: Nova seleção revoga sessão anterior
   FX-ADAPTER-BAD-SIGNATURE:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ADAPTER-BAD-SIGNATURE
-    state_sha256: 966489d81f89bd42e7f4cbd894959571dd49b06713455671e7a8031b81f894fb
+    state_sha256: bca821b748c1717bd9295a0ebdc08b7a8214657d809426c524932385994aabf5
     used_by_test_ids:
     - TST-AUTH-ADAPTER-002
     purpose: Assinatura HMAC inválida é rejeitada
   FX-ADAPTER-OLD-TIMESTAMP:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ADAPTER-OLD-TIMESTAMP
-    state_sha256: c739bffe5c37e33464f45d2bac8331b73369e3cacbca0a2497a64d3fafe68db6
+    state_sha256: b53d47d7f35834adfd0922df2f71edb2819ab07a0a08640ba16050cbf7d119f4
     used_by_test_ids:
     - TST-AUTH-ADAPTER-003
     purpose: Timestamp fora da janela é rejeitado
   FX-ADAPTER-REPLAY-CONFLICT:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ADAPTER-REPLAY-CONFLICT
-    state_sha256: b9c3d522e491828c97bd81b7ef83cca3e6070c2a2c01c4aace0abe0a25f7f8e0
+    state_sha256: c5abb2446f10a98cae3112854c1abe6b27af8ed31498ae3144c60a571c20676b
     used_by_test_ids:
     - TST-AUTH-ADAPTER-004
     purpose: Mesmo message ID com payload diferente gera conflito
   FX-ADAPTER-VALID:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ADAPTER-VALID
-    state_sha256: 3f95150560527f092bdffc13490e30300e52abada81c567bf3977df09e702fdb
+    state_sha256: 1ab5de0303f26fefa2a721df3818a9d02969767cf5c50bb6432fb48fef456c13
     used_by_test_ids:
     - TST-AUTH-ADAPTER-001
     purpose: Assinatura HMAC válida é aceita
   FX-API-CASE-IN-PROGRESS:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-CASE-IN-PROGRESS
-    state_sha256: 6fcc2938e0ee47fe6cd02154a139ee743a901876b04521d9bb75f1f3d78b8acf
+    state_sha256: 1fbaea521d50ac1dfff41dc56f56ed9da953317afb69b47238e871c59bdeb35a
     used_by_test_ids:
     - TST-API-WAIT-CASE-FOR-SUPPLIER-001
     - TST-API-CREATE-TASK-001
     - TST-API-RECORD-PHONE-CALL-001
     - TST-DATA-EVT-006
-    purpose: Contrato de sucesso concreto de waitCaseForSupplier; Contrato de sucesso concreto de createTask; Contrato de sucesso concreto de
-      recordPhoneCall; PhoneCallRecorded usa aggregate CASE
+    purpose: Contrato de sucesso concreto de waitCaseForSupplier; Contrato de sucesso concreto de createTask; Contrato de sucesso concreto de recordPhoneCall;
+      PhoneCallRecorded usa aggregate CASE
   FX-API-CASE-NEW:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-CASE-NEW
-    state_sha256: 1cea2298fc3d6a5e86df23e45686a08596eed1eb4fea055154ad615120bdb89f
+    state_sha256: fd57ea9afebeb6f013b9a834061b954ba16007da4a674477c60c4e8790eedb9f
     used_by_test_ids:
     - TST-API-START-CASE-WORK-001
     purpose: Contrato de sucesso concreto de startCaseWork
   FX-API-CASE-READY:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-CASE-READY
-    state_sha256: bfa1775d4a98dababfbec018cd8bc56125312e411fd9ebd8007d935690271e41
+    state_sha256: fc4993bc2dd1bfda7ea1978fbee82b1610ec538cb53abf28170c14a9b454f905
     used_by_test_ids:
     - TST-API-RESOLVE-CASE-001
     purpose: Contrato de sucesso concreto de resolveCase
   FX-API-CONVERSATION-SUGGESTED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-CONVERSATION-SUGGESTED
-    state_sha256: 6aee77a9fcc9972cc58086ab40436e72a6361c04984573a6dd17fae0173ce9c1
+    state_sha256: c88689df66c58676dda4ca17fc5cc5108901eb1ce8c72859023f9c9fc4bd22ea
     used_by_test_ids:
     - TST-API-CONFIRM-CONVERSATION-CASE-LINK-001
     purpose: Contrato de sucesso concreto de confirmConversationCaseLink
   FX-API-EMAIL:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-EMAIL
-    state_sha256: bd589ce4a901c7218eb6ace1c44df5629f783033e156dee2b0d91e795373d1c6
+    state_sha256: 8d4cc97d00b261af7499e5d79d14f6b6ef138a3a60e3909c7e6a2203ab6b1624
     used_by_test_ids:
     - TST-API-RECEIVE-DEMO-EMAIL-001
     purpose: Contrato de sucesso concreto de receiveDemoEmail
   FX-API-EXTERNAL-DRIVER:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-EXTERNAL-DRIVER
-    state_sha256: bf91d6fc92c809d2e9c29c495fc31d5a3a54c8997602364c27bdfa745674883b
+    state_sha256: 1fb0394df700cda504933da676a50a77b15fd287f21ac6f7142d78bebfdba0ab
     used_by_test_ids:
     - TST-API-CONFIRM-DEPARTURE-EXTERNAL-001
     purpose: Contrato de sucesso concreto de confirmDepartureExternal
   FX-API-EXTERNAL-SUPPLIER:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-EXTERNAL-SUPPLIER
-    state_sha256: 6cb71abbdd99f2cb58151f3e53c6407c0847b1867991aecdb6c88dc7a522ddef
+    state_sha256: 9dc2ed2395e0a6423bc90456ca58e5affffe5c55f3ee3f8f35b4681e37e63a18
     used_by_test_ids:
     - TST-API-CREATE-EXTERNAL-SESSION-001
     - TST-API-GET-EXTERNAL-CONTEXT-001
     - TST-API-UPDATE-FORECAST-EXTERNAL-001
     - TST-API-POLICY-008
-    purpose: Contrato de sucesso concreto de createExternalSession; Contrato de sucesso concreto de getExternalContext; Contrato de sucesso concreto
-      de updateForecastExternal; Respostas externas usam headers de proteção
+    purpose: Contrato de sucesso concreto de createExternalSession; Contrato de sucesso concreto de getExternalContext; Contrato de sucesso concreto de
+      updateForecastExternal; Respostas externas usam headers de proteção
   FX-API-READ-BASE:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-READ-BASE
-    state_sha256: 36da71a31a84b202c3c3493b255939c2cfaa584ab2a3257ff19c1687dfe3e4ef
+    state_sha256: c030029b1213e8dd4b803e8e4a80b68c8e612e847cb8bcb6b1d51ca35fe1e8f3
     used_by_test_ids:
     - TST-API-GET-LIVENESS-001
     - TST-API-GET-READINESS-001
@@ -203,180 +216,178 @@ fixtures:
     - TST-AUDIT-002
     purpose: Contrato de sucesso concreto de getLiveness; Contrato de sucesso concreto de getReadiness; Contrato de sucesso concreto de createDemoSession;
       Contrato de sucesso concreto de deleteDemoSession; Contrato de sucesso concreto de getCurrentSession; Contrato de sucesso concreto de getDemoStatus;
-      Contrato de sucesso concreto de searchOperationalResources; Contrato de sucesso concreto de listStopDashboard; Contrato de sucesso concreto
-      de getDemoMetrics; Contrato de sucesso concreto de getCaseOperationalView; Contrato de sucesso concreto de getCaseTimeline; Contrato de
-      sucesso concreto de listCaseTasks; Contrato de sucesso concreto de getStopOperationalView; Contrato de sucesso concreto de getStopTimeline;
-      Contrato de sucesso concreto de listCaseConversations; Body rejeita propriedade desconhecida; Mutação por cookie exige CSRF; Replay idempotente
-      retorna resposta original; Chave idempotente com request diferente conflita; If-Match ausente retorna 428; If-Match obsoleto retorna 412;
-      Operação interna exige sessão; Operações retiradas não existem; Envelope e payload v2 válidos; Campo obrigatório ausente é rejeitado; Campo
-      adicional é rejeitado; Classificação coincide com registry; Produtor, comando e aggregate coincidem; Sequence equivale à versão resultante;
-      Aggregate, histórico, evento e Outbox são atômicos; Entrega repetida não duplica efeito; Projection rebuild desabilita handlers live-only;
-      Dados proibidos não aparecem; Todos os eventos usam schema version 2 e generation ID; Ações sensíveis permitidas geram auditoria sanitizada;
-      Negação sensível gera auditoria DENY
+      Contrato de sucesso concreto de searchOperationalResources; Contrato de sucesso concreto de listStopDashboard; Contrato de sucesso concreto de getDemoMetrics;
+      Contrato de sucesso concreto de getCaseOperationalView; Contrato de sucesso concreto de getCaseTimeline; Contrato de sucesso concreto de listCaseTasks;
+      Contrato de sucesso concreto de getStopOperationalView; Contrato de sucesso concreto de getStopTimeline; Contrato de sucesso concreto de listCaseConversations;
+      Body rejeita propriedade desconhecida; Mutação por cookie exige CSRF; Replay idempotente retorna resposta original; Chave idempotente com request
+      diferente conflita; If-Match ausente retorna 428; If-Match obsoleto retorna 412; Operação interna exige sessão; Operações retiradas não existem; Envelope
+      e payload v2 válidos; Campo obrigatório ausente é rejeitado; Campo adicional é rejeitado; Classificação coincide com registry; Produtor, comando e
+      aggregate coincidem; Sequence equivale à versão resultante; Aggregate, histórico, evento e Outbox são atômicos; Entrega repetida não duplica efeito;
+      Projection rebuild desabilita handlers live-only; Dados proibidos não aparecem; Todos os eventos usam schema version 2 e generation ID; Ações sensíveis
+      permitidas geram auditoria sanitizada; Negação sensível gera auditoria DENY
   FX-API-RESET:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-RESET
-    state_sha256: dbf1098fc98d2a48df61f125b7058b2a8809e9d93f629cf0045f56ade9810c83
+    state_sha256: 6a87bfd838cb5afcd4762c260ba4c6fd672b2a4e77cd61002cdf8e832d957c1e
     used_by_test_ids:
     - TST-API-ADVANCE-DEMO-CLOCK-001
     - TST-API-RESET-DEMO-SCENARIO-001
     - TST-API-GET-DEMO-RESET-001
     - TST-DATA-RESET-005
     - TST-AUDIT-003
-    purpose: Contrato de sucesso concreto de advanceDemoClock; Contrato de sucesso concreto de resetDemoScenario; Contrato de sucesso concreto
-      de getDemoReset; Execução preservada não bloqueia reseed de usuários; Auditoria permanece após reset
+    purpose: Contrato de sucesso concreto de advanceDemoClock; Contrato de sucesso concreto de resetDemoScenario; Contrato de sucesso concreto de getDemoReset;
+      Execução preservada não bloqueia reseed de usuários; Auditoria permanece após reset
   FX-API-STOP-ARRIVAL-CONFLICT:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-ARRIVAL-CONFLICT
-    state_sha256: 911de64f474b4c66a729009e7e0115250c384afa055053b8250399801e67b835
+    state_sha256: 87c7684e85dc6d2cc20a270739d4426b86c31da0c4d8df1238e06efcf1eaa236
     used_by_test_ids:
     - TST-API-CORRECT-ARRIVAL-001
     purpose: Contrato de sucesso concreto de correctArrival
   FX-API-STOP-ARRIVAL-REPORTED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-ARRIVAL-REPORTED
-    state_sha256: ca06cd3fa003c9747058395d72104576efe3c77d49281b57645358ab46e53677
+    state_sha256: 141ee335e9c0b2f7e25407b26b9500f1d53b83be354f4745441cca69a684d660
     used_by_test_ids:
     - TST-API-CONFIRM-ARRIVAL-001
     purpose: Contrato de sucesso concreto de confirmArrival
   FX-API-STOP-AWAITING-ARRIVAL:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-AWAITING-ARRIVAL
-    state_sha256: 1db87be7ddfaf999abd9c110b31a1ec7e0174b5a1347e3ad9379fca1c9740094
+    state_sha256: 310e7b631cc5b6d711b08ee01dde859beca5f60f91bd71d4e237de406616dad2
     used_by_test_ids:
     - TST-API-REPORT-ARRIVAL-INTERNAL-001
     - TST-DATA-EVT-005
     purpose: Contrato de sucesso concreto de reportArrivalInternal; Ocorrência incrementa versão uma vez
   FX-API-STOP-AWAITING-PICKUP:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-AWAITING-PICKUP
-    state_sha256: 113c562d8b2e5b06e9623c9873062f138fa6d536543878fd5d3c192359a63f2b
+    state_sha256: d1f67e1f5611802273450ff00bbe6e9d2e883efd702606b690b59ec0980fca64
     used_by_test_ids:
     - TST-API-ISSUE-DRIVER-ACCESS-001
     purpose: Contrato de sucesso concreto de issueDriverAccess
   FX-API-STOP-IN-EXECUTION:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-IN-EXECUTION
-    state_sha256: dcfc73ad0cce2b2ec219e33bef72410aebda7933d9b99fe5a67a589f423bbd23
+    state_sha256: b21744eab3096997a335ee4072e2b53ddc228892ae9856055a4eaff9250fb12e
     used_by_test_ids:
     - TST-API-COMPLETE-SERVICE-001
     - TST-API-ISSUE-SUPPLIER-ACCESS-001
     purpose: Contrato de sucesso concreto de completeService; Contrato de sucesso concreto de issueSupplierAccess
   FX-API-STOP-PICKED-UP:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-PICKED-UP
-    state_sha256: 2e761d54b6a60e16cdad1c74d4863192c303a99424a895e5de0daa10d4419637
+    state_sha256: c1e7b5f2466232faf2207d30169a7b32d3c6f259bdbfbdaa993e4da908670e77
     used_by_test_ids:
     - TST-API-CLOSE-VEHICLE-STOP-001
     purpose: Contrato de sucesso concreto de closeVehicleStop
   FX-API-STOP-RECEIVED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-RECEIVED
-    state_sha256: 5446daf7ed4dfaab388c834c05729dfb9e0a7f0f2db940a6d9fc6c1fb5b68a20
+    state_sha256: 44ad806b6e8a077cd33e3ddd44889d5a7182be365da780cf5680d0692ff9492f
     used_by_test_ids:
     - TST-API-START-SERVICE-001
     purpose: Contrato de sucesso concreto de startService
   FX-API-STOP-SCHEDULED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-SCHEDULED
-    state_sha256: db9ac013ccfee3f8383014d011a2b920c18163a01210796d814770772fc254b8
+    state_sha256: aa7b2865491d05a07334863e33aa6b02aeaab3ae912cd35d3221bdd9c4ebdb99
     used_by_test_ids:
     - TST-API-PREPARE-STOP-FOR-ARRIVAL-001
     purpose: Contrato de sucesso concreto de prepareStopForArrival
   FX-API-STOP-SERVICE-COMPLETED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-SERVICE-COMPLETED
-    state_sha256: 60fe56f8cb990deb01416d04dfca760894d4fecb0a42746336b0c00a87f9bd35
+    state_sha256: 4fd72932f2124e218f2e2fb4b9af1862b3ebf1375ef60bf2df7812d8e0574e7a
     used_by_test_ids:
     - TST-API-RELEASE-VEHICLE-001
     purpose: Contrato de sucesso concreto de releaseVehicle
   FX-API-TASK-ASSIGNED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-TASK-ASSIGNED
-    state_sha256: f746f2159252a97cc940d17c6d86b7a464cf5ba077c9a52a887b517545f9ac65
+    state_sha256: ba75b139b0a7a6c510b8e2565694fa114339c5921b5117bc5d7cb74e12d598bb
     used_by_test_ids:
     - TST-API-START-TASK-001
     purpose: Contrato de sucesso concreto de startTask
   FX-API-TASK-IN-PROGRESS:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-TASK-IN-PROGRESS
-    state_sha256: 912775dc3b2e07d3ad713d87ccacc779d6cd25b29115ff68e5779ab6df009d80
+    state_sha256: 285acc7b2cfdb04256c9cc7e45a62db1d7124a36575425317cdceb1df6c48ab3
     used_by_test_ids:
     - TST-API-WAIT-TASK-FOR-SUPPLIER-001
     - TST-API-COMPLETE-TASK-001
     - TST-API-CANCEL-TASK-001
-    purpose: Contrato de sucesso concreto de waitTaskForSupplier; Contrato de sucesso concreto de completeTask; Contrato de sucesso concreto de
-      cancelTask
+    purpose: Contrato de sucesso concreto de waitTaskForSupplier; Contrato de sucesso concreto de completeTask; Contrato de sucesso concreto de cancelTask
   FX-API-TASK-NOT-STARTED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-TASK-NOT-STARTED
-    state_sha256: 7100431ae01e588307a13f3775f973ae1ffb5ea88e1eb0953d1ff3b89200db9d
+    state_sha256: e34e4c914e9aada24ad33d2cada7c4d0272dc8148d13ae6645b946412d47f5f2
     used_by_test_ids:
     - TST-API-ASSIGN-TASK-001
     - TST-DATA-TASK-005
     purpose: Contrato de sucesso concreto de assignTask; Constraint de origem permite transições válidas
   FX-ATTENDANT-CUSTOMER-A:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ATTENDANT-CUSTOMER-A
-    state_sha256: f332f05f3c6c47e1bf03cdf2be0349eca90936f5ea179755a532d416444070d8
+    state_sha256: 8ed6cbcaf095c494eb2f21a4b8b78cf585f7db0e35573e63eff753b6b67c3aa4
     used_by_test_ids:
     - TST-AUTH-SCOPE-001
     purpose: Customer scope filtra recurso
   FX-ATTENDANT-SCOPE-A:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ATTENDANT-SCOPE-A
-    state_sha256: cb3f8dbc9c40e7fb39d228b5269f98fbaa8a26f41b9dd2b90e99bf3be20e472f
+    state_sha256: 1933afec12454dc74d042817af48bb50955b511002baafd333371ea98c8c14f3
     used_by_test_ids:
     - TST-AUTH-SCOPE-007
     purpose: Fora do escopo é indistinguível de inexistente
   FX-ATTENDANT-TEAM-A:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ATTENDANT-TEAM-A
-    state_sha256: 5da8c89b1c35d6b1a99e1cf0ee03506831ec527886413faff0e7b265da2f8928
+    state_sha256: 434735c0ffbac695f474950e3b933b33f8d4f276bc72917d17d4cb16b5d8b5ee
     used_by_test_ids:
     - TST-AUTH-SCOPE-003
     purpose: Relação de equipe é exigida para escrita
   FX-ATTENDANT-UNIT-A:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ATTENDANT-UNIT-A
-    state_sha256: 8056629188d16c4216350cedd327bc4755e8da3299afb75646c466888c9617de
+    state_sha256: a2519e811be245cb9d14bf59cef7c65483c17fd471ef8282d321ad586d5c78e7
     used_by_test_ids:
     - TST-AUTH-SCOPE-002
     purpose: Operating unit scope filtra recurso
   FX-CASE-IN-PROGRESS-SUPPLIER-TASK:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-IN-PROGRESS-SUPPLIER-TASK
-    state_sha256: e7959c18cc8078e5f962b3c1071c7f5bb94e7f2b8f00bbd1cff0f7b572330541
+    state_sha256: b7e144232b3ac80afd62a4bf3b038c3778a926ccbd450a23c70414b38b828550
     used_by_test_ids:
     - TST-SM-CASE-002
     purpose: WaitCaseForSupplier move IN_PROGRESS para WAITING_THIRD_PARTY
   FX-CASE-INPROG-01:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-INPROG-01
-    state_sha256: be548e091fe3b516ddc0d7b5f95c10cbe83782804e8ff37fd3c883566026f1b5
+    state_sha256: 9998fddf194278a1b2eaae91e6f0045ef4c3a122dff2455c2625957d962117ef
     used_by_test_ids:
     - TST-SM-TASK-001
     purpose: CreateTask cria NOT_STARTED
   FX-CASE-NEW:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-NEW
-    state_sha256: 8d220778c10e0be00f4134c29c81b12a826b9e2917dbce735c76b44161b9aa40
+    state_sha256: 558360a0d86781a5c737ddb971f46e2fa0c04bc4e189fa481907b1dcb19ca405
     used_by_test_ids:
     - TST-SM-CASE-001
     purpose: StartCaseWork move NEW para IN_PROGRESS
   FX-CASE-READY-TO-RESOLVE:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-READY-TO-RESOLVE
-    state_sha256: 05c83f0074b3a88402b3b3ca73b62ab94cb8ad9561abe7df9c6701de90840f21
+    state_sha256: 1a5703d90b5684e143a655b51c8e311baf41fc850da6845b241505e63c7c07ff
     used_by_test_ids:
     - TST-SM-CASE-004
     purpose: ResolveCase move IN_PROGRESS para RESOLVED
   FX-CASE-STOP-CLOSED-CONFLICT:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-STOP-CLOSED-CONFLICT
-    state_sha256: 03cf9db8b1cbdbea7df7f262c35e3132ba6f481dce6844270bac0fb4e63b7412
+    state_sha256: 8b7fecdf060c105cba515169d7899bf59d8a6531a9020efd3dd2a96cb07169f4
     used_by_test_ids:
     - TST-SM-CROSS-003
     purpose: ResolveCase é bloqueado por conflito de chegada aberto
   FX-CASE-STOP-CLOSED-MANDATORY-TASK:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-STOP-CLOSED-MANDATORY-TASK
-    state_sha256: f2fbb894773d7d792da3833c6f140aad83fb6dc70e67dbd441c3a4818de84051
+    state_sha256: f576db594bf6da116196d2e509c7d4f64f82a48e5c18fa0a413a76d379ff8eaf
     used_by_test_ids:
     - TST-SM-CROSS-002
     purpose: ResolveCase é bloqueado por tarefa obrigatória aberta
   FX-CASE-STOP-OPEN:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-STOP-OPEN
-    state_sha256: f5997120d88048b0f15b97cc37f9930ab58fc536165f62be23d487ce7eb65ae7
+    state_sha256: 92ca9ff8e4b6c4e6831103002e036347eab0790b5e85ee2cbb387d090db15be9
     used_by_test_ids:
     - TST-SM-CROSS-001
     purpose: ResolveCase é bloqueado enquanto a parada não estiver CLOSED
   FX-CASE-WAITING-SUPPLIER:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-WAITING-SUPPLIER
-    state_sha256: 4b3fa398f4bab848600c1986a623d4d150e1a1fde4a8c185a9f23b64a993595a
+    state_sha256: 98937aa17e6d128d64d9a778fd8f30f624c6106b35fec7906aaf68e0cb67a9f6
     used_by_test_ids:
     - TST-SM-CASE-003
     purpose: Forecast retoma caso em espera
   FX-DATA-INTEGRITY:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DATA-INTEGRITY
-    state_sha256: cab5d986b2fe35e1b524cad1cde100095dbe4104c897e715929c88f4e46c2fc4
+    state_sha256: 81c6efcfcc746659dc650884d850948576d6e7ee4c50118f244a74a3956cb608
     used_by_test_ids:
     - TST-DATA-IAM-001
     - TST-DATA-IAM-002
@@ -417,149 +428,149 @@ fixtures:
     - TST-DATA-RESET-002
     - TST-DATA-RESET-003
     - TST-DATA-METRIC-001
-    purpose: Um papel por usuário; Hash de sessão interna é único; Revogação exige reason code; Grants de escopo respeitam FKs; Demo Admin não
-      possui grants operacionais; Case aceita somente estados canônicos; Case RESOLVED exige campos de resolução; Um stop principal por case;
-      mandatory_for é coerente com is_mandatory; Task COMPLETED exige resultado; Task CANCELLED exige motivo e impacto; Replacement task não aponta
-      para si; Uma parada ativa por veículo; Estados exigem timestamps correspondentes; Service complete permite departure nulo; Liberação não
-      antecede conclusão; Retirada não antecede liberação; CLOSED exige closed_at e closure_reason; Duração não pode ser negativa; Uma confirmação
-      de chegada corrente; Uma previsão corrente; Uma chave de alerta aberta; Alerta RESOLVED exige resolução; Ocorrência é idempotente por source
-      event; Token possui exatamente um sujeito; Hash de capability token é único; Uso de capability não excede limite; Sessão externa não expira
-      após token; Uso de ação é único por idempotency record; Sequence é única por aggregate; Um evento principal por idempotency record; Uma
-      Outbox por evento; Receipt é único por consumer e evento; Message ID é único por source; Uma DLQ por source; Somente um reset ativo; Falha
-      de reset preserva dataset anterior; Auditoria sobrevive ao reset; Fórmulas de métricas correspondem aos dados canônicos
+    purpose: Um papel por usuário; Hash de sessão interna é único; Revogação exige reason code; Grants de escopo respeitam FKs; Demo Admin não possui grants
+      operacionais; Case aceita somente estados canônicos; Case RESOLVED exige campos de resolução; Um stop principal por case; mandatory_for é coerente
+      com is_mandatory; Task COMPLETED exige resultado; Task CANCELLED exige motivo e impacto; Replacement task não aponta para si; Uma parada ativa por
+      veículo; Estados exigem timestamps correspondentes; Service complete permite departure nulo; Liberação não antecede conclusão; Retirada não antecede
+      liberação; CLOSED exige closed_at e closure_reason; Duração não pode ser negativa; Uma confirmação de chegada corrente; Uma previsão corrente; Uma
+      chave de alerta aberta; Alerta RESOLVED exige resolução; Ocorrência é idempotente por source event; Token possui exatamente um sujeito; Hash de capability
+      token é único; Uso de capability não excede limite; Sessão externa não expira após token; Uso de ação é único por idempotency record; Sequence é única
+      por aggregate; Um evento principal por idempotency record; Uma Outbox por evento; Receipt é único por consumer e evento; Message ID é único por source;
+      Uma DLQ por source; Somente um reset ativo; Falha de reset preserva dataset anterior; Auditoria sobrevive ao reset; Fórmulas de métricas correspondem
+      aos dados canônicos
   FX-DEMO-ADMIN-SESSION:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DEMO-ADMIN-SESSION
-    state_sha256: 607dd4e9b8717a6b6c3843ea6055ac429220d5b211b15fa27c5c72b116fc6dbe
+    state_sha256: 26e444dcfac390f3f09dd80b3dcdb4a8f7316272bb9fb5f8c8a6635f51e5f044
     used_by_test_ids:
     - TST-AUTH-SESSION-007
     purpose: Demo Admin não possui permissão operacional
   FX-DEMO-ADMIN-SESSION-BAD-CSRF:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DEMO-ADMIN-SESSION-BAD-CSRF
-    state_sha256: 6ebb9774de14bf452158f39f96c9d4f756d1a9c55ac94f7b74d9706ab0b2eefa
+    state_sha256: af41d6d20afe5f32e45afee22819c18e17a058c43184b9b70c2416c6a1a8dac4
     used_by_test_ids:
     - TST-AUTH-SESSION-006
     purpose: Mutação com CSRF inválido é rejeitada
   FX-DEMO-ADMIN-SESSION-NO-CSRF:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DEMO-ADMIN-SESSION-NO-CSRF
-    state_sha256: 9a656078b149deb6a1de294d6c8d6dc4fbd431f15569f3a5c214764bfe94ec43
+    state_sha256: 3c7b1a0eacf8ab323a946bfcb5cdf12f4e2cf22b0624cf9a68b35b7ffc968239
     used_by_test_ids:
     - TST-AUTH-SESSION-005
     purpose: Mutação sem CSRF é rejeitada
   FX-DEMO-MODE-OFF:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DEMO-MODE-OFF
-    state_sha256: 405e7b60c3587c18fb19b2ca6ef103f5698ee4d92462bde077245588de4de968
+    state_sha256: f41a35ccc4557fa96edcc968a413fc6c6c5f77c8bf1d522cedf3a68feaeb0323
     used_by_test_ids:
     - TST-DEMO-MODE-001
     purpose: Recursos de demo falham fechados
   FX-DRIVER-SESSION:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DRIVER-SESSION
-    state_sha256: fb7339ae01e67cf01510370ae4ae8aeee4dff38cd28cf35d01a03362435be625
+    state_sha256: 8513f3ae64c9eb4ab25781c0ae0a091b2779b09bdf7b1a6f0176f0bca15c5aff
     used_by_test_ids:
     - TST-AUTH-EXT-008
     - TST-AUTH-EXT-014
     purpose: Condutor não atualiza previsão; Resposta do condutor é minimizada
   FX-E2E-ARRIVAL-CONFLICT:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-ARRIVAL-CONFLICT
-    state_sha256: 169faffdaf7026da183ce3a60ae58dbda873b19dea2b90046d0b30c10d28db4a
+    state_sha256: 5dcaf4372416fbfc5d385ac30f511c5ca44f3b2f4a9b27975cad8797e9063b88
     used_by_test_ids:
     - E2E-DEMO-002
     purpose: Chegada divergente
   FX-E2E-BASE:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-BASE
-    state_sha256: 6568d8a78caf34109dd72ec96cea652722c85cfde9fc83468f7a4e1531c5c928
+    state_sha256: 5a19a109c7d84e16799ec4f54dea9f38bbe86f59485da499f8685d178d7ce2b5
     used_by_test_ids:
     - TST-DEMO-BANNER-001
     purpose: Banner permanente de dados fictícios
   FX-E2E-EMAIL-LINK:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-EMAIL-LINK
-    state_sha256: 22ce1e802066e33efbd79557f50b70c5db81425328988a28fc96eb5fa6c29f9d
+    state_sha256: 46da1bf4412cd67afdf17f2369f229efb48495a9dfbef2a0955084496e3cac0e
     used_by_test_ids:
     - E2E-DEMO-003
     purpose: E-mail vinculado ao caso existente
   FX-E2E-EXECUTIVE:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-EXECUTIVE
-    state_sha256: c633b7afcacbdcdaa61714529db50a0d70d178ca1da0194013dc080bfadfbfd3
+    state_sha256: 335f2d85332c696020c94127f5260a5fa473f31d26743a5574a152d0345a9a12
     used_by_test_ids:
     - E2E-DEMO-000
     purpose: Jornada executiva completa
   FX-E2E-INACTIVITY:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-INACTIVITY
-    state_sha256: 9b1101730466a702b5f7e33fca57405f9a17e064aab5b0d9d4df1241ef28a06c
+    state_sha256: e9101960a0a8d188c72afbb06c936130dc5a0197a3d2eb92a53f60df44241f43
     used_by_test_ids:
     - E2E-DEMO-001
     purpose: Inatividade e deduplicação
   FX-E2E-NO-PICKUP:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-NO-PICKUP
-    state_sha256: 5d9a339aaf7984b4fbdd4d758d51ffbe197caaf0e290c43feefd147c35d2d639
+    state_sha256: eba50006c96640024a0ddad0f4c7bb6a53803de2001df317319da62ed996f3c2
     used_by_test_ids:
     - E2E-DEMO-005
     purpose: Serviço concluído sem retirada
   FX-E2E-PARALLEL-TASKS:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-PARALLEL-TASKS
-    state_sha256: a267a7942d67f4a6dd82826b548b9b0d7bbc53c55f313624afec7d3d0e3f9c16
+    state_sha256: 6b7d16b63ddb3e7baf726d716b3fe5a3136fa5b4e42246b91c8a809cd0933b23
     used_by_test_ids:
     - E2E-DEMO-004
     purpose: Tarefas paralelas
   FX-EMPTY-LOCAL:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EMPTY-LOCAL
-    state_sha256: 67bbcf88a213dace3e8bf48bb695e8825d2539bca351da111d50c07132e570ab
+    state_sha256: 67225c5ff63f48216d4c04e5f12cf88f1e9cfed0fd1927f2c62bb940a6da0308
     used_by_test_ids:
     - TST-DEMO-ENV-001
     purpose: Inicialização local sem dados operacionais.
   FX-EXPIRED-SESSION:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EXPIRED-SESSION
-    state_sha256: f2d22133df4468f1b2cf3d2a7eae3fb12ba8f3dd80acf3a1d8476e501507f387
+    state_sha256: e7102b3959bdeb7a7dc6783934c155d06955d043b4cfd2e9bcfd95c1f5c958a9
     used_by_test_ids:
     - TST-AUTH-SESSION-004
     purpose: Sessão expirada por inatividade é rejeitada
   FX-EXPIRED-SUPPLIER-TOKEN:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EXPIRED-SUPPLIER-TOKEN
-    state_sha256: 3fca84bbc1f1cb86318ad93a656deaaca1468eaa2e5be554af1b4c28465dfc1a
+    state_sha256: 7571dd38f52f22b3dda247aa990f0389e9ee0173bea867727219c4aa19ebfd9d
     used_by_test_ids:
     - TST-AUTH-EXT-003
     purpose: Token expirado é rejeitado
   FX-EXTERNAL-DRIVER-SUBJECT-CHANGED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EXTERNAL-DRIVER-SUBJECT-CHANGED
-    state_sha256: 53d9a63dade73f689beaddd6821a6c4d7b60f3c2428c18e52c4bc0c5a5b4eb63
+    state_sha256: 334bc070d286010f13f2020ad3549b031655a64722d3c209272a443862757e43
     used_by_test_ids:
     - TST-SM-CROSS-015
     - TST-AUTH-EXT-006
     purpose: Retirada externa não atravessa recurso; Condutor não acessa outra parada
   FX-EXTERNAL-SUPPLIER-SUBJECT-CHANGED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EXTERNAL-SUPPLIER-SUBJECT-CHANGED
-    state_sha256: 8b18d1bc6eebf2442cd2ddbb636a55203ade329dd0f03884ff008d613228d87a
+    state_sha256: a6c947de3821da60ca57a121a70326984cab5eb298feca39ecadf69d827aee77
     used_by_test_ids:
     - TST-SM-CROSS-014
     - TST-AUTH-EXT-005
     purpose: Forecast externo não atravessa recurso; Fornecedor não acessa outra parada
   FX-IDEMPOTENT-COMMAND:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-IDEMPOTENT-COMMAND
-    state_sha256: eb2211991a50825804af83d5cc7df072b3309bb6995286e2c18636fed1f9c845
+    state_sha256: b144547d2c92e6023c9848d4b34723a5662ae7c26fba8ab00b31ecfb04099724
     used_by_test_ids:
     - TST-SM-CROSS-018
     purpose: Replay idempotente não cria segundo evento principal
   FX-MANAGER-SCOPE-A:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-MANAGER-SCOPE-A
-    state_sha256: 12af8515d6f2bb9db6ad80f623515cfb85e0905861d9bad4a585937b13310882
+    state_sha256: df174baa50828e6851ec6b9e2b56e3081c29db238e8b1a6f03b3ff06635d196f
     used_by_test_ids:
     - TST-AUTH-SCOPE-006
     purpose: Manager não executa escrita
   FX-MUTATED-DEMO:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-MUTATED-DEMO
-    state_sha256: a3c097314833e475a54b485263d6b50bc317d46abb7413cbbe911733a8d4f623
+    state_sha256: 5bdae7feff6030316ea1b4bd4caf0a79e8da1ebbe7b99d65e84d99d0564f4854
     used_by_test_ids:
     - TST-DEMO-RESET-001
     purpose: Reset restaura a versão seedada
   FX-NO-SESSION:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-NO-SESSION
-    state_sha256: 3defba9bb71ebd11c2e9428bce26cc6d40ac22fd3ab194b797d820a4f7290370
+    state_sha256: e5a752f86e7a341a9043f665a7d08cd5f8bfdaf79e4b028c276ce89a9958aff7
     used_by_test_ids:
     - TST-AUTH-SESSION-001
     - TST-AUTH-SESSION-002
     purpose: Identity allowlist aceita somente identidade seedada; Role forjado é rejeitado pelo schema
   FX-RESET-LATE-WORKER:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-RESET-LATE-WORKER
-    state_sha256: b86229a657bb3b6b617e3b7b5dd9156e9628e9679e86a236c55ace25d0d5bb0b
+    state_sha256: 756cbde9f901096b4a40f1f6c2f71fcd72f73cfcd571a9dbf8ac48bdf4bbfcc3
     used_by_test_ids:
     - TST-API-POLICY-009
     - TST-EVT-CONTRACT-011
@@ -567,73 +578,73 @@ fixtures:
     purpose: Mutação falha fechada durante reset; Commit de geração antiga é rejeitado; Commit tardio de worker é rejeitado
   FX-REVOKED-ACTIVE-SESSION:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-REVOKED-ACTIVE-SESSION
-    state_sha256: 391f81233d6aeff449adf4c5710d6ea5e52e0926ec9b37dd398bce952e438241
+    state_sha256: ff7fa7e06ff76b505ca47ffe0848eb290f2dd46ef4af699c2f7786dffa4a1cd6
     used_by_test_ids:
     - TST-AUTH-EXT-012
     purpose: Revogação invalida sessão externa
   FX-REVOKED-SUPPLIER-TOKEN:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-REVOKED-SUPPLIER-TOKEN
-    state_sha256: baa4ef5a235608ef95be0dad51b369692f75cb5175caac2bcea8bc3c66c17df3
+    state_sha256: 3f4cc0f0f33a2efc2e728a9e79ded8bd77d2bd21f6552750e24a7ac14316e927
     used_by_test_ids:
     - TST-AUTH-EXT-004
     purpose: Token revogado é rejeitado
   FX-SEED-V213:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SEED-V213
-    state_sha256: 656e5ee518b4b397329de5a33a20ad03f98ffc0f6061633b2b194093c821c49b
+    state_sha256: ca8e4caa50748a5eba44dbea94b8a0f33ee38e7f62594efa18badf184d06e954
     used_by_test_ids:
     - TST-DEMO-SEED-001
     - TST-DEMO-DATA-001
     purpose: Seed determinístico por versão; Catálogo e seed não contêm dados reais
   FX-STOP-ARRIVAL-CONFIRMED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-ARRIVAL-CONFIRMED
-    state_sha256: 58aed7ad44a3996c6287bb6b0621ac61ea7cbce0dc8e07cf9386edb3d057865d
+    state_sha256: 970c5175e7fe89312e8aa36029b230d2d9b831c5d3a5a09eae202dfbec9b16f5
     used_by_test_ids:
     - TST-SM-STOP-004
     - TST-SM-ARRIVAL-005
     purpose: CorrectArrival preserva confirmação anterior; Correção não apaga relatos ou confirmação anterior
   FX-STOP-ARRIVAL-CONFLICT:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-ARRIVAL-CONFLICT
-    state_sha256: cfeb6e625ee21c57f1e0882f5a67d93d876329c0270626872affc4be48d5aed8
+    state_sha256: 85f70769ce991f44a6b5ebe327b497ab6ca4110dea7f9057e2df9a3bfc47f171
     used_by_test_ids:
     - TST-SM-ARRIVAL-004
     purpose: Conflito exige confirmação por supervisor com justificativa
   FX-STOP-ARRIVAL-REPORTED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-ARRIVAL-REPORTED
-    state_sha256: d220a2ec118b795b10921dc13724d4ca0c0282bc04a74c1acd1096ec1ae18187
+    state_sha256: 2319605a11d5eeb6a8e7c797fa37ceb7e8e16c3fbb160a754823e7dded43896e
     used_by_test_ids:
     - TST-SM-STOP-003
     purpose: ConfirmArrival move AWAITING_ARRIVAL para VEHICLE_RECEIVED
   FX-STOP-AWAITING-ARRIVAL:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-AWAITING-ARRIVAL
-    state_sha256: 11c58f41258e653808eb505c71f5f2a0d1235936c42c9457a9401a1cd9c9ee47
+    state_sha256: 5005e6bb8024ffb2ae1b91fab6f1396fea2d6198faa5f8012faf0fa4ae51f1d3
     used_by_test_ids:
     - TST-SM-STOP-002
     - TST-SM-ARRIVAL-001
     purpose: ReportArrival cria ocorrência sem confirmar chegada; Um relato mantém confirmação em REPORTED
   FX-STOP-AWAITING-PICKUP:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-AWAITING-PICKUP
-    state_sha256: 2224c605e40be7fa2ab6af17701c2a1410500717b2a636fa01b080259b7a0e02
+    state_sha256: 8aadea9731b53848951acc53d0b891f6f87059b3148cbf34e77bad776833d68e
     used_by_test_ids:
     - TST-SM-STOP-009
     - TST-SM-CROSS-004
     - TST-SM-CROSS-009
-    purpose: ConfirmDeparture move AWAITING_PICKUP para VEHICLE_PICKED_UP; CloseVehicleStop é bloqueado sem retirada confirmada; Duração usa retirada
-      menos chegada
+    purpose: ConfirmDeparture move AWAITING_PICKUP para VEHICLE_PICKED_UP; CloseVehicleStop é bloqueado sem retirada confirmada; Duração usa retirada menos
+      chegada
   FX-STOP-CURRENT-ARRIVAL:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-CURRENT-ARRIVAL
-    state_sha256: ee922263cb2acb3d3b2b5d4d6c9c527f8ad87c1a116c17632e1f6398471b1a7d
+    state_sha256: fc6a96c4056abed99d7967bdd2b6b356ee0e7f3f21b99f47a9f59cc22e41ac78
     used_by_test_ids:
     - TST-SM-CROSS-012
     purpose: Só uma confirmação de chegada pode ser corrente
   FX-STOP-CURRENT-FORECAST:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-CURRENT-FORECAST
-    state_sha256: eb33bbb473df1f98d2bc075e94d3fd366adc90d2f5b0245e389ce8d72211b0a1
+    state_sha256: 57abacc832050c94a9b5cf0c684c18900686a9c5b176824e07c22b97a7a3f999
     used_by_test_ids:
     - TST-SM-CROSS-011
     purpose: Só uma previsão pode ser corrente
   FX-STOP-IN-EXECUTION:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-IN-EXECUTION
-    state_sha256: 4997d7bd8e4a5cfa087f283e4d7fa16f35edb73dd8ff373983586022c979b025
+    state_sha256: 565aff3197df997e7f534c3b2241b2e630095e50addc5f5e12b781e69a4f47ac
     used_by_test_ids:
     - TST-SM-STOP-006
     - TST-SM-STOP-007
@@ -642,83 +653,83 @@ fixtures:
       não preenche retirada
   FX-STOP-INACTIVE-NO-ALERT:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-INACTIVE-NO-ALERT
-    state_sha256: 0322db5ccec7c3bf50b6a1abb6e3599c828b270b3162ea46ecbed0f66ee5169c
+    state_sha256: e8fa806e20bd3d12a2d3eeacba3478f00c294d045370de2243ae7d9b6cacf847
     used_by_test_ids:
     - TST-SM-ALERT-001
     purpose: Inatividade cria um alerta STOP_NO_UPDATE
   FX-STOP-INACTIVE-OPEN-ALERT:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-INACTIVE-OPEN-ALERT
-    state_sha256: 2639b890d865935c39c8f7035cbab26a11c503f91ff9fd8b3ab98572b7502610
+    state_sha256: a33fbb2571c6c125a028ed310ca2959933e11db8b3aed80405ee5084f10bfd03
     used_by_test_ids:
     - TST-SM-ALERT-002
     - TST-SM-ALERT-003
     purpose: Nova avaliação adiciona ocorrência sem duplicar alerta; Forecast válido resolve alerta STOP_NO_UPDATE
   FX-STOP-OPEN-NO-UPDATE:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-OPEN-NO-UPDATE
-    state_sha256: 4bbd0460105d987ce2f85336619622bab7f714a425c5a592faeafd81ef4aabc5
+    state_sha256: 08f786d8131173e13f7f1d54a4f8c3edacc9be0801bd6ca7c15e646de344ebaa
     used_by_test_ids:
     - TST-SM-CROSS-013
     purpose: Só um alerta STOP_NO_UPDATE pode estar aberto
   FX-STOP-PICKED-UP-CONFLICT:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-PICKED-UP-CONFLICT
-    state_sha256: c9dd721e6b4f847a28004219e3b91ee9066276ae9ddde8eef0d343c25871edd6
+    state_sha256: 85442b3fe67f1b8d44d5254c5d999de520b8d0e197f6a78e6c31be57e7d4d14e
     used_by_test_ids:
     - TST-SM-CROSS-006
     purpose: CloseVehicleStop é bloqueado por conflito de chegada
   FX-STOP-PICKED-UP-MANDATORY-TASK:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-PICKED-UP-MANDATORY-TASK
-    state_sha256: 9bab9c43d31863ce141c925a65851043bb2045245476e1d75729ef4ee4ba356a
+    state_sha256: 0bbaedcb17f2240df0ca8750bc4c6bf2d09069dc1b1ba76ead0a79189209a70c
     used_by_test_ids:
     - TST-SM-CROSS-005
     purpose: CloseVehicleStop é bloqueado por tarefa obrigatória de fechamento
   FX-STOP-READY-TO-CLOSE:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-READY-TO-CLOSE
-    state_sha256: 56a167d2c848f8f6985772a7dbae11adaf58f58eb71fe2d3ad022d37c758391d
+    state_sha256: 1852c36a4ca2021336fcd34c11da9a35001f82e468d92500c952dd7351d8690a
     used_by_test_ids:
     - TST-SM-STOP-010
     purpose: CloseVehicleStop move VEHICLE_PICKED_UP para CLOSED
   FX-STOP-RECEIVED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-RECEIVED
-    state_sha256: 5885fdaff25bd4c98295a5cd8139dd568300f90018f53a9e174b5f282ef744ee
+    state_sha256: 44bfd3f3147afdbcc9b4cb2ce5e37f8fb26abf93bf831dc3da0a3ac6df129cee
     used_by_test_ids:
     - TST-SM-STOP-005
     purpose: StartService move VEHICLE_RECEIVED para IN_EXECUTION
   FX-STOP-SCHEDULED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-SCHEDULED
-    state_sha256: eae845fc6145f5d69d8f3ce9aa5b82b838be81c87ab0e4b91ca9e42d620e22d7
+    state_sha256: a42e3d9043dd8ec86e28566d021a1bb1576e3e6ddf4fb26bc3369a6c39473576
     used_by_test_ids:
     - TST-SM-STOP-001
     - TST-SM-STOP-011
     purpose: PrepareStopForArrival move SCHEDULED para AWAITING_ARRIVAL; Fluxo principal respeita a ordem de oito estados
   FX-STOP-SERVICE-COMPLETED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-SERVICE-COMPLETED
-    state_sha256: 8982002e66f1cce55e8ede145fe0f229d73e46668a85ebe9c2b228092e0af04d
+    state_sha256: 3e439c9c0176b45b187067ccfbc213b8f7884fe3a583c715df087bb982a15651
     used_by_test_ids:
     - TST-SM-STOP-008
     - TST-SM-CROSS-008
     purpose: ReleaseVehicle move SERVICE_COMPLETED para AWAITING_PICKUP; ReleaseVehicle é transição separada
   FX-STOP-TWO-ARRIVAL-REPORTS:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-TWO-ARRIVAL-REPORTS
-    state_sha256: 6924539ec54debd6bfd62e4568961b71ab4881718989223c0944f78f31844801
+    state_sha256: f369edc1237271fc700a55102e4b00e386545a1ca883c132624263dc75e9240e
     used_by_test_ids:
     - TST-SM-ARRIVAL-002
     - TST-SM-ARRIVAL-003
     purpose: Relatos dentro de 15 minutos não geram conflito; Relatos acima de 15 minutos criam conflito, tarefa e alerta
   FX-SUPERVISOR-UNIT-A:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPERVISOR-UNIT-A
-    state_sha256: 212e16e365ecb94f9c62b936ec72e4f7945726b8f3a22f47aaae25eeb200d271
+    state_sha256: c45dcee819b3ba3cf94902c8806d7e73f6c042635c3766f2e4ee17f12c7a3ac9
     used_by_test_ids:
     - TST-AUTH-SCOPE-005
     purpose: Supervisor é negado fora do escopo
   FX-SUPERVISOR-UNIT-A-CUSTOMER-A:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPERVISOR-UNIT-A-CUSTOMER-A
-    state_sha256: f345629a1433132a0354607f43d60fc63e2d29b5ee66f24491e5d6e3d42ac16c
+    state_sha256: da88d7b9baf1ed2b49542786da168332ccb83e1044f7449506f9ccaca41fc209
     used_by_test_ids:
     - TST-AUTH-SCOPE-004
     purpose: Supervisor pode escrever em outra equipe dentro do escopo
   FX-SUPPLIER-SESSION:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPPLIER-SESSION
-    state_sha256: ab7a1d5587b89cea7fd0be0f4de580851cad597d3a34ffb4435dd1b239561fdc
+    state_sha256: d4aa0a3ff7ea2d066fb5578345d6e699d98e613eeb83eec9d2b6328f430ea394
     used_by_test_ids:
     - TST-AUTH-EXT-007
     - TST-AUTH-EXT-010
@@ -728,88 +739,88 @@ fixtures:
       é minimizada
   FX-SUPPLIER-SESSION-NO-CSRF:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPPLIER-SESSION-NO-CSRF
-    state_sha256: fe8e4130ff5cc710502a8e1427bd63d95397372927738da449356fb1f7ed5f16
+    state_sha256: 78d60fcb2746e4b70491c7764f4191236e64a613bd94bf8f765c260ec54e10fc
     used_by_test_ids:
     - TST-AUTH-EXT-015
     purpose: CSRF externo é obrigatório
   FX-SUPPLIER-SESSION-RATE-LIMIT:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPPLIER-SESSION-RATE-LIMIT
-    state_sha256: eb07f9e5b8ccf4a71acd8e1174b53b5701644a25ef32cf66f66f20781a1a1b76
+    state_sha256: 765eba35585d64b48bf6ad6733d2379c1598423c462b8661f0366641bee82ae7
     used_by_test_ids:
     - TST-AUTH-EXT-016
     purpose: Rate limit externo retorna Retry-After
   FX-SUPPLIER-TOKEN-5-USES:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPPLIER-TOKEN-5-USES
-    state_sha256: 7a6a49eff8acac2e7acaa28ef6881fb0d2cd2135e2b6bbac2b93eeeb6557f5e6
+    state_sha256: 0bfaa105ac76c1a39f0ebc1b72dc6a089bf6d346ad675e7c6c2a56098caa726e
     used_by_test_ids:
     - TST-AUTH-EXT-009
     purpose: Limite de usos da ação é aplicado
   FX-TASK-ASSIGNED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TASK-ASSIGNED
-    state_sha256: fd8febd3aa352c1fb23d6c3a4a046d20bed60b5cf515d90212938d330f5ca71d
+    state_sha256: 984214048ecf3c2493456b770821902ddf3f6b7d69b104083abdef5ea656b0c6
     used_by_test_ids:
     - TST-SM-TASK-003
     purpose: StartTask move ASSIGNED para IN_PROGRESS
   FX-TASK-IN-PROGRESS:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TASK-IN-PROGRESS
-    state_sha256: 93242aab64b27bc4627e3eb482d4c3c69af1d998a5ecc2c4d372addc3631b6e3
+    state_sha256: 527d00116209c159bc8d70c32f08866f01e16c8a981fdad38ac08f600d5594f5
     used_by_test_ids:
     - TST-SM-TASK-006
     - TST-SM-TASK-007
     purpose: CompleteTask move IN_PROGRESS para COMPLETED; CancelTask por supervisor move estado ativo para CANCELLED
   FX-TASK-INPROG-SUPPLIER:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TASK-INPROG-SUPPLIER
-    state_sha256: b32bf2021a6ecbf124bd3ed5b8382b662875adaeb79ce1245cf2eae959d5f5c0
+    state_sha256: 230d9fc76918640143606e5eeb524f506a759fe29dd0c54f531cb07b3ad99b58
     used_by_test_ids:
     - TST-SM-TASK-004
     purpose: WaitTaskForSupplier move IN_PROGRESS para WAITING_THIRD_PARTY
   FX-TASK-NOT-STARTED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TASK-NOT-STARTED
-    state_sha256: e25b0f292afb126f818c3d8af08fbe3201b59d460e82d6b90788a2258189d7f1
+    state_sha256: 31bcf3b0ca656ab14f73f31519225ad3abc45edda6650498d02025a52e359a98
     used_by_test_ids:
     - TST-SM-TASK-002
     purpose: AssignTask move NOT_STARTED para ASSIGNED
   FX-TASK-WAITING-SUPPLIER:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TASK-WAITING-SUPPLIER
-    state_sha256: 7f2c045efc2032e2678f71c6e9b89eb12085b98b142a1a3014669195b5e33b69
+    state_sha256: 6fea34a7fd925b60b1c93abecdb56e07d6aefe0a478a92b616a3678fbe995b22
     used_by_test_ids:
     - TST-SM-TASK-005
     purpose: Forecast retoma tarefa em espera
   FX-TERMINAL-AGGREGATES:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TERMINAL-AGGREGATES
-    state_sha256: bfeaef3b43bbac736b8d0074f8b23678d47ea9c4750426ede41c89a2bee94247
+    state_sha256: c365ce9c72fcfe9e5c2503df1c277f5c04dc2554390e70eb4ccf2bdf53226f58
     used_by_test_ids:
     - TST-SM-CROSS-017
     purpose: Aggregates terminais são imutáveis
   FX-TOKEN-CONCURRENT-ISSUANCE:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TOKEN-CONCURRENT-ISSUANCE
-    state_sha256: bb92fd7693b9a0e6fb4749ab3af01ca8bfefceccf4988c4a2bd4b7f44af35dd7
+    state_sha256: b80d0fe5e85a87f84836cdb3b2f364503b7ba923459cf42088e2b388e5fb2ee2
     used_by_test_ids:
     - TST-DATA-EXT-006
     purpose: Emissões concorrentes deixam um token ativo
   FX-TWO-ASSIGNED-TASKS:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TWO-ASSIGNED-TASKS
-    state_sha256: d79ed8817866c05732e342365918e18f672f3d0e44c77cf042d3cb34b8341043
+    state_sha256: 5688ff639caf9d3e23ed18d61fd5183a1920ac7a35c605b9d53a498c4beb83c4
     used_by_test_ids:
     - TST-SM-CROSS-016
     purpose: Tarefas independentes executam em paralelo
   FX-VALID-SUPPLIER-TOKEN:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-VALID-SUPPLIER-TOKEN
-    state_sha256: dcfb68c54490db9ad1a1909cc86c151974ba38d42926f2b67e02e2fd66eb6f93
+    state_sha256: 01167d9a52c0ca17378ed17b6063d5e4a59b3b0e62ff66044205f1efa2ba665d
     used_by_test_ids:
     - TST-AUTH-EXT-001
     - TST-AUTH-EXT-002
     purpose: Troca token do fragmento por sessão; Token não aparece em access log
   FX-VEHICLE-ACTIVE-STOP:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-VEHICLE-ACTIVE-STOP
-    state_sha256: 259c17e62703412be365bb3f8c8dc451946e099e988288ce480fe727c9af8ab0
+    state_sha256: 26b55849419230d90ebd781f59f4ea25fb53dec6e5b0b266518bad96223f203c
     used_by_test_ids:
     - TST-SM-CROSS-010
     purpose: Veículo não aceita duas paradas ativas
 seed_contract:
   release: DEMO-R1
-  seed_version: 2.1.3
-  namespace: https://fotc.local/demo-r1/v2.1.3/
+  seed_version: 2.1.4
+  namespace: https://fotc.local/demo-r1/v2.1.4/
   clock:
     initial_time: '2026-08-01T15:00:00Z'
     timezone: UTC
@@ -874,8 +885,33 @@ seed_contract:
     fail_on_unknown_table: true
     fail_on_unknown_column: true
     fail_on_unresolved_reference: true
+    layer_contract_file: tests/spec/demo-r1-seed-layers.yaml
+    table_contract_file: tests/spec/demo-r1-table-contract.yaml
+    restore_profile_required: true
+    full_release_profile: G6_EXECUTIVE
+    layered_resolved_seed_files:
+      G1_FOUNDATION: tests/spec/seed-layers/g1-foundation.json
+      G2_DOMAIN: tests/spec/seed-layers/g2-domain.json
+      G3_PROJECTIONS: tests/spec/seed-layers/g3-projections.json
+      G4_TIME_COMMUNICATION: tests/spec/seed-layers/g4-time-communication.json
+      G5_EXTERNAL: tests/spec/seed-layers/g5-external.json
+      G6_EXECUTIVE: tests/spec/seed-layers/g6-executive.json
+    source_projection_policy: USE_GATE_BUNDLE; FUTURE_TABLES_MUST_NOT_ENTER_VALIDATION
+    post_restore_action_policy: EXECUTE_ONLY_HANDLERS_INSTALLED_BY_SELECTED_GATE
   fixture_count: 98
-seed_contract_sha256: 65eae2afb4af507e6a807186bc55b85dda3abc872a7c2b1160d72f47aab916ca
+  layering:
+    gates:
+    - G1_FOUNDATION
+    - G2_DOMAIN
+    - G3_PROJECTIONS
+    - G4_TIME_COMMUNICATION
+    - G5_EXTERNAL
+    - G6_EXECUTIVE
+    table_contract_file: tests/spec/demo-r1-table-contract.yaml
+    layer_contract_file: tests/spec/demo-r1-seed-layers.yaml
+    profile_required: true
+    full_release_profile: G6_EXECUTIVE
+seed_contract_sha256: 75c54f84cbb9fb98492a272b88bd634aeddf72bf73d27e4b993a764bbb4b2b5b
 seed_contract_digest_protocol:
   algorithm: SHA-256
   canonicalization: JSON_SORTED_KEYS_UTF8_NO_WHITESPACE

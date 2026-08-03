@@ -1,0 +1,485 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/tests/demo-r1-gate-test-plan.schema.json",
+  "title": "DEMO-R1 Gate Test Plan v2.1.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "plan_version",
+    "release",
+    "status",
+    "policy",
+    "gates",
+    "tests"
+  ],
+  "properties": {
+    "plan_version": {
+      "const": "2.1.4"
+    },
+    "release": {
+      "const": "DEMO-R1"
+    },
+    "status": {
+      "const": "NORMATIVE_AUTHORIZED_FOR_SCAFFOLD"
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "before_activation_state",
+        "at_activation_state",
+        "after_activation_state",
+        "final_regression_state",
+        "gate_exit_rule",
+        "work_package_close_rule"
+      ],
+      "properties": {
+        "before_activation_state": {
+          "const": "DEFERRED_BY_GATE"
+        },
+        "at_activation_state": {
+          "const": "REQUIRED_NOW"
+        },
+        "after_activation_state": {
+          "const": "REGRESSION_REQUIRED"
+        },
+        "final_regression_state": {
+          "const": "FINAL_REGRESSION"
+        },
+        "gate_exit_rule": {
+          "type": "string"
+        },
+        "work_package_close_rule": {
+          "type": "string"
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "G1_FOUNDATION",
+        "G2_DOMAIN",
+        "G3_PROJECTIONS",
+        "G4_TIME_COMMUNICATION",
+        "G5_EXTERNAL",
+        "G6_EXECUTIVE"
+      ],
+      "properties": {
+        "G1_FOUNDATION": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "activation_test_ids",
+            "regression_test_ids",
+            "exit_required_test_ids",
+            "deferred_linked_tests"
+          ],
+          "properties": {
+            "activation_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "regression_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "exit_required_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "deferred_linked_tests": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "test_id",
+                  "until_gate"
+                ],
+                "properties": {
+                  "test_id": {
+                    "type": "string"
+                  },
+                  "until_gate": {
+                    "enum": [
+                      "G1_FOUNDATION",
+                      "G2_DOMAIN",
+                      "G3_PROJECTIONS",
+                      "G4_TIME_COMMUNICATION",
+                      "G5_EXTERNAL",
+                      "G6_EXECUTIVE"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "G2_DOMAIN": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "activation_test_ids",
+            "regression_test_ids",
+            "exit_required_test_ids",
+            "deferred_linked_tests"
+          ],
+          "properties": {
+            "activation_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "regression_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "exit_required_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "deferred_linked_tests": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "test_id",
+                  "until_gate"
+                ],
+                "properties": {
+                  "test_id": {
+                    "type": "string"
+                  },
+                  "until_gate": {
+                    "enum": [
+                      "G1_FOUNDATION",
+                      "G2_DOMAIN",
+                      "G3_PROJECTIONS",
+                      "G4_TIME_COMMUNICATION",
+                      "G5_EXTERNAL",
+                      "G6_EXECUTIVE"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "G3_PROJECTIONS": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "activation_test_ids",
+            "regression_test_ids",
+            "exit_required_test_ids",
+            "deferred_linked_tests"
+          ],
+          "properties": {
+            "activation_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "regression_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "exit_required_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "deferred_linked_tests": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "test_id",
+                  "until_gate"
+                ],
+                "properties": {
+                  "test_id": {
+                    "type": "string"
+                  },
+                  "until_gate": {
+                    "enum": [
+                      "G1_FOUNDATION",
+                      "G2_DOMAIN",
+                      "G3_PROJECTIONS",
+                      "G4_TIME_COMMUNICATION",
+                      "G5_EXTERNAL",
+                      "G6_EXECUTIVE"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "G4_TIME_COMMUNICATION": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "activation_test_ids",
+            "regression_test_ids",
+            "exit_required_test_ids",
+            "deferred_linked_tests"
+          ],
+          "properties": {
+            "activation_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "regression_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "exit_required_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "deferred_linked_tests": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "test_id",
+                  "until_gate"
+                ],
+                "properties": {
+                  "test_id": {
+                    "type": "string"
+                  },
+                  "until_gate": {
+                    "enum": [
+                      "G1_FOUNDATION",
+                      "G2_DOMAIN",
+                      "G3_PROJECTIONS",
+                      "G4_TIME_COMMUNICATION",
+                      "G5_EXTERNAL",
+                      "G6_EXECUTIVE"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "G5_EXTERNAL": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "activation_test_ids",
+            "regression_test_ids",
+            "exit_required_test_ids",
+            "deferred_linked_tests"
+          ],
+          "properties": {
+            "activation_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "regression_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "exit_required_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "deferred_linked_tests": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "test_id",
+                  "until_gate"
+                ],
+                "properties": {
+                  "test_id": {
+                    "type": "string"
+                  },
+                  "until_gate": {
+                    "enum": [
+                      "G1_FOUNDATION",
+                      "G2_DOMAIN",
+                      "G3_PROJECTIONS",
+                      "G4_TIME_COMMUNICATION",
+                      "G5_EXTERNAL",
+                      "G6_EXECUTIVE"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "G6_EXECUTIVE": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "activation_test_ids",
+            "regression_test_ids",
+            "exit_required_test_ids",
+            "deferred_linked_tests"
+          ],
+          "properties": {
+            "activation_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "regression_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "exit_required_test_ids": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "deferred_linked_tests": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "test_id",
+                  "until_gate"
+                ],
+                "properties": {
+                  "test_id": {
+                    "type": "string"
+                  },
+                  "until_gate": {
+                    "enum": [
+                      "G1_FOUNDATION",
+                      "G2_DOMAIN",
+                      "G3_PROJECTIONS",
+                      "G4_TIME_COMMUNICATION",
+                      "G5_EXTERNAL",
+                      "G6_EXECUTIVE"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 208,
+      "maxItems": 208,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "test_id",
+          "activation_gate",
+          "classification",
+          "before_activation_state",
+          "at_activation_state",
+          "after_activation_state",
+          "activation_reasons"
+        ],
+        "properties": {
+          "test_id": {
+            "type": "string"
+          },
+          "activation_gate": {
+            "enum": [
+              "G1_FOUNDATION",
+              "G2_DOMAIN",
+              "G3_PROJECTIONS",
+              "G4_TIME_COMMUNICATION",
+              "G5_EXTERNAL",
+              "G6_EXECUTIVE"
+            ]
+          },
+          "classification": {
+            "enum": [
+              "GATE_ACCEPTANCE",
+              "FINAL_REGRESSION"
+            ]
+          },
+          "before_activation_state": {
+            "const": "DEFERRED_BY_GATE"
+          },
+          "at_activation_state": {
+            "enum": [
+              "REQUIRED_NOW",
+              "FINAL_REGRESSION"
+            ]
+          },
+          "after_activation_state": {
+            "const": "REGRESSION_REQUIRED"
+          },
+          "activation_reasons": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

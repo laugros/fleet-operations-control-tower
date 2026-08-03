@@ -1,9 +1,9 @@
-# DEMO-R1 v2.1.3 — Baseline final
+# DEMO-R1 v2.1.4 — baseline autorizado pela R7
 
-Este ZIP é autocontido para especificação, contratos, testes, rastreabilidade e planejamento da DEMO-R1.
+Fonte de verdade de autorização:
 
-Os documentos em `reviews/history/` são evidência histórica e não fazem parte do conjunto normativo listado no manifesto.
+`baseline/demo-r1-implementation-authorization.yaml`
 
-Etapa concluída: 3 de 4. Resta a revisão independente final.
+Escopo autorizado: somente `G1_FOUNDATION`.
 
-Todos os work packages permanecem bloqueados e o scaffold não está autorizado.
+Use o bundle de seed `tests/spec/seed-layers/g1-foundation.json` e execute os 26 testes de ativação do G1. Testes deferidos não bloqueiam este gate. G2 a G6 permanecem bloqueados.

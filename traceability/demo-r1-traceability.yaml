@@ -1,6 +1,6 @@
-registry_version: 2.1.3
+registry_version: 2.1.4
 release: DEMO-R1
-status: NORMATIVE_PENDING_FINAL_REVIEW
+status: NORMATIVE_AUTHORIZED_FOR_SCAFFOLD
 id_policy:
   rule: work_package_id MUST equal 'WP-' + requirement_id
   renumbering: FORBIDDEN
@@ -411,7 +411,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-ENV-002
   title: Identificação visual da demo
   classification: DEMO-MUST
@@ -449,7 +449,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-ENV-003
   title: Bloqueio fora do modo demo
   classification: TECHNICAL-SUPPORT
@@ -492,7 +492,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-DATA-001
   title: Seed determinístico
   classification: TECHNICAL-SUPPORT
@@ -506,16 +506,16 @@ rows:
   operation_sets: []
   permissions_or_capabilities: []
   tables:
-  - demo_seed_manifest
-  - demo_scenario
-  - operating_unit
-  - team
   - app_user
-  - customer
-  - vehicle
-  - driver
-  - supplier
   - case_record
+  - customer
+  - demo_seed_manifest
+  - driver
+  - operating_unit
+  - supplier
+  - supplier_site
+  - team
+  - vehicle
   - vehicle_stop
   events: []
   event_sets: []
@@ -533,7 +533,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-DATA-002
   title: Reset determinístico
   classification: DEMO-MUST
@@ -560,6 +560,9 @@ rows:
   - demo_generation
   - demo_runtime_control
   - worker_lease
+  - domain_event
+  - integration_outbox
+  - idempotency_record
   events:
   - DemoResetRequested
   event_sets: []
@@ -589,7 +592,7 @@ rows:
   - 29 runner contract v2.1.3
   notes:
   - Reset aplica barrier de geração e snapshots do ator sem FK para app_user.
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-DATA-003
   title: Exclusão de dados reais
   classification: TECHNICAL-SUPPORT
@@ -610,7 +613,7 @@ rows:
   - driver
   - supplier
   - conversation
-  - communication
+  - communication_message
   - phone_call
   events: []
   event_sets: []
@@ -628,7 +631,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-IAM-001
   title: Seleção de identidade
   classification: DEMO-MUST
@@ -680,7 +683,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-IAM-002
   title: Sessão da demo
   classification: TECHNICAL-SUPPORT
@@ -730,7 +733,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-IAM-003
   title: Autorização no servidor
   classification: TECHNICAL-SUPPORT
@@ -778,7 +781,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-IAM-004
   title: Separação do Demo Admin
   classification: TECHNICAL-SUPPORT
@@ -823,7 +826,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-SEARCH-001
   title: Busca por placa
   classification: DEMO-MUST
@@ -861,7 +864,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-SEARCH-002
   title: Busca por número público
   classification: DEMO-MUST
@@ -900,7 +903,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-DASH-001
   title: Lista de paradas ativas
   classification: DEMO-MUST
@@ -938,7 +941,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-DASH-002
   title: Filtros do painel
   classification: DEMO-MUST
@@ -975,7 +978,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-METRIC-001
   title: Contagem de paradas ativas
   classification: DEMO-MUST
@@ -1015,7 +1018,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-METRIC-002
   title: Contagem de paradas sem atualização
   classification: DEMO-MUST
@@ -1057,7 +1060,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-METRIC-003
   title: Contagem de tarefas abertas
   classification: DEMO-MUST
@@ -1100,7 +1103,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-METRIC-004
   title: Contagem de contatos telefônicos
   classification: DEMO-MUST
@@ -1140,7 +1143,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-CASE-001
   title: Iniciar trabalho no caso
   classification: DEMO-MUST
@@ -1184,7 +1187,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-CASE-002
   title: Consultar visão operacional
   classification: DEMO-MUST
@@ -1237,7 +1240,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-CASE-003
   title: Aguardar fornecedor
   classification: DEMO-MUST
@@ -1282,7 +1285,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-CASE-004
   title: Retomar após atualização
   classification: DEMO-MUST
@@ -1322,7 +1325,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-CASE-005
   title: Resolver caso
   classification: DEMO-MUST
@@ -1372,7 +1375,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-TASK-001
   title: Criar tarefa
   classification: DEMO-MUST
@@ -1422,7 +1425,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-TASK-002
   title: Atribuir tarefa
   classification: DEMO-MUST
@@ -1471,7 +1474,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-TASK-003
   title: Iniciar tarefa
   classification: DEMO-MUST
@@ -1519,7 +1522,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-TASK-004
   title: Aguardar terceiro
   classification: DEMO-MUST
@@ -1566,7 +1569,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-TASK-005
   title: Retomar tarefa
   classification: DEMO-MUST
@@ -1609,7 +1612,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-TASK-006
   title: Concluir tarefa
   classification: DEMO-MUST
@@ -1663,7 +1666,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-TASK-007
   title: Cancelar tarefa
   classification: DEMO-MUST
@@ -1714,7 +1717,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-TASK-008
   title: Executar tarefas em paralelo
   classification: DEMO-MUST
@@ -1771,7 +1774,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-STOP-001
   title: Consultar visão operacional
   classification: DEMO-MUST
@@ -1817,7 +1820,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-STOP-002
   title: Preparar chegada
   classification: DEMO-MUST
@@ -1867,7 +1870,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-STOP-003
   title: Registrar relato de chegada
   classification: DEMO-MUST
@@ -1926,7 +1929,7 @@ rows:
   - 29 runner contract v2.1.3
   notes:
   - Relato de chegada é exclusivamente interno na DEMO-R1.
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-STOP-004
   title: Detectar conflito de chegada
   classification: DEMO-MUST
@@ -1975,7 +1978,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-STOP-005
   title: Confirmar chegada
   classification: DEMO-MUST
@@ -2047,7 +2050,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-STOP-006
   title: Iniciar serviço
   classification: DEMO-MUST
@@ -2098,7 +2101,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-EXT-001
   title: Emitir acesso de fornecedor
   classification: DEMO-MUST
@@ -2145,7 +2148,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-EXT-002
   title: Consultar contexto mínimo do fornecedor
   classification: DEMO-MUST
@@ -2194,7 +2197,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-EXT-003
   title: Atualizar previsão pelo fornecedor
   classification: DEMO-MUST
@@ -2259,7 +2262,7 @@ rows:
   notes:
   - Owner único da operação externa de forecast.
   - O efeito derivado resolve alerta e retoma caso/tarefa por consumers live-only.
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-CLOCK-001
   title: Avançar relógio
   classification: DEMO-MUST
@@ -2299,7 +2302,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-ALERT-001
   title: Criar alerta de inatividade
   classification: DEMO-MUST
@@ -2342,7 +2345,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-ALERT-002
   title: Deduplicar alerta
   classification: TECHNICAL-SUPPORT
@@ -2384,7 +2387,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-ALERT-003
   title: Resolver alerta por atualização
   classification: DEMO-MUST
@@ -2431,7 +2434,7 @@ rows:
   - 29 runner contract v2.1.3
   notes:
   - Consumidor live-only de CompletionForecastUpdated; não é owner do endpoint updateForecastExternal.
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-COM-001
   title: Receber e-mail fictício
   classification: DEMO-MUST
@@ -2452,7 +2455,7 @@ rows:
   tables:
   - integration_inbox
   - conversation
-  - communication
+  - communication_message
   events:
   - InboundCommunicationReceived
   event_sets: []
@@ -2476,7 +2479,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-COM-002
   title: Sugerir vínculo
   classification: DEMO-MUST
@@ -2512,7 +2515,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-COM-003
   title: Confirmar vínculo
   classification: DEMO-MUST
@@ -2552,7 +2555,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-COM-004
   title: Registrar ligação
   classification: DEMO-MUST
@@ -2593,7 +2596,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-STOP-007
   title: Concluir serviço
   classification: DEMO-MUST
@@ -2649,7 +2652,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-STOP-008
   title: Liberar veículo
   classification: DEMO-MUST
@@ -2704,7 +2707,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-EXT-004
   title: Emitir acesso de condutor
   classification: DEMO-MUST
@@ -2751,7 +2754,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-EXT-005
   title: Consultar contexto mínimo do condutor
   classification: DEMO-MUST
@@ -2804,7 +2807,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-STOP-009
   title: Confirmar retirada pelo condutor
   classification: DEMO-MUST
@@ -2873,7 +2876,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-STOP-010
   title: Fechar parada
   classification: DEMO-MUST
@@ -2933,7 +2936,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-EVT-001
   title: Persistência transacional
   classification: TECHNICAL-SUPPORT
@@ -2949,9 +2952,6 @@ rows:
   permissions_or_capabilities:
   - outbox.publish
   tables:
-  - domain_event
-  - integration_outbox
-  - idempotency_record
   - case_state_history
   - task_state_history
   - stop_state_history
@@ -2994,7 +2994,7 @@ rows:
   - 29 runner contract v2.1.3
   notes:
   - O conjunto inclui apenas mutações com x-primary-event; sessões e controles sem evento de domínio não são incluídos.
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-EVT-002
   title: Consumo idempotente
   classification: TECHNICAL-SUPPORT
@@ -3046,7 +3046,7 @@ rows:
   notes:
   - Consumer receipt e commit são isolados por demo_generation_id.
   - Commit tardio falha com STALE_DEMO_GENERATION.
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-TIMELINE-001
   title: Timeline de caso e parada
   classification: DEMO-MUST
@@ -3090,7 +3090,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-TIMELINE-002
   title: Preservar correções
   classification: TECHNICAL-SUPPORT
@@ -3137,7 +3137,7 @@ rows:
   - 28 seed manifest v2.1.3
   - 29 runner contract v2.1.3
   notes: []
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 - requirement_id: DEMO-AUDIT-001
   title: Auditoria mínima
   classification: TECHNICAL-SUPPORT
@@ -3174,7 +3174,7 @@ rows:
   - 29 runner contract v2.1.3
   notes:
   - Cobertura exige ALLOW, DENY, redaction e persistência após reset.
-  status: COMPLETE_V2.1.3
+  status: COMPLETE_V2.1.4
 invariant_rows:
 - invariant_id: INV-DEMO-001
   statement: Caso `RESOLVED` exige parada principal `CLOSED`.
@@ -3187,7 +3187,7 @@ invariant_rows:
   - WP-DEMO-STOP-010
   test_ids:
   - TST-SM-CROSS-001
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-002
   statement: Caso `RESOLVED` não pode ter tarefa obrigatória ativa.
   source_ref: 17 INV-DEMO-002 v2.1.3
@@ -3201,7 +3201,7 @@ invariant_rows:
   - WP-DEMO-TASK-007
   test_ids:
   - TST-SM-CROSS-002
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-003
   statement: Parada `CLOSED` exige chegada e retirada confirmadas.
   source_ref: 17 INV-DEMO-003 v2.1.3
@@ -3214,7 +3214,7 @@ invariant_rows:
   test_ids:
   - TST-DATA-STOP-006
   - TST-SM-CROSS-004
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-004
   statement: '`SERVICE_COMPLETED` não implica `confirmed_departure_at`.'
   source_ref: 17 INV-DEMO-004 v2.1.3
@@ -3227,7 +3227,7 @@ invariant_rows:
   test_ids:
   - TST-DATA-STOP-003
   - TST-SM-CROSS-007
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-005
   statement: '`AWAITING_PICKUP` exige `vehicle_released_at`.'
   source_ref: 17 INV-DEMO-005 v2.1.3
@@ -3239,7 +3239,7 @@ invariant_rows:
   - WP-DEMO-STOP-008
   test_ids:
   - TST-SM-CROSS-008
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-006
   statement: '`VEHICLE_PICKED_UP` exige retirada confirmada.'
   source_ref: 17 INV-DEMO-006 v2.1.3
@@ -3251,7 +3251,7 @@ invariant_rows:
   - WP-DEMO-STOP-009
   test_ids:
   - TST-DATA-STOP-005
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-007
   statement: 'A duração da parada é: ```text confirmed_departure_at - confirmed_arrival_at ``` e nunca pode ser negativa.'
   source_ref: 17 INV-DEMO-007 v2.1.3
@@ -3264,7 +3264,7 @@ invariant_rows:
   test_ids:
   - TST-DATA-STOP-007
   - TST-SM-CROSS-009
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-008
   statement: Existe somente uma confirmação de chegada corrente.
   source_ref: 17 INV-DEMO-008 v2.1.3
@@ -3277,7 +3277,7 @@ invariant_rows:
   test_ids:
   - TST-DATA-ARRIVAL-001
   - TST-SM-CROSS-012
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-009
   statement: Existe somente uma previsão corrente.
   source_ref: 17 INV-DEMO-009 v2.1.3
@@ -3288,7 +3288,7 @@ invariant_rows:
   test_ids:
   - TST-DATA-FORECAST-001
   - TST-SM-CROSS-011
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-010
   statement: Existe somente um alerta aberto `STOP_NO_UPDATE` por parada.
   source_ref: 17 INV-DEMO-010 v2.1.3
@@ -3301,7 +3301,7 @@ invariant_rows:
   test_ids:
   - TST-DATA-ALERT-001
   - TST-SM-CROSS-013
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-011
   statement: Uma atualização de previsão externa só pode afetar a parada do token.
   source_ref: 17 INV-DEMO-011 v2.1.3
@@ -3312,7 +3312,7 @@ invariant_rows:
   test_ids:
   - TST-AUTH-EXT-005
   - TST-SM-CROSS-014
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-012
   statement: Uma confirmação de retirada externa só pode afetar a parada e o condutor do token.
   source_ref: 17 INV-DEMO-012 v2.1.3
@@ -3325,7 +3325,7 @@ invariant_rows:
   test_ids:
   - TST-AUTH-EXT-006
   - TST-SM-CROSS-015
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-013
   statement: Tarefas independentes podem estar simultaneamente `IN_PROGRESS`.
   source_ref: 17 INV-DEMO-013 v2.1.3
@@ -3335,7 +3335,7 @@ invariant_rows:
   - WP-DEMO-TASK-008
   test_ids:
   - TST-SM-CROSS-016
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-014
   statement: Tarefa terminal não aceita novo comando.
   source_ref: 17 INV-DEMO-014 v2.1.3
@@ -3353,10 +3353,10 @@ invariant_rows:
   - WP-DEMO-TASK-007
   test_ids:
   - TST-SM-CROSS-017
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-015
-  statement: 'Aggregate terminal da demo não aceita comandos modificadores: ```text Case = RESOLVED VehicleStop = CLOSED Task = COMPLETED or CANCELLED
-    Alert = RESOLVED ```'
+  statement: 'Aggregate terminal da demo não aceita comandos modificadores: ```text Case = RESOLVED VehicleStop = CLOSED Task = COMPLETED or CANCELLED Alert
+    = RESOLVED ```'
   source_ref: 17 INV-DEMO-015 v2.1.3
   requirement_ids:
   - DEMO-ALERT-003
@@ -3372,7 +3372,7 @@ invariant_rows:
   - WP-DEMO-TASK-007
   test_ids:
   - TST-SM-CROSS-017
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-016
   statement: Eventos, históricos e ocorrências são append-only.
   source_ref: 17 INV-DEMO-016 v2.1.3
@@ -3393,7 +3393,7 @@ invariant_rows:
   - TST-DATA-EVT-005
   - TST-EVT-CONTRACT-007
   - TST-EVT-CONTRACT-009
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-017
   statement: Cada comando idempotente confirmado produz no máximo um evento principal.
   source_ref: 17 INV-DEMO-017 v2.1.3
@@ -3406,7 +3406,7 @@ invariant_rows:
   - TST-API-POLICY-004
   - TST-DATA-EVT-002
   - TST-SM-CROSS-018
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - invariant_id: INV-DEMO-018
   statement: Consumidores registram `consumer_id + event_id` antes de confirmar efeito irreversível.
   source_ref: 17 INV-DEMO-018 v2.1.3
@@ -3421,7 +3421,7 @@ invariant_rows:
   test_ids:
   - TST-DATA-EVT-004
   - TST-EVT-CONTRACT-008
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 data_adr_rows:
 - data_adr_id: DATA-ADR-001
   title: UUID interno
@@ -3435,11 +3435,10 @@ data_adr_rows:
   - WP-DEMO-DATA-003
   test_ids:
   - TST-DEMO-SEED-001
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-002
   title: Números públicos separados
-  decision_summary: '```text Case.case_number Task.task_number VehicleStop.stop_number ``` são identificadores públicos únicos, mas não substituem
-    UUID.'
+  decision_summary: '```text Case.case_number Task.task_number VehicleStop.stop_number ``` são identificadores públicos únicos, mas não substituem UUID.'
   source_ref: 19 DATA-ADR-002 v2.1.3
   requirement_ids:
   - DEMO-SEARCH-001
@@ -3449,7 +3448,7 @@ data_adr_rows:
   - WP-DEMO-SEARCH-002
   test_ids:
   - TST-API-SEARCH-OPERATIONAL-RESOURCES-001
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-003
   title: Estado como `TEXT CHECK`
   decision_summary: Estados e códigos controlados usam `TEXT` com `CHECK`, em vez de enum nativo do PostgreSQL, para reduzir acoplamento de migrations.
@@ -3512,11 +3511,10 @@ data_adr_rows:
   - TST-DATA-TASK-003
   - TST-DATA-TASK-004
   - TST-SM-CROSS-013
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-004
   title: Timestamps
-  decision_summary: 'Todos os instantes usam: ```text TIMESTAMPTZ ``` `occurred_at` representa o instante do negócio. `recorded_at` representa
-    persistência.'
+  decision_summary: 'Todos os instantes usam: ```text TIMESTAMPTZ ``` `occurred_at` representa o instante do negócio. `recorded_at` representa persistência.'
   source_ref: 19 DATA-ADR-004 v2.1.3
   requirement_ids:
   - DEMO-ALERT-003
@@ -3557,7 +3555,7 @@ data_adr_rows:
   - TST-DATA-STOP-006
   - TST-DATA-TASK-002
   - TST-DATA-TASK-003
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-005
   title: Concorrência otimista
   decision_summary: 'Aggregates mutáveis possuem: ```text version INTEGER NOT NULL DEFAULT 1 CHECK (version > 0) ```'
@@ -3569,11 +3567,11 @@ data_adr_rows:
   test_ids:
   - TST-API-POLICY-005
   - TST-API-POLICY-006
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-006
   title: Append-only
-  decision_summary: 'São append-only: - históricos de estado; - relatos; - confirmações; - previsões; - eventos; - ocorrências de alerta; - uso
-    de token; - auditoria. Correção cria nova linha e referencia a anterior.'
+  decision_summary: 'São append-only: - históricos de estado; - relatos; - confirmações; - previsões; - eventos; - ocorrências de alerta; - uso de token;
+    - auditoria. Correção cria nova linha e referencia a anterior.'
   source_ref: 19 DATA-ADR-006 v2.1.3
   requirement_ids:
   - DEMO-ALERT-002
@@ -3603,7 +3601,7 @@ data_adr_rows:
   - TST-SM-CROSS-011
   - TST-SM-CROSS-012
   - TST-SM-CROSS-018
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-007
   title: Projeções reconstruíveis
   decision_summary: Projeções podem ser apagadas e reconstruídas a partir de eventos e dados canônicos.
@@ -3625,11 +3623,11 @@ data_adr_rows:
   test_ids:
   - TST-DATA-METRIC-001
   - TST-EVT-CONTRACT-009
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-008
   title: Caso e parada são 1:1 na demo
-  decision_summary: Cada caso da `DEMO-R1` possui exatamente uma parada principal. Cada parada possui exatamente um caso principal. Expansão para
-    múltiplas paradas por caso fica adiada.
+  decision_summary: Cada caso da `DEMO-R1` possui exatamente uma parada principal. Cada parada possui exatamente um caso principal. Expansão para múltiplas
+    paradas por caso fica adiada.
   source_ref: 19 DATA-ADR-008 v2.1.3
   requirement_ids:
   - DEMO-CASE-002
@@ -3639,7 +3637,7 @@ data_adr_rows:
   - WP-DEMO-STOP-001
   test_ids:
   - TST-DATA-CASE-003
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-009
   title: Uma parada ativa por veículo
   decision_summary: Um veículo não pode possuir duas paradas cujo estado seja diferente de `CLOSED`.
@@ -3653,7 +3651,7 @@ data_adr_rows:
   test_ids:
   - TST-DATA-STOP-001
   - TST-SM-CROSS-010
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-010
   title: Tokens brutos não são persistidos
   decision_summary: 'São persistidos somente: - hash do capability token; - hash do token de sessão; - hash do CSRF token.'
@@ -3669,12 +3667,11 @@ data_adr_rows:
   test_ids:
   - TST-DATA-EXT-002
   - TST-DATA-IAM-002
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-011
   title: Emissão de token não usa replay de resposta
-  decision_summary: '`IssueSupplierAccess` e `IssueDriverAccess` não persistem resposta em `idempotency_record`, pois o token bruto é one-time.
-    Esses comandos: - exigem versão da parada; - revogam token ativo anterior da mesma audiência; - criam um novo token; - retornam o segredo
-    uma única vez.'
+  decision_summary: '`IssueSupplierAccess` e `IssueDriverAccess` não persistem resposta em `idempotency_record`, pois o token bruto é one-time. Esses comandos:
+    - exigem versão da parada; - revogam token ativo anterior da mesma audiência; - criam um novo token; - retornam o segredo uma única vez.'
   source_ref: 19 DATA-ADR-011 v2.1.3
   requirement_ids:
   - DEMO-EXT-001
@@ -3686,7 +3683,7 @@ data_adr_rows:
   - TST-API-ISSUE-DRIVER-ACCESS-001
   - TST-API-ISSUE-SUPPLIER-ACCESS-001
   - TST-DATA-EXT-006
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-012
   title: Segurança e reset possuem fronteiras distintas
   decision_summary: Registros operacionais são resetados. Auditoria de segurança e registro de execuções de reset são preservados.
@@ -3704,11 +3701,11 @@ data_adr_rows:
   - TST-DATA-RESET-002
   - TST-DATA-RESET-003
   - TST-DATA-RESET-005
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-013
   title: Toda execução pertence a uma geração operacional
-  decision_summary: Cada seed ativo possui um `demo_generation_id`. Comandos, eventos, filas, sessões externas, projeções e efeitos assíncronos
-    carregam essa geração. Um worker somente pode confirmar efeitos quando a geração capturada no claim continua ativa no momento do commit.
+  decision_summary: Cada seed ativo possui um `demo_generation_id`. Comandos, eventos, filas, sessões externas, projeções e efeitos assíncronos carregam
+    essa geração. Um worker somente pode confirmar efeitos quando a geração capturada no claim continua ativa no momento do commit.
   source_ref: 19 DATA-ADR-013 v2.1.3
   requirement_ids:
   - DEMO-COM-001
@@ -3734,12 +3731,12 @@ data_adr_rows:
   - TST-EVT-CONTRACT-008
   - TST-EVT-CONTRACT-011
   - TST-EVT-CONTRACT-012
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-014
   title: Evento de ocorrência incrementa a versão do aggregate proprietário
-  decision_summary: 'Uma mutação aceita incrementa a versão do aggregate mesmo quando não muda seu estado principal. Exemplos: ```text ArrivalReported
-    → VEHICLE_STOP CompletionForecastUpdated → VEHICLE_STOP ArrivalCorrected → VEHICLE_STOP PhoneCallRecorded → CASE AlertOccurrenceAdded → ALERT
-    ``` Para eventos canônicos da DEMO-R1: ```text aggregate_sequence = aggregate_version resultante ```'
+  decision_summary: 'Uma mutação aceita incrementa a versão do aggregate mesmo quando não muda seu estado principal. Exemplos: ```text ArrivalReported →
+    VEHICLE_STOP CompletionForecastUpdated → VEHICLE_STOP ArrivalCorrected → VEHICLE_STOP PhoneCallRecorded → CASE AlertOccurrenceAdded → ALERT ``` Para
+    eventos canônicos da DEMO-R1: ```text aggregate_sequence = aggregate_version resultante ```'
   source_ref: 19 DATA-ADR-014 v2.1.3
   requirement_ids:
   - DEMO-ALERT-002
@@ -3759,13 +3756,13 @@ data_adr_rows:
   - TST-DATA-EVT-005
   - TST-DATA-EVT-006
   - TST-EVT-CONTRACT-006
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 - data_adr_id: DATA-ADR-015
   title: Emissão de acesso externo é serializada no banco
-  decision_summary: 'A emissão não usa replay de resposta nem `Idempotency-Key`. A transação: 1. bloqueia a linha de `vehicle_stop` com `FOR UPDATE`;
-    2. revoga o token ativo da audiência; 3. cria o novo token; 4. confirma uma constraint partial unique; 5. grava evento, Outbox e auditoria.
-    A versão concorrente é controlada pelo lock e pela constraint, não por ETag da parada. O OpenAPI deverá remover `If-Match` e `ETag` dessas
-    duas operações. Se a resposta one-time for perdida, uma nova emissão revoga o token anterior desconhecido e devolve um novo segredo. ---'
+  decision_summary: 'A emissão não usa replay de resposta nem `Idempotency-Key`. A transação: 1. bloqueia a linha de `vehicle_stop` com `FOR UPDATE`; 2.
+    revoga o token ativo da audiência; 3. cria o novo token; 4. confirma uma constraint partial unique; 5. grava evento, Outbox e auditoria. A versão concorrente
+    é controlada pelo lock e pela constraint, não por ETag da parada. O OpenAPI deverá remover `If-Match` e `ETag` dessas duas operações. Se a resposta
+    one-time for perdida, uma nova emissão revoga o token anterior desconhecido e devolve um novo segredo. ---'
   source_ref: 19 DATA-ADR-015 v2.1.3
   requirement_ids:
   - DEMO-EXT-001
@@ -3777,7 +3774,7 @@ data_adr_rows:
   - TST-API-ISSUE-DRIVER-ACCESS-001
   - TST-API-ISSUE-SUPPLIER-ACCESS-001
   - TST-DATA-EXT-006
-  status: COVERED_V2.1.3
+  status: COVERED_V2.1.4
 test_reverse_index:
 - test_id: TST-DEMO-ENV-001
   title: Inicialização local por comando canônico
@@ -3793,7 +3790,7 @@ test_reverse_index:
   - WP-DEMO-ENV-001
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DEMO-BANNER-001
   title: Banner permanente de dados fictícios
   layer: UI
@@ -3808,7 +3805,7 @@ test_reverse_index:
   - WP-DEMO-ENV-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DEMO-MODE-001
   title: Recursos de demo falham fechados
   layer: SECURITY
@@ -3823,7 +3820,7 @@ test_reverse_index:
   - WP-DEMO-ENV-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DEMO-SEED-001
   title: Seed determinístico por versão
   layer: DATA
@@ -3841,7 +3838,7 @@ test_reverse_index:
   - WP-DEMO-DATA-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DEMO-RESET-001
   title: Reset restaura a versão seedada
   layer: E2E
@@ -3856,7 +3853,7 @@ test_reverse_index:
   - WP-DEMO-DATA-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DEMO-DATA-001
   title: Catálogo e seed não contêm dados reais
   layer: SECURITY
@@ -3871,7 +3868,7 @@ test_reverse_index:
   - WP-DEMO-DATA-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CASE-001
   title: StartCaseWork move NEW para IN_PROGRESS
   layer: DOMAIN
@@ -3892,7 +3889,7 @@ test_reverse_index:
   - WP-DEMO-CASE-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CASE-002
   title: WaitCaseForSupplier move IN_PROGRESS para WAITING_THIRD_PARTY
   layer: DOMAIN
@@ -3913,7 +3910,7 @@ test_reverse_index:
   - WP-DEMO-CASE-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CASE-003
   title: Forecast retoma caso em espera
   layer: DOMAIN
@@ -3934,7 +3931,7 @@ test_reverse_index:
   - WP-DEMO-CASE-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CASE-004
   title: ResolveCase move IN_PROGRESS para RESOLVED
   layer: DOMAIN
@@ -3955,7 +3952,7 @@ test_reverse_index:
   - WP-DEMO-CASE-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-TASK-001
   title: CreateTask cria NOT_STARTED
   layer: DOMAIN
@@ -3982,7 +3979,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-TASK-002
   title: AssignTask move NOT_STARTED para ASSIGNED
   layer: DOMAIN
@@ -4009,7 +4006,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-TASK-003
   title: StartTask move ASSIGNED para IN_PROGRESS
   layer: DOMAIN
@@ -4036,7 +4033,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-TASK-004
   title: WaitTaskForSupplier move IN_PROGRESS para WAITING_THIRD_PARTY
   layer: DOMAIN
@@ -4063,7 +4060,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-TASK-005
   title: Forecast retoma tarefa em espera
   layer: DOMAIN
@@ -4090,7 +4087,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-TASK-006
   title: CompleteTask move IN_PROGRESS para COMPLETED
   layer: DOMAIN
@@ -4117,7 +4114,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-TASK-007
   title: CancelTask por supervisor move estado ativo para CANCELLED
   layer: DOMAIN
@@ -4144,7 +4141,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-STOP-001
   title: PrepareStopForArrival move SCHEDULED para AWAITING_ARRIVAL
   layer: DOMAIN
@@ -4176,7 +4173,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-STOP-002
   title: ReportArrival cria ocorrência sem confirmar chegada
   layer: DOMAIN
@@ -4208,7 +4205,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-STOP-003
   title: ConfirmArrival move AWAITING_ARRIVAL para VEHICLE_RECEIVED
   layer: DOMAIN
@@ -4240,7 +4237,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-STOP-004
   title: CorrectArrival preserva confirmação anterior
   layer: DOMAIN
@@ -4272,7 +4269,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-STOP-005
   title: StartService move VEHICLE_RECEIVED para IN_EXECUTION
   layer: DOMAIN
@@ -4304,7 +4301,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-STOP-006
   title: UpdateCompletionForecast preserva histórico e previsão corrente
   layer: DOMAIN
@@ -4336,7 +4333,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-STOP-007
   title: CompleteService move IN_EXECUTION para SERVICE_COMPLETED
   layer: DOMAIN
@@ -4368,7 +4365,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-STOP-008
   title: ReleaseVehicle move SERVICE_COMPLETED para AWAITING_PICKUP
   layer: DOMAIN
@@ -4400,7 +4397,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-STOP-009
   title: ConfirmDeparture move AWAITING_PICKUP para VEHICLE_PICKED_UP
   layer: DOMAIN
@@ -4432,7 +4429,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-STOP-010
   title: CloseVehicleStop move VEHICLE_PICKED_UP para CLOSED
   layer: DOMAIN
@@ -4464,7 +4461,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-STOP-011
   title: Fluxo principal respeita a ordem de oito estados
   layer: DOMAIN
@@ -4496,7 +4493,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-ARRIVAL-001
   title: Um relato mantém confirmação em REPORTED
   layer: DOMAIN
@@ -4515,7 +4512,7 @@ test_reverse_index:
   - WP-DEMO-STOP-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-ARRIVAL-002
   title: Relatos dentro de 15 minutos não geram conflito
   layer: DOMAIN
@@ -4534,7 +4531,7 @@ test_reverse_index:
   - WP-DEMO-STOP-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-ARRIVAL-003
   title: Relatos acima de 15 minutos criam conflito, tarefa e alerta
   layer: DOMAIN
@@ -4553,7 +4550,7 @@ test_reverse_index:
   - WP-DEMO-STOP-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-ARRIVAL-004
   title: Conflito exige confirmação por supervisor com justificativa
   layer: DOMAIN
@@ -4572,7 +4569,7 @@ test_reverse_index:
   - WP-DEMO-STOP-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-ARRIVAL-005
   title: Correção não apaga relatos ou confirmação anterior
   layer: DOMAIN
@@ -4594,7 +4591,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-ALERT-001
   title: Inatividade cria um alerta STOP_NO_UPDATE
   layer: DOMAIN
@@ -4613,7 +4610,7 @@ test_reverse_index:
   - WP-DEMO-ALERT-003
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-ALERT-002
   title: Nova avaliação adiciona ocorrência sem duplicar alerta
   layer: DOMAIN
@@ -4632,7 +4629,7 @@ test_reverse_index:
   - WP-DEMO-ALERT-003
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-ALERT-003
   title: Forecast válido resolve alerta STOP_NO_UPDATE
   layer: DOMAIN
@@ -4651,7 +4648,7 @@ test_reverse_index:
   - WP-DEMO-ALERT-003
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-001
   title: ResolveCase é bloqueado enquanto a parada não estiver CLOSED
   layer: DOMAIN
@@ -4669,7 +4666,7 @@ test_reverse_index:
   - WP-DEMO-STOP-010
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-002
   title: ResolveCase é bloqueado por tarefa obrigatória aberta
   layer: DOMAIN
@@ -4689,7 +4686,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-003
   title: ResolveCase é bloqueado por conflito de chegada aberto
   layer: DOMAIN
@@ -4708,7 +4705,7 @@ test_reverse_index:
   - WP-DEMO-STOP-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-004
   title: CloseVehicleStop é bloqueado sem retirada confirmada
   layer: DOMAIN
@@ -4727,7 +4724,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-005
   title: CloseVehicleStop é bloqueado por tarefa obrigatória de fechamento
   layer: DOMAIN
@@ -4746,7 +4743,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-006
   title: CloseVehicleStop é bloqueado por conflito de chegada
   layer: DOMAIN
@@ -4765,7 +4762,7 @@ test_reverse_index:
   - WP-DEMO-STOP-010
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-007
   title: CompleteService não preenche retirada
   layer: DOMAIN
@@ -4784,7 +4781,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-008
   title: ReleaseVehicle é transição separada
   layer: DOMAIN
@@ -4802,7 +4799,7 @@ test_reverse_index:
   - WP-DEMO-STOP-008
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-009
   title: Duração usa retirada menos chegada
   layer: DOMAIN
@@ -4821,7 +4818,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-010
   title: Veículo não aceita duas paradas ativas
   layer: DOMAIN
@@ -4840,7 +4837,7 @@ test_reverse_index:
   gate_ids:
   - G1_FOUNDATION
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-011
   title: Só uma previsão pode ser corrente
   layer: DOMAIN
@@ -4857,7 +4854,7 @@ test_reverse_index:
   - WP-DEMO-EXT-003
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-012
   title: Só uma confirmação de chegada pode ser corrente
   layer: DOMAIN
@@ -4877,7 +4874,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-013
   title: Só um alerta STOP_NO_UPDATE pode estar aberto
   layer: DOMAIN
@@ -4896,7 +4893,7 @@ test_reverse_index:
   - WP-DEMO-ALERT-002
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-014
   title: Forecast externo não atravessa recurso
   layer: DOMAIN
@@ -4912,7 +4909,7 @@ test_reverse_index:
   - WP-DEMO-EXT-003
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-015
   title: Retirada externa não atravessa recurso
   layer: DOMAIN
@@ -4930,7 +4927,7 @@ test_reverse_index:
   - WP-DEMO-STOP-009
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-016
   title: Tarefas independentes executam em paralelo
   layer: DOMAIN
@@ -4946,7 +4943,7 @@ test_reverse_index:
   - WP-DEMO-TASK-008
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-017
   title: Aggregates terminais são imutáveis
   layer: DOMAIN
@@ -4972,7 +4969,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-SM-CROSS-018
   title: Replay idempotente não cria segundo evento principal
   layer: DOMAIN
@@ -4989,7 +4986,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SESSION-001
   title: Identity allowlist aceita somente identidade seedada
   layer: SECURITY
@@ -5004,7 +5001,7 @@ test_reverse_index:
   - WP-DEMO-IAM-001
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SESSION-002
   title: Role forjado é rejeitado pelo schema
   layer: SECURITY
@@ -5019,7 +5016,7 @@ test_reverse_index:
   - WP-DEMO-IAM-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SESSION-003
   title: Nova seleção revoga sessão anterior
   layer: SECURITY
@@ -5036,7 +5033,7 @@ test_reverse_index:
   - WP-DEMO-IAM-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SESSION-004
   title: Sessão expirada por inatividade é rejeitada
   layer: SECURITY
@@ -5051,7 +5048,7 @@ test_reverse_index:
   - WP-DEMO-IAM-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SESSION-005
   title: Mutação sem CSRF é rejeitada
   layer: SECURITY
@@ -5066,7 +5063,7 @@ test_reverse_index:
   - WP-DEMO-IAM-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SESSION-006
   title: Mutação com CSRF inválido é rejeitada
   layer: SECURITY
@@ -5081,7 +5078,7 @@ test_reverse_index:
   - WP-DEMO-IAM-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SESSION-007
   title: Demo Admin não possui permissão operacional
   layer: SECURITY
@@ -5096,7 +5093,7 @@ test_reverse_index:
   - WP-DEMO-IAM-004
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SCOPE-001
   title: Customer scope filtra recurso
   layer: SECURITY
@@ -5111,7 +5108,7 @@ test_reverse_index:
   - WP-DEMO-IAM-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SCOPE-002
   title: Operating unit scope filtra recurso
   layer: SECURITY
@@ -5126,7 +5123,7 @@ test_reverse_index:
   - WP-DEMO-IAM-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SCOPE-003
   title: Relação de equipe é exigida para escrita
   layer: SECURITY
@@ -5141,7 +5138,7 @@ test_reverse_index:
   - WP-DEMO-IAM-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SCOPE-004
   title: Supervisor pode escrever em outra equipe dentro do escopo
   layer: SECURITY
@@ -5156,7 +5153,7 @@ test_reverse_index:
   - WP-DEMO-IAM-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SCOPE-005
   title: Supervisor é negado fora do escopo
   layer: SECURITY
@@ -5171,7 +5168,7 @@ test_reverse_index:
   - WP-DEMO-IAM-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SCOPE-006
   title: Manager não executa escrita
   layer: SECURITY
@@ -5186,7 +5183,7 @@ test_reverse_index:
   - WP-DEMO-IAM-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-SCOPE-007
   title: Fora do escopo é indistinguível de inexistente
   layer: SECURITY
@@ -5201,7 +5198,7 @@ test_reverse_index:
   - WP-DEMO-IAM-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-001
   title: Troca token do fragmento por sessão
   layer: SECURITY
@@ -5218,7 +5215,7 @@ test_reverse_index:
   - WP-DEMO-EXT-004
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-002
   title: Token não aparece em access log
   layer: SECURITY
@@ -5238,7 +5235,7 @@ test_reverse_index:
   gate_ids:
   - G1_FOUNDATION
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-003
   title: Token expirado é rejeitado
   layer: SECURITY
@@ -5255,7 +5252,7 @@ test_reverse_index:
   - WP-DEMO-EXT-005
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-004
   title: Token revogado é rejeitado
   layer: SECURITY
@@ -5272,7 +5269,7 @@ test_reverse_index:
   - WP-DEMO-EXT-005
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-005
   title: Fornecedor não acessa outra parada
   layer: SECURITY
@@ -5288,7 +5285,7 @@ test_reverse_index:
   - WP-DEMO-EXT-003
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-006
   title: Condutor não acessa outra parada
   layer: SECURITY
@@ -5306,7 +5303,7 @@ test_reverse_index:
   - WP-DEMO-STOP-009
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-007
   title: Fornecedor não confirma retirada
   layer: SECURITY
@@ -5323,7 +5320,7 @@ test_reverse_index:
   - WP-DEMO-STOP-009
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-008
   title: Condutor não atualiza previsão
   layer: SECURITY
@@ -5340,7 +5337,7 @@ test_reverse_index:
   - WP-DEMO-EXT-005
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-009
   title: Limite de usos da ação é aplicado
   layer: SECURITY
@@ -5357,7 +5354,7 @@ test_reverse_index:
   - WP-DEMO-EXT-004
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-010
   title: Replay idempotente não consome novo uso
   layer: SECURITY
@@ -5377,7 +5374,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-011
   title: GET externo não emite evento de domínio
   layer: SECURITY
@@ -5397,7 +5394,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-012
   title: Revogação invalida sessão externa
   layer: SECURITY
@@ -5418,7 +5415,7 @@ test_reverse_index:
   - WP-DEMO-EXT-005
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-013
   title: Resposta do fornecedor é minimizada
   layer: SECURITY
@@ -5433,7 +5430,7 @@ test_reverse_index:
   - WP-DEMO-EXT-002
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-014
   title: Resposta do condutor é minimizada
   layer: SECURITY
@@ -5448,7 +5445,7 @@ test_reverse_index:
   - WP-DEMO-EXT-005
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-015
   title: CSRF externo é obrigatório
   layer: SECURITY
@@ -5469,7 +5466,7 @@ test_reverse_index:
   - WP-DEMO-STOP-009
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-EXT-016
   title: Rate limit externo retorna Retry-After
   layer: SECURITY
@@ -5490,7 +5487,7 @@ test_reverse_index:
   - WP-DEMO-STOP-009
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-ADAPTER-001
   title: Assinatura HMAC válida é aceita
   layer: SECURITY
@@ -5507,7 +5504,7 @@ test_reverse_index:
   - WP-DEMO-COM-002
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-ADAPTER-002
   title: Assinatura HMAC inválida é rejeitada
   layer: SECURITY
@@ -5522,7 +5519,7 @@ test_reverse_index:
   - WP-DEMO-COM-001
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-ADAPTER-003
   title: Timestamp fora da janela é rejeitado
   layer: SECURITY
@@ -5537,7 +5534,7 @@ test_reverse_index:
   - WP-DEMO-COM-001
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUTH-ADAPTER-004
   title: Mesmo message ID com payload diferente gera conflito
   layer: SECURITY
@@ -5552,7 +5549,7 @@ test_reverse_index:
   - WP-DEMO-COM-001
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-IAM-001
   title: Um papel por usuário
   layer: DATA
@@ -5569,7 +5566,7 @@ test_reverse_index:
   - WP-DEMO-IAM-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-IAM-002
   title: Hash de sessão interna é único
   layer: DATA
@@ -5585,7 +5582,7 @@ test_reverse_index:
   - WP-DEMO-IAM-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-IAM-003
   title: Revogação exige reason code
   layer: DATA
@@ -5600,7 +5597,7 @@ test_reverse_index:
   - WP-DEMO-IAM-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-IAM-004
   title: Grants de escopo respeitam FKs
   layer: DATA
@@ -5615,7 +5612,7 @@ test_reverse_index:
   - WP-DEMO-IAM-003
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-IAM-005
   title: Demo Admin não possui grants operacionais
   layer: DATA
@@ -5630,7 +5627,7 @@ test_reverse_index:
   - WP-DEMO-IAM-004
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-CASE-001
   title: Case aceita somente estados canônicos
   layer: DATA
@@ -5650,7 +5647,7 @@ test_reverse_index:
   - WP-DEMO-CASE-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-CASE-002
   title: Case RESOLVED exige campos de resolução
   layer: DATA
@@ -5667,7 +5664,7 @@ test_reverse_index:
   - WP-DEMO-CASE-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-CASE-003
   title: Um stop principal por case
   layer: DATA
@@ -5685,7 +5682,7 @@ test_reverse_index:
   - WP-DEMO-STOP-001
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-TASK-001
   title: mandatory_for é coerente com is_mandatory
   layer: DATA
@@ -5705,7 +5702,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-TASK-002
   title: Task COMPLETED exige resultado
   layer: DATA
@@ -5722,7 +5719,7 @@ test_reverse_index:
   - WP-DEMO-TASK-006
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-TASK-003
   title: Task CANCELLED exige motivo e impacto
   layer: DATA
@@ -5739,7 +5736,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-TASK-004
   title: Replacement task não aponta para si
   layer: DATA
@@ -5755,7 +5752,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-STOP-001
   title: Uma parada ativa por veículo
   layer: DATA
@@ -5771,7 +5768,7 @@ test_reverse_index:
   - WP-DEMO-STOP-001
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-STOP-002
   title: Estados exigem timestamps correspondentes
   layer: DATA
@@ -5801,7 +5798,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-STOP-003
   title: Service complete permite departure nulo
   layer: DATA
@@ -5822,7 +5819,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-STOP-004
   title: Liberação não antecede conclusão
   layer: DATA
@@ -5840,7 +5837,7 @@ test_reverse_index:
   - WP-DEMO-STOP-008
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-STOP-005
   title: Retirada não antecede liberação
   layer: DATA
@@ -5860,7 +5857,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-STOP-006
   title: CLOSED exige closed_at e closure_reason
   layer: DATA
@@ -5878,7 +5875,7 @@ test_reverse_index:
   - WP-DEMO-STOP-010
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-STOP-007
   title: Duração não pode ser negativa
   layer: DATA
@@ -5895,7 +5892,7 @@ test_reverse_index:
   - WP-DEMO-STOP-009
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-ARRIVAL-001
   title: Uma confirmação de chegada corrente
   layer: DATA
@@ -5915,7 +5912,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-FORECAST-001
   title: Uma previsão corrente
   layer: DATA
@@ -5932,7 +5929,7 @@ test_reverse_index:
   - WP-DEMO-EXT-003
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-ALERT-001
   title: Uma chave de alerta aberta
   layer: DATA
@@ -5951,7 +5948,7 @@ test_reverse_index:
   - WP-DEMO-ALERT-002
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-ALERT-002
   title: Alerta RESOLVED exige resolução
   layer: DATA
@@ -5968,7 +5965,7 @@ test_reverse_index:
   - WP-DEMO-ALERT-003
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-ALERT-003
   title: Ocorrência é idempotente por source event
   layer: DATA
@@ -5989,7 +5986,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EXT-001
   title: Token possui exatamente um sujeito
   layer: DATA
@@ -6007,7 +6004,7 @@ test_reverse_index:
   - WP-DEMO-EXT-004
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EXT-002
   title: Hash de capability token é único
   layer: DATA
@@ -6025,7 +6022,7 @@ test_reverse_index:
   - WP-DEMO-EXT-004
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EXT-003
   title: Uso de capability não excede limite
   layer: DATA
@@ -6043,7 +6040,7 @@ test_reverse_index:
   - WP-DEMO-STOP-009
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EXT-004
   title: Sessão externa não expira após token
   layer: DATA
@@ -6062,7 +6059,7 @@ test_reverse_index:
   - WP-DEMO-EXT-005
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EXT-005
   title: Uso de ação é único por idempotency record
   layer: DATA
@@ -6083,7 +6080,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EVT-001
   title: Sequence é única por aggregate
   layer: DATA
@@ -6099,7 +6096,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EVT-002
   title: Um evento principal por idempotency record
   layer: DATA
@@ -6116,7 +6113,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EVT-003
   title: Uma Outbox por evento
   layer: DATA
@@ -6132,7 +6129,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EVT-004
   title: Receipt é único por consumer e evento
   layer: DATA
@@ -6149,7 +6146,7 @@ test_reverse_index:
   - WP-DEMO-EVT-002
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-INBOX-001
   title: Message ID é único por source
   layer: DATA
@@ -6168,7 +6165,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-DLQ-001
   title: Uma DLQ por source
   layer: DATA
@@ -6184,7 +6181,7 @@ test_reverse_index:
   - WP-DEMO-EVT-002
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-RESET-001
   title: Somente um reset ativo
   layer: DATA
@@ -6201,7 +6198,7 @@ test_reverse_index:
   - WP-DEMO-DATA-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-RESET-002
   title: Crash do owner após a barreira preserva o dataset e é recuperado pelo watchdog
   layer: DATA
@@ -6218,7 +6215,7 @@ test_reverse_index:
   - WP-DEMO-DATA-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-RESET-003
   title: Auditoria sobrevive ao reset
   layer: DATA
@@ -6236,7 +6233,7 @@ test_reverse_index:
   - WP-DEMO-DATA-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-METRIC-001
   title: Fórmulas de métricas correspondem aos dados canônicos
   layer: DATA
@@ -6258,7 +6255,7 @@ test_reverse_index:
   - WP-DEMO-METRIC-004
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: E2E-DEMO-000
   title: Jornada executiva completa
   layer: E2E
@@ -6355,7 +6352,7 @@ test_reverse_index:
   - G3_PROJECTIONS
   - G4_TIME_COMMUNICATION
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: E2E-DEMO-001
   title: Inatividade e deduplicação
   layer: E2E
@@ -6382,7 +6379,7 @@ test_reverse_index:
   - G3_PROJECTIONS
   - G4_TIME_COMMUNICATION
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: E2E-DEMO-002
   title: Chegada divergente
   layer: E2E
@@ -6406,7 +6403,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: E2E-DEMO-003
   title: E-mail vinculado ao caso existente
   layer: E2E
@@ -6428,7 +6425,7 @@ test_reverse_index:
   gate_ids:
   - G3_PROJECTIONS
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: E2E-DEMO-004
   title: Tarefas paralelas
   layer: E2E
@@ -6454,7 +6451,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: E2E-DEMO-005
   title: Serviço concluído sem retirada
   layer: E2E
@@ -6480,7 +6477,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-GET-LIVENESS-001
   title: Contrato de sucesso concreto de getLiveness
   layer: API_CONTRACT
@@ -6495,7 +6492,7 @@ test_reverse_index:
   - WP-DEMO-ENV-001
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-GET-READINESS-001
   title: Contrato de sucesso concreto de getReadiness
   layer: API_CONTRACT
@@ -6510,7 +6507,7 @@ test_reverse_index:
   - WP-DEMO-ENV-001
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-CREATE-DEMO-SESSION-001
   title: Contrato de sucesso concreto de createDemoSession
   layer: API_CONTRACT
@@ -6529,7 +6526,7 @@ test_reverse_index:
   - WP-DEMO-IAM-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-DELETE-DEMO-SESSION-001
   title: Contrato de sucesso concreto de deleteDemoSession
   layer: API_CONTRACT
@@ -6546,7 +6543,7 @@ test_reverse_index:
   - WP-DEMO-IAM-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-GET-CURRENT-SESSION-001
   title: Contrato de sucesso concreto de getCurrentSession
   layer: API_CONTRACT
@@ -6563,7 +6560,7 @@ test_reverse_index:
   - WP-DEMO-IAM-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-GET-DEMO-STATUS-001
   title: Contrato de sucesso concreto de getDemoStatus
   layer: API_CONTRACT
@@ -6578,7 +6575,7 @@ test_reverse_index:
   - WP-DEMO-IAM-004
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-ADVANCE-DEMO-CLOCK-001
   title: Contrato de sucesso concreto de advanceDemoClock
   layer: API_CONTRACT
@@ -6598,7 +6595,7 @@ test_reverse_index:
   gate_ids:
   - G1_FOUNDATION
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-RESET-DEMO-SCENARIO-001
   title: Contrato de sucesso concreto de resetDemoScenario
   layer: API_CONTRACT
@@ -6617,7 +6614,7 @@ test_reverse_index:
   - WP-DEMO-IAM-004
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-GET-DEMO-RESET-001
   title: Contrato de sucesso concreto de getDemoReset
   layer: API_CONTRACT
@@ -6632,7 +6629,7 @@ test_reverse_index:
   - WP-DEMO-DATA-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-SEARCH-OPERATIONAL-RESOURCES-001
   title: Contrato de sucesso concreto de searchOperationalResources
   layer: API_CONTRACT
@@ -6650,7 +6647,7 @@ test_reverse_index:
   - WP-DEMO-SEARCH-002
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-LIST-STOP-DASHBOARD-001
   title: Contrato de sucesso concreto de listStopDashboard
   layer: API_CONTRACT
@@ -6667,7 +6664,7 @@ test_reverse_index:
   - WP-DEMO-DASH-002
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-GET-DEMO-METRICS-001
   title: Contrato de sucesso concreto de getDemoMetrics
   layer: API_CONTRACT
@@ -6688,7 +6685,7 @@ test_reverse_index:
   - WP-DEMO-METRIC-004
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-GET-CASE-OPERATIONAL-VIEW-001
   title: Contrato de sucesso concreto de getCaseOperationalView
   layer: API_CONTRACT
@@ -6703,7 +6700,7 @@ test_reverse_index:
   - WP-DEMO-CASE-002
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-GET-CASE-TIMELINE-001
   title: Contrato de sucesso concreto de getCaseTimeline
   layer: API_CONTRACT
@@ -6720,7 +6717,7 @@ test_reverse_index:
   - WP-DEMO-TIMELINE-001
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-START-CASE-WORK-001
   title: Contrato de sucesso concreto de startCaseWork
   layer: API_CONTRACT
@@ -6735,7 +6732,7 @@ test_reverse_index:
   - WP-DEMO-CASE-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-WAIT-CASE-FOR-SUPPLIER-001
   title: Contrato de sucesso concreto de waitCaseForSupplier
   layer: API_CONTRACT
@@ -6750,7 +6747,7 @@ test_reverse_index:
   - WP-DEMO-CASE-003
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-RESOLVE-CASE-001
   title: Contrato de sucesso concreto de resolveCase
   layer: API_CONTRACT
@@ -6765,7 +6762,7 @@ test_reverse_index:
   - WP-DEMO-CASE-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-LIST-CASE-TASKS-001
   title: Contrato de sucesso concreto de listCaseTasks
   layer: API_CONTRACT
@@ -6780,7 +6777,7 @@ test_reverse_index:
   - WP-DEMO-CASE-002
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-CREATE-TASK-001
   title: Contrato de sucesso concreto de createTask
   layer: API_CONTRACT
@@ -6797,7 +6794,7 @@ test_reverse_index:
   - WP-DEMO-TASK-008
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-ASSIGN-TASK-001
   title: Contrato de sucesso concreto de assignTask
   layer: API_CONTRACT
@@ -6814,7 +6811,7 @@ test_reverse_index:
   - WP-DEMO-TASK-008
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-START-TASK-001
   title: Contrato de sucesso concreto de startTask
   layer: API_CONTRACT
@@ -6831,7 +6828,7 @@ test_reverse_index:
   - WP-DEMO-TASK-008
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-WAIT-TASK-FOR-SUPPLIER-001
   title: Contrato de sucesso concreto de waitTaskForSupplier
   layer: API_CONTRACT
@@ -6846,7 +6843,7 @@ test_reverse_index:
   - WP-DEMO-TASK-004
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-COMPLETE-TASK-001
   title: Contrato de sucesso concreto de completeTask
   layer: API_CONTRACT
@@ -6863,7 +6860,7 @@ test_reverse_index:
   - WP-DEMO-TASK-008
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-CANCEL-TASK-001
   title: Contrato de sucesso concreto de cancelTask
   layer: API_CONTRACT
@@ -6878,7 +6875,7 @@ test_reverse_index:
   - WP-DEMO-TASK-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-GET-STOP-OPERATIONAL-VIEW-001
   title: Contrato de sucesso concreto de getStopOperationalView
   layer: API_CONTRACT
@@ -6893,7 +6890,7 @@ test_reverse_index:
   - WP-DEMO-STOP-001
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-GET-STOP-TIMELINE-001
   title: Contrato de sucesso concreto de getStopTimeline
   layer: API_CONTRACT
@@ -6910,7 +6907,7 @@ test_reverse_index:
   - WP-DEMO-TIMELINE-001
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-PREPARE-STOP-FOR-ARRIVAL-001
   title: Contrato de sucesso concreto de prepareStopForArrival
   layer: API_CONTRACT
@@ -6925,7 +6922,7 @@ test_reverse_index:
   - WP-DEMO-STOP-002
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-REPORT-ARRIVAL-INTERNAL-001
   title: Contrato de sucesso concreto de reportArrivalInternal
   layer: API_CONTRACT
@@ -6940,7 +6937,7 @@ test_reverse_index:
   - WP-DEMO-STOP-003
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-CONFIRM-ARRIVAL-001
   title: Contrato de sucesso concreto de confirmArrival
   layer: API_CONTRACT
@@ -6955,7 +6952,7 @@ test_reverse_index:
   - WP-DEMO-STOP-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-CORRECT-ARRIVAL-001
   title: Contrato de sucesso concreto de correctArrival
   layer: API_CONTRACT
@@ -6970,7 +6967,7 @@ test_reverse_index:
   - WP-DEMO-TIMELINE-002
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-START-SERVICE-001
   title: Contrato de sucesso concreto de startService
   layer: API_CONTRACT
@@ -6985,7 +6982,7 @@ test_reverse_index:
   - WP-DEMO-STOP-006
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-COMPLETE-SERVICE-001
   title: Contrato de sucesso concreto de completeService
   layer: API_CONTRACT
@@ -7000,7 +6997,7 @@ test_reverse_index:
   - WP-DEMO-STOP-007
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-RELEASE-VEHICLE-001
   title: Contrato de sucesso concreto de releaseVehicle
   layer: API_CONTRACT
@@ -7015,7 +7012,7 @@ test_reverse_index:
   - WP-DEMO-STOP-008
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-CLOSE-VEHICLE-STOP-001
   title: Contrato de sucesso concreto de closeVehicleStop
   layer: API_CONTRACT
@@ -7030,7 +7027,7 @@ test_reverse_index:
   - WP-DEMO-STOP-010
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-LIST-CASE-CONVERSATIONS-001
   title: Contrato de sucesso concreto de listCaseConversations
   layer: API_CONTRACT
@@ -7045,7 +7042,7 @@ test_reverse_index:
   - WP-DEMO-CASE-002
   gate_ids:
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-CONFIRM-CONVERSATION-CASE-LINK-001
   title: Contrato de sucesso concreto de confirmConversationCaseLink
   layer: API_CONTRACT
@@ -7060,7 +7057,7 @@ test_reverse_index:
   - WP-DEMO-COM-003
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-RECORD-PHONE-CALL-001
   title: Contrato de sucesso concreto de recordPhoneCall
   layer: API_CONTRACT
@@ -7075,7 +7072,7 @@ test_reverse_index:
   - WP-DEMO-COM-004
   gate_ids:
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-RECEIVE-DEMO-EMAIL-001
   title: Contrato de sucesso concreto de receiveDemoEmail
   layer: API_CONTRACT
@@ -7093,7 +7090,7 @@ test_reverse_index:
   gate_ids:
   - G1_FOUNDATION
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-ISSUE-SUPPLIER-ACCESS-001
   title: Contrato de sucesso concreto de issueSupplierAccess
   layer: API_CONTRACT
@@ -7110,7 +7107,7 @@ test_reverse_index:
   - WP-DEMO-EXT-001
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-ISSUE-DRIVER-ACCESS-001
   title: Contrato de sucesso concreto de issueDriverAccess
   layer: API_CONTRACT
@@ -7127,7 +7124,7 @@ test_reverse_index:
   - WP-DEMO-EXT-004
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-CREATE-EXTERNAL-SESSION-001
   title: Contrato de sucesso concreto de createExternalSession
   layer: API_CONTRACT
@@ -7144,7 +7141,7 @@ test_reverse_index:
   - WP-DEMO-EXT-005
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-GET-EXTERNAL-CONTEXT-001
   title: Contrato de sucesso concreto de getExternalContext
   layer: API_CONTRACT
@@ -7161,7 +7158,7 @@ test_reverse_index:
   - WP-DEMO-EXT-005
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-UPDATE-FORECAST-EXTERNAL-001
   title: Contrato de sucesso concreto de updateForecastExternal
   layer: API_CONTRACT
@@ -7176,7 +7173,7 @@ test_reverse_index:
   - WP-DEMO-EXT-003
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-CONFIRM-DEPARTURE-EXTERNAL-001
   title: Contrato de sucesso concreto de confirmDepartureExternal
   layer: API_CONTRACT
@@ -7191,7 +7188,7 @@ test_reverse_index:
   - WP-DEMO-STOP-009
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-POLICY-001
   title: Body rejeita propriedade desconhecida
   layer: API_POLICY
@@ -7264,7 +7261,7 @@ test_reverse_index:
   - G3_PROJECTIONS
   - G4_TIME_COMMUNICATION
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-POLICY-002
   title: Mutação por cookie exige CSRF
   layer: API_POLICY
@@ -7279,7 +7276,7 @@ test_reverse_index:
   - WP-DEMO-IAM-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-POLICY-003
   title: Replay idempotente retorna resposta original
   layer: API_POLICY
@@ -7295,7 +7292,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-POLICY-004
   title: Chave idempotente com request diferente conflita
   layer: API_POLICY
@@ -7311,7 +7308,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-POLICY-005
   title: If-Match ausente retorna 428
   layer: API_POLICY
@@ -7327,7 +7324,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-POLICY-006
   title: If-Match obsoleto retorna 412
   layer: API_POLICY
@@ -7343,7 +7340,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-POLICY-007
   title: Operação interna exige sessão
   layer: API_POLICY
@@ -7360,7 +7357,7 @@ test_reverse_index:
   - WP-DEMO-IAM-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-POLICY-008
   title: Respostas externas usam headers de proteção
   layer: API_POLICY
@@ -7377,7 +7374,7 @@ test_reverse_index:
   - WP-DEMO-EXT-005
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-POLICY-009
   title: Mutação falha fechada durante reset
   layer: API_POLICY
@@ -7392,7 +7389,7 @@ test_reverse_index:
   - WP-DEMO-DATA-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-API-POLICY-010
   title: Operações retiradas não existem
   layer: API_POLICY
@@ -7417,7 +7414,7 @@ test_reverse_index:
   - WP-DEMO-STOP-009
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-001
   title: Envelope e payload v2 válidos
   layer: EVENT_CONTRACT
@@ -7434,7 +7431,7 @@ test_reverse_index:
   - WP-DEMO-STOP-004
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-002
   title: Campo obrigatório ausente é rejeitado
   layer: EVENT_CONTRACT
@@ -7449,7 +7446,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-003
   title: Campo adicional é rejeitado
   layer: EVENT_CONTRACT
@@ -7464,7 +7461,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-004
   title: Classificação coincide com registry
   layer: EVENT_CONTRACT
@@ -7479,7 +7476,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-005
   title: Produtor, comando e aggregate coincidem
   layer: EVENT_CONTRACT
@@ -7494,7 +7491,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-006
   title: Sequence equivale à versão resultante
   layer: EVENT_CONTRACT
@@ -7510,7 +7507,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-007
   title: Aggregate, histórico, evento e Outbox são atômicos
   layer: EVENT_CONTRACT
@@ -7527,7 +7524,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-008
   title: Entrega repetida não duplica efeito
   layer: EVENT_CONTRACT
@@ -7548,7 +7545,7 @@ test_reverse_index:
   - WP-DEMO-STOP-005
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-009
   title: Projection rebuild desabilita handlers live-only
   layer: EVENT_CONTRACT
@@ -7568,7 +7565,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G3_PROJECTIONS
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-010
   title: Dados proibidos não aparecem
   layer: EVENT_CONTRACT
@@ -7583,7 +7580,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-011
   title: Commit de geração antiga é rejeitado
   layer: EVENT_CONTRACT
@@ -7602,7 +7599,7 @@ test_reverse_index:
   gate_ids:
   - G1_FOUNDATION
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-EVT-CONTRACT-012
   title: Todos os eventos usam schema version 2 e generation ID
   layer: EVENT_CONTRACT
@@ -7618,7 +7615,7 @@ test_reverse_index:
   - WP-DEMO-EVT-001
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-TASK-005
   title: Constraint de origem permite transições válidas
   layer: DATA
@@ -7639,7 +7636,7 @@ test_reverse_index:
   - WP-DEMO-TASK-006
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-RESET-004
   title: Commit tardio de worker é rejeitado
   layer: DATA
@@ -7658,7 +7655,7 @@ test_reverse_index:
   gate_ids:
   - G1_FOUNDATION
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-RESET-005
   title: Execução preservada não bloqueia reseed de usuários
   layer: DATA
@@ -7676,7 +7673,7 @@ test_reverse_index:
   - WP-DEMO-IAM-001
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EXT-006
   title: Emissões concorrentes deixam um token ativo
   layer: DATA
@@ -7693,7 +7690,7 @@ test_reverse_index:
   - WP-DEMO-EXT-001
   gate_ids:
   - G5_EXTERNAL
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EVT-005
   title: Ocorrência incrementa versão uma vez
   layer: DATA
@@ -7712,7 +7709,7 @@ test_reverse_index:
   - WP-DEMO-STOP-003
   gate_ids:
   - G2_DOMAIN
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-DATA-EVT-006
   title: PhoneCallRecorded usa aggregate CASE
   layer: DATA
@@ -7731,7 +7728,7 @@ test_reverse_index:
   gate_ids:
   - G2_DOMAIN
   - G4_TIME_COMMUNICATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUDIT-001
   title: Ações sensíveis permitidas geram auditoria sanitizada
   layer: SECURITY
@@ -7746,7 +7743,7 @@ test_reverse_index:
   - WP-DEMO-AUDIT-001
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUDIT-002
   title: Negação sensível gera auditoria DENY
   layer: SECURITY
@@ -7761,7 +7758,7 @@ test_reverse_index:
   - WP-DEMO-AUDIT-001
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4
 - test_id: TST-AUDIT-003
   title: Auditoria permanece após reset
   layer: SECURITY
@@ -7778,4 +7775,4 @@ test_reverse_index:
   - WP-DEMO-DATA-002
   gate_ids:
   - G1_FOUNDATION
-  status: MAPPED_V2.1.3
+  status: MAPPED_V2.1.4

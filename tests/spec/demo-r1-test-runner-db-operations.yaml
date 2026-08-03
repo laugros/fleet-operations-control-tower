@@ -1,6 +1,6 @@
-registry_version: 2.1.3
+registry_version: 2.1.4
 release: DEMO-R1
-status: NORMATIVE_PENDING_FINAL_REVIEW
+status: NORMATIVE_AUTHORIZED_FOR_SCAFFOLD
 operations:
 - operation_code: DELETE_AND_RESEED_APP_USER
   handler_id: delete_and_reseed_app_user_snapshot

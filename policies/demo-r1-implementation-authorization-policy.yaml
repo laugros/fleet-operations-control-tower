@@ -1,0 +1,31 @@
+policy_version: 2.1.4
+release: DEMO-R1
+status: NORMATIVE_AUTHORIZED_FOR_SCAFFOLD
+authority_rule:
+  chat_messages_are_authoritative: false
+  detached_review_package_is_sufficient: false
+  repository_embedded_decision_required: true
+authorization_states:
+- state: CORRECTION_IN_PROGRESS
+  scaffold_authorized: false
+- state: PENDING_FINAL_REVIEW
+  scaffold_authorized: false
+- state: AUTHORIZED_FOR_SCAFFOLD
+  scaffold_authorized: true
+final_authorization_requirements:
+  required_review_id: R7
+  required_embedded_paths:
+  - reviews/41-final-independent-review-v2.1.4.md
+  - reviews/demo-r1-v2.1.4-final-review-evidence.json
+  - reviews/demo-r1-v2.1.4-final-review-decision.yaml
+  - baseline/demo-r1-implementation-authorization.yaml
+  required_baseline_status: NORMATIVE_AUTHORIZED_FOR_SCAFFOLD
+  required_backlog_scaffold_authorized: true
+  required_gate_statuses:
+    G1_FOUNDATION: READY
+    G2_DOMAIN: BLOCKED_BY_PREVIOUS_GATE
+    G3_PROJECTIONS: BLOCKED_BY_PREVIOUS_GATE
+    G4_TIME_COMMUNICATION: BLOCKED_BY_PREVIOUS_GATE
+    G5_EXTERNAL: BLOCKED_BY_PREVIOUS_GATE
+    G6_EXECUTIVE: BLOCKED_BY_PREVIOUS_GATE
+  post_assembly_integrity_verification_required: true

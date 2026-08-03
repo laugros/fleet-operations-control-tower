@@ -1,41 +1,24 @@
-# Especificação Executável v2.1.3
-## Modelo Lógico de Dados e Recuperação de Reset da DEMO-R1
+# Especificação Executável v2.1.4
+## Modelo Lógico de Dados e Seed por Gate da DEMO-R1
 
-**Produto:** Fleet Operations Control Tower  
-**Release:** `DEMO-R1`  
-**Status:** `NORMATIVE_PENDING_FINAL_REVIEW`  
-**Não autoriza scaffold**
-
----
+**Status:** `NORMATIVE_AUTHORIZED_FOR_SCAFFOLD`  
+**Escopo autorizado:** `G1_FOUNDATION`
 
 ```text
-PostgreSQL
-UUID interno
-event sequence por aggregate
-Outbox e auditoria atômicas
-SEED_VERSION = 2.1.3
-RESOLVED_FIXTURES = 98
-SEED_CONTRACT_SHA256 = 65eae2afb4af507e6a807186bc55b85dda3abc872a7c2b1160d72f47aab916ca
-PLACEHOLDERS = 0
+SCHEMA_TABLES_TOTAL = 61
+FULL_SEEDED_TABLES = 47
+G1_SCHEMA_TABLES = 32
+G1_SEED_TABLES = 32
+G1_REQUIRED_FIXTURES = 9
 ```
 
-O digest do seed é calculado sobre `/seed_contract` e não inclui o próprio
-digest.
+No G1, o runner deve carregar exclusivamente o bundle
+`tests/spec/seed-layers/g1-foundation.json`. Tabelas e handlers futuros não
+entram na validação.
 
 ```text
-watchdog = demo-reset-recovery-watchdog
-heartbeat = 10s
-lease_ttl = 30s
-scan_interval = 15s
-maximum_recovery_attempts = 3
-```
-
-Crash durante a fase B causa rollback integral. Incerteza ou corrupção leva a
-`FAILED_SAFE`.
-
-```text
-DATA_MODEL = V2.1.3
-RESET_RECOVERY = DEFINED
-FINAL_REVIEW = PENDING
-SCAFFOLD = NOT AUTHORIZED
+communication = NONCANONICAL
+communication_message = CANONICAL
+demo_scenario = LOGICAL_CONCEPT
+supplier_site = G1_TABLE
 ```

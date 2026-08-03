@@ -1,42 +1,24 @@
-# Especificação Executável v2.1.3
+# Especificação Executável v2.1.4
 ## Contrato do Test Runner da DEMO-R1
 
-**Produto:** Fleet Operations Control Tower  
-**Release:** `DEMO-R1`  
-**Status:** `NORMATIVE_PENDING_FINAL_REVIEW`  
-**Não autoriza scaffold**
+**Status:** `NORMATIVE_AUTHORIZED_FOR_SCAFFOLD`  
+**Escopo autorizado:** `G1_FOUNDATION`
 
----
-
-SHA-256 do contrato: `8389937b0f2c49d09f92881501a69c3c967be3249f09dbf27d0586afd5231edc`.  
-SHA-256 do schema do contrato: `ae86888fb7c5c90a843a8253d01e5473ec61dd6daca66a59c99998f7e9b97571`.  
-SHA-256 dos programas: `3972330e306ba4b303d3ecfbb62e9255878fd01399c2517d5b97db4c17887bca`.  
-SHA-256 do schema de programas: `a1d80ccbb41bca913ed066a54c638ecd7be07a162a985be7b6f1aa27864e4c7e`.  
-SHA-256 do schema de ações: `2527517cf88e4da59a9c43f8c8d8687e2ba82f232666074846b0464d2964ce2f`.  
-SHA-256 do registry de workers: `a29d65ca1c2ea8877af69956a11006fd63581d268a51ab7e85eeb7f004f325c3`.  
-SHA-256 do schema de workers: `82965b9b4d9e2ab9b5eb2fe3b3579e022d573dc354240b88120db809e8a304b9`.  
-SHA-256 do registry de atores: `13915dad0d84cc0f17514a2afb554a9dd476088527198892eb9ba099de12db26`.  
-SHA-256 do schema de atores: `c515ba7c4673eca3886fcc7e6396bc15ce3a9e7e867f0df3dc09be7348a7be59`.  
-SHA-256 do registry de operações DB: `4548eb3becd7130e7e38e5d455d1fcc7adbea15da0361ca8fc7da97ccde220fb`.  
-SHA-256 do schema de operações DB: `01b777fb33efee389e6fbea28403f53bd5a088765a2193e85b08315c2a3e307b`.  
-SHA-256 do catálogo: `b6bab52164206a04e219a4a6e59727deb23a30cc60f247aeb231266a131118c0`.  
-SHA-256 do schema do catálogo: `87e1933a3ac76c2f521fb0e791b2437e4fe0ccbc6bb36f1d3b5d844483a9cdbb`.  
+SHA-256 do contrato: `245829f31cc23cd037725ab8a9c73902060591dcf73d1da9f0e506d74c39843d`.  
+SHA-256 do schema do contrato: `60c5cd9889c86f5d511e012efe8f7656b9c3947fa2c2d938bfc619a14ac5727d`.  
+SHA-256 dos programas: `8f5559e081f130dde0d73d8f390a70c0101d453d6cce0d3e25490d5d0e177d34`.  
+SHA-256 do schema de programas: `5d60b8a95fdbda19840308b978c30cad2f1d2f850ec0ebb4acdd3c20613f0c0a`.  
+SHA-256 do schema de ações: `5c911dedcdccbb53ccb685ee5e899ecab34205b536206709b11b7c4d704779be`.  
+SHA-256 do registry de workers: `69909551f749da82cec15379df2142967ccb66462d9912210d5085b6579c58e9`.  
+SHA-256 do registry de atores: `1c0820b2399c8cc2458af8a658bffd9918dc4a8b5cb7bed05d6971fec7b63614`.  
+SHA-256 do registry de operações DB: `90763e6af7322018c79527b08c8e2e11bb052b01cd1d4bed2fa919eb37454272`.  
+SHA-256 do plano de gates: `c2d94bd2f4b735a13d41b433bef7c9c1e3364b7548e3bd4cf70d4ede8b817776`.  
+SHA-256 do plano de seed: `ea45b7ba88fa76156855ba992aa08f031d3b6f1f1f1e2864564d32bafe78fc03`.  
 
 ```text
-WORKERS = 4
-ACTOR_PROFILES = 9
-DB_OPERATION_CODES = 1
-PERMISSIVE_STEP_SCHEMAS = 0
-```
-
-`createExternalSession` deverá produzir `session_cookie` e `csrf_token`
-antes do uso de um perfil externo capturado.
-
-Passos de `EVENT_PROGRAM` e `SCENARIO` são discriminados por `step.op`.
-
-```text
-RUNNER_CONTRACT = V2.1.3
-UNREGISTERED_EXECUTORS = 0
-FINAL_REVIEW = PENDING
-SCAFFOLD = NOT AUTHORIZED
+ACTIVE_GATE = G1_FOUNDATION
+RESTORE_PROFILE = G1_FOUNDATION
+REQUIRED_TESTS = 26
+REQUIRED_FIXTURES = 9
+FUTURE_TESTS = DEFERRED_BY_GATE
 ```

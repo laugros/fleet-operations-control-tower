@@ -1,0 +1,21 @@
+authorization_version: 2.1.4
+release: DEMO-R1
+baseline_version: 2.1.4
+state: AUTHORIZED_FOR_SCAFFOLD
+required_review_id: R7
+review_decision_embedded: true
+baseline_status: NORMATIVE_AUTHORIZED_FOR_SCAFFOLD
+scaffold_authorized: true
+authorized_gate: G1_FOUNDATION
+gate_statuses:
+  G1_FOUNDATION: READY
+  G2_DOMAIN: BLOCKED_BY_PREVIOUS_GATE
+  G3_PROJECTIONS: BLOCKED_BY_PREVIOUS_GATE
+  G4_TIME_COMMUNICATION: BLOCKED_BY_PREVIOUS_GATE
+  G5_EXTERNAL: BLOCKED_BY_PREVIOUS_GATE
+  G6_EXECUTIVE: BLOCKED_BY_PREVIOUS_GATE
+source_policy: policies/demo-r1-implementation-authorization-policy.yaml
+decision_files:
+  report: reviews/41-final-independent-review-v2.1.4.md
+  evidence: reviews/demo-r1-v2.1.4-final-review-evidence.json
+  decision: reviews/demo-r1-v2.1.4-final-review-decision.yaml

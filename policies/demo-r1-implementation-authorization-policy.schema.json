@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/policies/demo-r1-implementation-authorization-policy.schema.json",
+  "title": "DEMO-R1 Implementation Authorization Policy v2.1.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "policy_version",
+    "release",
+    "status",
+    "authority_rule",
+    "authorization_states",
+    "final_authorization_requirements"
+  ],
+  "properties": {
+    "policy_version": {
+      "const": "2.1.4"
+    },
+    "release": {
+      "const": "DEMO-R1"
+    },
+    "status": {
+      "const": "NORMATIVE_AUTHORIZED_FOR_SCAFFOLD"
+    },
+    "authority_rule": {
+      "type": "object"
+    },
+    "authorization_states": {
+      "type": "array",
+      "minItems": 3
+    },
+    "final_authorization_requirements": {
+      "type": "object"
+    }
+  }
+}

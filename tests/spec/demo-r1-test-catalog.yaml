@@ -1,6 +1,6 @@
-catalog_version: 2.1.3
+catalog_version: 2.1.4
 release: DEMO-R1
-status: NORMATIVE_PENDING_FINAL_REVIEW
+status: NORMATIVE_AUTHORIZED_FOR_SCAFFOLD
 fixtures_file: tests/spec/demo-r1-test-fixtures.yaml
 source_documents:
 - docs/16-demo-r1-executable-spec.md
@@ -15,6 +15,8 @@ source_documents:
 - docs/28-demo-r1-seed-manifest.md
 - docs/29-demo-r1-test-runner-contract.md
 - policies/demo-r1-reset-recovery-policy.yaml
+- policies/demo-r1-implementation-authorization-policy.yaml
+- tests/spec/demo-r1-gate-test-plan.yaml
 execution_rules:
   fixture_resolution: resolve fixture:// from fixtures file and fail on unresolved
   isolation: each test starts from named deterministic snapshot or seed alias
@@ -38,10 +40,13 @@ execution_rules:
   symbolic_ids: FORBIDDEN
   time_placeholders: FORBIDDEN
   scenario_programs: MUST resolve through runner_programs_file
-  baseline_status: NORMATIVE_PENDING_FINAL_REVIEW
+  baseline_status: NORMATIVE_AUTHORIZED_FOR_SCAFFOLD
   final_review_required: true
   schema_revision: DEMO_R1_V213
   runner_registries_required: true
+  gate_activation_policy: A test is mandatory only at its activation_gate. Before that gate it has state DEFERRED_BY_GATE and cannot block a work package
+    or gate. At later gates it is part of cumulative regression.
+  final_regression_gate: G6_EXECUTIVE
 gates:
   G0_DOCUMENT_CONTRACT:
     required_suites:
@@ -162,6 +167,10 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-ENV-001
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ENV-001:G1_FOUNDATION
 - id: TST-DEMO-BANNER-001
   layer: UI
   title: Banner permanente de dados fictícios
@@ -210,6 +219,13 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-ENV-002
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ENV-002:G1_FOUNDATION
+  - UI_ROUTE:/app/dashboard:G3_PROJECTIONS
+  - UI_ROUTE:/external/supplier:G5_EXTERNAL
+  - UI_ROUTE:/external/driver:G5_EXTERNAL
 - id: TST-DEMO-MODE-001
   layer: SECURITY
   title: Recursos de demo falham fechados
@@ -258,6 +274,18 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-ENV-003
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ENV-003:G1_FOUNDATION
+  - OPERATION:createDemoSession:G1_FOUNDATION
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:resetDemoScenario:G1_FOUNDATION
+  - OPERATION:receiveDemoEmail:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-CREATE-DEMO-SESSION-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-ADVANCE-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RESET-DEMO-SCENARIO-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-RECEIVE-DEMO-EMAIL-001:G4_TIME_COMMUNICATION
 - id: TST-DEMO-SEED-001
   layer: DATA
   title: Seed determinístico por versão
@@ -309,6 +337,11 @@ tests:
   work_package_ids:
   - WP-DEMO-DATA-001
   - WP-DEMO-DATA-003
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-DATA-003:G1_FOUNDATION
 - id: TST-DEMO-RESET-001
   layer: E2E
   title: Reset restaura a versão seedada
@@ -365,6 +398,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-DATA-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
+  - OPERATION:resetDemoScenario:G1_FOUNDATION
 - id: TST-DEMO-DATA-001
   layer: SECURITY
   title: Catálogo e seed não contêm dados reais
@@ -406,6 +444,10 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-DATA-003
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-003:G1_FOUNDATION
 - id: TST-SM-CASE-001
   layer: DOMAIN
   title: StartCaseWork move NEW para IN_PROGRESS
@@ -461,6 +503,14 @@ tests:
   - WP-DEMO-CASE-003
   - WP-DEMO-CASE-004
   - WP-DEMO-CASE-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
+  - COMMAND:StartCaseWork:G2_DOMAIN
 - id: TST-SM-CASE-002
   layer: DOMAIN
   title: WaitCaseForSupplier move IN_PROGRESS para WAITING_THIRD_PARTY
@@ -525,6 +575,14 @@ tests:
   - WP-DEMO-CASE-003
   - WP-DEMO-CASE-004
   - WP-DEMO-CASE-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
+  - COMMAND:WaitCaseForSupplier:G2_DOMAIN
 - id: TST-SM-CASE-003
   layer: DOMAIN
   title: Forecast retoma caso em espera
@@ -586,6 +644,14 @@ tests:
   - WP-DEMO-CASE-003
   - WP-DEMO-CASE-004
   - WP-DEMO-CASE-005
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
+  - COMMAND:ResumeCaseAfterSupplierUpdate:G5_EXTERNAL
 - id: TST-SM-CASE-004
   layer: DOMAIN
   title: ResolveCase move IN_PROGRESS para RESOLVED
@@ -643,6 +709,14 @@ tests:
   - WP-DEMO-CASE-003
   - WP-DEMO-CASE-004
   - WP-DEMO-CASE-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
+  - COMMAND:ResolveCase:G2_DOMAIN
 - id: TST-SM-TASK-001
   layer: DOMAIN
   title: CreateTask cria NOT_STARTED
@@ -710,6 +784,17 @@ tests:
   - WP-DEMO-TASK-005
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - COMMAND:CreateTask:G2_DOMAIN
 - id: TST-SM-TASK-002
   layer: DOMAIN
   title: AssignTask move NOT_STARTED para ASSIGNED
@@ -771,6 +856,17 @@ tests:
   - WP-DEMO-TASK-005
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - COMMAND:AssignTask:G2_DOMAIN
 - id: TST-SM-TASK-003
   layer: DOMAIN
   title: StartTask move ASSIGNED para IN_PROGRESS
@@ -829,6 +925,17 @@ tests:
   - WP-DEMO-TASK-005
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - COMMAND:StartTask:G2_DOMAIN
 - id: TST-SM-TASK-004
   layer: DOMAIN
   title: WaitTaskForSupplier move IN_PROGRESS para WAITING_THIRD_PARTY
@@ -897,6 +1004,17 @@ tests:
   - WP-DEMO-TASK-005
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - COMMAND:WaitTaskForSupplier:G2_DOMAIN
 - id: TST-SM-TASK-005
   layer: DOMAIN
   title: Forecast retoma tarefa em espera
@@ -958,6 +1076,17 @@ tests:
   - WP-DEMO-TASK-005
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-007
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - COMMAND:ResumeTaskAfterSupplierUpdate:G5_EXTERNAL
 - id: TST-SM-TASK-006
   layer: DOMAIN
   title: CompleteTask move IN_PROGRESS para COMPLETED
@@ -1018,6 +1147,17 @@ tests:
   - WP-DEMO-TASK-005
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - COMMAND:CompleteTask:G2_DOMAIN
 - id: TST-SM-TASK-007
   layer: DOMAIN
   title: CancelTask por supervisor move estado ativo para CANCELLED
@@ -1082,6 +1222,17 @@ tests:
   - WP-DEMO-TASK-005
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - COMMAND:CancelTask:G2_DOMAIN
 - id: TST-SM-STOP-001
   layer: DOMAIN
   title: PrepareStopForArrival move SCHEDULED para AWAITING_ARRIVAL
@@ -1144,6 +1295,19 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:PrepareStopForArrival:G2_DOMAIN
 - id: TST-SM-STOP-002
   layer: DOMAIN
   title: ReportArrival cria ocorrência sem confirmar chegada
@@ -1219,6 +1383,19 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:ReportArrival:G2_DOMAIN
 - id: TST-SM-STOP-003
   layer: DOMAIN
   title: ConfirmArrival move AWAITING_ARRIVAL para VEHICLE_RECEIVED
@@ -1288,6 +1465,19 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:ConfirmArrival:G2_DOMAIN
 - id: TST-SM-STOP-004
   layer: DOMAIN
   title: CorrectArrival preserva confirmação anterior
@@ -1361,6 +1551,19 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:CorrectArrival:G3_PROJECTIONS
 - id: TST-SM-STOP-005
   layer: DOMAIN
   title: StartService move VEHICLE_RECEIVED para IN_EXECUTION
@@ -1425,6 +1628,19 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:StartService:G2_DOMAIN
 - id: TST-SM-STOP-006
   layer: DOMAIN
   title: UpdateCompletionForecast preserva histórico e previsão corrente
@@ -1497,6 +1713,19 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:UpdateCompletionForecast:G5_EXTERNAL
 - id: TST-SM-STOP-007
   layer: DOMAIN
   title: CompleteService move IN_EXECUTION para SERVICE_COMPLETED
@@ -1564,6 +1793,19 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:CompleteService:G2_DOMAIN
 - id: TST-SM-STOP-008
   layer: DOMAIN
   title: ReleaseVehicle move SERVICE_COMPLETED para AWAITING_PICKUP
@@ -1628,6 +1870,19 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:ReleaseVehicle:G2_DOMAIN
 - id: TST-SM-STOP-009
   layer: DOMAIN
   title: ConfirmDeparture move AWAITING_PICKUP para VEHICLE_PICKED_UP
@@ -1700,6 +1955,19 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:ConfirmDeparture:G5_EXTERNAL
 - id: TST-SM-STOP-010
   layer: DOMAIN
   title: CloseVehicleStop move VEHICLE_PICKED_UP para CLOSED
@@ -1763,6 +2031,19 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:CloseVehicleStop:G2_DOMAIN
 - id: TST-SM-STOP-011
   layer: DOMAIN
   title: Fluxo principal respeita a ordem de oito estados
@@ -1995,6 +2276,27 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:PrepareStopForArrival:G2_DOMAIN
+  - COMMAND:ReportArrival:G2_DOMAIN
+  - COMMAND:ConfirmArrival:G2_DOMAIN
+  - COMMAND:StartService:G2_DOMAIN
+  - COMMAND:UpdateCompletionForecast:G5_EXTERNAL
+  - COMMAND:CompleteService:G2_DOMAIN
+  - COMMAND:ReleaseVehicle:G2_DOMAIN
+  - COMMAND:ConfirmDeparture:G5_EXTERNAL
+  - COMMAND:CloseVehicleStop:G2_DOMAIN
 - id: TST-SM-ARRIVAL-001
   layer: DOMAIN
   title: Um relato mantém confirmação em REPORTED
@@ -2043,6 +2345,12 @@ tests:
   - WP-DEMO-STOP-003
   - WP-DEMO-STOP-004
   - WP-DEMO-STOP-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
 - id: TST-SM-ARRIVAL-002
   layer: DOMAIN
   title: Relatos dentro de 15 minutos não geram conflito
@@ -2094,6 +2402,12 @@ tests:
   - WP-DEMO-STOP-003
   - WP-DEMO-STOP-004
   - WP-DEMO-STOP-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
 - id: TST-SM-ARRIVAL-003
   layer: DOMAIN
   title: Relatos acima de 15 minutos criam conflito, tarefa e alerta
@@ -2150,6 +2464,12 @@ tests:
   - WP-DEMO-STOP-003
   - WP-DEMO-STOP-004
   - WP-DEMO-STOP-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
 - id: TST-SM-ARRIVAL-004
   layer: DOMAIN
   title: Conflito exige confirmação por supervisor com justificativa
@@ -2213,6 +2533,13 @@ tests:
   - WP-DEMO-STOP-003
   - WP-DEMO-STOP-004
   - WP-DEMO-STOP-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - COMMAND:ConfirmArrival:G2_DOMAIN
 - id: TST-SM-ARRIVAL-005
   layer: DOMAIN
   title: Correção não apaga relatos ou confirmação anterior
@@ -2271,6 +2598,14 @@ tests:
   - WP-DEMO-STOP-004
   - WP-DEMO-STOP-005
   - WP-DEMO-TIMELINE-002
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-002:G3_PROJECTIONS
+  - COMMAND:CorrectArrival:G3_PROJECTIONS
 - id: TST-SM-ALERT-001
   layer: DOMAIN
   title: Inatividade cria um alerta STOP_NO_UPDATE
@@ -2324,6 +2659,12 @@ tests:
   - WP-DEMO-ALERT-001
   - WP-DEMO-ALERT-002
   - WP-DEMO-ALERT-003
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ALERT-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ALERT-002:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ALERT-003:G4_TIME_COMMUNICATION
 - id: TST-SM-ALERT-002
   layer: DOMAIN
   title: Nova avaliação adiciona ocorrência sem duplicar alerta
@@ -2377,6 +2718,12 @@ tests:
   - WP-DEMO-ALERT-001
   - WP-DEMO-ALERT-002
   - WP-DEMO-ALERT-003
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ALERT-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ALERT-002:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ALERT-003:G4_TIME_COMMUNICATION
 - id: TST-SM-ALERT-003
   layer: DOMAIN
   title: Forecast válido resolve alerta STOP_NO_UPDATE
@@ -2418,6 +2765,13 @@ tests:
   - WP-DEMO-ALERT-001
   - WP-DEMO-ALERT-002
   - WP-DEMO-ALERT-003
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ALERT-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ALERT-002:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ALERT-003:G4_TIME_COMMUNICATION
+  - CONSUMER:alert-resolver:G1_FOUNDATION
 - id: TST-SM-CROSS-001
   layer: DOMAIN
   title: ResolveCase é bloqueado enquanto a parada não estiver CLOSED
@@ -2469,6 +2823,12 @@ tests:
   work_package_ids:
   - WP-DEMO-CASE-005
   - WP-DEMO-STOP-010
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:ResolveCase:G2_DOMAIN
 - id: TST-SM-CROSS-002
   layer: DOMAIN
   title: ResolveCase é bloqueado por tarefa obrigatória aberta
@@ -2522,6 +2882,13 @@ tests:
   - WP-DEMO-CASE-005
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - COMMAND:ResolveCase:G2_DOMAIN
 - id: TST-SM-CROSS-003
   layer: DOMAIN
   title: ResolveCase é bloqueado por conflito de chegada aberto
@@ -2574,6 +2941,13 @@ tests:
   - WP-DEMO-CASE-005
   - WP-DEMO-STOP-004
   - WP-DEMO-STOP-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - COMMAND:ResolveCase:G2_DOMAIN
 - id: TST-SM-CROSS-004
   layer: DOMAIN
   title: CloseVehicleStop é bloqueado sem retirada confirmada
@@ -2624,6 +2998,12 @@ tests:
   work_package_ids:
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:CloseVehicleStop:G2_DOMAIN
 - id: TST-SM-CROSS-005
   layer: DOMAIN
   title: CloseVehicleStop é bloqueado por tarefa obrigatória de fechamento
@@ -2675,6 +3055,13 @@ tests:
   - WP-DEMO-STOP-010
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - COMMAND:CloseVehicleStop:G2_DOMAIN
 - id: TST-SM-CROSS-006
   layer: DOMAIN
   title: CloseVehicleStop é bloqueado por conflito de chegada
@@ -2726,6 +3113,13 @@ tests:
   - WP-DEMO-STOP-004
   - WP-DEMO-STOP-005
   - WP-DEMO-STOP-010
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - COMMAND:CloseVehicleStop:G2_DOMAIN
 - id: TST-SM-CROSS-007
   layer: DOMAIN
   title: CompleteService não preenche retirada
@@ -2779,6 +3173,12 @@ tests:
   work_package_ids:
   - WP-DEMO-STOP-007
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - COMMAND:CompleteService:G2_DOMAIN
 - id: TST-SM-CROSS-008
   layer: DOMAIN
   title: ReleaseVehicle é transição separada
@@ -2831,6 +3231,12 @@ tests:
   work_package_ids:
   - WP-DEMO-STOP-007
   - WP-DEMO-STOP-008
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - COMMAND:ReleaseVehicle:G2_DOMAIN
 - id: TST-SM-CROSS-009
   layer: DOMAIN
   title: Duração usa retirada menos chegada
@@ -2885,6 +3291,12 @@ tests:
   work_package_ids:
   - WP-DEMO-STOP-005
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - COMMAND:ConfirmDeparture:G5_EXTERNAL
 - id: TST-SM-CROSS-010
   layer: DOMAIN
   title: Veículo não aceita duas paradas ativas
@@ -2920,6 +3332,11 @@ tests:
   work_package_ids:
   - WP-DEMO-DATA-001
   - WP-DEMO-STOP-001
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-STOP-001:G3_PROJECTIONS
 - id: TST-SM-CROSS-011
   layer: DOMAIN
   title: Só uma previsão pode ser corrente
@@ -2954,6 +3371,10 @@ tests:
   - DATA-ADR-006
   work_package_ids:
   - WP-DEMO-EXT-003
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
 - id: TST-SM-CROSS-012
   layer: DOMAIN
   title: Só uma confirmação de chegada pode ser corrente
@@ -2990,6 +3411,11 @@ tests:
   work_package_ids:
   - WP-DEMO-STOP-005
   - WP-DEMO-TIMELINE-002
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-002:G3_PROJECTIONS
 - id: TST-SM-CROSS-013
   layer: DOMAIN
   title: Só um alerta STOP_NO_UPDATE pode estar aberto
@@ -3026,6 +3452,11 @@ tests:
   work_package_ids:
   - WP-DEMO-ALERT-001
   - WP-DEMO-ALERT-002
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ALERT-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ALERT-002:G4_TIME_COMMUNICATION
 - id: TST-SM-CROSS-014
   layer: DOMAIN
   title: Forecast externo não atravessa recurso
@@ -3078,6 +3509,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EXT-003
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
 - id: TST-SM-CROSS-015
   layer: DOMAIN
   title: Retirada externa não atravessa recurso
@@ -3131,6 +3567,12 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-005
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
 - id: TST-SM-CROSS-016
   layer: DOMAIN
   title: Tarefas independentes executam em paralelo
@@ -3196,6 +3638,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-TASK-008
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-008:G2_DOMAIN
+  - COMMAND:StartTask:G2_DOMAIN
 - id: TST-SM-CROSS-017
   layer: DOMAIN
   title: Aggregates terminais são imutáveis
@@ -3294,6 +3741,17 @@ tests:
   - WP-DEMO-STOP-010
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-007
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ALERT-003:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - COMMAND:StartCaseWork:G2_DOMAIN
+  - COMMAND:StartTask:G2_DOMAIN
+  - COMMAND:CloseVehicleStop:G2_DOMAIN
 - id: TST-SM-CROSS-018
   layer: DOMAIN
   title: Replay idempotente não cria segundo evento principal
@@ -3364,6 +3822,11 @@ tests:
   - DATA-ADR-006
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
+  - COMMAND:StartTask:G2_DOMAIN
 - id: TST-AUTH-SESSION-001
   layer: SECURITY
   title: Identity allowlist aceita somente identidade seedada
@@ -3402,6 +3865,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-001
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-001:G1_FOUNDATION
+  - OPERATION:createDemoSession:G1_FOUNDATION
 - id: TST-AUTH-SESSION-002
   layer: SECURITY
   title: Role forjado é rejeitado pelo schema
@@ -3443,6 +3911,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-003
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-003:G1_FOUNDATION
+  - OPERATION:createDemoSession:G1_FOUNDATION
 - id: TST-AUTH-SESSION-003
   layer: SECURITY
   title: Nova seleção revoga sessão anterior
@@ -3485,6 +3958,12 @@ tests:
   work_package_ids:
   - WP-DEMO-IAM-001
   - WP-DEMO-IAM-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
+  - OPERATION:createDemoSession:G1_FOUNDATION
 - id: TST-AUTH-SESSION-004
   layer: SECURITY
   title: Sessão expirada por inatividade é rejeitada
@@ -3525,6 +4004,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
+  - OPERATION:getCurrentSession:G1_FOUNDATION
 - id: TST-AUTH-SESSION-005
   layer: SECURITY
   title: Mutação sem CSRF é rejeitada
@@ -3569,6 +4053,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-002
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
 - id: TST-AUTH-SESSION-006
   layer: SECURITY
   title: Mutação com CSRF inválido é rejeitada
@@ -3615,6 +4104,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-002
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
 - id: TST-AUTH-SESSION-007
   layer: SECURITY
   title: Demo Admin não possui permissão operacional
@@ -3660,6 +4154,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-004
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-004:G1_FOUNDATION
+  - OPERATION:startCaseWork:G2_DOMAIN
 - id: TST-AUTH-SCOPE-001
   layer: SECURITY
   title: Customer scope filtra recurso
@@ -3702,6 +4201,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-003
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-003:G1_FOUNDATION
+  - OPERATION:getCaseOperationalView:G3_PROJECTIONS
 - id: TST-AUTH-SCOPE-002
   layer: SECURITY
   title: Operating unit scope filtra recurso
@@ -3744,6 +4248,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-003
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-003:G1_FOUNDATION
+  - OPERATION:getStopOperationalView:G3_PROJECTIONS
 - id: TST-AUTH-SCOPE-003
   layer: SECURITY
   title: Relação de equipe é exigida para escrita
@@ -3790,6 +4299,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-003
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-003:G1_FOUNDATION
+  - OPERATION:startTask:G2_DOMAIN
 - id: TST-AUTH-SCOPE-004
   layer: SECURITY
   title: Supervisor pode escrever em outra equipe dentro do escopo
@@ -3835,6 +4349,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-003
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-003:G1_FOUNDATION
+  - OPERATION:startTask:G2_DOMAIN
 - id: TST-AUTH-SCOPE-005
   layer: SECURITY
   title: Supervisor é negado fora do escopo
@@ -3881,6 +4400,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-003
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-003:G1_FOUNDATION
+  - OPERATION:startTask:G2_DOMAIN
 - id: TST-AUTH-SCOPE-006
   layer: SECURITY
   title: Manager não executa escrita
@@ -3927,6 +4451,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-003
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-003:G1_FOUNDATION
+  - OPERATION:startCaseWork:G2_DOMAIN
 - id: TST-AUTH-SCOPE-007
   layer: SECURITY
   title: Fora do escopo é indistinguível de inexistente
@@ -3971,6 +4500,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-003
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-003:G1_FOUNDATION
+  - OPERATION:getStopOperationalView:G3_PROJECTIONS
 - id: TST-AUTH-EXT-001
   layer: SECURITY
   title: Troca token do fragmento por sessão
@@ -4011,6 +4545,12 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-001
   - WP-DEMO-EXT-004
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-001:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-004:G5_EXTERNAL
+  - OPERATION:createExternalSession:G5_EXTERNAL
 - id: TST-AUTH-EXT-002
   layer: SECURITY
   title: Token não aparece em access log
@@ -4055,6 +4595,13 @@ tests:
   - WP-DEMO-AUDIT-001
   - WP-DEMO-EXT-001
   - WP-DEMO-EXT-004
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-AUDIT-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-EXT-001:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-004:G5_EXTERNAL
+  - OPERATION:createExternalSession:G5_EXTERNAL
 - id: TST-AUTH-EXT-003
   layer: SECURITY
   title: Token expirado é rejeitado
@@ -4096,6 +4643,12 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-002
   - WP-DEMO-EXT-005
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - OPERATION:createExternalSession:G5_EXTERNAL
 - id: TST-AUTH-EXT-004
   layer: SECURITY
   title: Token revogado é rejeitado
@@ -4137,6 +4690,12 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-002
   - WP-DEMO-EXT-005
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - OPERATION:createExternalSession:G5_EXTERNAL
 - id: TST-AUTH-EXT-005
   layer: SECURITY
   title: Fornecedor não acessa outra parada
@@ -4188,6 +4747,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EXT-003
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
 - id: TST-AUTH-EXT-006
   layer: SECURITY
   title: Condutor não acessa outra parada
@@ -4240,6 +4804,12 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-005
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
 - id: TST-AUTH-EXT-007
   layer: SECURITY
   title: Fornecedor não confirma retirada
@@ -4287,6 +4857,12 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-003
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
 - id: TST-AUTH-EXT-008
   layer: SECURITY
   title: Condutor não atualiza previsão
@@ -4335,6 +4911,12 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-003
   - WP-DEMO-EXT-005
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
 - id: TST-AUTH-EXT-009
   layer: SECURITY
   title: Limite de usos da ação é aplicado
@@ -4383,6 +4965,12 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-001
   - WP-DEMO-EXT-004
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-001:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-004:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
 - id: TST-AUTH-EXT-010
   layer: SECURITY
   title: Replay idempotente não consome novo uso
@@ -4435,6 +5023,13 @@ tests:
   - WP-DEMO-EVT-001
   - WP-DEMO-EXT-003
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
 - id: TST-AUTH-EXT-011
   layer: SECURITY
   title: GET externo não emite evento de domínio
@@ -4481,6 +5076,13 @@ tests:
   - WP-DEMO-EVT-001
   - WP-DEMO-EXT-002
   - WP-DEMO-EXT-005
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - OPERATION:getExternalContext:G5_EXTERNAL
 - id: TST-AUTH-EXT-012
   layer: SECURITY
   title: Revogação invalida sessão externa
@@ -4527,6 +5129,14 @@ tests:
   - WP-DEMO-EXT-002
   - WP-DEMO-EXT-004
   - WP-DEMO-EXT-005
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-001:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-004:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - OPERATION:getExternalContext:G5_EXTERNAL
 - id: TST-AUTH-EXT-013
   layer: SECURITY
   title: Resposta do fornecedor é minimizada
@@ -4576,6 +5186,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EXT-002
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - OPERATION:getExternalContext:G5_EXTERNAL
 - id: TST-AUTH-EXT-014
   layer: SECURITY
   title: Resposta do condutor é minimizada
@@ -4627,6 +5242,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EXT-005
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - OPERATION:getExternalContext:G5_EXTERNAL
 - id: TST-AUTH-EXT-015
   layer: SECURITY
   title: CSRF externo é obrigatório
@@ -4679,6 +5299,14 @@ tests:
   - WP-DEMO-EXT-003
   - WP-DEMO-EXT-005
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
 - id: TST-AUTH-EXT-016
   layer: SECURITY
   title: Rate limit externo retorna Retry-After
@@ -4727,6 +5355,14 @@ tests:
   - WP-DEMO-EXT-003
   - WP-DEMO-EXT-005
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - OPERATION:getExternalContext:G5_EXTERNAL
 - id: TST-AUTH-ADAPTER-001
   layer: SECURITY
   title: Assinatura HMAC válida é aceita
@@ -4785,6 +5421,12 @@ tests:
   work_package_ids:
   - WP-DEMO-COM-001
   - WP-DEMO-COM-002
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-COM-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-COM-002:G4_TIME_COMMUNICATION
+  - OPERATION:receiveDemoEmail:G4_TIME_COMMUNICATION
 - id: TST-AUTH-ADAPTER-002
   layer: SECURITY
   title: Assinatura HMAC inválida é rejeitada
@@ -4842,6 +5484,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-COM-001
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-COM-001:G4_TIME_COMMUNICATION
+  - OPERATION:receiveDemoEmail:G4_TIME_COMMUNICATION
 - id: TST-AUTH-ADAPTER-003
   layer: SECURITY
   title: Timestamp fora da janela é rejeitado
@@ -4899,6 +5546,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-COM-001
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-COM-001:G4_TIME_COMMUNICATION
+  - OPERATION:receiveDemoEmail:G4_TIME_COMMUNICATION
 - id: TST-AUTH-ADAPTER-004
   layer: SECURITY
   title: Mesmo message ID com payload diferente gera conflito
@@ -4955,6 +5607,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-COM-001
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-COM-001:G4_TIME_COMMUNICATION
+  - OPERATION:receiveDemoEmail:G4_TIME_COMMUNICATION
 - id: TST-DATA-IAM-001
   layer: DATA
   title: Um papel por usuário
@@ -4990,6 +5647,11 @@ tests:
   work_package_ids:
   - WP-DEMO-IAM-001
   - WP-DEMO-IAM-003
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-003:G1_FOUNDATION
 - id: TST-DATA-IAM-002
   layer: DATA
   title: Hash de sessão interna é único
@@ -5024,6 +5686,10 @@ tests:
   - DATA-ADR-010
   work_package_ids:
   - WP-DEMO-IAM-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
 - id: TST-DATA-IAM-003
   layer: DATA
   title: Revogação exige reason code
@@ -5057,6 +5723,10 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
 - id: TST-DATA-IAM-004
   layer: DATA
   title: Grants de escopo respeitam FKs
@@ -5090,6 +5760,10 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-003
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-003:G1_FOUNDATION
 - id: TST-DATA-IAM-005
   layer: DATA
   title: Demo Admin não possui grants operacionais
@@ -5120,6 +5794,10 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-004
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-004:G1_FOUNDATION
 - id: TST-DATA-CASE-001
   layer: DATA
   title: Case aceita somente estados canônicos
@@ -5158,6 +5836,12 @@ tests:
   - WP-DEMO-CASE-001
   - WP-DEMO-CASE-003
   - WP-DEMO-CASE-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
 - id: TST-DATA-CASE-002
   layer: DATA
   title: Case RESOLVED exige campos de resolução
@@ -5193,6 +5877,10 @@ tests:
   - DATA-ADR-004
   work_package_ids:
   - WP-DEMO-CASE-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
 - id: TST-DATA-CASE-003
   layer: DATA
   title: Um stop principal por case
@@ -5229,6 +5917,11 @@ tests:
   work_package_ids:
   - WP-DEMO-CASE-002
   - WP-DEMO-STOP-001
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-002:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-STOP-001:G3_PROJECTIONS
 - id: TST-DATA-TASK-001
   layer: DATA
   title: mandatory_for é coerente com is_mandatory
@@ -5267,6 +5960,12 @@ tests:
   - WP-DEMO-TASK-001
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
 - id: TST-DATA-TASK-002
   layer: DATA
   title: Task COMPLETED exige resultado
@@ -5302,6 +6001,10 @@ tests:
   - DATA-ADR-004
   work_package_ids:
   - WP-DEMO-TASK-006
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
 - id: TST-DATA-TASK-003
   layer: DATA
   title: Task CANCELLED exige motivo e impacto
@@ -5337,6 +6040,10 @@ tests:
   - DATA-ADR-004
   work_package_ids:
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
 - id: TST-DATA-TASK-004
   layer: DATA
   title: Replacement task não aponta para si
@@ -5371,6 +6078,10 @@ tests:
   - DATA-ADR-003
   work_package_ids:
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
 - id: TST-DATA-STOP-001
   layer: DATA
   title: Uma parada ativa por veículo
@@ -5405,6 +6116,10 @@ tests:
   - DATA-ADR-009
   work_package_ids:
   - WP-DEMO-STOP-001
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-001:G3_PROJECTIONS
 - id: TST-DATA-STOP-002
   layer: DATA
   title: Estados exigem timestamps correspondentes
@@ -5452,6 +6167,16 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
 - id: TST-DATA-STOP-003
   layer: DATA
   title: Service complete permite departure nulo
@@ -5487,6 +6212,11 @@ tests:
   work_package_ids:
   - WP-DEMO-STOP-007
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
 - id: TST-DATA-STOP-004
   layer: DATA
   title: Liberação não antecede conclusão
@@ -5523,6 +6253,11 @@ tests:
   work_package_ids:
   - WP-DEMO-STOP-007
   - WP-DEMO-STOP-008
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
 - id: TST-DATA-STOP-005
   layer: DATA
   title: Retirada não antecede liberação
@@ -5560,6 +6295,11 @@ tests:
   work_package_ids:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
 - id: TST-DATA-STOP-006
   layer: DATA
   title: CLOSED exige closed_at e closure_reason
@@ -5596,6 +6336,10 @@ tests:
   - DATA-ADR-004
   work_package_ids:
   - WP-DEMO-STOP-010
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
 - id: TST-DATA-STOP-007
   layer: DATA
   title: Duração não pode ser negativa
@@ -5631,6 +6375,10 @@ tests:
   - DATA-ADR-003
   work_package_ids:
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
 - id: TST-DATA-ARRIVAL-001
   layer: DATA
   title: Uma confirmação de chegada corrente
@@ -5668,6 +6416,11 @@ tests:
   work_package_ids:
   - WP-DEMO-STOP-005
   - WP-DEMO-TIMELINE-002
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-002:G3_PROJECTIONS
 - id: TST-DATA-FORECAST-001
   layer: DATA
   title: Uma previsão corrente
@@ -5703,6 +6456,10 @@ tests:
   - DATA-ADR-006
   work_package_ids:
   - WP-DEMO-EXT-003
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
 - id: TST-DATA-ALERT-001
   layer: DATA
   title: Uma chave de alerta aberta
@@ -5740,6 +6497,11 @@ tests:
   work_package_ids:
   - WP-DEMO-ALERT-001
   - WP-DEMO-ALERT-002
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ALERT-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ALERT-002:G4_TIME_COMMUNICATION
 - id: TST-DATA-ALERT-002
   layer: DATA
   title: Alerta RESOLVED exige resolução
@@ -5775,6 +6537,10 @@ tests:
   - DATA-ADR-004
   work_package_ids:
   - WP-DEMO-ALERT-003
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ALERT-003:G4_TIME_COMMUNICATION
 - id: TST-DATA-ALERT-003
   layer: DATA
   title: Ocorrência é idempotente por source event
@@ -5813,6 +6579,11 @@ tests:
   work_package_ids:
   - WP-DEMO-ALERT-002
   - WP-DEMO-EVT-002
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ALERT-002:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-EVT-002:G2_DOMAIN
 - id: TST-DATA-EXT-001
   layer: DATA
   title: Token possui exatamente um sujeito
@@ -5849,6 +6620,11 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-001
   - WP-DEMO-EXT-004
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-001:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-004:G5_EXTERNAL
 - id: TST-DATA-EXT-002
   layer: DATA
   title: Hash de capability token é único
@@ -5885,6 +6661,11 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-001
   - WP-DEMO-EXT-004
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-001:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-004:G5_EXTERNAL
 - id: TST-DATA-EXT-003
   layer: DATA
   title: Uso de capability não excede limite
@@ -5921,6 +6702,11 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-003
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
 - id: TST-DATA-EXT-004
   layer: DATA
   title: Sessão externa não expira após token
@@ -5958,6 +6744,11 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-002
   - WP-DEMO-EXT-005
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
 - id: TST-DATA-EXT-005
   layer: DATA
   title: Uso de ação é único por idempotency record
@@ -5996,6 +6787,12 @@ tests:
   - WP-DEMO-EVT-001
   - WP-DEMO-EXT-003
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
 - id: TST-DATA-EVT-001
   layer: DATA
   title: Sequence é única por aggregate
@@ -6030,6 +6827,10 @@ tests:
   - DATA-ADR-014
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
 - id: TST-DATA-EVT-002
   layer: DATA
   title: Um evento principal por idempotency record
@@ -6065,6 +6866,10 @@ tests:
   - DATA-ADR-006
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
 - id: TST-DATA-EVT-003
   layer: DATA
   title: Uma Outbox por evento
@@ -6099,6 +6904,10 @@ tests:
   - DATA-ADR-006
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
 - id: TST-DATA-EVT-004
   layer: DATA
   title: Receipt é único por consumer e evento
@@ -6134,6 +6943,10 @@ tests:
   - DATA-ADR-013
   work_package_ids:
   - WP-DEMO-EVT-002
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-002:G2_DOMAIN
 - id: TST-DATA-INBOX-001
   layer: DATA
   title: Message ID é único por source
@@ -6170,6 +6983,11 @@ tests:
   work_package_ids:
   - WP-DEMO-COM-001
   - WP-DEMO-EVT-002
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-COM-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-EVT-002:G2_DOMAIN
 - id: TST-DATA-DLQ-001
   layer: DATA
   title: Uma DLQ por source
@@ -6204,6 +7022,10 @@ tests:
   - DATA-ADR-013
   work_package_ids:
   - WP-DEMO-EVT-002
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-002:G2_DOMAIN
 - id: TST-DATA-RESET-001
   layer: DATA
   title: Somente um reset ativo
@@ -6239,6 +7061,10 @@ tests:
   - DATA-ADR-013
   work_package_ids:
   - WP-DEMO-DATA-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
 - id: TST-DATA-RESET-002
   layer: DATA
   title: Crash do owner após a barreira preserva o dataset e é recuperado pelo watchdog
@@ -6281,6 +7107,10 @@ tests:
   - DATA-ADR-013
   work_package_ids:
   - WP-DEMO-DATA-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
 - id: TST-DATA-RESET-003
   layer: DATA
   title: Auditoria sobrevive ao reset
@@ -6314,6 +7144,11 @@ tests:
   work_package_ids:
   - WP-DEMO-AUDIT-001
   - WP-DEMO-DATA-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-AUDIT-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
 - id: TST-DATA-METRIC-001
   layer: DATA
   title: Fórmulas de métricas correspondem aos dados canônicos
@@ -6351,6 +7186,13 @@ tests:
   - WP-DEMO-METRIC-002
   - WP-DEMO-METRIC-003
   - WP-DEMO-METRIC-004
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-METRIC-001:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-METRIC-002:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-METRIC-003:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-METRIC-004:G3_PROJECTIONS
 - id: E2E-DEMO-000
   layer: E2E
   title: Jornada executiva completa
@@ -6468,6 +7310,80 @@ tests:
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-008
   - WP-DEMO-TIMELINE-001
+  activation_gate: G6_EXECUTIVE
+  activation_class: FINAL_REGRESSION
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ALERT-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ALERT-003:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-CASE-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-002:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-CASE-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-COM-004:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-DASH-001:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-DASH-002:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-EXT-001:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-004:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-METRIC-001:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-METRIC-002:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-METRIC-003:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-METRIC-004:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-SEARCH-001:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-SEARCH-002:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-STOP-001:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-001:G3_PROJECTIONS
+  - OPERATION:listStopDashboard:G3_PROJECTIONS
+  - OPERATION:getCaseOperationalView:G3_PROJECTIONS
+  - OPERATION:startCaseWork:G2_DOMAIN
+  - OPERATION:prepareStopForArrival:G2_DOMAIN
+  - OPERATION:reportArrivalInternal:G2_DOMAIN
+  - OPERATION:confirmArrival:G2_DOMAIN
+  - OPERATION:startService:G2_DOMAIN
+  - OPERATION:createTask:G2_DOMAIN
+  - OPERATION:assignTask:G2_DOMAIN
+  - OPERATION:startTask:G2_DOMAIN
+  - OPERATION:waitCaseForSupplier:G2_DOMAIN
+  - OPERATION:waitTaskForSupplier:G2_DOMAIN
+  - OPERATION:issueSupplierAccess:G5_EXTERNAL
+  - OPERATION:createExternalSession:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
+  - EVENT:CaseResumedAfterSupplierUpdate:G2_DOMAIN
+  - EVENT:TaskResumedAfterSupplierUpdate:G2_DOMAIN
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - WORKER:alert-evaluator:G4_TIME_COMMUNICATION
+  - EVENT:AlertCreated:G4_TIME_COMMUNICATION
+  - OPERATION:recordPhoneCall:G4_TIME_COMMUNICATION
+  - EVENT:AlertResolved:G4_TIME_COMMUNICATION
+  - OPERATION:completeTask:G2_DOMAIN
+  - OPERATION:completeService:G2_DOMAIN
+  - OPERATION:releaseVehicle:G2_DOMAIN
+  - OPERATION:issueDriverAccess:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - OPERATION:getDemoMetrics:G3_PROJECTIONS
+  - POLICY:FINAL_REGRESSION:G6_EXECUTIVE
 - id: E2E-DEMO-001
   layer: E2E
   title: Inatividade e deduplicação
@@ -6516,6 +7432,24 @@ tests:
   - WP-DEMO-CLOCK-001
   - WP-DEMO-EXT-003
   - WP-DEMO-METRIC-002
+  activation_gate: G6_EXECUTIVE
+  activation_class: FINAL_REGRESSION
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ALERT-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ALERT-002:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ALERT-003:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-METRIC-002:G3_PROJECTIONS
+  - OPERATION:issueSupplierAccess:G5_EXTERNAL
+  - OPERATION:createExternalSession:G5_EXTERNAL
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - WORKER:alert-evaluator:G4_TIME_COMMUNICATION
+  - EVENT:AlertCreated:G4_TIME_COMMUNICATION
+  - EVENT:AlertOccurrenceAdded:G4_TIME_COMMUNICATION
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
+  - EVENT:AlertResolved:G4_TIME_COMMUNICATION
+  - POLICY:FINAL_REGRESSION:G6_EXECUTIVE
 - id: E2E-DEMO-002
   layer: E2E
   title: Chegada divergente
@@ -6562,6 +7496,23 @@ tests:
   - WP-DEMO-STOP-005
   - WP-DEMO-TIMELINE-001
   - WP-DEMO-TIMELINE-002
+  activation_gate: G6_EXECUTIVE
+  activation_class: FINAL_REGRESSION
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-001:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-002:G3_PROJECTIONS
+  - OPERATION:reportArrivalInternal:G2_DOMAIN
+  - WORKER:arrival-evaluator:G2_DOMAIN
+  - EVENT:ArrivalConflictDetected:G2_DOMAIN
+  - EVENT:TaskCreated:G2_DOMAIN
+  - EVENT:AlertCreated:G4_TIME_COMMUNICATION
+  - OPERATION:confirmArrival:G2_DOMAIN
+  - EVENT:TaskCompleted:G2_DOMAIN
+  - EVENT:AlertResolved:G4_TIME_COMMUNICATION
+  - POLICY:FINAL_REGRESSION:G6_EXECUTIVE
 - id: E2E-DEMO-003
   layer: E2E
   title: E-mail vinculado ao caso existente
@@ -6606,6 +7557,19 @@ tests:
   - WP-DEMO-COM-002
   - WP-DEMO-COM-003
   - WP-DEMO-TIMELINE-001
+  activation_gate: G6_EXECUTIVE
+  activation_class: FINAL_REGRESSION
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-COM-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-COM-002:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-COM-003:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-001:G3_PROJECTIONS
+  - OPERATION:receiveDemoEmail:G4_TIME_COMMUNICATION
+  - WORKER:fake-email-inbox-consumer:G4_TIME_COMMUNICATION
+  - EVENT:ConversationCaseLinkSuggested:G4_TIME_COMMUNICATION
+  - OPERATION:confirmConversationCaseLink:G4_TIME_COMMUNICATION
+  - EVENT:CommunicationLinked:G4_TIME_COMMUNICATION
+  - POLICY:FINAL_REGRESSION:G6_EXECUTIVE
 - id: E2E-DEMO-004
   layer: E2E
   title: Tarefas paralelas
@@ -6654,6 +7618,21 @@ tests:
   - WP-DEMO-TASK-003
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-008
+  activation_gate: G6_EXECUTIVE
+  activation_class: FINAL_REGRESSION
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-METRIC-003:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-008:G2_DOMAIN
+  - OPERATION:createTask:G2_DOMAIN
+  - OPERATION:assignTask:G2_DOMAIN
+  - OPERATION:startTask:G2_DOMAIN
+  - OPERATION:completeTask:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - POLICY:FINAL_REGRESSION:G6_EXECUTIVE
 - id: E2E-DEMO-005
   layer: E2E
   title: Serviço concluído sem retirada
@@ -6702,6 +7681,22 @@ tests:
   - WP-DEMO-STOP-008
   - WP-DEMO-STOP-009
   - WP-DEMO-STOP-010
+  activation_gate: G6_EXECUTIVE
+  activation_class: FINAL_REGRESSION
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-004:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - OPERATION:releaseVehicle:G2_DOMAIN
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:issueDriverAccess:G5_EXTERNAL
+  - OPERATION:createExternalSession:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - POLICY:FINAL_REGRESSION:G6_EXECUTIVE
 - id: TST-API-GET-LIVENESS-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de getLiveness
@@ -6751,6 +7746,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-ENV-001
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ENV-001:G1_FOUNDATION
+  - OPERATION:getLiveness:G1_FOUNDATION
 - id: TST-API-GET-READINESS-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de getReadiness
@@ -6800,6 +7800,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-ENV-001
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ENV-001:G1_FOUNDATION
+  - OPERATION:getReadiness:G1_FOUNDATION
 - id: TST-API-CREATE-DEMO-SESSION-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de createDemoSession
@@ -6854,6 +7859,13 @@ tests:
   - WP-DEMO-ENV-003
   - WP-DEMO-IAM-001
   - WP-DEMO-IAM-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-ENV-003:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
+  - OPERATION:createDemoSession:G1_FOUNDATION
 - id: TST-API-DELETE-DEMO-SESSION-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de deleteDemoSession
@@ -6909,6 +7921,12 @@ tests:
   work_package_ids:
   - WP-DEMO-IAM-001
   - WP-DEMO-IAM-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
+  - OPERATION:deleteDemoSession:G1_FOUNDATION
 - id: TST-API-GET-CURRENT-SESSION-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de getCurrentSession
@@ -6962,6 +7980,12 @@ tests:
   work_package_ids:
   - WP-DEMO-IAM-001
   - WP-DEMO-IAM-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
+  - OPERATION:getCurrentSession:G1_FOUNDATION
 - id: TST-API-GET-DEMO-STATUS-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de getDemoStatus
@@ -7013,6 +8037,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-004
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-004:G1_FOUNDATION
+  - OPERATION:getDemoStatus:G1_FOUNDATION
 - id: TST-API-ADVANCE-DEMO-CLOCK-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de advanceDemoClock
@@ -7080,6 +8109,13 @@ tests:
   - WP-DEMO-CLOCK-001
   - WP-DEMO-ENV-003
   - WP-DEMO-IAM-004
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ENV-003:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-004:G1_FOUNDATION
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
 - id: TST-API-RESET-DEMO-SCENARIO-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de resetDemoScenario
@@ -7146,6 +8182,13 @@ tests:
   - WP-DEMO-DATA-002
   - WP-DEMO-ENV-003
   - WP-DEMO-IAM-004
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-ENV-003:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-004:G1_FOUNDATION
+  - OPERATION:resetDemoScenario:G1_FOUNDATION
 - id: TST-API-GET-DEMO-RESET-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de getDemoReset
@@ -7198,6 +8241,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-DATA-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
+  - OPERATION:getDemoReset:G1_FOUNDATION
 - id: TST-API-SEARCH-OPERATIONAL-RESOURCES-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de searchOperationalResources
@@ -7258,6 +8306,12 @@ tests:
   work_package_ids:
   - WP-DEMO-SEARCH-001
   - WP-DEMO-SEARCH-002
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-SEARCH-001:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-SEARCH-002:G3_PROJECTIONS
+  - OPERATION:searchOperationalResources:G3_PROJECTIONS
 - id: TST-API-LIST-STOP-DASHBOARD-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de listStopDashboard
@@ -7320,6 +8374,12 @@ tests:
   work_package_ids:
   - WP-DEMO-DASH-001
   - WP-DEMO-DASH-002
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DASH-001:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-DASH-002:G3_PROJECTIONS
+  - OPERATION:listStopDashboard:G3_PROJECTIONS
 - id: TST-API-GET-DEMO-METRICS-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de getDemoMetrics
@@ -7377,6 +8437,14 @@ tests:
   - WP-DEMO-METRIC-002
   - WP-DEMO-METRIC-003
   - WP-DEMO-METRIC-004
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-METRIC-001:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-METRIC-002:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-METRIC-003:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-METRIC-004:G3_PROJECTIONS
+  - OPERATION:getDemoMetrics:G3_PROJECTIONS
 - id: TST-API-GET-CASE-OPERATIONAL-VIEW-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de getCaseOperationalView
@@ -7429,6 +8497,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-CASE-002
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-002:G3_PROJECTIONS
+  - OPERATION:getCaseOperationalView:G3_PROJECTIONS
 - id: TST-API-GET-CASE-TIMELINE-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de getCaseTimeline
@@ -7484,6 +8557,12 @@ tests:
   work_package_ids:
   - WP-DEMO-CASE-002
   - WP-DEMO-TIMELINE-001
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-002:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-001:G3_PROJECTIONS
+  - OPERATION:getCaseTimeline:G3_PROJECTIONS
 - id: TST-API-START-CASE-WORK-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de startCaseWork
@@ -7546,6 +8625,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-CASE-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-001:G2_DOMAIN
+  - OPERATION:startCaseWork:G2_DOMAIN
 - id: TST-API-WAIT-CASE-FOR-SUPPLIER-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de waitCaseForSupplier
@@ -7614,6 +8698,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-CASE-003
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-003:G2_DOMAIN
+  - OPERATION:waitCaseForSupplier:G2_DOMAIN
 - id: TST-API-RESOLVE-CASE-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de resolveCase
@@ -7678,6 +8767,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-CASE-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
 - id: TST-API-LIST-CASE-TASKS-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de listCaseTasks
@@ -7730,6 +8824,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-CASE-002
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-002:G3_PROJECTIONS
+  - OPERATION:listCaseTasks:G3_PROJECTIONS
 - id: TST-API-CREATE-TASK-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de createTask
@@ -7799,6 +8898,12 @@ tests:
   work_package_ids:
   - WP-DEMO-TASK-001
   - WP-DEMO-TASK-008
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-008:G2_DOMAIN
+  - OPERATION:createTask:G2_DOMAIN
 - id: TST-API-ASSIGN-TASK-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de assignTask
@@ -7865,6 +8970,12 @@ tests:
   work_package_ids:
   - WP-DEMO-TASK-002
   - WP-DEMO-TASK-008
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-008:G2_DOMAIN
+  - OPERATION:assignTask:G2_DOMAIN
 - id: TST-API-START-TASK-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de startTask
@@ -7929,6 +9040,12 @@ tests:
   work_package_ids:
   - WP-DEMO-TASK-003
   - WP-DEMO-TASK-008
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-008:G2_DOMAIN
+  - OPERATION:startTask:G2_DOMAIN
 - id: TST-API-WAIT-TASK-FOR-SUPPLIER-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de waitTaskForSupplier
@@ -7996,6 +9113,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-TASK-004
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-004:G2_DOMAIN
+  - OPERATION:waitTaskForSupplier:G2_DOMAIN
 - id: TST-API-COMPLETE-TASK-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de completeTask
@@ -8062,6 +9184,12 @@ tests:
   work_package_ids:
   - WP-DEMO-TASK-006
   - WP-DEMO-TASK-008
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-008:G2_DOMAIN
+  - OPERATION:completeTask:G2_DOMAIN
 - id: TST-API-CANCEL-TASK-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de cancelTask
@@ -8128,6 +9256,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-TASK-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - OPERATION:cancelTask:G2_DOMAIN
 - id: TST-API-GET-STOP-OPERATIONAL-VIEW-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de getStopOperationalView
@@ -8180,6 +9313,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-STOP-001
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-001:G3_PROJECTIONS
+  - OPERATION:getStopOperationalView:G3_PROJECTIONS
 - id: TST-API-GET-STOP-TIMELINE-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de getStopTimeline
@@ -8235,6 +9373,12 @@ tests:
   work_package_ids:
   - WP-DEMO-STOP-001
   - WP-DEMO-TIMELINE-001
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-001:G3_PROJECTIONS
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-001:G3_PROJECTIONS
+  - OPERATION:getStopTimeline:G3_PROJECTIONS
 - id: TST-API-PREPARE-STOP-FOR-ARRIVAL-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de prepareStopForArrival
@@ -8297,6 +9441,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-STOP-002
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-002:G2_DOMAIN
+  - OPERATION:prepareStopForArrival:G2_DOMAIN
 - id: TST-API-REPORT-ARRIVAL-INTERNAL-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de reportArrivalInternal
@@ -8361,6 +9510,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-STOP-003
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - OPERATION:reportArrivalInternal:G2_DOMAIN
 - id: TST-API-CONFIRM-ARRIVAL-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de confirmArrival
@@ -8428,6 +9582,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-STOP-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - OPERATION:confirmArrival:G2_DOMAIN
 - id: TST-API-CORRECT-ARRIVAL-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de correctArrival
@@ -8494,6 +9653,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-TIMELINE-002
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-002:G3_PROJECTIONS
+  - OPERATION:correctArrival:G3_PROJECTIONS
 - id: TST-API-START-SERVICE-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de startService
@@ -8557,6 +9721,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-STOP-006
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - OPERATION:startService:G2_DOMAIN
 - id: TST-API-COMPLETE-SERVICE-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de completeService
@@ -8621,6 +9790,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-STOP-007
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - OPERATION:completeService:G2_DOMAIN
 - id: TST-API-RELEASE-VEHICLE-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de releaseVehicle
@@ -8684,6 +9858,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-STOP-008
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - OPERATION:releaseVehicle:G2_DOMAIN
 - id: TST-API-CLOSE-VEHICLE-STOP-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de closeVehicleStop
@@ -8747,6 +9926,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-STOP-010
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - OPERATION:closeVehicleStop:G2_DOMAIN
 - id: TST-API-LIST-CASE-CONVERSATIONS-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de listCaseConversations
@@ -8799,6 +9983,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-CASE-002
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-002:G3_PROJECTIONS
+  - OPERATION:listCaseConversations:G3_PROJECTIONS
 - id: TST-API-CONFIRM-CONVERSATION-CASE-LINK-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de confirmConversationCaseLink
@@ -8865,6 +10054,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-COM-003
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-COM-003:G4_TIME_COMMUNICATION
+  - OPERATION:confirmConversationCaseLink:G4_TIME_COMMUNICATION
 - id: TST-API-RECORD-PHONE-CALL-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de recordPhoneCall
@@ -8933,6 +10127,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-COM-004
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-COM-004:G4_TIME_COMMUNICATION
+  - OPERATION:recordPhoneCall:G4_TIME_COMMUNICATION
 - id: TST-API-RECEIVE-DEMO-EMAIL-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de receiveDemoEmail
@@ -9006,6 +10205,12 @@ tests:
   work_package_ids:
   - WP-DEMO-COM-001
   - WP-DEMO-ENV-003
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-COM-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-ENV-003:G1_FOUNDATION
+  - OPERATION:receiveDemoEmail:G4_TIME_COMMUNICATION
 - id: TST-API-ISSUE-SUPPLIER-ACCESS-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de issueSupplierAccess
@@ -9072,6 +10277,11 @@ tests:
   - DATA-ADR-015
   work_package_ids:
   - WP-DEMO-EXT-001
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-001:G5_EXTERNAL
+  - OPERATION:issueSupplierAccess:G5_EXTERNAL
 - id: TST-API-ISSUE-DRIVER-ACCESS-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de issueDriverAccess
@@ -9138,6 +10348,11 @@ tests:
   - DATA-ADR-015
   work_package_ids:
   - WP-DEMO-EXT-004
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-004:G5_EXTERNAL
+  - OPERATION:issueDriverAccess:G5_EXTERNAL
 - id: TST-API-CREATE-EXTERNAL-SESSION-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de createExternalSession
@@ -9190,6 +10405,12 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-002
   - WP-DEMO-EXT-005
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - OPERATION:createExternalSession:G5_EXTERNAL
 - id: TST-API-GET-EXTERNAL-CONTEXT-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de getExternalContext
@@ -9243,6 +10464,12 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-002
   - WP-DEMO-EXT-005
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - OPERATION:getExternalContext:G5_EXTERNAL
 - id: TST-API-UPDATE-FORECAST-EXTERNAL-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de updateForecastExternal
@@ -9306,6 +10533,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EXT-003
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
 - id: TST-API-CONFIRM-DEPARTURE-EXTERNAL-001
   layer: API_CONTRACT
   title: Contrato de sucesso concreto de confirmDepartureExternal
@@ -9368,6 +10600,11 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
 - id: TST-API-POLICY-001
   layer: API_POLICY
   title: Body rejeita propriedade desconhecida
@@ -9508,6 +10745,83 @@ tests:
   - WP-DEMO-TASK-007
   - WP-DEMO-TASK-008
   - WP-DEMO-TIMELINE-002
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-CASE-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CASE-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-COM-001:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-COM-003:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-COM-004:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-ENV-003:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-IAM-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-004:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-010:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-007:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-008:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-002:G3_PROJECTIONS
+  - OPERATION:createDemoSession:G1_FOUNDATION
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:resetDemoScenario:G1_FOUNDATION
+  - OPERATION:waitCaseForSupplier:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - OPERATION:createTask:G2_DOMAIN
+  - OPERATION:assignTask:G2_DOMAIN
+  - OPERATION:waitTaskForSupplier:G2_DOMAIN
+  - OPERATION:completeTask:G2_DOMAIN
+  - OPERATION:cancelTask:G2_DOMAIN
+  - OPERATION:reportArrivalInternal:G2_DOMAIN
+  - OPERATION:confirmArrival:G2_DOMAIN
+  - OPERATION:correctArrival:G3_PROJECTIONS
+  - OPERATION:startService:G2_DOMAIN
+  - OPERATION:completeService:G2_DOMAIN
+  - OPERATION:releaseVehicle:G2_DOMAIN
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - OPERATION:confirmConversationCaseLink:G4_TIME_COMMUNICATION
+  - OPERATION:recordPhoneCall:G4_TIME_COMMUNICATION
+  - OPERATION:receiveDemoEmail:G4_TIME_COMMUNICATION
+  - OPERATION:createExternalSession:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
+  - BASE_TEST:TST-API-CREATE-DEMO-SESSION-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-ADVANCE-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RESET-DEMO-SCENARIO-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-WAIT-CASE-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RESOLVE-CASE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CREATE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-ASSIGN-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-TASK-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CANCEL-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-REPORT-ARRIVAL-INTERNAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CORRECT-ARRIVAL-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-START-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RELEASE-VEHICLE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CLOSE-VEHICLE-STOP-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-CONVERSATION-CASE-LINK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RECORD-PHONE-CALL-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RECEIVE-DEMO-EMAIL-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-CREATE-EXTERNAL-SESSION-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-UPDATE-FORECAST-EXTERNAL-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-CONFIRM-DEPARTURE-EXTERNAL-001:G5_EXTERNAL
 - id: TST-API-POLICY-002
   layer: API_POLICY
   title: Mutação por cookie exige CSRF
@@ -9599,6 +10913,62 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-IAM-002
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
+  - OPERATION:deleteDemoSession:G1_FOUNDATION
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:resetDemoScenario:G1_FOUNDATION
+  - OPERATION:startCaseWork:G2_DOMAIN
+  - OPERATION:waitCaseForSupplier:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - OPERATION:createTask:G2_DOMAIN
+  - OPERATION:assignTask:G2_DOMAIN
+  - OPERATION:startTask:G2_DOMAIN
+  - OPERATION:waitTaskForSupplier:G2_DOMAIN
+  - OPERATION:completeTask:G2_DOMAIN
+  - OPERATION:cancelTask:G2_DOMAIN
+  - OPERATION:prepareStopForArrival:G2_DOMAIN
+  - OPERATION:reportArrivalInternal:G2_DOMAIN
+  - OPERATION:confirmArrival:G2_DOMAIN
+  - OPERATION:correctArrival:G3_PROJECTIONS
+  - OPERATION:startService:G2_DOMAIN
+  - OPERATION:completeService:G2_DOMAIN
+  - OPERATION:releaseVehicle:G2_DOMAIN
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - OPERATION:confirmConversationCaseLink:G4_TIME_COMMUNICATION
+  - OPERATION:recordPhoneCall:G4_TIME_COMMUNICATION
+  - OPERATION:issueSupplierAccess:G5_EXTERNAL
+  - OPERATION:issueDriverAccess:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
+  - BASE_TEST:TST-API-DELETE-DEMO-SESSION-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-ADVANCE-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RESET-DEMO-SCENARIO-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-START-CASE-WORK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-CASE-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RESOLVE-CASE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CREATE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-ASSIGN-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-START-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-TASK-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CANCEL-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-PREPARE-STOP-FOR-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-REPORT-ARRIVAL-INTERNAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CORRECT-ARRIVAL-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-START-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RELEASE-VEHICLE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CLOSE-VEHICLE-STOP-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-CONVERSATION-CASE-LINK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RECORD-PHONE-CALL-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-ISSUE-SUPPLIER-ACCESS-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-ISSUE-DRIVER-ACCESS-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-UPDATE-FORECAST-EXTERNAL-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-CONFIRM-DEPARTURE-EXTERNAL-001:G5_EXTERNAL
 - id: TST-API-POLICY-003
   layer: API_POLICY
   title: Replay idempotente retorna resposta original
@@ -9682,6 +11052,56 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:resetDemoScenario:G1_FOUNDATION
+  - OPERATION:startCaseWork:G2_DOMAIN
+  - OPERATION:waitCaseForSupplier:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - OPERATION:createTask:G2_DOMAIN
+  - OPERATION:assignTask:G2_DOMAIN
+  - OPERATION:startTask:G2_DOMAIN
+  - OPERATION:waitTaskForSupplier:G2_DOMAIN
+  - OPERATION:completeTask:G2_DOMAIN
+  - OPERATION:cancelTask:G2_DOMAIN
+  - OPERATION:prepareStopForArrival:G2_DOMAIN
+  - OPERATION:reportArrivalInternal:G2_DOMAIN
+  - OPERATION:confirmArrival:G2_DOMAIN
+  - OPERATION:correctArrival:G3_PROJECTIONS
+  - OPERATION:startService:G2_DOMAIN
+  - OPERATION:completeService:G2_DOMAIN
+  - OPERATION:releaseVehicle:G2_DOMAIN
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - OPERATION:confirmConversationCaseLink:G4_TIME_COMMUNICATION
+  - OPERATION:recordPhoneCall:G4_TIME_COMMUNICATION
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
+  - BASE_TEST:TST-API-ADVANCE-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RESET-DEMO-SCENARIO-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-START-CASE-WORK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-CASE-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RESOLVE-CASE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CREATE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-ASSIGN-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-START-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-TASK-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CANCEL-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-PREPARE-STOP-FOR-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-REPORT-ARRIVAL-INTERNAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CORRECT-ARRIVAL-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-START-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RELEASE-VEHICLE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CLOSE-VEHICLE-STOP-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-CONVERSATION-CASE-LINK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RECORD-PHONE-CALL-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-UPDATE-FORECAST-EXTERNAL-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-CONFIRM-DEPARTURE-EXTERNAL-001:G5_EXTERNAL
 - id: TST-API-POLICY-004
   layer: API_POLICY
   title: Chave idempotente com request diferente conflita
@@ -9766,6 +11186,56 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:resetDemoScenario:G1_FOUNDATION
+  - OPERATION:startCaseWork:G2_DOMAIN
+  - OPERATION:waitCaseForSupplier:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - OPERATION:createTask:G2_DOMAIN
+  - OPERATION:assignTask:G2_DOMAIN
+  - OPERATION:startTask:G2_DOMAIN
+  - OPERATION:waitTaskForSupplier:G2_DOMAIN
+  - OPERATION:completeTask:G2_DOMAIN
+  - OPERATION:cancelTask:G2_DOMAIN
+  - OPERATION:prepareStopForArrival:G2_DOMAIN
+  - OPERATION:reportArrivalInternal:G2_DOMAIN
+  - OPERATION:confirmArrival:G2_DOMAIN
+  - OPERATION:correctArrival:G3_PROJECTIONS
+  - OPERATION:startService:G2_DOMAIN
+  - OPERATION:completeService:G2_DOMAIN
+  - OPERATION:releaseVehicle:G2_DOMAIN
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - OPERATION:confirmConversationCaseLink:G4_TIME_COMMUNICATION
+  - OPERATION:recordPhoneCall:G4_TIME_COMMUNICATION
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
+  - BASE_TEST:TST-API-ADVANCE-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RESET-DEMO-SCENARIO-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-START-CASE-WORK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-CASE-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RESOLVE-CASE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CREATE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-ASSIGN-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-START-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-TASK-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CANCEL-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-PREPARE-STOP-FOR-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-REPORT-ARRIVAL-INTERNAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CORRECT-ARRIVAL-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-START-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RELEASE-VEHICLE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CLOSE-VEHICLE-STOP-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-CONVERSATION-CASE-LINK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RECORD-PHONE-CALL-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-UPDATE-FORECAST-EXTERNAL-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-CONFIRM-DEPARTURE-EXTERNAL-001:G5_EXTERNAL
 - id: TST-API-POLICY-005
   layer: API_POLICY
   title: If-Match ausente retorna 428
@@ -9837,6 +11307,44 @@ tests:
   - DATA-ADR-005
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:startCaseWork:G2_DOMAIN
+  - OPERATION:waitCaseForSupplier:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - OPERATION:assignTask:G2_DOMAIN
+  - OPERATION:startTask:G2_DOMAIN
+  - OPERATION:waitTaskForSupplier:G2_DOMAIN
+  - OPERATION:completeTask:G2_DOMAIN
+  - OPERATION:cancelTask:G2_DOMAIN
+  - OPERATION:prepareStopForArrival:G2_DOMAIN
+  - OPERATION:confirmArrival:G2_DOMAIN
+  - OPERATION:correctArrival:G3_PROJECTIONS
+  - OPERATION:startService:G2_DOMAIN
+  - OPERATION:completeService:G2_DOMAIN
+  - OPERATION:releaseVehicle:G2_DOMAIN
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - OPERATION:confirmConversationCaseLink:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-ADVANCE-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-START-CASE-WORK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-CASE-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RESOLVE-CASE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-ASSIGN-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-START-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-TASK-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CANCEL-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-PREPARE-STOP-FOR-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CORRECT-ARRIVAL-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-START-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RELEASE-VEHICLE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CLOSE-VEHICLE-STOP-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-CONVERSATION-CASE-LINK-001:G4_TIME_COMMUNICATION
 - id: TST-API-POLICY-006
   layer: API_POLICY
   title: If-Match obsoleto retorna 412
@@ -9911,6 +11419,44 @@ tests:
   - DATA-ADR-005
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:startCaseWork:G2_DOMAIN
+  - OPERATION:waitCaseForSupplier:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - OPERATION:assignTask:G2_DOMAIN
+  - OPERATION:startTask:G2_DOMAIN
+  - OPERATION:waitTaskForSupplier:G2_DOMAIN
+  - OPERATION:completeTask:G2_DOMAIN
+  - OPERATION:cancelTask:G2_DOMAIN
+  - OPERATION:prepareStopForArrival:G2_DOMAIN
+  - OPERATION:confirmArrival:G2_DOMAIN
+  - OPERATION:correctArrival:G3_PROJECTIONS
+  - OPERATION:startService:G2_DOMAIN
+  - OPERATION:completeService:G2_DOMAIN
+  - OPERATION:releaseVehicle:G2_DOMAIN
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - OPERATION:confirmConversationCaseLink:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-ADVANCE-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-START-CASE-WORK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-CASE-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RESOLVE-CASE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-ASSIGN-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-START-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-TASK-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CANCEL-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-PREPARE-STOP-FOR-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CORRECT-ARRIVAL-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-START-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RELEASE-VEHICLE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CLOSE-VEHICLE-STOP-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-CONVERSATION-CASE-LINK-001:G4_TIME_COMMUNICATION
 - id: TST-API-POLICY-007
   layer: API_POLICY
   title: Operação interna exige sessão
@@ -10020,6 +11566,83 @@ tests:
   work_package_ids:
   - WP-DEMO-IAM-001
   - WP-DEMO-IAM-002
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-IAM-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-002:G1_FOUNDATION
+  - OPERATION:deleteDemoSession:G1_FOUNDATION
+  - OPERATION:getCurrentSession:G1_FOUNDATION
+  - OPERATION:getDemoStatus:G1_FOUNDATION
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:resetDemoScenario:G1_FOUNDATION
+  - OPERATION:getDemoReset:G1_FOUNDATION
+  - OPERATION:searchOperationalResources:G3_PROJECTIONS
+  - OPERATION:listStopDashboard:G3_PROJECTIONS
+  - OPERATION:getDemoMetrics:G3_PROJECTIONS
+  - OPERATION:getCaseOperationalView:G3_PROJECTIONS
+  - OPERATION:getCaseTimeline:G3_PROJECTIONS
+  - OPERATION:startCaseWork:G2_DOMAIN
+  - OPERATION:waitCaseForSupplier:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - OPERATION:listCaseTasks:G3_PROJECTIONS
+  - OPERATION:createTask:G2_DOMAIN
+  - OPERATION:assignTask:G2_DOMAIN
+  - OPERATION:startTask:G2_DOMAIN
+  - OPERATION:waitTaskForSupplier:G2_DOMAIN
+  - OPERATION:completeTask:G2_DOMAIN
+  - OPERATION:cancelTask:G2_DOMAIN
+  - OPERATION:getStopOperationalView:G3_PROJECTIONS
+  - OPERATION:getStopTimeline:G3_PROJECTIONS
+  - OPERATION:prepareStopForArrival:G2_DOMAIN
+  - OPERATION:reportArrivalInternal:G2_DOMAIN
+  - OPERATION:confirmArrival:G2_DOMAIN
+  - OPERATION:correctArrival:G3_PROJECTIONS
+  - OPERATION:startService:G2_DOMAIN
+  - OPERATION:completeService:G2_DOMAIN
+  - OPERATION:releaseVehicle:G2_DOMAIN
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - OPERATION:listCaseConversations:G3_PROJECTIONS
+  - OPERATION:confirmConversationCaseLink:G4_TIME_COMMUNICATION
+  - OPERATION:recordPhoneCall:G4_TIME_COMMUNICATION
+  - OPERATION:issueSupplierAccess:G5_EXTERNAL
+  - OPERATION:issueDriverAccess:G5_EXTERNAL
+  - BASE_TEST:TST-API-DELETE-DEMO-SESSION-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-GET-CURRENT-SESSION-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-GET-DEMO-STATUS-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-ADVANCE-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RESET-DEMO-SCENARIO-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-GET-DEMO-RESET-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-SEARCH-OPERATIONAL-RESOURCES-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-LIST-STOP-DASHBOARD-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-GET-DEMO-METRICS-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-GET-CASE-OPERATIONAL-VIEW-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-GET-CASE-TIMELINE-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-START-CASE-WORK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-CASE-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RESOLVE-CASE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-LIST-CASE-TASKS-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-CREATE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-ASSIGN-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-START-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-TASK-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CANCEL-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-GET-STOP-OPERATIONAL-VIEW-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-GET-STOP-TIMELINE-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-PREPARE-STOP-FOR-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-REPORT-ARRIVAL-INTERNAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CORRECT-ARRIVAL-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-START-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RELEASE-VEHICLE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CLOSE-VEHICLE-STOP-001:G2_DOMAIN
+  - BASE_TEST:TST-API-LIST-CASE-CONVERSATIONS-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-CONFIRM-CONVERSATION-CASE-LINK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RECORD-PHONE-CALL-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-ISSUE-SUPPLIER-ACCESS-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-ISSUE-DRIVER-ACCESS-001:G5_EXTERNAL
 - id: TST-API-POLICY-008
   layer: API_POLICY
   title: Respostas externas usam headers de proteção
@@ -10074,6 +11697,19 @@ tests:
   work_package_ids:
   - WP-DEMO-EXT-002
   - WP-DEMO-EXT-005
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - OPERATION:createExternalSession:G5_EXTERNAL
+  - OPERATION:getExternalContext:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
+  - BASE_TEST:TST-API-CREATE-EXTERNAL-SESSION-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-GET-EXTERNAL-CONTEXT-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-UPDATE-FORECAST-EXTERNAL-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-CONFIRM-DEPARTURE-EXTERNAL-001:G5_EXTERNAL
 - id: TST-API-POLICY-009
   layer: API_POLICY
   title: Mutação falha fechada durante reset
@@ -10166,6 +11802,66 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-DATA-002
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
+  - OPERATION:createDemoSession:G1_FOUNDATION
+  - OPERATION:deleteDemoSession:G1_FOUNDATION
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:startCaseWork:G2_DOMAIN
+  - OPERATION:waitCaseForSupplier:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - OPERATION:createTask:G2_DOMAIN
+  - OPERATION:assignTask:G2_DOMAIN
+  - OPERATION:startTask:G2_DOMAIN
+  - OPERATION:waitTaskForSupplier:G2_DOMAIN
+  - OPERATION:completeTask:G2_DOMAIN
+  - OPERATION:cancelTask:G2_DOMAIN
+  - OPERATION:prepareStopForArrival:G2_DOMAIN
+  - OPERATION:reportArrivalInternal:G2_DOMAIN
+  - OPERATION:confirmArrival:G2_DOMAIN
+  - OPERATION:correctArrival:G3_PROJECTIONS
+  - OPERATION:startService:G2_DOMAIN
+  - OPERATION:completeService:G2_DOMAIN
+  - OPERATION:releaseVehicle:G2_DOMAIN
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - OPERATION:confirmConversationCaseLink:G4_TIME_COMMUNICATION
+  - OPERATION:recordPhoneCall:G4_TIME_COMMUNICATION
+  - OPERATION:receiveDemoEmail:G4_TIME_COMMUNICATION
+  - OPERATION:issueSupplierAccess:G5_EXTERNAL
+  - OPERATION:issueDriverAccess:G5_EXTERNAL
+  - OPERATION:createExternalSession:G5_EXTERNAL
+  - OPERATION:updateForecastExternal:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
+  - BASE_TEST:TST-API-CREATE-DEMO-SESSION-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-DELETE-DEMO-SESSION-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-ADVANCE-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-START-CASE-WORK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-CASE-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RESOLVE-CASE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CREATE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-ASSIGN-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-START-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-WAIT-TASK-FOR-SUPPLIER-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CANCEL-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-PREPARE-STOP-FOR-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-REPORT-ARRIVAL-INTERNAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CORRECT-ARRIVAL-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-START-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-COMPLETE-SERVICE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RELEASE-VEHICLE-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CLOSE-VEHICLE-STOP-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CONFIRM-CONVERSATION-CASE-LINK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RECORD-PHONE-CALL-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RECEIVE-DEMO-EMAIL-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-ISSUE-SUPPLIER-ACCESS-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-ISSUE-DRIVER-ACCESS-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-CREATE-EXTERNAL-SESSION-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-UPDATE-FORECAST-EXTERNAL-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-CONFIRM-DEPARTURE-EXTERNAL-001:G5_EXTERNAL
 - id: TST-API-POLICY-010
   layer: API_POLICY
   title: Operações retiradas não existem
@@ -10214,6 +11910,15 @@ tests:
   - WP-DEMO-EXT-004
   - WP-DEMO-EXT-005
   - WP-DEMO-STOP-009
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-001:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-002:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-003:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-004:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-EXT-005:G5_EXTERNAL
+  - WORK_PACKAGE:WP-DEMO-STOP-009:G5_EXTERNAL
 - id: TST-EVT-CONTRACT-001
   layer: EVENT_CONTRACT
   title: Envelope e payload v2 válidos
@@ -10281,6 +11986,11 @@ tests:
   work_package_ids:
   - WP-DEMO-EVT-001
   - WP-DEMO-STOP-004
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-004:G2_DOMAIN
 - id: TST-EVT-CONTRACT-002
   layer: EVENT_CONTRACT
   title: Campo obrigatório ausente é rejeitado
@@ -10346,6 +12056,10 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
 - id: TST-EVT-CONTRACT-003
   layer: EVENT_CONTRACT
   title: Campo adicional é rejeitado
@@ -10411,6 +12125,10 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
 - id: TST-EVT-CONTRACT-004
   layer: EVENT_CONTRACT
   title: Classificação coincide com registry
@@ -10476,6 +12194,10 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
 - id: TST-EVT-CONTRACT-005
   layer: EVENT_CONTRACT
   title: Produtor, comando e aggregate coincidem
@@ -10543,6 +12265,10 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
 - id: TST-EVT-CONTRACT-006
   layer: EVENT_CONTRACT
   title: Sequence equivale à versão resultante
@@ -10578,6 +12304,10 @@ tests:
   - DATA-ADR-014
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
 - id: TST-EVT-CONTRACT-007
   layer: EVENT_CONTRACT
   title: Aggregate, histórico, evento e Outbox são atômicos
@@ -10611,6 +12341,10 @@ tests:
   - DATA-ADR-006
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
 - id: TST-EVT-CONTRACT-008
   layer: EVENT_CONTRACT
   title: Entrega repetida não duplica efeito
@@ -10682,6 +12416,12 @@ tests:
   - WP-DEMO-EVT-002
   - WP-DEMO-STOP-004
   - WP-DEMO-STOP-005
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-004:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-005:G2_DOMAIN
 - id: TST-EVT-CONTRACT-009
   layer: EVENT_CONTRACT
   title: Projection rebuild desabilita handlers live-only
@@ -10722,6 +12462,11 @@ tests:
   work_package_ids:
   - WP-DEMO-EVT-002
   - WP-DEMO-TIMELINE-002
+  activation_gate: G3_PROJECTIONS
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TIMELINE-002:G3_PROJECTIONS
 - id: TST-EVT-CONTRACT-010
   layer: EVENT_CONTRACT
   title: Dados proibidos não aparecem
@@ -10794,6 +12539,10 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
 - id: TST-EVT-CONTRACT-011
   layer: EVENT_CONTRACT
   title: Commit de geração antiga é rejeitado
@@ -10832,6 +12581,11 @@ tests:
   work_package_ids:
   - WP-DEMO-DATA-002
   - WP-DEMO-EVT-002
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-EVT-002:G2_DOMAIN
 - id: TST-EVT-CONTRACT-012
   layer: EVENT_CONTRACT
   title: Todos os eventos usam schema version 2 e generation ID
@@ -10900,6 +12654,10 @@ tests:
   - DATA-ADR-013
   work_package_ids:
   - WP-DEMO-EVT-001
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
 - id: TST-DATA-TASK-005
   layer: DATA
   title: Constraint de origem permite transições válidas
@@ -10942,6 +12700,16 @@ tests:
   - WP-DEMO-TASK-002
   - WP-DEMO-TASK-003
   - WP-DEMO-TASK-006
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-TASK-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-002:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-003:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-TASK-006:G2_DOMAIN
+  - COMMAND:AssignTask:G2_DOMAIN
+  - COMMAND:StartTask:G2_DOMAIN
+  - COMMAND:CompleteTask:G2_DOMAIN
 - id: TST-DATA-RESET-004
   layer: DATA
   title: Commit tardio de worker é rejeitado
@@ -10981,6 +12749,11 @@ tests:
   work_package_ids:
   - WP-DEMO-DATA-002
   - WP-DEMO-EVT-002
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-EVT-002:G2_DOMAIN
 - id: TST-DATA-RESET-005
   layer: DATA
   title: Execução preservada não bloqueia reseed de usuários
@@ -11015,6 +12788,12 @@ tests:
   work_package_ids:
   - WP-DEMO-DATA-002
   - WP-DEMO-IAM-001
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-IAM-001:G1_FOUNDATION
+  - DB_OPERATION:DELETE_AND_RESEED_APP_USER:G1_FOUNDATION
 - id: TST-DATA-EXT-006
   layer: DATA
   title: Emissões concorrentes deixam um token ativo
@@ -11099,6 +12878,11 @@ tests:
   - DATA-ADR-015
   work_package_ids:
   - WP-DEMO-EXT-001
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EXT-001:G5_EXTERNAL
+  - OPERATION:issueSupplierAccess:G5_EXTERNAL
 - id: TST-DATA-EVT-005
   layer: DATA
   title: Ocorrência incrementa versão uma vez
@@ -11158,6 +12942,12 @@ tests:
   work_package_ids:
   - WP-DEMO-EVT-001
   - WP-DEMO-STOP-003
+  activation_gate: G2_DOMAIN
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
+  - WORK_PACKAGE:WP-DEMO-STOP-003:G2_DOMAIN
+  - COMMAND:ReportArrival:G2_DOMAIN
 - id: TST-DATA-EVT-006
   layer: DATA
   title: PhoneCallRecorded usa aggregate CASE
@@ -11223,6 +13013,12 @@ tests:
   work_package_ids:
   - WP-DEMO-COM-004
   - WP-DEMO-EVT-001
+  activation_gate: G4_TIME_COMMUNICATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-COM-004:G4_TIME_COMMUNICATION
+  - WORK_PACKAGE:WP-DEMO-EVT-001:G2_DOMAIN
+  - OPERATION:recordPhoneCall:G4_TIME_COMMUNICATION
 - id: TST-AUDIT-001
   layer: SECURITY
   title: Ações sensíveis permitidas geram auditoria sanitizada
@@ -11280,6 +13076,30 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-AUDIT-001
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-AUDIT-001:G1_FOUNDATION
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:resetDemoScenario:G1_FOUNDATION
+  - OPERATION:confirmArrival:G2_DOMAIN
+  - OPERATION:correctArrival:G3_PROJECTIONS
+  - OPERATION:cancelTask:G2_DOMAIN
+  - OPERATION:issueSupplierAccess:G5_EXTERNAL
+  - OPERATION:issueDriverAccess:G5_EXTERNAL
+  - OPERATION:confirmDepartureExternal:G5_EXTERNAL
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - BASE_TEST:TST-API-ADVANCE-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-RESET-DEMO-SCENARIO-001:G1_FOUNDATION
+  - BASE_TEST:TST-API-CONFIRM-ARRIVAL-001:G2_DOMAIN
+  - BASE_TEST:TST-API-CORRECT-ARRIVAL-001:G3_PROJECTIONS
+  - BASE_TEST:TST-API-CANCEL-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-ISSUE-SUPPLIER-ACCESS-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-ISSUE-DRIVER-ACCESS-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-CONFIRM-DEPARTURE-EXTERNAL-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-CLOSE-VEHICLE-STOP-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RESOLVE-CASE-001:G2_DOMAIN
 - id: TST-AUDIT-002
   layer: SECURITY
   title: Negação sensível gera auditoria DENY
@@ -11327,6 +13147,20 @@ tests:
   data_adr_ids: []
   work_package_ids:
   - WP-DEMO-AUDIT-001
+  activation_gate: G5_EXTERNAL
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-AUDIT-001:G1_FOUNDATION
+  - OPERATION:advanceDemoClock:G4_TIME_COMMUNICATION
+  - OPERATION:cancelTask:G2_DOMAIN
+  - OPERATION:issueSupplierAccess:G5_EXTERNAL
+  - OPERATION:closeVehicleStop:G2_DOMAIN
+  - OPERATION:resolveCase:G2_DOMAIN
+  - BASE_TEST:TST-API-ADVANCE-DEMO-CLOCK-001:G4_TIME_COMMUNICATION
+  - BASE_TEST:TST-API-CANCEL-TASK-001:G2_DOMAIN
+  - BASE_TEST:TST-API-ISSUE-SUPPLIER-ACCESS-001:G5_EXTERNAL
+  - BASE_TEST:TST-API-CLOSE-VEHICLE-STOP-001:G2_DOMAIN
+  - BASE_TEST:TST-API-RESOLVE-CASE-001:G2_DOMAIN
 - id: TST-AUDIT-003
   layer: SECURITY
   title: Auditoria permanece após reset
@@ -11377,6 +13211,12 @@ tests:
   work_package_ids:
   - WP-DEMO-AUDIT-001
   - WP-DEMO-DATA-002
+  activation_gate: G1_FOUNDATION
+  activation_class: GATE_ACCEPTANCE
+  activation_reasons:
+  - WORK_PACKAGE:WP-DEMO-AUDIT-001:G1_FOUNDATION
+  - WORK_PACKAGE:WP-DEMO-DATA-002:G1_FOUNDATION
+  - OPERATION:resetDemoScenario:G1_FOUNDATION
 runner_contract_file: tests/spec/demo-r1-test-runner-contract.yaml
 runner_programs_file: tests/spec/demo-r1-test-runner-programs.yaml
 action_schema_file: tests/spec/demo-r1-test-action.schema.json
@@ -11384,3 +13224,4 @@ traceability_file: traceability/demo-r1-traceability.yaml
 runner_worker_registry_file: tests/spec/demo-r1-test-runner-workers.yaml
 runner_actor_registry_file: tests/spec/demo-r1-test-runner-actors.yaml
 runner_db_operation_registry_file: tests/spec/demo-r1-test-runner-db-operations.yaml
+gate_test_plan_file: tests/spec/demo-r1-gate-test-plan.yaml

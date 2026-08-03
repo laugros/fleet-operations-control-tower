@@ -1,0 +1,37 @@
+{
+  "review_id": "R7",
+  "release": "DEMO-R1",
+  "baseline_version": "2.1.4",
+  "pre_review_source": {
+    "package": "demo-r1-v2.1.4-pre-review-baseline.zip",
+    "sha256": "c078696da63eda33e54d86b3ed57b275dba14036cb81fa57f27c3c3d47edbb46",
+    "verdict": "PASS_PRE_REVIEW",
+    "blocking_failures": []
+  },
+  "verdict": "READY_FOR_G1_SCAFFOLD",
+  "scaffold_authorized": true,
+  "authorized_gate": "G1_FOUNDATION",
+  "later_gate_policy": "BLOCKED_BY_PREVIOUS_GATE",
+  "codex_blocker_resolution": {
+    "authorization_control_embedded": true,
+    "g1_test_suite_closed": true,
+    "g1_seed_layer_closed": true,
+    "reset_event_semantic_cycle_removed": true
+  },
+  "g1_closure": {
+    "activation_tests": 26,
+    "required_fixtures": 9,
+    "schema_tables": 32,
+    "seed_tables": 32,
+    "future_test_blockers": 0,
+    "future_tables": 0
+  },
+  "authorization_requirements": {
+    "review_report_embedded": true,
+    "review_evidence_embedded": true,
+    "review_decision_embedded": true,
+    "implementation_authorization_embedded": true,
+    "post_assembly_checksum_verification_required": true
+  },
+  "blocking_failures": []
+}

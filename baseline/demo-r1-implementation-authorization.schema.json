@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/baseline/demo-r1-implementation-authorization.schema.json",
+  "title": "DEMO-R1 Implementation Authorization v2.1.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "authorization_version",
+    "release",
+    "baseline_version",
+    "state",
+    "required_review_id",
+    "review_decision_embedded",
+    "baseline_status",
+    "scaffold_authorized",
+    "authorized_gate",
+    "gate_statuses",
+    "source_policy",
+    "decision_files"
+  ],
+  "properties": {
+    "authorization_version": {
+      "const": "2.1.4"
+    },
+    "release": {
+      "const": "DEMO-R1"
+    },
+    "baseline_version": {
+      "const": "2.1.4"
+    },
+    "state": {
+      "const": "AUTHORIZED_FOR_SCAFFOLD"
+    },
+    "required_review_id": {
+      "const": "R7"
+    },
+    "review_decision_embedded": {
+      "const": true
+    },
+    "baseline_status": {
+      "const": "NORMATIVE_AUTHORIZED_FOR_SCAFFOLD"
+    },
+    "scaffold_authorized": {
+      "const": true
+    },
+    "authorized_gate": {
+      "const": "G1_FOUNDATION"
+    },
+    "gate_statuses": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "G1_FOUNDATION",
+        "G2_DOMAIN",
+        "G3_PROJECTIONS",
+        "G4_TIME_COMMUNICATION",
+        "G5_EXTERNAL",
+        "G6_EXECUTIVE"
+      ],
+      "properties": {
+        "G1_FOUNDATION": {
+          "const": "READY"
+        },
+        "G2_DOMAIN": {
+          "const": "BLOCKED_BY_PREVIOUS_GATE"
+        },
+        "G3_PROJECTIONS": {
+          "const": "BLOCKED_BY_PREVIOUS_GATE"
+        },
+        "G4_TIME_COMMUNICATION": {
+          "const": "BLOCKED_BY_PREVIOUS_GATE"
+        },
+        "G5_EXTERNAL": {
+          "const": "BLOCKED_BY_PREVIOUS_GATE"
+        },
+        "G6_EXECUTIVE": {
+          "const": "BLOCKED_BY_PREVIOUS_GATE"
+        }
+      }
+    },
+    "source_policy": {
+      "const": "policies/demo-r1-implementation-authorization-policy.yaml"
+    },
+    "decision_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "report",
+        "evidence",
+        "decision"
+      ],
+      "properties": {
+        "report": {
+          "const": "reviews/41-final-independent-review-v2.1.4.md"
+        },
+        "evidence": {
+          "const": "reviews/demo-r1-v2.1.4-final-review-evidence.json"
+        },
+        "decision": {
+          "const": "reviews/demo-r1-v2.1.4-final-review-decision.yaml"
+        }
+      }
+    }
+  }
+}

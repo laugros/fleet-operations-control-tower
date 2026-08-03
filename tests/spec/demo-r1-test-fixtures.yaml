@@ -1,4 +1,4 @@
-fixture_version: 2.1.3
+fixture_version: 2.1.4
 release: DEMO-R1
 reference_protocol:
   prefix: fixture://
@@ -710,3 +710,10 @@ seed_aliases:
     state_sha256: 656e5ee518b4b397329de5a33a20ad03f98ffc0f6061633b2b194093c821c49b
 seed_manifest_file: tests/spec/demo-r1-seed-manifest.yaml
 resolved_seed_file: tests/spec/demo-r1-resolved-seeds.json
+layered_resolved_seed_files:
+  G1_FOUNDATION: tests/spec/seed-layers/g1-foundation.json
+  G2_DOMAIN: tests/spec/seed-layers/g2-domain.json
+  G3_PROJECTIONS: tests/spec/seed-layers/g3-projections.json
+  G4_TIME_COMMUNICATION: tests/spec/seed-layers/g4-time-communication.json
+  G5_EXTERNAL: tests/spec/seed-layers/g5-external.json
+  G6_EXECUTIVE: tests/spec/seed-layers/g6-executive.json

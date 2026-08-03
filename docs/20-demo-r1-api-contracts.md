@@ -1,25 +1,15 @@
-# Especificação Executável v2.1.3
+# Especificação Executável v2.1.4
 ## Contratos de API da DEMO-R1
 
-**Produto:** Fleet Operations Control Tower  
-**Release:** `DEMO-R1`  
-**Status:** `NORMATIVE_PENDING_FINAL_REVIEW`  
-**Formato:** OpenAPI 3.1  
-**Não autoriza scaffold**
+**Status:** `NORMATIVE_AUTHORIZED_FOR_SCAFFOLD`  
+**Escopo autorizado:** `G1_FOUNDATION`
 
----
-
-SHA-256 do OpenAPI: `b09c02bfaae25cd71f262e7270f9de2bf7e873eb1afd0614cbe936b8bbd230f4`.  
-SHA-256 da política de reset: `017886d8e9a2b68ae4d6a00e61fdb13b7871fafd584b2cf9da742bd18f4e4e75`.
+SHA-256 do OpenAPI: `28f27eaaa2145312765f570a957544e96087460328e9b325896de8d8710489a6`.  
+SHA-256 da política de reset: `0cc0598add4ab0cfe3382f35ff6487261267cd9dbe2fa38e5729e62c1d52800e`.  
+SHA-256 da política de autorização: `56c64c0773672ef54bb1af71ab46a1a9b2d4c88a807655ffab26fd01f09f74ac`.
 
 ```text
-OPENAPI_OPERATIONS = 44
-EXTERNAL_RESPONSES = 24
-REMOVED_OPERATIONS_PRESENT = 0
-```
-
-```text
-OPENAPI = V2.1.3
-FINAL_REVIEW = PENDING
-SCAFFOLD = NOT AUTHORIZED
+OPENAPI_OPERATIONS_TOTAL = 44
+IMPLEMENT_NOW = G1 OPERATIONS ONLY
+LATER_GATE_OPERATIONS = CONTRACT_ONLY
 ```

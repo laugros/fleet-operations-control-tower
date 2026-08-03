@@ -1,34 +1,21 @@
-# Especificação Executável v2.1.3
-## Backlog e DAG da DEMO-R1
+# Especificação Executável v2.1.4
+## Backlog, Gates e DAG da DEMO-R1
 
-**Produto:** Fleet Operations Control Tower  
-**Release:** `DEMO-R1`  
-**Status:** `NORMATIVE_PENDING_FINAL_REVIEW`  
-**Não autoriza scaffold**
+**Status:** `NORMATIVE_AUTHORIZED_FOR_SCAFFOLD`  
+**Escopo autorizado:** `G1_FOUNDATION`
 
----
-
-SHA-256 do backlog: `10f05180a9f558e231c88d23ba1fdcfbb63ce5b376d7240232d315d7168cfcc5`.  
-SHA-256 do schema: `4429d74bd5dabb3838090e669fdf82c4915b46156e3ca964a0cc098a1f89baa6`.  
-SHA-256 do CSV: `47e282ff34e5c54bfd2e68576f887a78c4211047aa063cbd45220059305679b6`.  
-SHA-256 do DAG: `4528395c6e6ca031d2c81a0c6044f6e2d9a54ee0bcda6739806967ba192d2f01`.
+SHA-256 do backlog: `e6f001fae16beb7b42dcfbc97416de1c66adfb0fbe0fbc9b3275e079726bc967`.  
+SHA-256 do schema: `4ac766d2a404380dfdc96c6074c08adac8e2b3ab1292f18057159ead1ce09653`.  
+SHA-256 do CSV: `706f4bc37db7805942065b7147e292152a679a0e1c1f69d4bd9d403f09ccaf26`.  
+SHA-256 do DAG: `06cb6896075e02f57cbb2b33eeaf5ca6a60e9c873e7068ae1f4571219222ed31`.  
+SHA-256 do plano de testes por gate: `c2d94bd2f4b735a13d41b433bef7c9c1e3364b7548e3bd4cf70d4ede8b817776`.
 
 ```text
-WORK_PACKAGES = 59
-IMPLEMENTATION_SLICES = 240
-DAG_EDGES = 133
-DAG_CYCLES = 0
-MAXIMUM_SLICE_POINTS = 3
+G1_STATUS = READY
+G2_TO_G6 = BLOCKED_BY_PREVIOUS_GATE
+G1_WORK_PACKAGES = 11
+G1_ACTIVATION_TESTS = 26
+G1_DEFERRED_LINKED_TESTS = 24
 ```
 
-Todos os work packages e slices permanecem:
-
-```text
-BLOCKED_PENDING_FINAL_REVIEW
-```
-
-```text
-BACKLOG = V2.1.3
-FINAL_REVIEW = PENDING
-SCAFFOLD = NOT AUTHORIZED
-```
+Testes deferidos não bloqueiam o G1.

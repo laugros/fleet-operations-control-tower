@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://schemas.fotc.local/demo-r1/tests/demo-r1-test-catalog.schema.json",
-  "title": "DEMO-R1 Executable Test Catalog v2.1.3",
+  "title": "DEMO-R1 Executable Test Catalog v2.1.4",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -19,17 +19,18 @@
     "traceability_file",
     "runner_worker_registry_file",
     "runner_actor_registry_file",
-    "runner_db_operation_registry_file"
+    "runner_db_operation_registry_file",
+    "gate_test_plan_file"
   ],
   "properties": {
     "catalog_version": {
-      "const": "2.1.3"
+      "const": "2.1.4"
     },
     "release": {
       "const": "DEMO-R1"
     },
     "status": {
-      "const": "NORMATIVE_PENDING_FINAL_REVIEW"
+      "const": "NORMATIVE_AUTHORIZED_FOR_SCAFFOLD"
     },
     "fixtures_file": {
       "type": "string"
@@ -79,7 +80,10 @@
           "tags",
           "invariant_ids",
           "data_adr_ids",
-          "work_package_ids"
+          "work_package_ids",
+          "activation_gate",
+          "activation_class",
+          "activation_reasons"
         ],
         "properties": {
           "id": {
@@ -174,6 +178,30 @@
               "pattern": "^WP-DEMO-[A-Z]+-[0-9]{3}$"
             },
             "uniqueItems": true
+          },
+          "activation_gate": {
+            "enum": [
+              "G1_FOUNDATION",
+              "G2_DOMAIN",
+              "G3_PROJECTIONS",
+              "G4_TIME_COMMUNICATION",
+              "G5_EXTERNAL",
+              "G6_EXECUTIVE"
+            ]
+          },
+          "activation_class": {
+            "enum": [
+              "GATE_ACCEPTANCE",
+              "FINAL_REGRESSION"
+            ]
+          },
+          "activation_reasons": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
           }
         }
       }
@@ -189,6 +217,9 @@
     },
     "runner_db_operation_registry_file": {
       "type": "string"
+    },
+    "gate_test_plan_file": {
+      "const": "tests/spec/demo-r1-gate-test-plan.yaml"
     }
   },
   "$defs": {

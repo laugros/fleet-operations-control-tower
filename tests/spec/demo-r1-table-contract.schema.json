@@ -1,0 +1,420 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/data/demo-r1-table-contract.schema.json",
+  "title": "DEMO-R1 Table Contract v2.1.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "release",
+    "status",
+    "canonicalization",
+    "counts",
+    "tables",
+    "gates"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "2.1.4"
+    },
+    "release": {
+      "const": "DEMO-R1"
+    },
+    "status": {
+      "const": "NORMATIVE_AUTHORIZED_FOR_SCAFFOLD"
+    },
+    "canonicalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "aliases",
+        "non_persistent_concepts",
+        "unknown_table_policy"
+      ],
+      "properties": {
+        "aliases": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "non_persistent_concepts": {
+          "type": "object"
+        },
+        "unknown_table_policy": {
+          "const": "FAIL"
+        }
+      }
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_tables",
+        "seeded_tables",
+        "schema_only_tables"
+      ],
+      "properties": {
+        "schema_tables": {
+          "const": 61
+        },
+        "seeded_tables": {
+          "const": 47
+        },
+        "schema_only_tables": {
+          "const": 14
+        }
+      }
+    },
+    "tables": {
+      "type": "array",
+      "minItems": 61,
+      "maxItems": 61,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "table_name",
+          "introduced_gate",
+          "owner_work_package_ids",
+          "seed_mode",
+          "present_in_full_resolved_seed"
+        ],
+        "properties": {
+          "table_name": {
+            "type": "string"
+          },
+          "introduced_gate": {
+            "enum": [
+              "G1_FOUNDATION",
+              "G2_DOMAIN",
+              "G3_PROJECTIONS",
+              "G4_TIME_COMMUNICATION",
+              "G5_EXTERNAL",
+              "G6_EXECUTIVE"
+            ]
+          },
+          "owner_work_package_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "seed_mode": {
+            "enum": [
+              "SEEDED_ROWS",
+              "EMPTY_SCHEMA_ONLY"
+            ]
+          },
+          "present_in_full_resolved_seed": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "G1_FOUNDATION",
+        "G2_DOMAIN",
+        "G3_PROJECTIONS",
+        "G4_TIME_COMMUNICATION",
+        "G5_EXTERNAL",
+        "G6_EXECUTIVE"
+      ],
+      "properties": {
+        "G1_FOUNDATION": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_tables_introduced",
+            "schema_tables_cumulative",
+            "seed_tables_introduced",
+            "seed_tables_cumulative",
+            "schema_only_tables_introduced"
+          ],
+          "properties": {
+            "schema_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_only_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "G2_DOMAIN": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_tables_introduced",
+            "schema_tables_cumulative",
+            "seed_tables_introduced",
+            "seed_tables_cumulative",
+            "schema_only_tables_introduced"
+          ],
+          "properties": {
+            "schema_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_only_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "G3_PROJECTIONS": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_tables_introduced",
+            "schema_tables_cumulative",
+            "seed_tables_introduced",
+            "seed_tables_cumulative",
+            "schema_only_tables_introduced"
+          ],
+          "properties": {
+            "schema_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_only_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "G4_TIME_COMMUNICATION": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_tables_introduced",
+            "schema_tables_cumulative",
+            "seed_tables_introduced",
+            "seed_tables_cumulative",
+            "schema_only_tables_introduced"
+          ],
+          "properties": {
+            "schema_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_only_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "G5_EXTERNAL": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_tables_introduced",
+            "schema_tables_cumulative",
+            "seed_tables_introduced",
+            "seed_tables_cumulative",
+            "schema_only_tables_introduced"
+          ],
+          "properties": {
+            "schema_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_only_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "G6_EXECUTIVE": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_tables_introduced",
+            "schema_tables_cumulative",
+            "seed_tables_introduced",
+            "seed_tables_cumulative",
+            "schema_only_tables_introduced"
+          ],
+          "properties": {
+            "schema_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "seed_tables_cumulative": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "schema_only_tables_introduced": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

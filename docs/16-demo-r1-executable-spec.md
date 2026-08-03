@@ -1,11 +1,11 @@
-# Especificação Executável v2.1
+# Especificação Executável v2.1.4
 ## Escopo Funcional e Requisitos Atômicos da DEMO-R1
 
 **Produto:** Fleet Operations Control Tower  
 **Release:** `DEMO-R1`  
-**Versão:** `v2.1.0`  
+**Versão:** `v2.1.4`  
 **Substitui:** `v2.0.1`  
-**Status:** Revisado após a segunda revisão; pendente de realinhamento dos documentos 17 a 23  
+**Status:** `NORMATIVE_AUTHORIZED_FOR_SCAFFOLD`  
 **Decisões aprovadas:** recorte conservador da DEMO-R1  
 **Não autoriza scaffold**
 
@@ -28,7 +28,7 @@ Ele estabelece:
 - cenários E2E;
 - critérios de aceite da release.
 
-Os documentos 17 a 23 deverão ser derivados deste escopo.
+Os documentos 17 a 29 e os contratos machine-readable deverão ser derivados deste escopo.
 
 Quando houver conflito, este documento prevalece para a `DEMO-R1`.
 

@@ -1,4 +1,4 @@
-registry_version: 2.1.3
+registry_version: 2.1.4
 release: DEMO-R1
 schema_bundle: fleet-operations-control-tower-demo-r1.events.schema.json
 delivery_semantics:
@@ -1170,8 +1170,8 @@ events:
   live_production_deduplication: token_id + revocation_reason_code + causing_event_id or lifecycle_occurrence_id
   delivery: AT_LEAST_ONCE
   replay_policy: PROJECTION_ONLY
-  description: 'Token revogado exclusivamente por política automática: substituição, expiração, mudança de sujeito, retirada, fechamento, limite
-    de uso, reset ou falha de segurança. Segredo e hash nunca são publicados.'
+  description: 'Token revogado exclusivamente por política automática: substituição, expiração, mudança de sujeito, retirada, fechamento, limite de uso,
+    reset ou falha de segurança. Segredo e hash nunca são publicados.'
   consumers:
   - mode: LIVE_AND_REPLAY
     dedup: demo_generation_id + domain_event_id

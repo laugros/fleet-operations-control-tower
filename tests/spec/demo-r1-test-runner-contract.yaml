@@ -1,6 +1,6 @@
-runner_version: 2.1.3
+runner_version: 2.1.4
 release: DEMO-R1
-status: NORMATIVE_PENDING_FINAL_REVIEW
+status: NORMATIVE_AUTHORIZED_FOR_SCAFFOLD
 catalog_file: tests/spec/demo-r1-test-catalog.yaml
 programs_file: tests/spec/demo-r1-test-runner-programs.yaml
 fixtures_file: tests/spec/demo-r1-test-fixtures.yaml
@@ -116,8 +116,7 @@ scenario_dsl:
     HTTP_OPERATION.actor: actor_registry_file
     HTTP_OPERATION.actor_output_profile: actor_registry_file
     DB_OPERATION.operation_code: db_operation_registry_file
-  dynamic_actor_binding: createExternalSession must capture session_cookie and csrf_token and declare actor_output_profile before that profile
-    is used.
+  dynamic_actor_binding: createExternalSession must capture session_cookie and csrf_token and declare actor_output_profile before that profile is used.
 evidence_contract:
   required_fields:
   - test_id

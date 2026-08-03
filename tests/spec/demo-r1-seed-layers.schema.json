@@ -1,0 +1,301 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/tests/demo-r1-seed-layers.schema.json",
+  "title": "DEMO-R1 Seed Layers v2.1.4",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "plan_version",
+    "release",
+    "status",
+    "source_manifest",
+    "source_resolved_seed",
+    "table_contract_file",
+    "selection_policy",
+    "gates"
+  ],
+  "properties": {
+    "plan_version": {
+      "const": "2.1.4"
+    },
+    "release": {
+      "const": "DEMO-R1"
+    },
+    "status": {
+      "const": "NORMATIVE_AUTHORIZED_FOR_SCAFFOLD"
+    },
+    "source_manifest": {
+      "const": "tests/spec/demo-r1-seed-manifest.yaml"
+    },
+    "source_resolved_seed": {
+      "const": "tests/spec/demo-r1-resolved-seeds.json"
+    },
+    "table_contract_file": {
+      "const": "tests/spec/demo-r1-table-contract.yaml"
+    },
+    "selection_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_required",
+        "default_profile",
+        "future_table_policy",
+        "test_fixture_policy",
+        "regression_policy"
+      ],
+      "properties": {
+        "profile_required": {
+          "const": true
+        },
+        "default_profile": {
+          "type": "null"
+        },
+        "future_table_policy": {
+          "const": "OMIT_BEFORE_SCHEMA_AND_COLUMN_VALIDATION"
+        },
+        "test_fixture_policy": {
+          "type": "string"
+        },
+        "regression_policy": {
+          "type": "string"
+        }
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "G1_FOUNDATION",
+        "G2_DOMAIN",
+        "G3_PROJECTIONS",
+        "G4_TIME_COMMUNICATION",
+        "G5_EXTERNAL",
+        "G6_EXECUTIVE"
+      ],
+      "properties": {
+        "G1_FOUNDATION": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "bundle_file",
+            "bundle_sha256",
+            "required_test_count",
+            "required_fixture_count",
+            "schema_table_count",
+            "seed_table_count"
+          ],
+          "properties": {
+            "bundle_file": {
+              "const": "tests/spec/seed-layers/g1-foundation.json"
+            },
+            "bundle_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "required_test_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required_fixture_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "schema_table_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "seed_table_count": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "G2_DOMAIN": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "bundle_file",
+            "bundle_sha256",
+            "required_test_count",
+            "required_fixture_count",
+            "schema_table_count",
+            "seed_table_count"
+          ],
+          "properties": {
+            "bundle_file": {
+              "const": "tests/spec/seed-layers/g2-domain.json"
+            },
+            "bundle_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "required_test_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required_fixture_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "schema_table_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "seed_table_count": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "G3_PROJECTIONS": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "bundle_file",
+            "bundle_sha256",
+            "required_test_count",
+            "required_fixture_count",
+            "schema_table_count",
+            "seed_table_count"
+          ],
+          "properties": {
+            "bundle_file": {
+              "const": "tests/spec/seed-layers/g3-projections.json"
+            },
+            "bundle_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "required_test_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required_fixture_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "schema_table_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "seed_table_count": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "G4_TIME_COMMUNICATION": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "bundle_file",
+            "bundle_sha256",
+            "required_test_count",
+            "required_fixture_count",
+            "schema_table_count",
+            "seed_table_count"
+          ],
+          "properties": {
+            "bundle_file": {
+              "const": "tests/spec/seed-layers/g4-time-communication.json"
+            },
+            "bundle_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "required_test_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required_fixture_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "schema_table_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "seed_table_count": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "G5_EXTERNAL": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "bundle_file",
+            "bundle_sha256",
+            "required_test_count",
+            "required_fixture_count",
+            "schema_table_count",
+            "seed_table_count"
+          ],
+          "properties": {
+            "bundle_file": {
+              "const": "tests/spec/seed-layers/g5-external.json"
+            },
+            "bundle_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "required_test_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required_fixture_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "schema_table_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "seed_table_count": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "G6_EXECUTIVE": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "bundle_file",
+            "bundle_sha256",
+            "required_test_count",
+            "required_fixture_count",
+            "schema_table_count",
+            "seed_table_count"
+          ],
+          "properties": {
+            "bundle_file": {
+              "const": "tests/spec/seed-layers/g6-executive.json"
+            },
+            "bundle_sha256": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "required_test_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "required_fixture_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "schema_table_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "seed_table_count": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

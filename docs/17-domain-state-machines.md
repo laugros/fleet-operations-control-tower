@@ -1,27 +1,21 @@
-# Especificação Executável v2.1.3
+# Especificação Executável v2.1.4
 ## Máquinas de Estado e Comandos de Domínio da DEMO-R1
 
-**Produto:** Fleet Operations Control Tower  
-**Release:** `DEMO-R1`  
-**Status:** `NORMATIVE_PENDING_FINAL_REVIEW`  
-**Não autoriza scaffold**
-
----
+**Status:** `NORMATIVE_AUTHORIZED_FOR_SCAFFOLD`  
+**Escopo autorizado:** `G1_FOUNDATION`
 
 ```text
 COMMANDS = 37
-SYSTEM_COMMANDS = 11
-VehicleStop final = CLOSED
-Case final = RESOLVED
-RevokeExternalAccess = FORBIDDEN
+EVENT_TYPES = 33
+RESET_EVENT_KERNEL = G1_FOUNDATION
+DOMAIN_EVENT_EXTENSION = G2_DOMAIN / BLOCKED
 ```
 
-Comandos sistêmicos executam somente em `LIVE_ONLY`, exigem geração ativa e
-não são executados em replay. Cada comando persiste atomicamente estado,
-histórico, evento principal, Outbox e auditoria.
+O G1 pode implementar `DemoResetRequested` usando `domain_event`,
+`integration_outbox` e `idempotency_record`. As demais mutações e consumers
+de domínio permanecem no G2.
 
 ```text
-DOMAIN_COMMAND_REGISTRY = V2.1.3
-FINAL_REVIEW = PENDING
-SCAFFOLD = NOT AUTHORIZED
+SCAFFOLD = AUTHORIZED
+AUTHORIZED_GATE = G1_FOUNDATION
 ```

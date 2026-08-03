@@ -1,4 +1,4 @@
-digraph DEMO_R1_BACKLOG_V213_FINAL {
+digraph DEMO_R1_BACKLOG_V214_PRE_REVIEW {
   graph [rankdir="LR", splines="ortho", fontname="Arial"];
   node [shape="box", style="rounded,filled", fontname="Arial", fontsize="9"];
   edge [fontname="Arial", fontsize="8"];
@@ -20,7 +20,7 @@ digraph DEMO_R1_BACKLOG_V213_FINAL {
   subgraph cluster_G2_DOMAIN {
     label="G2_DOMAIN";
     style="rounded";
-    "WP-DEMO-EVT-001" [label="EVT-001\nPersistência transacional", fillcolor="lightblue"];
+    "WP-DEMO-EVT-001" [label="EVT-001\nExtensão da persistência transacional de domínio", fillcolor="lightblue"];
     "WP-DEMO-CASE-001" [label="CASE-001\nIniciar trabalho no caso", fillcolor="lightblue"];
     "WP-DEMO-EVT-002" [label="EVT-002\nConsumo idempotente", fillcolor="lightblue"];
     "WP-DEMO-STOP-002" [label="STOP-002\nPreparar chegada", fillcolor="lightblue"];
@@ -80,6 +80,10 @@ digraph DEMO_R1_BACKLOG_V213_FINAL {
     "WP-DEMO-EXT-005" [label="EXT-005\nConsultar contexto mínimo do condutor", fillcolor="lightsalmon"];
     "WP-DEMO-EXT-003" [label="EXT-003\nAtualizar previsão pelo fornecedor", fillcolor="lightsalmon"];
     "WP-DEMO-STOP-009" [label="STOP-009\nConfirmar retirada pelo condutor", fillcolor="lightsalmon"];
+  }
+  subgraph cluster_G6_EXECUTIVE {
+    label="G6_EXECUTIVE";
+    style="rounded";
   }
   "WP-DEMO-ENV-001" -> "WP-DEMO-ENV-003";
   "WP-DEMO-ENV-001" -> "WP-DEMO-DATA-003";

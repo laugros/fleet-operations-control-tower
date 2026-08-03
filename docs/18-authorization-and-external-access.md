@@ -1,35 +1,18 @@
-# Especificação Executável v2.1.3
+# Especificação Executável v2.1.4
 ## Autorização e Acesso Externo da DEMO-R1
 
-**Produto:** Fleet Operations Control Tower  
-**Release:** `DEMO-R1`  
-**Status:** `NORMATIVE_PENDING_FINAL_REVIEW`  
-**Não autoriza scaffold**
+**Status:** `NORMATIVE_AUTHORIZED_FOR_SCAFFOLD`  
+**Escopo autorizado:** `G1_FOUNDATION`
 
----
-
-Tokens externos são opacos, persistidos somente por hash e limitados por
-parada, audiência, sujeito, geração, expiração e quantidade de usos.
-
-A revogação manual não pertence à API. A política normativa é
-`AutoRevokeExternalAccess`.
-
-Todas as 24 respostas externas declaram:
+A decisão `R7`, sua evidência e o controle de autorização estão incorporados
+ao repositório. `baseline/demo-r1-implementation-authorization.yaml` é a fonte
+de verdade.
 
 ```text
-Cache-Control: no-store
-Pragma: no-cache
-Referrer-Policy: no-referrer
-X-Content-Type-Options: nosniff
-Content-Security-Policy
-X-Demo-Generation-ID
+AUTHORIZATION_STATE = AUTHORIZED_FOR_SCAFFOLD
+AUTHORIZED_GATE = G1_FOUNDATION
+G2_TO_G6 = BLOCKED_BY_PREVIOUS_GATE
 ```
 
-`CAPTURED_EXTERNAL_SUPPLIER` e `CAPTURED_EXTERNAL_DRIVER` somente podem ser
-usados após `createExternalSession` produzir `session_cookie` e `csrf_token`.
-
-```text
-EXTERNAL_ACCESS = HASH_ONLY
-FINAL_REVIEW = PENDING
-SCAFFOLD = NOT AUTHORIZED
-```
+As superfícies externas pertencem a gates posteriores e não estão autorizadas
+para implementação neste momento.
