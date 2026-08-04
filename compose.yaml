@@ -1,0 +1,97 @@
+name: fleet-operations-control-tower
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: fleet_demo
+      POSTGRES_USER: fleet_demo
+      POSTGRES_PASSWORD: fleet_demo
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fleet_demo -d fleet_demo"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - fleet-demo-postgres:/var/lib/postgresql/data
+
+  mailpit:
+    image: axllent/mailpit:v1.29
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  setup:
+    build:
+      context: .
+      dockerfile: packages/database/Dockerfile
+      secrets:
+        - host_ca
+    environment:
+      DATABASE_URL: postgresql://fleet_demo:fleet_demo@postgres:5432/fleet_demo?schema=public
+      FOTC_G1_FIXTURE_ID: FX-SEED-V213
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+      secrets:
+        - host_ca
+    environment:
+      DEMO_MODE: "true"
+      DATABASE_URL: postgresql://fleet_demo:fleet_demo@postgres:5432/fleet_demo?schema=public
+      API_PORT: "3000"
+      SESSION_COOKIE_NAME: fotc_demo_session
+      SESSION_ABSOLUTE_TTL_MINUTES: "480"
+      SESSION_IDLE_TTL_MINUTES: "30"
+    ports:
+      - "3000:3000"
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--spider", "http://127.0.0.1:3000/health/live"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+      secrets:
+        - host_ca
+    environment:
+      DEMO_MODE: "true"
+      DATABASE_URL: postgresql://fleet_demo:fleet_demo@postgres:5432/fleet_demo?schema=public
+      WORKER_INSTANCE_ID: worker-compose-1
+    depends_on:
+      setup:
+        condition: service_completed_successfully
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      secrets:
+        - host_ca
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:3000
+    ports:
+      - "3001:3001"
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  fleet-demo-postgres:
+
+secrets:
+  host_ca:
+    file: ./.docker/local-ca.crt

@@ -1,0 +1,11 @@
+node_modules/
+.pnpm-store/
+dist/
+.next/
+.env
+.env.local
+coverage/
+test-results/
+packages/database/src/generated/
+*.log
+.docker/local-ca.crt

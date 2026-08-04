@@ -1,0 +1,33 @@
+{
+  "name": "fleet-operations-control-tower",
+  "version": "2.1.4",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @fleet/database build && pnpm --filter @fleet/api build && pnpm --filter @fleet/worker build && pnpm --filter @fleet/web build",
+    "lint": "eslint apps packages tests --max-warnings=0",
+    "test": "vitest run",
+    "test:g1": "vitest run --config tests/activation/vitest.config.mts",
+    "test:g1:runtime": "node tests/runtime/g1-smoke.mjs",
+    "db:generate": "pnpm --filter @fleet/database prisma:generate",
+    "db:migrate": "pnpm --filter @fleet/database prisma:migrate",
+    "demo:seed": "pnpm --filter @fleet/database seed:g1",
+    "demo:up": "docker compose up --build --detach",
+    "demo:down": "docker compose down",
+    "demo:logs": "docker compose logs --follow"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.1.2",
+    "@types/supertest": "7.2.1",
+    "eslint": "10.8.0",
+    "supertest": "7.2.2",
+    "tsx": "4.23.5",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.65.0",
+    "vitest": "4.1.10"
+  }
+}

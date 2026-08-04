@@ -1,0 +1,24 @@
+{
+  "name": "@fleet/database",
+  "version": "2.1.4",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "prisma generate --config prisma.config.ts && tsc -p tsconfig.build.json",
+    "prisma:generate": "prisma generate --config prisma.config.ts",
+    "prisma:migrate": "prisma migrate deploy --config prisma.config.ts",
+    "prisma:diff": "prisma migrate diff --from-empty --to-schema prisma/schema.prisma --script",
+    "seed:g1": "tsx prisma/seed-g1.ts"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "7.9.1",
+    "@prisma/client": "7.9.1",
+    "pg": "8.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.2",
+    "@types/pg": "8.20.3",
+    "prisma": "7.9.1"
+  }
+}

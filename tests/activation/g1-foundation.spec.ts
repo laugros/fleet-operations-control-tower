@@ -1,0 +1,193 @@
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+
+import { describe, expect, it } from "vitest";
+
+function text(path: string): string {
+  return readFileSync(resolve(process.cwd(), path), "utf8");
+}
+
+const apiController = text("apps/api/src/session/session.controller.ts");
+const demoController = text("apps/api/src/demo/demo.controller.ts");
+const demoService = text("apps/api/src/demo/demo.service.ts");
+const sessionService = text("apps/api/src/session/session.service.ts");
+const healthController = text("apps/api/src/health/health.controller.ts");
+const migration = text(
+  "packages/database/prisma/migrations/202608020001_g1_foundation/migration.sql"
+);
+const worker = text("apps/worker/src/main.ts");
+const compose = text("compose.yaml");
+const openapi = text("openapi/fleet-operations-control-tower-demo-r1.openapi.yaml");
+const seedRaw = text("tests/spec/seed-layers/g1-foundation.json");
+const seed = JSON.parse(seedRaw) as {
+  gate: string;
+  required_test_ids: string[];
+  table_load_order: string[];
+  fixtures: Record<string, { full_state_sha256: string; tables: Record<string, unknown[]> }>;
+};
+
+describe("G1_FOUNDATION — 26 activation tests", () => {
+  it("TST-API-GET-LIVENESS-001", () => {
+    expect(healthController).toContain('@Get("live")');
+    expect(healthController).toContain('status: "UP"');
+    expect(openapi).toContain("operationId: getLiveness");
+  });
+
+  it("TST-API-GET-READINESS-001", () => {
+    expect(healthController).toContain('@Get("ready")');
+    expect(healthController).toContain("demoSeedManifest.findFirst");
+    expect(openapi).toContain("operationId: getReadiness");
+  });
+
+  it("TST-API-CREATE-DEMO-SESSION-001", () => {
+    expect(apiController).toContain('@Post("api/v1/demo/sessions")');
+    expect(apiController).toContain("X-CSRF-Token");
+    expect(apiController).toContain("identity_code");
+  });
+
+  it("TST-API-DELETE-DEMO-SESSION-001", () => {
+    expect(apiController).toContain('@Delete("api/v1/demo/sessions/current")');
+    expect(sessionService).toContain('revocationReasonCode: "USER_LOGOUT"');
+  });
+
+  it("TST-API-GET-CURRENT-SESSION-001", () => {
+    expect(apiController).toContain('@Get("api/v1/session")');
+    expect(apiController).toContain('permission: "session.read"');
+  });
+
+  it("TST-API-GET-DEMO-STATUS-001", () => {
+    expect(demoController).toContain('@Get("status")');
+    expect(demoController).toContain('permission: "demo.read_status"');
+    expect(demoService).toContain("Ambiente de demonstração — dados fictícios");
+  });
+
+  it("TST-API-RESET-DEMO-SCENARIO-001", () => {
+    expect(demoController).toContain('@Post("reset")');
+    expect(demoController).toContain("Idempotency-Key is required");
+    expect(demoService).toContain('"DemoResetRequested"');
+  });
+
+  it("TST-API-GET-DEMO-RESET-001", () => {
+    expect(demoController).toContain('@Get("resets/:resetId")');
+    expect(demoService).toContain("RESOURCE_NOT_FOUND");
+  });
+
+  it("TST-AUTH-SESSION-001", () => {
+    for (const identity of [
+      "demo.attendant",
+      "demo.operations",
+      "demo.supervisor",
+      "demo.manager",
+      "demo.admin"
+    ]) {
+      expect(apiController).toContain(identity);
+    }
+    expect(sessionService).toContain("DEMO_IDENTITY_NOT_ALLOWED");
+  });
+
+  it("TST-AUTH-SESSION-002", () => {
+    expect(apiController).not.toMatch(/role:\s*z\./);
+    expect(apiController).not.toMatch(/permissions:\s*z\./);
+    expect(apiController).not.toMatch(/scopes:\s*z\./);
+  });
+
+  it("TST-AUTH-SESSION-003", () => {
+    expect(sessionService).toContain("REPLACED_BY_NEW_SESSION");
+    expect(sessionService).toContain("replacedBySessionId: sessionId");
+  });
+
+  it("TST-AUTH-SESSION-004", () => {
+    expect(sessionService).toContain("session.idleExpiresAt <= now");
+    expect(sessionService).toContain("session.expiresAt <= now");
+    expect(sessionService).toContain("SESSION_EXPIRED");
+  });
+
+  it("TST-DATA-IAM-001", () => {
+    expect(migration).toMatch(/CREATE TABLE "user_role"[\s\S]*"user_id" UUID PRIMARY KEY/);
+  });
+
+  it("TST-DATA-IAM-002", () => {
+    expect(migration).toContain('CONSTRAINT "uq_demo_internal_session_token_hash" UNIQUE');
+  });
+
+  it("TST-DATA-IAM-003", () => {
+    expect(migration).toContain('CONSTRAINT "ck_demo_internal_session_revocation"');
+  });
+
+  it("TST-DATA-IAM-004", () => {
+    expect(migration).toMatch(/CREATE TABLE "user_customer_scope"[\s\S]*REFERENCES "customer"/);
+  });
+
+  it("TST-DATA-IAM-005", () => {
+    const rows = seed.fixtures["FX-DATA-INTEGRITY"]?.tables;
+    expect(rows).toBeDefined();
+    const users = rows?.app_user as Array<{ id: string; identity_code: string }>;
+    const admin = users.find((user) => user.identity_code === "demo.admin");
+    expect(admin).toBeDefined();
+    expect((rows?.user_customer_scope as Array<{ user_id: string }>).some((x) => x.user_id === admin?.id)).toBe(false);
+    expect((rows?.user_operating_unit_scope as Array<{ user_id: string }>).some((x) => x.user_id === admin?.id)).toBe(false);
+  });
+
+  it("TST-DATA-RESET-001", () => {
+    expect(migration).toContain('CREATE UNIQUE INDEX "uq_demo_reset_active"');
+    expect(migration).toContain("WHERE \"status\" IN ('REQUESTED','RUNNING','RECOVERING')");
+  });
+
+  it("TST-DATA-RESET-002", () => {
+    expect(worker).toContain("RESET_OWNER_LOST_RECOVERED_TO_SOURCE");
+    expect(worker).toContain("DEMO_RESET_HEARTBEAT_EXPIRED");
+    expect(worker).toContain("DEMO_RESET_RECOVERED_TO_SOURCE");
+  });
+
+  it("TST-DATA-RESET-003", () => {
+    expect(migration).toContain('CREATE TABLE "security_audit_record"');
+    expect(demoService).toContain('INSERT INTO "security_audit_record"');
+  });
+
+  it("TST-DATA-RESET-005", () => {
+    const resetTable = migration.match(/CREATE TABLE "demo_reset_execution" \([\s\S]*?\n\);/)?.[0];
+    expect(resetTable).toBeDefined();
+    expect(resetTable).not.toContain('REFERENCES "app_user"');
+    expect(resetTable).toContain("requested_by_user_id_snapshot");
+  });
+
+  it("TST-AUDIT-003", () => {
+    expect(demoService).toContain('"DEMO_RESET_REQUESTED"');
+    expect(demoService).not.toMatch(/sessionToken|csrfToken/);
+  });
+
+  it("TST-DEMO-DATA-001", () => {
+    const fixture = seed.fixtures["FX-SEED-V213"];
+    expect(fixture).toBeDefined();
+    for (const rows of Object.values(fixture.tables)) {
+      for (const row of rows) {
+        for (const [key, value] of Object.entries(row as Record<string, unknown>)) {
+          if (key === "email") expect(String(value)).toMatch(/\.invalid$/);
+          if (key === "phone") expect(String(value)).toMatch(/^\+55000000/);
+          if (key === "plate") expect(String(value)).toMatch(/^DEM/);
+        }
+      }
+    }
+  });
+
+  it("TST-DEMO-ENV-001", () => {
+    for (const service of ["postgres:", "mailpit:", "api:", "worker:", "web:"]) {
+      expect(compose).toContain(service);
+    }
+    expect(compose).toContain("DEMO_MODE: \"true\"");
+  });
+
+  it("TST-DEMO-RESET-001", () => {
+    expect(demoService).toContain('status: "COMPLETED"');
+    expect(demoService).toContain('"active_generation_id"=$1');
+    expect(demoService).toContain('["RETIRED", now, runtime.activeGenerationId]');
+  });
+
+  it("TST-DEMO-SEED-001", () => {
+    expect(seed.gate).toBe("G1_FOUNDATION");
+    expect(seed.required_test_ids).toHaveLength(26);
+    expect(seed.table_load_order).toHaveLength(32);
+    expect(createHash("sha256").update(seedRaw).digest("hex")).toMatch(/^[a-f0-9]{64}$/);
+  });
+});

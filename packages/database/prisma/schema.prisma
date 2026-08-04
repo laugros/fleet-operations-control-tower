@@ -1,0 +1,464 @@
+generator client {
+  provider               = "prisma-client"
+  output                 = "../src/generated/prisma"
+  moduleFormat           = "cjs"
+  generatedFileExtension = "ts"
+  importFileExtension    = ""
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model DemoSeedManifest {
+  seedVersion    String   @id @map("seed_version")
+  manifestSha256 String   @map("manifest_sha256") @db.Char(64)
+  isActive       Boolean  @map("is_active")
+  createdAt      DateTime @map("created_at") @db.Timestamptz(3)
+
+  @@map("demo_seed_manifest")
+}
+
+model DemoGeneration {
+  id           String    @id @db.Uuid
+  seedVersion  String    @map("seed_version")
+  status       String
+  createdAt    DateTime  @map("created_at") @db.Timestamptz(3)
+  activatedAt  DateTime? @map("activated_at") @db.Timestamptz(3)
+  retiredAt    DateTime? @map("retired_at") @db.Timestamptz(3)
+  failedAt     DateTime? @map("failed_at") @db.Timestamptz(3)
+  failureCode  String?   @map("failure_code")
+
+  @@map("demo_generation")
+}
+
+model DemoResetExecution {
+  id                         String    @id @db.Uuid
+  requestedSeedVersion       String    @map("requested_seed_version")
+  sourceGenerationId         String    @map("source_generation_id") @db.Uuid
+  targetGenerationId         String    @map("target_generation_id") @db.Uuid
+  status                     String
+  requestedByUserIdSnapshot  String?   @map("requested_by_user_id_snapshot") @db.Uuid
+  requestedByIdentityCode    String    @map("requested_by_identity_code")
+  requestedByDisplayName     String    @map("requested_by_display_name")
+  requestedAt                DateTime  @map("requested_at") @db.Timestamptz(3)
+  databaseResetStartedAt     DateTime? @map("database_reset_started_at") @db.Timestamptz(3)
+  databaseResetCommittedAt   DateTime? @map("database_reset_committed_at") @db.Timestamptz(3)
+  projectionsRebuiltAt       DateTime? @map("projections_rebuilt_at") @db.Timestamptz(3)
+  completedAt                DateTime? @map("completed_at") @db.Timestamptz(3)
+  failedAt                   DateTime? @map("failed_at") @db.Timestamptz(3)
+  failureCode                String?   @map("failure_code")
+  warningCodes               String[]  @map("warning_codes")
+  leaseOwnerInstanceId       String?   @map("lease_owner_instance_id")
+  heartbeatAt                DateTime? @map("heartbeat_at") @db.Timestamptz(3)
+  leaseExpiresAt             DateTime? @map("lease_expires_at") @db.Timestamptz(3)
+  recoveryAttemptCount       Int       @default(0) @map("recovery_attempt_count")
+  lastRecoveryStartedAt      DateTime? @map("last_recovery_started_at") @db.Timestamptz(3)
+  recoveredByInstanceId      String?   @map("recovered_by_instance_id")
+
+  @@index([sourceGenerationId])
+  @@index([targetGenerationId])
+  @@map("demo_reset_execution")
+}
+
+model DemoRuntimeControl {
+  singletonKey      Boolean  @id @map("singleton_key")
+  activeGenerationId String  @map("active_generation_id") @db.Uuid
+  runtimeStatus     String   @map("runtime_status")
+  resetExecutionId  String?  @map("reset_execution_id") @db.Uuid
+  updatedAt         DateTime @map("updated_at") @db.Timestamptz(3)
+  version           Int      @default(1)
+
+  @@map("demo_runtime_control")
+}
+
+model DemoClock {
+  id          String   @id @db.Uuid
+  currentTime DateTime @map("current_time") @db.Timestamptz(3)
+  timezone    String
+  demoMode    Boolean  @map("demo_mode")
+  version     Int      @default(1)
+  updatedAt   DateTime @map("updated_at") @db.Timestamptz(3)
+
+  @@map("demo_clock")
+}
+
+model OperatingUnit {
+  id          String  @id @db.Uuid
+  code        String  @unique
+  displayName String  @map("display_name")
+  isActive    Boolean @map("is_active")
+  demoSeedKey String  @unique @map("demo_seed_key")
+
+  @@map("operating_unit")
+}
+
+model Customer {
+  id              String  @id @db.Uuid
+  customerNumber  String  @unique @map("customer_number")
+  displayName     String  @map("display_name")
+  operatingUnitId String  @map("operating_unit_id") @db.Uuid
+  isActive        Boolean @map("is_active")
+  demoSeedKey     String  @unique @map("demo_seed_key")
+
+  @@index([operatingUnitId])
+  @@map("customer")
+}
+
+model Team {
+  id              String  @id @db.Uuid
+  operatingUnitId String  @map("operating_unit_id") @db.Uuid
+  code            String
+  displayName     String  @map("display_name")
+  isActive        Boolean @map("is_active")
+  demoSeedKey     String  @unique @map("demo_seed_key")
+
+  @@unique([operatingUnitId, code])
+  @@map("team")
+}
+
+model Role {
+  id          String  @id @db.Uuid
+  code        String  @unique
+  displayName String  @map("display_name")
+  isActive    Boolean @map("is_active")
+
+  @@map("role")
+}
+
+model Permission {
+  id          String @id @db.Uuid
+  code        String @unique
+  description String
+
+  @@map("permission")
+}
+
+model AppUser {
+  id           String  @id @db.Uuid
+  identityCode String  @unique @map("identity_code")
+  displayName  String  @map("display_name")
+  email        String  @unique
+  isActive     Boolean @map("is_active")
+  demoSeedKey  String  @unique @map("demo_seed_key")
+
+  @@map("app_user")
+}
+
+model RolePermission {
+  roleId       String @map("role_id") @db.Uuid
+  permissionId String @map("permission_id") @db.Uuid
+
+  @@id([roleId, permissionId])
+  @@map("role_permission")
+}
+
+model UserRole {
+  userId String @id @map("user_id") @db.Uuid
+  roleId String @map("role_id") @db.Uuid
+
+  @@index([roleId])
+  @@map("user_role")
+}
+
+model TeamMember {
+  teamId   String  @map("team_id") @db.Uuid
+  userId   String  @map("user_id") @db.Uuid
+  isActive Boolean @map("is_active")
+
+  @@id([teamId, userId])
+  @@map("team_member")
+}
+
+model UserOperatingUnitScope {
+  userId          String @map("user_id") @db.Uuid
+  operatingUnitId String @map("operating_unit_id") @db.Uuid
+
+  @@id([userId, operatingUnitId])
+  @@map("user_operating_unit_scope")
+}
+
+model UserCustomerScope {
+  userId     String @map("user_id") @db.Uuid
+  customerId String @map("customer_id") @db.Uuid
+
+  @@id([userId, customerId])
+  @@map("user_customer_scope")
+}
+
+model Supplier {
+  id             String  @id @db.Uuid
+  supplierNumber String  @unique @map("supplier_number")
+  displayName    String  @map("display_name")
+  email          String
+  phone          String
+  isActive       Boolean @map("is_active")
+  demoSeedKey    String  @unique @map("demo_seed_key")
+
+  @@map("supplier")
+}
+
+model SupplierSite {
+  id          String  @id @db.Uuid
+  supplierId  String  @map("supplier_id") @db.Uuid
+  siteCode    String  @map("site_code")
+  displayName String  @map("display_name")
+  timezone    String
+  isActive    Boolean @map("is_active")
+  demoSeedKey String  @unique @map("demo_seed_key")
+
+  @@unique([supplierId, siteCode])
+  @@map("supplier_site")
+}
+
+model Driver {
+  id           String  @id @db.Uuid
+  driverNumber String  @unique @map("driver_number")
+  displayName  String  @map("display_name")
+  phone        String
+  isActive     Boolean @map("is_active")
+  demoSeedKey  String  @unique @map("demo_seed_key")
+
+  @@map("driver")
+}
+
+model Vehicle {
+  id            String  @id @db.Uuid
+  vehicleNumber String  @unique @map("vehicle_number")
+  customerId    String  @map("customer_id") @db.Uuid
+  modelName     String  @map("model_name")
+  isActive      Boolean @map("is_active")
+  demoSeedKey   String  @unique @map("demo_seed_key")
+
+  @@index([customerId])
+  @@map("vehicle")
+}
+
+model VehicleRegistration {
+  id        String    @id @db.Uuid
+  vehicleId String    @map("vehicle_id") @db.Uuid
+  plate     String
+  validFrom DateTime  @map("valid_from") @db.Date
+  validTo   DateTime? @map("valid_to") @db.Date
+  isCurrent Boolean   @map("is_current")
+
+  @@index([vehicleId])
+  @@map("vehicle_registration")
+}
+
+model CaseRecord {
+  id                    String    @id @db.Uuid
+  caseNumber            String    @unique @map("case_number")
+  operatingUnitId       String    @map("operating_unit_id") @db.Uuid
+  customerId            String    @map("customer_id") @db.Uuid
+  subject               String
+  description           String
+  status                String
+  assignedTeamId        String?   @map("assigned_team_id") @db.Uuid
+  assignedUserId        String?   @map("assigned_user_id") @db.Uuid
+  startedAt             DateTime? @map("started_at") @db.Timestamptz(3)
+  waitingSupplierId     String?   @map("waiting_supplier_id") @db.Uuid
+  waitingActionCode     String?   @map("waiting_action_code")
+  waitingExpectedBy     DateTime? @map("waiting_expected_by") @db.Timestamptz(3)
+  waitingReasonCode     String?   @map("waiting_reason_code")
+  waitingReasonText     String?   @map("waiting_reason_text")
+  resolutionCode        String?   @map("resolution_code")
+  resolutionSummary     String?   @map("resolution_summary")
+  resolvedAt            DateTime? @map("resolved_at") @db.Timestamptz(3)
+  createdAt             DateTime  @map("created_at") @db.Timestamptz(3)
+  updatedAt             DateTime  @map("updated_at") @db.Timestamptz(3)
+  version               Int       @default(1)
+  demoSeedKey           String    @unique @map("demo_seed_key")
+
+  @@index([operatingUnitId])
+  @@index([customerId])
+  @@map("case_record")
+}
+
+model VehicleStop {
+  id                       String    @id @db.Uuid
+  stopNumber               String    @unique @map("stop_number")
+  primaryCaseId            String    @unique @map("primary_case_id") @db.Uuid
+  operatingUnitId          String    @map("operating_unit_id") @db.Uuid
+  customerId               String    @map("customer_id") @db.Uuid
+  vehicleId                String    @map("vehicle_id") @db.Uuid
+  supplierSiteId           String?   @map("supplier_site_id") @db.Uuid
+  driverId                 String?   @map("driver_id") @db.Uuid
+  assignedTeamId           String?   @map("assigned_team_id") @db.Uuid
+  assignedUserId           String?   @map("assigned_user_id") @db.Uuid
+  status                   String
+  scheduledAt              DateTime? @map("scheduled_at") @db.Timestamptz(3)
+  confirmedArrivalAt       DateTime? @map("confirmed_arrival_at") @db.Timestamptz(3)
+  serviceStartedAt         DateTime? @map("service_started_at") @db.Timestamptz(3)
+  currentForecastAt        DateTime? @map("current_forecast_at") @db.Timestamptz(3)
+  serviceCompletedAt       DateTime? @map("service_completed_at") @db.Timestamptz(3)
+  serviceCompletionSummary String?   @map("service_completion_summary")
+  vehicleReleasedAt        DateTime? @map("vehicle_released_at") @db.Timestamptz(3)
+  confirmedDepartureAt     DateTime? @map("confirmed_departure_at") @db.Timestamptz(3)
+  stoppedDurationSeconds   Int?      @map("stopped_duration_seconds")
+  lastRelevantEventAt      DateTime? @map("last_relevant_event_at") @db.Timestamptz(3)
+  closedAt                 DateTime? @map("closed_at") @db.Timestamptz(3)
+  closureReason            String?   @map("closure_reason")
+  createdAt                DateTime  @map("created_at") @db.Timestamptz(3)
+  updatedAt                DateTime  @map("updated_at") @db.Timestamptz(3)
+  version                  Int       @default(1)
+  demoSeedKey              String    @unique @map("demo_seed_key")
+
+  @@index([vehicleId])
+  @@map("vehicle_stop")
+}
+
+model DomainEvent {
+  id                  String   @id @db.Uuid
+  demoGenerationId    String   @map("demo_generation_id") @db.Uuid
+  eventType           String   @map("event_type")
+  schemaVersion       Int      @map("schema_version")
+  aggregateType       String   @map("aggregate_type")
+  aggregateId         String   @map("aggregate_id") @db.Uuid
+  aggregateVersion    Int      @map("aggregate_version")
+  aggregateSequence   Int      @map("aggregate_sequence")
+  correlationId       String   @map("correlation_id") @db.Uuid
+  causationId         String?  @map("causation_id") @db.Uuid
+  idempotencyRecordId String?  @map("idempotency_record_id") @db.Uuid
+  sourceType          String   @map("source_type")
+  sourceId            String?  @map("source_id")
+  dataClassification  String   @map("data_classification")
+  demoSeedVersion     String   @map("demo_seed_version")
+  demoMode            Boolean  @map("demo_mode")
+  payload             Json
+  occurredAt          DateTime @map("occurred_at") @db.Timestamptz(3)
+  recordedAt          DateTime @map("recorded_at") @db.Timestamptz(3)
+
+  @@unique([aggregateType, aggregateId, aggregateSequence])
+  @@map("domain_event")
+}
+
+model IdempotencyRecord {
+  id                 String    @id @db.Uuid
+  demoGenerationId   String    @map("demo_generation_id") @db.Uuid
+  operationId        String    @map("operation_id")
+  idempotencyKey     String    @map("idempotency_key")
+  requestFingerprint String    @map("request_fingerprint") @db.Char(64)
+  status             String
+  responseStatus     Int?      @map("response_status")
+  responseBody       Json?     @map("response_body")
+  createdAt          DateTime  @map("created_at") @db.Timestamptz(3)
+  completedAt        DateTime? @map("completed_at") @db.Timestamptz(3)
+
+  @@unique([demoGenerationId, operationId, idempotencyKey])
+  @@map("idempotency_record")
+}
+
+model Conversation {
+  id                      String   @id @db.Uuid
+  channelCode             String   @map("channel_code")
+  providerThreadId        String   @unique @map("provider_thread_id")
+  subjectText             String?  @map("subject_text")
+  linkStatus              String   @map("link_status")
+  suggestedCaseId         String?  @map("suggested_case_id") @db.Uuid
+  confirmedCaseId         String?  @map("confirmed_case_id") @db.Uuid
+  suggestionReasonCodes   String[] @map("suggestion_reason_codes")
+  createdAt               DateTime @map("created_at") @db.Timestamptz(3)
+  updatedAt               DateTime @map("updated_at") @db.Timestamptz(3)
+  version                 Int      @default(1)
+
+  @@map("conversation")
+}
+
+model CommunicationMessage {
+  id                String   @id @db.Uuid
+  conversationId    String   @map("conversation_id") @db.Uuid
+  externalMessageId String   @unique @map("external_message_id")
+  direction         String
+  senderAddress     String?  @map("sender_address")
+  senderDisplayName String?  @map("sender_display_name")
+  subjectText       String?  @map("subject_text")
+  bodyText          String   @map("body_text")
+  occurredAt        DateTime @map("occurred_at") @db.Timestamptz(3)
+  recordedAt        DateTime @map("recorded_at") @db.Timestamptz(3)
+
+  @@index([conversationId])
+  @@map("communication_message")
+}
+
+model PhoneCall {
+  id                String   @id @db.Uuid
+  caseId            String   @map("case_id") @db.Uuid
+  direction         String
+  contactDisplayName String? @map("contact_display_name")
+  contactPhone      String?  @map("contact_phone")
+  summary           String
+  occurredAt        DateTime @map("occurred_at") @db.Timestamptz(3)
+  recordedByUserId  String   @map("recorded_by_user_id") @db.Uuid
+  createdAt         DateTime @map("created_at") @db.Timestamptz(3)
+
+  @@index([caseId])
+  @@map("phone_call")
+}
+
+model DemoInternalSession {
+  id                   String    @id @db.Uuid
+  userId               String    @map("user_id") @db.Uuid
+  demoGenerationId     String    @map("demo_generation_id") @db.Uuid
+  sessionTokenHash     String    @unique(map: "uq_demo_internal_session_token_hash") @map("session_token_hash") @db.Char(64)
+  csrfTokenHash        String    @map("csrf_token_hash") @db.Char(64)
+  createdAt            DateTime  @map("created_at") @db.Timestamptz(3)
+  lastSeenAt           DateTime  @map("last_seen_at") @db.Timestamptz(3)
+  idleExpiresAt        DateTime  @map("idle_expires_at") @db.Timestamptz(3)
+  expiresAt            DateTime  @map("expires_at") @db.Timestamptz(3)
+  revokedAt            DateTime? @map("revoked_at") @db.Timestamptz(3)
+  revocationReasonCode String?   @map("revocation_reason_code")
+  replacedBySessionId  String?   @map("replaced_by_session_id") @db.Uuid
+  createdIpHash        String?   @map("created_ip_hash") @db.Char(64)
+  version              Int       @default(1)
+
+  @@index([userId])
+  @@map("demo_internal_session")
+}
+
+model IntegrationOutbox {
+  id               String    @id @db.Uuid
+  domainEventId    String    @unique @map("domain_event_id") @db.Uuid
+  demoGenerationId String    @map("demo_generation_id") @db.Uuid
+  eventType        String    @map("event_type")
+  payload          Json
+  status           String
+  availableAt      DateTime  @map("available_at") @db.Timestamptz(3)
+  attemptCount     Int       @default(0) @map("attempt_count")
+  claimedBy        String?   @map("claimed_by")
+  claimExpiresAt   DateTime? @map("claim_expires_at") @db.Timestamptz(3)
+  publishedAt      DateTime? @map("published_at") @db.Timestamptz(3)
+  lastErrorCode    String?   @map("last_error_code")
+  createdAt        DateTime  @map("created_at") @db.Timestamptz(3)
+
+  @@index([status, availableAt])
+  @@map("integration_outbox")
+}
+
+model WorkerLease {
+  leaseCode        String   @id @map("lease_code")
+  ownerInstanceId  String   @map("owner_instance_id")
+  demoGenerationId String   @map("demo_generation_id") @db.Uuid
+  claimedAt        DateTime @map("claimed_at") @db.Timestamptz(3)
+  heartbeatAt      DateTime @map("heartbeat_at") @db.Timestamptz(3)
+  expiresAt        DateTime @map("expires_at") @db.Timestamptz(3)
+
+  @@map("worker_lease")
+}
+
+model SecurityAuditRecord {
+  id               String   @id @db.Uuid
+  demoGenerationId String   @map("demo_generation_id") @db.Uuid
+  actorType         String   @map("actor_type")
+  actorId           String?  @map("actor_id") @db.Uuid
+  actionCode        String   @map("action_code")
+  resourceType      String   @map("resource_type")
+  resourceId        String?  @map("resource_id") @db.Uuid
+  decision          String
+  reasonCode        String   @map("reason_code")
+  metadata          Json
+  occurredAt        DateTime @map("occurred_at") @db.Timestamptz(3)
+
+  @@index([occurredAt])
+  @@map("security_audit_record")
+}
