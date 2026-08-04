@@ -1,0 +1,53 @@
+{
+  "assessment_id": "G1-EXIT-2026-08-04",
+  "release": "DEMO-R1",
+  "baseline_version": "2.1.4",
+  "assessed_commit": "1553b985fc52f5d1e52b94faad72957886fed250",
+  "assessment_date": "2026-08-04",
+  "normative": false,
+  "observed_checks": [
+    {
+      "command": "pnpm test:g1",
+      "reported_status": "PASS",
+      "reported_tests": 26,
+      "normative_conformance": "FAIL",
+      "reason": "All IDs are implemented as source and artifact text inspections instead of their catalog action types."
+    },
+    {
+      "command": "pnpm test:g1:runtime",
+      "reported_status": "PASS",
+      "normative_conformance": "PARTIAL",
+      "reason": "The smoke covers selected success paths and reset recovery, but not all catalog fixtures, negative paths, database programs, assertions, and evidence fields."
+    },
+    {
+      "command": "pnpm lint",
+      "reported_status": "PASS"
+    },
+    {
+      "command": "pnpm build",
+      "reported_status": "PASS"
+    },
+    {
+      "command": "docker compose ps",
+      "reported_status": "PASS",
+      "details": "PostgreSQL, API and Mailpit healthy; web and worker running."
+    }
+  ],
+  "g1_catalog_action_counts": {
+    "HTTP": 14,
+    "DB_PROGRAM": 8,
+    "SCENARIO": 1,
+    "CLI": 2,
+    "STATIC_ASSERTION": 1,
+    "total": 26
+  },
+  "required_evidence_contract_present": false,
+  "blocking_findings": [
+    "G1-EXIT-B001",
+    "G1-EXIT-B002",
+    "G1-EXIT-B003"
+  ],
+  "g1_implementation_status": "CODE_COMPLETE_RUNTIME_SMOKE_PASS",
+  "g1_exit_status": "NOT_NORMATIVELY_PROVEN",
+  "g2_authorized": false
+}

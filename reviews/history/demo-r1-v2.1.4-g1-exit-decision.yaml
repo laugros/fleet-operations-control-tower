@@ -1,0 +1,25 @@
+assessment_id: G1-EXIT-2026-08-04
+release: DEMO-R1
+baseline_version: 2.1.4
+assessed_commit: 1553b985fc52f5d1e52b94faad72957886fed250
+assessment_date: 2026-08-04
+normative: false
+verdict: NOT_READY_FOR_G2_IMPLEMENTATION
+g1_implementation_status: CODE_COMPLETE_RUNTIME_SMOKE_PASS
+g1_exit_status: NOT_NORMATIVELY_PROVEN
+g2_authorized: false
+authorized_gate_remains: G1_FOUNDATION
+gate_statuses_unchanged:
+  G1_FOUNDATION: READY
+  G2_DOMAIN: BLOCKED_BY_PREVIOUS_GATE
+  G3_PROJECTIONS: BLOCKED_BY_PREVIOUS_GATE
+  G4_TIME_COMMUNICATION: BLOCKED_BY_PREVIOUS_GATE
+  G5_EXTERNAL: BLOCKED_BY_PREVIOUS_GATE
+  G6_EXECUTIVE: BLOCKED_BY_PREVIOUS_GATE
+blocking_findings:
+  - G1-EXIT-B001
+  - G1-EXIT-B002
+  - G1-EXIT-B003
+report: reviews/history/42-g1-exit-technical-review.md
+evidence: reviews/history/demo-r1-v2.1.4-g1-exit-evidence.json
+next_action: IMPLEMENT_CONFORMANT_G1_TEST_RUNNER_AND_DEFINE_GATE_TRANSITION_CONTROL
