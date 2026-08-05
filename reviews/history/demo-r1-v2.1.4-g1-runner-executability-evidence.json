@@ -1,0 +1,56 @@
+{
+  "assessment_id": "G1-RUNNER-2026-08-04",
+  "release": "DEMO-R1",
+  "baseline_version": "2.1.4",
+  "normative": false,
+  "verdict": "G1_RUNNER_BLOCKED_BY_NORMATIVE_CONTRADICTIONS",
+  "required_test_count": 26,
+  "findings": [
+    {
+      "id": "G1-RUN-B001",
+      "severity": "BLOCKER",
+      "tests": ["TST-AUTH-SESSION-001", "TST-AUTH-SESSION-002"],
+      "evidence": "Identical POST body and fixture require HTTP 201 and HTTP 400 respectively."
+    },
+    {
+      "id": "G1-RUN-B002",
+      "severity": "BLOCKER",
+      "tests": ["TST-API-GET-DEMO-RESET-001"],
+      "evidence": "FX-API-RESET contains zero demo_reset_execution rows while the test expects a fixed reset ID to return 200."
+    },
+    {
+      "id": "G1-RUN-B003",
+      "severity": "BLOCKER",
+      "tests": ["TST-API-GET-DEMO-STATUS-001"],
+      "evidence": "The request uses internal.operations.cookie while OpenAPI requires SCOPE-DEMO-ADMIN."
+    },
+    {
+      "id": "G1-RUN-B004",
+      "severity": "BLOCKER",
+      "tests": ["TST-AUTH-SESSION-004"],
+      "evidence": "FX-EXPIRED-SESSION derives the stored hash from the attendant cookie, but the request uses the operations cookie."
+    },
+    {
+      "id": "G1-RUN-B005",
+      "severity": "BLOCKER",
+      "tests": ["TST-DATA-IAM-002", "TST-DATA-IAM-003"],
+      "evidence": "VALID_DEMO_INTERNAL_SESSION is referenced but not defined by any repository artifact."
+    },
+    {
+      "id": "G1-RUN-B006",
+      "severity": "MAJOR",
+      "tests": ["TST-DATA-IAM-001", "TST-DATA-IAM-004", "TST-DATA-RESET-001"],
+      "evidence": "Expected constraint identifiers differ from the identifiers in the applied PostgreSQL schema."
+    },
+    {
+      "id": "G1-RUN-B007",
+      "severity": "MAJOR",
+      "tests": ["TST-DEMO-SEED-001"],
+      "evidence": "The precondition names seed manifest v2.1.0, while the executable G1 seed contract is v2.1.3."
+    }
+  ],
+  "normative_files_modified": [],
+  "runner_code_created": false,
+  "g2_authorized": false,
+  "next_action": "CORRECT_AND_REAUTHORIZE_THE_G1_EXECUTABLE_TEST_BASELINE"
+}

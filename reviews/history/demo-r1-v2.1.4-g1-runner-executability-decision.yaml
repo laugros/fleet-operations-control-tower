@@ -1,0 +1,23 @@
+assessment_id: G1-RUNNER-2026-08-04
+release: DEMO-R1
+baseline_version: 2.1.4
+normative: false
+verdict: G1_RUNNER_BLOCKED_BY_NORMATIVE_CONTRADICTIONS
+implementation_action: STOP_BEFORE_INVENTING_TEST_INPUTS_OR_FIXTURES
+runner_code_created: false
+normative_files_modified: []
+g1_exit_status: NOT_NORMATIVELY_PROVEN
+g2_authorized: false
+authorized_gate_remains: G1_FOUNDATION
+blocking_findings:
+  - G1-RUN-B001
+  - G1-RUN-B002
+  - G1-RUN-B003
+  - G1-RUN-B004
+  - G1-RUN-B005
+major_findings:
+  - G1-RUN-B006
+  - G1-RUN-B007
+report: reviews/history/43-g1-runner-contract-executability-review.md
+evidence: reviews/history/demo-r1-v2.1.4-g1-runner-executability-evidence.json
+next_action: CORRECT_AND_REAUTHORIZE_THE_G1_EXECUTABLE_TEST_BASELINE
