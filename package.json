@@ -11,6 +11,7 @@
     "lint": "eslint apps packages tests --max-warnings=0",
     "test": "vitest run",
     "test:g1": "vitest run --config tests/activation/vitest.config.mts",
+    "test:g1:db-contract": "tsx packages/database/scripts/verify-g1-constraint-names.mts",
     "test:g1:runtime": "node tests/runtime/g1-smoke.mjs",
     "db:generate": "pnpm --filter @fleet/database prisma:generate",
     "db:migrate": "pnpm --filter @fleet/database prisma:migrate",

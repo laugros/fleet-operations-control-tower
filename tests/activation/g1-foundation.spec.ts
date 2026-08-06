@@ -16,9 +16,14 @@ const healthController = text("apps/api/src/health/health.controller.ts");
 const migration = text(
   "packages/database/prisma/migrations/202608020001_g1_foundation/migration.sql"
 );
+const contractNameMigration = text(
+  "packages/database/prisma/migrations/202608040001_g1_contract_constraint_names/migration.sql"
+);
 const worker = text("apps/worker/src/main.ts");
 const compose = text("compose.yaml");
 const openapi = text("openapi/fleet-operations-control-tower-demo-r1.openapi.yaml");
+const testCatalog = text("tests/spec/demo-r1-test-catalog.yaml");
+const runnerPrograms = text("tests/spec/demo-r1-test-runner-programs.yaml");
 const seedRaw = text("tests/spec/seed-layers/g1-foundation.json");
 const seed = JSON.parse(seedRaw) as {
   gate: string;
@@ -26,6 +31,21 @@ const seed = JSON.parse(seedRaw) as {
   table_load_order: string[];
   fixtures: Record<string, { full_state_sha256: string; tables: Record<string, unknown[]> }>;
 };
+
+function yamlBlock(source: string, marker: string, nextMarker: string): string {
+  const start = source.indexOf(marker);
+  expect(start).toBeGreaterThanOrEqual(0);
+  const end = source.indexOf(nextMarker, start + marker.length);
+  return source.slice(start, end === -1 ? undefined : end);
+}
+
+function catalogTest(testId: string): string {
+  return yamlBlock(testCatalog, `- id: ${testId}`, "\n- id: ");
+}
+
+function runnerProgram(testId: string): string {
+  return yamlBlock(runnerPrograms, `  ${testId}:`, "\n  TST-");
+}
 
 describe("G1_FOUNDATION — 26 activation tests", () => {
   it("TST-API-GET-LIVENESS-001", () => {
@@ -60,6 +80,9 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
     expect(demoController).toContain('@Get("status")');
     expect(demoController).toContain('permission: "demo.read_status"');
     expect(demoService).toContain("Ambiente de demonstração — dados fictícios");
+    expect(catalogTest("TST-API-GET-DEMO-STATUS-001")).toContain(
+      "fixture://credentials/internal.admin.cookie"
+    );
   });
 
   it("TST-API-RESET-DEMO-SCENARIO-001", () => {
@@ -71,6 +94,9 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
   it("TST-API-GET-DEMO-RESET-001", () => {
     expect(demoController).toContain('@Get("resets/:resetId")');
     expect(demoService).toContain("RESOURCE_NOT_FOUND");
+    expect(catalogTest("TST-API-GET-DEMO-RESET-001")).toContain(
+      "fixture: FX-DATA-INTEGRITY"
+    );
   });
 
   it("TST-AUTH-SESSION-001", () => {
@@ -90,6 +116,9 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
     expect(apiController).not.toMatch(/role:\s*z\./);
     expect(apiController).not.toMatch(/permissions:\s*z\./);
     expect(apiController).not.toMatch(/scopes:\s*z\./);
+    expect(catalogTest("TST-AUTH-SESSION-002")).toContain(
+      "role_code: DEMO_ADMIN"
+    );
   });
 
   it("TST-AUTH-SESSION-003", () => {
@@ -101,22 +130,35 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
     expect(sessionService).toContain("session.idleExpiresAt <= now");
     expect(sessionService).toContain("session.expiresAt <= now");
     expect(sessionService).toContain("SESSION_EXPIRED");
+    expect(catalogTest("TST-AUTH-SESSION-004")).toContain(
+      "fixture://credentials/internal.attendant.cookie"
+    );
   });
 
   it("TST-DATA-IAM-001", () => {
     expect(migration).toMatch(/CREATE TABLE "user_role"[\s\S]*"user_id" UUID PRIMARY KEY/);
+    expect(contractNameMigration).toContain('RENAME CONSTRAINT "user_role_pkey" TO "pk_user_role"');
   });
 
   it("TST-DATA-IAM-002", () => {
     expect(migration).toContain('CONSTRAINT "uq_demo_internal_session_token_hash" UNIQUE');
+    expect(runnerProgram("TST-DATA-IAM-002")).toContain(
+      "seed://FX-ACTIVE-ATTENDANT-SESSION/tables/demo_internal_session/0"
+    );
   });
 
   it("TST-DATA-IAM-003", () => {
     expect(migration).toContain('CONSTRAINT "ck_demo_internal_session_revocation"');
+    expect(runnerProgram("TST-DATA-IAM-003")).toContain(
+      "seed://FX-ACTIVE-ATTENDANT-SESSION/tables/demo_internal_session/0"
+    );
   });
 
   it("TST-DATA-IAM-004", () => {
     expect(migration).toMatch(/CREATE TABLE "user_customer_scope"[\s\S]*REFERENCES "customer"/);
+    expect(contractNameMigration).toContain(
+      'TO "fk_user_customer_scope_customer"'
+    );
   });
 
   it("TST-DATA-IAM-005", () => {
@@ -130,7 +172,12 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
   });
 
   it("TST-DATA-RESET-001", () => {
-    expect(migration).toContain('CREATE UNIQUE INDEX "uq_demo_reset_active"');
+    expect(contractNameMigration).toContain(
+      'ALTER INDEX "uq_demo_reset_active"'
+    );
+    expect(contractNameMigration).toContain(
+      'RENAME TO "uq_demo_reset_running"'
+    );
     expect(migration).toContain("WHERE \"status\" IN ('REQUESTED','RUNNING','RECOVERING')");
   });
 
@@ -150,11 +197,17 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
     expect(resetTable).toBeDefined();
     expect(resetTable).not.toContain('REFERENCES "app_user"');
     expect(resetTable).toContain("requested_by_user_id_snapshot");
+    expect(runnerProgram("TST-DATA-RESET-005")).toContain(
+      "fixture_id: FX-DATA-INTEGRITY"
+    );
   });
 
   it("TST-AUDIT-003", () => {
     expect(demoService).toContain('"DEMO_RESET_REQUESTED"');
     expect(demoService).not.toMatch(/sessionToken|csrfToken/);
+    expect(catalogTest("TST-AUDIT-003")).toContain(
+      "fixture: FX-DATA-INTEGRITY"
+    );
   });
 
   it("TST-DEMO-DATA-001", () => {
@@ -189,5 +242,8 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
     expect(seed.required_test_ids).toHaveLength(26);
     expect(seed.table_load_order).toHaveLength(32);
     expect(createHash("sha256").update(seedRaw).digest("hex")).toMatch(/^[a-f0-9]{64}$/);
+    expect(catalogTest("TST-DEMO-SEED-001")).toContain(
+      "Manifesto seed v2.1.3 disponível."
+    );
   });
 });
