@@ -5571,7 +5571,7 @@ test_reverse_index:
   title: Hash de sessão interna é único
   layer: DATA
   priority: P0
-  fixture_id: FX-DATA-INTEGRITY
+  fixture_id: FX-ACTIVE-ATTENDANT-SESSION
   action_type: DB_PROGRAM
   requirement_ids:
   - DEMO-IAM-002
@@ -5587,7 +5587,7 @@ test_reverse_index:
   title: Revogação exige reason code
   layer: DATA
   priority: P0
-  fixture_id: FX-DATA-INTEGRITY
+  fixture_id: FX-ACTIVE-ATTENDANT-SESSION
   action_type: DB_PROGRAM
   requirement_ids:
   - DEMO-IAM-002
@@ -6186,7 +6186,7 @@ test_reverse_index:
   title: Somente um reset ativo
   layer: DATA
   priority: P0
-  fixture_id: FX-DATA-INTEGRITY
+  fixture_id: FX-API-RESET
   action_type: DB_PROGRAM
   requirement_ids:
   - DEMO-DATA-002
@@ -6565,7 +6565,7 @@ test_reverse_index:
   title: Contrato de sucesso concreto de getDemoStatus
   layer: API_CONTRACT
   priority: P0
-  fixture_id: FX-API-READ-BASE
+  fixture_id: FX-API-RESET
   action_type: HTTP
   requirement_ids:
   - DEMO-IAM-004

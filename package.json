@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:g1": "vitest run --config tests/activation/vitest.config.mts",
     "test:g1:db-contract": "tsx packages/database/scripts/verify-g1-constraint-names.mts",
+    "assemble:g1:correction": "node tools/assemble-g1-correction.mjs",
     "test:g1:runtime": "node tests/runtime/g1-smoke.mjs",
     "db:generate": "pnpm --filter @fleet/database prisma:generate",
     "db:migrate": "pnpm --filter @fleet/database prisma:migrate",
@@ -29,6 +30,7 @@
     "tsx": "4.23.5",
     "typescript": "6.0.3",
     "typescript-eslint": "8.65.0",
+    "yaml": "2.8.1",
     "vitest": "4.1.10"
   }
 }

@@ -1,42 +1,48 @@
 {
-  "evidence_version": "1.0.0",
+  "evidence_version": "1.1.0",
   "release": "DEMO-R1",
   "baseline_version": "2.1.4",
   "base_commit": "880e2f2",
   "branch": "codex/g1-runner-contract-corrections",
   "status": "CANDIDATE_PENDING_INDEPENDENT_REVIEW",
   "authorizes_g2": false,
+  "finding_aliases": {
+    "G1-RUN-M006": "G1-RUN-B006",
+    "G1-RUN-M007": "G1-RUN-B007"
+  },
   "resolved_findings": [
     "G1-RUN-B001",
     "G1-RUN-B002",
     "G1-RUN-B003",
     "G1-RUN-B004",
     "G1-RUN-B005",
-    "G1-RUN-M006",
-    "G1-RUN-M007"
+    "G1-RUN-B006",
+    "G1-RUN-B007"
   ],
   "scope": {
     "g1_activation_tests": 26,
+    "g1_structural_assembly_tests": 1,
     "g1_schema_tables": 32,
-    "seed_fixtures_changed": 0,
+    "g1_fixtures": 9,
+    "seed_fixtures_changed": 1,
+    "seed_layers_recomposed": 6,
     "later_gate_work_packages_changed": 0
   },
-  "artifact_sha256": {
-    "package.json": "05dbc6272c18342c0b4c88ee8b9132ce6b8c5eb93ddf734df7fd00f030c0548f",
-    "tests/spec/demo-r1-test-catalog.yaml": "97368448013f89c496fdcf1e2a8ea7b6ecceba2f28362e3734a890b3479118cc",
-    "tests/spec/demo-r1-test-runner-programs.yaml": "a4269afadd74be6f8095f7ea9ac4985fbddb43b9f492aa30de928de9dfb91f56",
-    "tests/activation/g1-foundation.spec.ts": "d3e20b8faedc538434b903e3b60ab49f72b5a44eab3283f7d31130cbe80003d9",
-    "packages/database/prisma/migrations/202608040001_g1_contract_constraint_names/migration.sql": "bcf4bf692d6d848ab2b3ab2d873eb2575f77c326c6295e5c80e5078f148b6148",
-    "packages/database/scripts/verify-g1-constraint-names.mts": "0b14053ea7d6c0c3a841b487c574499ce655cbade7064f55c14adaa8a7df0f02"
+  "assembly": {
+    "tool": "tools/assemble-g1-correction.mjs",
+    "fixture": "FX-API-RESET",
+    "state_sha256": "ef77af0a82892d0dfe535792b5fb9889daddc7ed01c32945cd89fca17d731c14",
+    "active_reset_id": "0f18c55b-46d4-59a3-94d9-ea2b8517d7cc",
+    "canonicalization": "sorted_object_keys_json_utf8"
   },
   "validation": {
     "yaml_catalog": "PASS",
     "yaml_runner_programs": "PASS",
+    "assembly_cross_artifact": "PASS",
     "migration_deploy": "PASS",
-    "database_constraint_names": "PASS_3_OF_3",
-    "test_g1_db_contract": "PASS_3_OF_3",
+    "database_constraint_definitions": "PASS_3_OF_3",
     "g1_activation_tests": "PASS_26_OF_26",
-    "full_test_suite": "PASS_26_OF_26",
+    "full_test_suite": "PASS",
     "lint": "PASS",
     "build": "PASS",
     "runtime_smoke": "PASS"

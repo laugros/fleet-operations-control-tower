@@ -871,7 +871,7 @@ database_programs:
         database_unchanged_after_rejection: true
   TST-DATA-RESET-001:
     program_id: TST-DATA-RESET-001
-    fixture_id: FX-DATA-INTEGRITY
+    fixture_id: FX-API-RESET
     transaction:
       isolation: SERIALIZABLE
       rollback: ALWAYS
@@ -881,12 +881,10 @@ database_programs:
       target_table: demo_reset_execution
       source:
         kind: SEED_ROW
-        ref: seed://FX-DATA-INTEGRITY/tables/demo_reset_execution/0
+        ref: seed://FX-API-RESET/tables/demo_reset_execution/1
       mutations:
       - path: /id
         value: a895d29b-7bd9-549f-9179-b341668a0c59
-      - path: /status
-        value: RUNNING
       expect:
         outcome: REJECT
         error_code: '23505'
@@ -2055,7 +2053,7 @@ scenario_programs:
         expected: COMPLETED
   TST-DATA-RESET-005:
     program_id: TST-DATA-RESET-005
-    fixture_id: FX-DATA-INTEGRITY
+    fixture_id: FX-API-RESET
     timeout_ms: 30000
     steps:
     - op: DB_OPERATION

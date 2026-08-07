@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
+import { parse } from "yaml";
 
 function text(path: string): string {
   return readFileSync(resolve(process.cwd(), path), "utf8");
@@ -24,27 +25,52 @@ const compose = text("compose.yaml");
 const openapi = text("openapi/fleet-operations-control-tower-demo-r1.openapi.yaml");
 const testCatalog = text("tests/spec/demo-r1-test-catalog.yaml");
 const runnerPrograms = text("tests/spec/demo-r1-test-runner-programs.yaml");
+const seedManifest = parse(text("tests/spec/demo-r1-seed-manifest.yaml")) as {
+  fixtures: Record<string, { state_sha256: string; used_by_test_ids?: string[] }>;
+};
+const parsedCatalog = parse(testCatalog) as {
+  tests: Array<Record<string, unknown>>;
+};
+const parsedPrograms = parse(runnerPrograms) as {
+  database_programs: Record<string, Record<string, unknown>>;
+  scenario_programs: Record<string, Record<string, unknown>>;
+};
+const fixtureSnapshot = parse(text("tests/spec/demo-r1-test-fixtures.yaml")) as {
+  snapshots: Record<string, { state_sha256: string }>;
+};
 const seedRaw = text("tests/spec/seed-layers/g1-foundation.json");
+const resolvedSeed = JSON.parse(text("tests/spec/demo-r1-resolved-seeds.json")) as {
+  fixtures: Record<string, { tables: Record<string, unknown[]>; used_by_test_ids?: string[] }>;
+};
 const seed = JSON.parse(seedRaw) as {
   gate: string;
   required_test_ids: string[];
   table_load_order: string[];
   fixtures: Record<string, { full_state_sha256: string; tables: Record<string, unknown[]> }>;
 };
+const layer = JSON.parse(seedRaw) as {
+  required_fixture_ids: string[];
+  fixtures: Record<string, { tables: Record<string, unknown[]>; full_state_sha256: string; layer_state_sha256: string }>;
+};
 
-function yamlBlock(source: string, marker: string, nextMarker: string): string {
-  const start = source.indexOf(marker);
-  expect(start).toBeGreaterThanOrEqual(0);
-  const end = source.indexOf(nextMarker, start + marker.length);
-  return source.slice(start, end === -1 ? undefined : end);
+function catalogTest(testId: string): Record<string, unknown> {
+  const found = parsedCatalog.tests.find((candidate) => candidate.id === testId);
+  expect(found, `catalog entry ${testId}`).toBeDefined();
+  return found as Record<string, unknown>;
 }
 
-function catalogTest(testId: string): string {
-  return yamlBlock(testCatalog, `- id: ${testId}`, "\n- id: ");
+function runnerProgram(testId: string): Record<string, unknown> {
+  const found = parsedPrograms.database_programs[testId] ?? parsedPrograms.scenario_programs[testId];
+  expect(found, `runner program ${testId}`).toBeDefined();
+  return found as Record<string, unknown>;
 }
 
-function runnerProgram(testId: string): string {
-  return yamlBlock(runnerPrograms, `  ${testId}:`, "\n  TST-");
+function fixtureId(testId: string): string {
+  return String(catalogTest(testId).fixture);
+}
+
+function fixtureRefs(testId: string): string[] {
+  return (catalogTest(testId).fixture_refs as string[]) ?? [];
 }
 
 describe("G1_FOUNDATION — 26 activation tests", () => {
@@ -80,9 +106,10 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
     expect(demoController).toContain('@Get("status")');
     expect(demoController).toContain('permission: "demo.read_status"');
     expect(demoService).toContain("Ambiente de demonstração — dados fictícios");
-    expect(catalogTest("TST-API-GET-DEMO-STATUS-001")).toContain(
-      "fixture://credentials/internal.admin.cookie"
-    );
+    expect(fixtureId("TST-API-GET-DEMO-STATUS-001")).toBe("FX-API-RESET");
+    expect((catalogTest("TST-API-GET-DEMO-STATUS-001").action as Record<string, unknown>).headers).toMatchObject({
+      Cookie: "fixture://credentials/internal.admin.cookie"
+    });
   });
 
   it("TST-API-RESET-DEMO-SCENARIO-001", () => {
@@ -94,9 +121,7 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
   it("TST-API-GET-DEMO-RESET-001", () => {
     expect(demoController).toContain('@Get("resets/:resetId")');
     expect(demoService).toContain("RESOURCE_NOT_FOUND");
-    expect(catalogTest("TST-API-GET-DEMO-RESET-001")).toContain(
-      "fixture: FX-DATA-INTEGRITY"
-    );
+    expect(fixtureId("TST-API-GET-DEMO-RESET-001")).toBe("FX-API-RESET");
   });
 
   it("TST-AUTH-SESSION-001", () => {
@@ -116,9 +141,9 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
     expect(apiController).not.toMatch(/role:\s*z\./);
     expect(apiController).not.toMatch(/permissions:\s*z\./);
     expect(apiController).not.toMatch(/scopes:\s*z\./);
-    expect(catalogTest("TST-AUTH-SESSION-002")).toContain(
-      "role_code: DEMO_ADMIN"
-    );
+    expect((catalogTest("TST-AUTH-SESSION-002").action as Record<string, unknown>).body).toMatchObject({
+      role_code: "DEMO_ADMIN"
+    });
   });
 
   it("TST-AUTH-SESSION-003", () => {
@@ -130,9 +155,8 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
     expect(sessionService).toContain("session.idleExpiresAt <= now");
     expect(sessionService).toContain("session.expiresAt <= now");
     expect(sessionService).toContain("SESSION_EXPIRED");
-    expect(catalogTest("TST-AUTH-SESSION-004")).toContain(
-      "fixture://credentials/internal.attendant.cookie"
-    );
+    expect(((catalogTest("TST-AUTH-SESSION-004").action as Record<string, unknown>).headers as Record<string, unknown>).Cookie)
+      .toBe("fixture://credentials/internal.attendant.cookie");
   });
 
   it("TST-DATA-IAM-001", () => {
@@ -142,16 +166,14 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
 
   it("TST-DATA-IAM-002", () => {
     expect(migration).toContain('CONSTRAINT "uq_demo_internal_session_token_hash" UNIQUE');
-    expect(runnerProgram("TST-DATA-IAM-002")).toContain(
-      "seed://FX-ACTIVE-ATTENDANT-SESSION/tables/demo_internal_session/0"
-    );
+    expect(runnerProgram("TST-DATA-IAM-002").fixture_id).toBe("FX-ACTIVE-ATTENDANT-SESSION");
+    expect(JSON.stringify(runnerProgram("TST-DATA-IAM-002"))).toContain("seed://FX-ACTIVE-ATTENDANT-SESSION/tables/demo_internal_session/0");
   });
 
   it("TST-DATA-IAM-003", () => {
     expect(migration).toContain('CONSTRAINT "ck_demo_internal_session_revocation"');
-    expect(runnerProgram("TST-DATA-IAM-003")).toContain(
-      "seed://FX-ACTIVE-ATTENDANT-SESSION/tables/demo_internal_session/0"
-    );
+    expect(runnerProgram("TST-DATA-IAM-003").fixture_id).toBe("FX-ACTIVE-ATTENDANT-SESSION");
+    expect(JSON.stringify(runnerProgram("TST-DATA-IAM-003"))).toContain("seed://FX-ACTIVE-ATTENDANT-SESSION/tables/demo_internal_session/0");
   });
 
   it("TST-DATA-IAM-004", () => {
@@ -197,17 +219,13 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
     expect(resetTable).toBeDefined();
     expect(resetTable).not.toContain('REFERENCES "app_user"');
     expect(resetTable).toContain("requested_by_user_id_snapshot");
-    expect(runnerProgram("TST-DATA-RESET-005")).toContain(
-      "fixture_id: FX-DATA-INTEGRITY"
-    );
+    expect(runnerProgram("TST-DATA-RESET-005").fixture_id).toBe("FX-API-RESET");
   });
 
   it("TST-AUDIT-003", () => {
     expect(demoService).toContain('"DEMO_RESET_REQUESTED"');
     expect(demoService).not.toMatch(/sessionToken|csrfToken/);
-    expect(catalogTest("TST-AUDIT-003")).toContain(
-      "fixture: FX-DATA-INTEGRITY"
-    );
+    expect(fixtureId("TST-AUDIT-003")).toBe("FX-API-RESET");
   });
 
   it("TST-DEMO-DATA-001", () => {
@@ -242,8 +260,45 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
     expect(seed.required_test_ids).toHaveLength(26);
     expect(seed.table_load_order).toHaveLength(32);
     expect(createHash("sha256").update(seedRaw).digest("hex")).toMatch(/^[a-f0-9]{64}$/);
-    expect(catalogTest("TST-DEMO-SEED-001")).toContain(
+    expect(JSON.stringify(catalogTest("TST-DEMO-SEED-001"))).toContain(
       "Manifesto seed v2.1.3 disponível."
     );
+  });
+
+  it("G1 assembly is structurally executable", () => {
+    const catalogIds = new Set(parsedCatalog.tests.map((candidate) => String(candidate.id)));
+    expect(seed.required_test_ids.every((testId) => catalogIds.has(testId))).toBe(true);
+    expect(seed.required_test_ids).toHaveLength(26);
+    expect(layer.required_fixture_ids).toEqual(expect.arrayContaining(Object.keys(layer.fixtures)));
+
+    for (const testId of seed.required_test_ids) {
+      const test = catalogTest(testId);
+      const refs = fixtureRefs(testId);
+      expect(resolvedSeed.fixtures[String(test.fixture)]).toBeDefined();
+      expect(layer.fixtures[String(test.fixture)]).toBeDefined();
+      for (const fixture of refs) {
+        expect(layer.required_fixture_ids).toContain(fixture);
+        expect(resolvedSeed.fixtures[fixture]).toBeDefined();
+        expect(layer.fixtures[fixture]).toBeDefined();
+      }
+      const programId = (test.action as Record<string, unknown> | undefined)?.program_id;
+      if (typeof programId === "string") {
+        const program = runnerProgram(programId);
+        expect(program.fixture_id).toBe(String(test.fixture));
+      }
+    }
+
+    const resetProgram = runnerProgram("TST-DATA-RESET-001");
+    expect(resetProgram.fixture_id).toBe("FX-API-RESET");
+    expect(JSON.stringify(resetProgram)).toContain("seed://FX-API-RESET/tables/demo_reset_execution/1");
+    expect(layer.fixtures["FX-API-RESET"].tables.demo_internal_session).toHaveLength(1);
+    expect(layer.fixtures["FX-API-RESET"].tables.demo_reset_execution).toHaveLength(2);
+    expect(layer.fixtures["FX-API-RESET"].tables.security_audit_record).toHaveLength(1);
+    const adminSession = layer.fixtures["FX-API-RESET"].tables.demo_internal_session[0] as Record<string, unknown>;
+    expect((adminSession.session_token_hash as Record<string, unknown>).from).toBe("fixture://credentials/internal.admin.cookie");
+    expect((layer.fixtures["FX-API-RESET"].tables.demo_reset_execution[0] as Record<string, unknown>).status).toBe("COMPLETED");
+    expect((layer.fixtures["FX-API-RESET"].tables.demo_reset_execution[1] as Record<string, unknown>).status).toBe("RUNNING");
+    expect(seedManifest.fixtures["FX-API-RESET"].state_sha256).toBe(layer.fixtures["FX-API-RESET"].full_state_sha256);
+    expect(fixtureSnapshot.snapshots["FX-API-RESET"].state_sha256).toBe(seedManifest.fixtures["FX-API-RESET"].state_sha256);
   });
 });

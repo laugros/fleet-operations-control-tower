@@ -357,7 +357,7 @@ snapshots:
       target_generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-RESET
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-RESET
-    state_sha256: dbf1098fc98d2a48df61f125b7058b2a8809e9d93f629cf0045f56ade9810c83
+    state_sha256: ef77af0a82892d0dfe535792b5fb9889daddc7ed01c32945cd89fca17d731c14
   FX-API-EMAIL:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE

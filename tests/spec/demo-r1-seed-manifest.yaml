@@ -183,7 +183,6 @@ fixtures:
     - TST-API-CREATE-DEMO-SESSION-001
     - TST-API-DELETE-DEMO-SESSION-001
     - TST-API-GET-CURRENT-SESSION-001
-    - TST-API-GET-DEMO-STATUS-001
     - TST-API-SEARCH-OPERATIONAL-RESOURCES-001
     - TST-API-LIST-STOP-DASHBOARD-001
     - TST-API-GET-DEMO-METRICS-001
@@ -227,11 +226,13 @@ fixtures:
       permitidas geram auditoria sanitizada; Negação sensível gera auditoria DENY
   FX-API-RESET:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-RESET
-    state_sha256: 6a87bfd838cb5afcd4762c260ba4c6fd672b2a4e77cd61002cdf8e832d957c1e
+    state_sha256: ef77af0a82892d0dfe535792b5fb9889daddc7ed01c32945cd89fca17d731c14
     used_by_test_ids:
     - TST-API-ADVANCE-DEMO-CLOCK-001
     - TST-API-RESET-DEMO-SCENARIO-001
     - TST-API-GET-DEMO-RESET-001
+    - TST-API-GET-DEMO-STATUS-001
+    - TST-DATA-RESET-001
     - TST-DATA-RESET-005
     - TST-AUDIT-003
     purpose: Contrato de sucesso concreto de advanceDemoClock; Contrato de sucesso concreto de resetDemoScenario; Contrato de sucesso concreto de getDemoReset;
@@ -424,7 +425,6 @@ fixtures:
     - TST-DATA-EVT-004
     - TST-DATA-INBOX-001
     - TST-DATA-DLQ-001
-    - TST-DATA-RESET-001
     - TST-DATA-RESET-002
     - TST-DATA-RESET-003
     - TST-DATA-METRIC-001

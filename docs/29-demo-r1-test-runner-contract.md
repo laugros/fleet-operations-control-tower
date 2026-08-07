@@ -6,7 +6,7 @@
 
 SHA-256 do contrato: `245829f31cc23cd037725ab8a9c73902060591dcf73d1da9f0e506d74c39843d`.  
 SHA-256 do schema do contrato: `60c5cd9889c86f5d511e012efe8f7656b9c3947fa2c2d938bfc619a14ac5727d`.  
-SHA-256 dos programas: `8f5559e081f130dde0d73d8f390a70c0101d453d6cce0d3e25490d5d0e177d34`.  
+SHA-256 dos programas: `cc0fc39bd01a2d7bb194ccab0519137447df081196e637a54216fb0644a48539`.
 SHA-256 do schema de programas: `5d60b8a95fdbda19840308b978c30cad2f1d2f850ec0ebb4acdd3c20613f0c0a`.  
 SHA-256 do schema de ações: `5c911dedcdccbb53ccb685ee5e899ecab34205b536206709b11b7c4d704779be`.  
 SHA-256 do registry de workers: `69909551f749da82cec15379df2142967ccb66462d9912210d5085b6579c58e9`.  
