@@ -95,8 +95,8 @@ artifacts:
   normative: true
 - path: docs/22-demo-r1-traceability-and-test-matrix.md
   role: NORMATIVE_DOCUMENT
-  sha256: 60869bc2aaf33af6202a77b2e9ffd1f4cd02c7c7116cbebad325070b3454d61c
-  size_bytes: 640
+  sha256: bd18465db322fd7fc3ec3c8a2b807cf37eada9eb774641fb019a7da188ac9d1e
+  size_bytes: 638
   normative: true
 - path: docs/23-demo-r1-implementation-backlog.md
   role: NORMATIVE_DOCUMENT
@@ -105,18 +105,18 @@ artifacts:
   normative: true
 - path: docs/25-demo-r1-executable-test-catalog.md
   role: NORMATIVE_DOCUMENT
-  sha256: 5c9100ebbd6edec89446a512c2c8dd13602ec8a556c6c0b9aa8eb942e6e84478
-  size_bytes: 864
+  sha256: 8bfb07aef0a0d9fb91325682364a05e40ad03957e91b37989bd6c1d2b3a366f5
+  size_bytes: 860
   normative: true
 - path: docs/28-demo-r1-seed-manifest.md
   role: NORMATIVE_DOCUMENT
-  sha256: fa3624cbd7d81c2cb3e596e985911fc19bfdc77b56bde727667658722ccbf0c0
-  size_bytes: 869
+  sha256: 81fe074fa6c414a14487bf317614a1395a99ad37788291f2c38bacf1f557f125
+  size_bytes: 861
   normative: true
 - path: docs/29-demo-r1-test-runner-contract.md
   role: NORMATIVE_DOCUMENT
-  sha256: e76f044a902afb5c77a3fc2adf80fe2f9e1872da0c739bad9fbed0d689f70191
-  size_bytes: 1305
+  sha256: 85aa6775665bda989facdfd7234f1e14c8cb5b571211e39f4a89c01202271f36
+  size_bytes: 1301
   normative: true
 - path: domain/demo-r1-command-registry.schema.json
   role: DOMAIN_CONTRACT
@@ -200,8 +200,8 @@ artifacts:
   normative: true
 - path: tests/spec/demo-r1-resolved-seeds.json
   role: EXECUTABLE_SPEC
-  sha256: b51c27de10dd4f829a975ca0ff3c222cfc0cf4a9af5ec0222786ea8ee60956b9
-  size_bytes: 3447233
+  sha256: 7be4bd45874277c517f13bba6ed4a6728a1938892b2ae3166d7bb0e6abc89718
+  size_bytes: 3452370
   normative: true
 - path: tests/spec/demo-r1-resolved-seeds.schema.json
   role: EXECUTABLE_SPEC
@@ -215,7 +215,7 @@ artifacts:
   normative: true
 - path: tests/spec/demo-r1-seed-layers.yaml
   role: EXECUTABLE_SPEC
-  sha256: ea45b7ba88fa76156855ba992aa08f031d3b6f1f1f1e2864564d32bafe78fc03
+  sha256: d23672bfb061178555351bff14812aa5f8595e590ba4295d4570111b83cc7963
   size_bytes: 2179
   normative: true
 - path: tests/spec/demo-r1-seed-manifest.schema.json
@@ -225,7 +225,7 @@ artifacts:
   normative: true
 - path: tests/spec/demo-r1-seed-manifest.yaml
   role: EXECUTABLE_SPEC
-  sha256: 600d195af824cc7988c9a1736afc3f8f4f12604e5753e3620246745fd2cbe385
+  sha256: 2bca544a2147d7f8509b7ee5c1f306964b7c2985fa250e0c49b4ce3375cfaadc
   size_bytes: 43104
   normative: true
 - path: tests/spec/demo-r1-table-contract.schema.json
@@ -250,8 +250,8 @@ artifacts:
   normative: true
 - path: tests/spec/demo-r1-test-catalog.yaml
   role: EXECUTABLE_SPEC
-  sha256: 51a7e32125ab35f395af8dbd4116b4ba6e3c8928da1fcaa91b877fce46b2a37a
-  size_bytes: 373015
+  sha256: 826b7fae47cc9be6484a6ee6a21cf4f407fc76079f0c7ca302fa5e9c3023e27a
+  size_bytes: 373083
   normative: true
 - path: tests/spec/demo-r1-test-fixtures.schema.json
   role: EXECUTABLE_SPEC
@@ -260,7 +260,7 @@ artifacts:
   normative: true
 - path: tests/spec/demo-r1-test-fixtures.yaml
   role: EXECUTABLE_SPEC
-  sha256: d5c28516ea05bc03c53a38a03e057f3d0858cb39236ec567680c20cd00dec783
+  sha256: 1d5763e8ccd1302b95f0bd6d6528ae69076b3b3b1f77f19ff241035f244e1fb8
   size_bytes: 37876
   normative: true
 - path: tests/spec/demo-r1-test-runner-actors.schema.json
@@ -300,8 +300,8 @@ artifacts:
   normative: true
 - path: tests/spec/demo-r1-test-runner-programs.yaml
   role: EXECUTABLE_SPEC
-  sha256: 8f5559e081f130dde0d73d8f390a70c0101d453d6cce0d3e25490d5d0e177d34
-  size_bytes: 60389
+  sha256: a8a60e4eccfa578fef26e9724f90ae04b7ca5548c651dd24452043a6222d15a5
+  size_bytes: 60416
   normative: true
 - path: tests/spec/demo-r1-test-runner-workers.schema.json
   role: EXECUTABLE_SPEC
@@ -315,38 +315,38 @@ artifacts:
   normative: true
 - path: tests/spec/seed-layers/g1-foundation.json
   role: EXECUTABLE_SPEC
-  sha256: e733bded83e4036d9130b3ec6b372c93965366c0e9ea9bcefcc21f5901ed896b
-  size_bytes: 270985
+  sha256: 53942e9de451fa88e7c76dea34cc63d2df64ee468a2fd76e199c743aa643ce34
+  size_bytes: 278109
   normative: true
 - path: tests/spec/seed-layers/g2-domain.json
   role: EXECUTABLE_SPEC
-  sha256: d3e7a5ddd6da635d116a7cd2d1de8630462d8368c392be9ca5ecb86e8100595e
-  size_bytes: 1621190
+  sha256: afba03fc68febbd08512406abec3f419fc07b6a1b4ef2dc12d5b486c8469777b
+  size_bytes: 1627820
   normative: true
 - path: tests/spec/seed-layers/g3-projections.json
   role: EXECUTABLE_SPEC
-  sha256: 9bde9ac5d415a63a9ec71a9fd6efb91abeac3d28c01939c1883dc8ce7f81fa48
-  size_bytes: 1879606
+  sha256: b96db9cdbd12659a64ee4457697a5ec688cdaf7dfbd64e1d423963b65da84aa1
+  size_bytes: 1885709
   normative: true
 - path: tests/spec/seed-layers/g4-time-communication.json
   role: EXECUTABLE_SPEC
-  sha256: 1bb77f0d04ac1afebec171dd0582695ece4ff6e53bbc24737536981da4bdf1d0
-  size_bytes: 2346899
+  sha256: 0606e75f8cad3f5b0a995824fc63cf7de4f1cc725efc2b688379f980f1bb4f33
+  size_bytes: 2352711
   normative: true
 - path: tests/spec/seed-layers/g5-external.json
   role: EXECUTABLE_SPEC
-  sha256: 1417681fd2278bfdd1a2ec7c76fb9cb314c52aee71e0be58050e5cea3124ec83
-  size_bytes: 3253370
+  sha256: 83fd0d1d678a500b47fe55274bcf24fc95594c9d5ac8872885e08936b10e4479
+  size_bytes: 3258507
   normative: true
 - path: tests/spec/seed-layers/g6-executive.json
   role: EXECUTABLE_SPEC
-  sha256: 5bb920b4abef9b25dc6f0aa999c61c3fad5fa5051be7898d4d862259546abf27
-  size_bytes: 3467415
+  sha256: 50ad3a344c17bdb7a61d8ebe3e07c29ff38c50b1d132a2493f1478257e75fedc
+  size_bytes: 3472552
   normative: true
 - path: traceability/demo-r1-test-reverse-traceability.csv
   role: TRACEABILITY
-  sha256: 9d14b4ce2a7ba8aa7408f8ac65c503d8a56994ea0257322286559a6e81a04d79
-  size_bytes: 48783
+  sha256: 3c39e4faa5f372b5e5d5998f9a4614e5c0b2478bf558c5a7ba76d073d0602495
+  size_bytes: 48795
   normative: true
 - path: traceability/demo-r1-traceability.csv
   role: TRACEABILITY
@@ -360,6 +360,6 @@ artifacts:
   normative: true
 - path: traceability/demo-r1-traceability.yaml
   role: TRACEABILITY
-  sha256: b510030fb59a2d9f030b7372d96fb5a0782805dfdb11560e8e4e70aa84b6b617
-  size_bytes: 177914
+  sha256: 9a7ef6e4a9688ee6838afa51de74c5952f11a6ebb779dcdf46953d8bd478d47b
+  size_bytes: 177930
   normative: true

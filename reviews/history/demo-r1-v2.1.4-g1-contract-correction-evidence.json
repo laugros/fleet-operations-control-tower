@@ -1,0 +1,71 @@
+{
+  "evidence_version": "1.2.0",
+  "release": "DEMO-R1",
+  "baseline_version": "2.1.4",
+  "base_commit": "880e2f2",
+  "branch": "codex/g1-runner-contract-corrections",
+  "status": "CANDIDATE_PENDING_INDEPENDENT_REVIEW",
+  "merge_authorization": "PENDING_NEW_INDEPENDENT_DECISION",
+  "authorizes_g2": false,
+  "finding_aliases": {
+    "G1-RUN-M006": "G1-RUN-B006",
+    "G1-RUN-M007": "G1-RUN-B007"
+  },
+  "resolved_findings": [
+    "G1-RUN-B001",
+    "G1-RUN-B002",
+    "G1-RUN-B003",
+    "G1-RUN-B004",
+    "G1-RUN-B005",
+    "G1-RUN-B006",
+    "G1-RUN-B007",
+    "PR1-BLK-001",
+    "PR1-BLK-002",
+    "PR1-BLK-003",
+    "PR1-BLK-004",
+    "PR1-MAJ-001"
+  ],
+  "formal_gate_findings": [
+    "PR1-BLK-005"
+  ],
+  "scope": {
+    "g1_activation_tests": 26,
+    "g1_static_validations": 27,
+    "validated_schemas": 12,
+    "validated_fixtures": 98,
+    "g1_schema_tables": 32,
+    "g1_fixtures": 9,
+    "seed_fixtures_changed": 4,
+    "seed_layers_recomposed": 6,
+    "later_gate_work_packages_implemented": 0
+  },
+  "assembly": {
+    "tool": "tools/assemble-g1-correction.mjs",
+    "hash_recompute_tool": "tools/recompute-g1-hashes.mjs",
+    "independent_verifier": "tools/verify-g1-assembly.mjs",
+    "fixture_state_sha256": {
+      "FX-API-RESET": "f4cff0e5f714e209e7b5ee98b94b031a3a380f1cac1ae4095721bd051b8dd403",
+      "FX-DATA-INTEGRITY": "e7aae2c0d3012676bedffc70d4c71038a4e50a8cbf2ae0ea5d32b1cc8e08e200",
+      "FX-API-READ-BASE": "8d97a517f8675fdc8c1c9ced7c39cfe801b5d5986536ebe503d4da1216b34bf2",
+      "FX-MUTATED-DEMO": "3245ca0aec3e8a9c3e9705b1abf17dc4307c9417eccc84e306f5684449be09de"
+    },
+    "active_reset_fixture": "FX-DATA-INTEGRITY",
+    "active_reset_id": "0f18c55b-46d4-59a3-94d9-ea2b8517d7cc",
+    "canonicalization": "sorted_object_keys_json_utf8"
+  },
+  "validation": {
+    "json_schema": "PASS_12_OF_12",
+    "fixture_usage_bidirectional": "PASS",
+    "fixture_hashes": "PASS_98_OF_98",
+    "baseline_manifest": "PASS_67_OF_67",
+    "checksum_inventory": "PASS_79_OF_79",
+    "migration_deploy": "PASS_NO_PENDING_MIGRATIONS",
+    "database_constraint_definitions": "PASS_3_OF_3",
+    "g1_activation_contracts": "PASS_26_OF_26",
+    "g1_static_validations": "PASS_27_OF_27",
+    "full_test_suite": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "runtime_smoke": "PASS"
+  }
+}

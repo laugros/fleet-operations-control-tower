@@ -8,7 +8,9 @@
       "fixture_id": "FX-ACTIVE-ATTENDANT-SESSION",
       "purpose": "Nova seleção revoga sessão anterior",
       "used_by_test_ids": [
-        "TST-AUTH-SESSION-003"
+        "TST-AUTH-SESSION-003",
+        "TST-DATA-IAM-002",
+        "TST-DATA-IAM-003"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -4667,9 +4669,9 @@
       "fixture_id": "FX-API-CASE-IN-PROGRESS",
       "purpose": "Contrato de sucesso concreto de waitCaseForSupplier; Contrato de sucesso concreto de createTask; Contrato de sucesso concreto de recordPhoneCall; PhoneCallRecorded usa aggregate CASE",
       "used_by_test_ids": [
-        "TST-API-WAIT-CASE-FOR-SUPPLIER-001",
         "TST-API-CREATE-TASK-001",
         "TST-API-RECORD-PHONE-CALL-001",
+        "TST-API-WAIT-CASE-FOR-SUPPLIER-001",
         "TST-DATA-EVT-006"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
@@ -10203,8 +10205,8 @@
       "used_by_test_ids": [
         "TST-API-CREATE-EXTERNAL-SESSION-001",
         "TST-API-GET-EXTERNAL-CONTEXT-001",
-        "TST-API-UPDATE-FORECAST-EXTERNAL-001",
-        "TST-API-POLICY-008"
+        "TST-API-POLICY-008",
+        "TST-API-UPDATE-FORECAST-EXTERNAL-001"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -11121,21 +11123,19 @@
       "fixture_id": "FX-API-READ-BASE",
       "purpose": "Contrato de sucesso concreto de getLiveness; Contrato de sucesso concreto de getReadiness; Contrato de sucesso concreto de createDemoSession; Contrato de sucesso concreto de deleteDemoSession; Contrato de sucesso concreto de getCurrentSession; Contrato de sucesso concreto de getDemoStatus; Contrato de sucesso concreto de searchOperationalResources; Contrato de sucesso concreto de listStopDashboard; Contrato de sucesso concreto de getDemoMetrics; Contrato de sucesso concreto de getCaseOperationalView; Contrato de sucesso concreto de getCaseTimeline; Contrato de sucesso concreto de listCaseTasks; Contrato de sucesso concreto de getStopOperationalView; Contrato de sucesso concreto de getStopTimeline; Contrato de sucesso concreto de listCaseConversations; Body rejeita propriedade desconhecida; Mutação por cookie exige CSRF; Replay idempotente retorna resposta original; Chave idempotente com request diferente conflita; If-Match ausente retorna 428; If-Match obsoleto retorna 412; Operação interna exige sessão; Operações retiradas não existem; Envelope e payload v2 válidos; Campo obrigatório ausente é rejeitado; Campo adicional é rejeitado; Classificação coincide com registry; Produtor, comando e aggregate coincidem; Sequence equivale à versão resultante; Aggregate, histórico, evento e Outbox são atômicos; Entrega repetida não duplica efeito; Projection rebuild desabilita handlers live-only; Dados proibidos não aparecem; Todos os eventos usam schema version 2 e generation ID; Ações sensíveis permitidas geram auditoria sanitizada; Negação sensível gera auditoria DENY",
       "used_by_test_ids": [
-        "TST-API-GET-LIVENESS-001",
-        "TST-API-GET-READINESS-001",
         "TST-API-CREATE-DEMO-SESSION-001",
         "TST-API-DELETE-DEMO-SESSION-001",
-        "TST-API-GET-CURRENT-SESSION-001",
-        "TST-API-GET-DEMO-STATUS-001",
-        "TST-API-SEARCH-OPERATIONAL-RESOURCES-001",
-        "TST-API-LIST-STOP-DASHBOARD-001",
-        "TST-API-GET-DEMO-METRICS-001",
         "TST-API-GET-CASE-OPERATIONAL-VIEW-001",
         "TST-API-GET-CASE-TIMELINE-001",
-        "TST-API-LIST-CASE-TASKS-001",
+        "TST-API-GET-CURRENT-SESSION-001",
+        "TST-API-GET-DEMO-METRICS-001",
+        "TST-API-GET-LIVENESS-001",
+        "TST-API-GET-READINESS-001",
         "TST-API-GET-STOP-OPERATIONAL-VIEW-001",
         "TST-API-GET-STOP-TIMELINE-001",
         "TST-API-LIST-CASE-CONVERSATIONS-001",
+        "TST-API-LIST-CASE-TASKS-001",
+        "TST-API-LIST-STOP-DASHBOARD-001",
         "TST-API-POLICY-001",
         "TST-API-POLICY-002",
         "TST-API-POLICY-003",
@@ -11144,6 +11144,9 @@
         "TST-API-POLICY-006",
         "TST-API-POLICY-007",
         "TST-API-POLICY-010",
+        "TST-API-SEARCH-OPERATIONAL-RESOURCES-001",
+        "TST-AUDIT-001",
+        "TST-AUDIT-002",
         "TST-EVT-CONTRACT-001",
         "TST-EVT-CONTRACT-002",
         "TST-EVT-CONTRACT-003",
@@ -11154,9 +11157,7 @@
         "TST-EVT-CONTRACT-008",
         "TST-EVT-CONTRACT-009",
         "TST-EVT-CONTRACT-010",
-        "TST-EVT-CONTRACT-012",
-        "TST-AUDIT-001",
-        "TST-AUDIT-002"
+        "TST-EVT-CONTRACT-012"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -12045,7 +12046,30 @@
         "conversation": [],
         "communication_message": [],
         "phone_call": [],
-        "demo_internal_session": [],
+        "demo_internal_session": [
+          {
+            "id": "4eff8b08-0d5d-58cc-9f71-09eb6bd5f7e8",
+            "user_id": "12bf12cc-fd44-537e-a622-daa43e0eb811",
+            "demo_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "session_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.operations.cookie"
+            },
+            "csrf_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.operations.csrf"
+            },
+            "created_at": "2026-08-01T12:00:00Z",
+            "last_seen_at": "2026-08-01T14:00:00Z",
+            "idle_expires_at": "2026-08-01T16:00:00Z",
+            "expires_at": "2026-08-01T20:00:00Z",
+            "revoked_at": null,
+            "revocation_reason_code": null,
+            "replaced_by_session_id": null,
+            "created_ip_hash": null,
+            "version": 1
+          }
+        ],
         "external_action_token": [],
         "external_action_capability": [],
         "external_session": [],
@@ -12067,17 +12091,18 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "state_sha256": "c030029b1213e8dd4b803e8e4a80b68c8e612e847cb8bcb6b1d51ca35fe1e8f3"
+      "state_sha256": "8d97a517f8675fdc8c1c9ced7c39cfe801b5d5986536ebe503d4da1216b34bf2"
     },
     "FX-API-RESET": {
       "fixture_id": "FX-API-RESET",
       "purpose": "Contrato de sucesso concreto de advanceDemoClock; Contrato de sucesso concreto de resetDemoScenario; Contrato de sucesso concreto de getDemoReset; Execução preservada não bloqueia reseed de usuários; Auditoria permanece após reset",
       "used_by_test_ids": [
         "TST-API-ADVANCE-DEMO-CLOCK-001",
-        "TST-API-RESET-DEMO-SCENARIO-001",
         "TST-API-GET-DEMO-RESET-001",
-        "TST-DATA-RESET-005",
-        "TST-AUDIT-003"
+        "TST-API-GET-DEMO-STATUS-001",
+        "TST-API-RESET-DEMO-SCENARIO-001",
+        "TST-AUDIT-003",
+        "TST-DATA-RESET-005"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -12966,7 +12991,30 @@
         "conversation": [],
         "communication_message": [],
         "phone_call": [],
-        "demo_internal_session": [],
+        "demo_internal_session": [
+          {
+            "id": "52de2994-4fcd-5b06-9323-d6a4ca200298",
+            "user_id": "9ac59c75-4e8d-58cd-b495-96e9dfcd1360",
+            "demo_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "session_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.admin.cookie"
+            },
+            "csrf_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.admin.csrf"
+            },
+            "created_at": "2026-08-01T12:00:00Z",
+            "last_seen_at": "2026-08-01T14:00:00Z",
+            "idle_expires_at": "2026-08-01T16:00:00Z",
+            "expires_at": "2026-08-01T20:00:00Z",
+            "revoked_at": null,
+            "revocation_reason_code": null,
+            "replaced_by_session_id": null,
+            "created_ip_hash": null,
+            "version": 1
+          }
+        ],
         "external_action_token": [],
         "external_action_capability": [],
         "external_session": [],
@@ -12979,8 +13027,37 @@
         "background_job": [],
         "dead_letter_message": [],
         "worker_lease": [],
-        "security_audit_record": [],
-        "demo_reset_execution": []
+        "security_audit_record": [
+          {
+            "id": "f6c8f964-9304-5c71-9a6a-10ad000c9dea",
+            "demo_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "actor_type": "INTERNAL_USER",
+            "actor_id": "e3a92bad-0ab1-51b7-ad7d-2a8db369d8c7",
+            "action_code": "SEED_VALIDATION",
+            "resource_type": "DEMO_SEED",
+            "resource_id": null,
+            "decision": "ALLOW",
+            "reason_code": "FIXTURE_BASELINE",
+            "metadata": {
+              "fictitious": true
+            },
+            "occurred_at": "2026-08-01T15:00:00Z"
+          }
+        ],
+        "demo_reset_execution": [
+          {
+            "id": "2a5e717a-d5e0-5dda-bf7a-b9f57b64f065",
+            "requested_seed_version": "2.1.3",
+            "source_generation_id": "2c1ba275-c95c-5806-b72d-5010ecc775d5",
+            "target_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "status": "COMPLETED",
+            "requested_by_user_id_snapshot": "9ac59c75-4e8d-58cd-b495-96e9dfcd1360",
+            "requested_by_identity_code": "demo.admin",
+            "requested_by_display_name": "Admin Demo",
+            "requested_at": "2026-08-01T14:50:00Z",
+            "completed_at": "2026-08-01T15:00:00Z"
+          }
+        ]
       },
       "post_restore": [
         "REBUILD_PROJECTIONS",
@@ -12988,7 +13065,7 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "state_sha256": "6a87bfd838cb5afcd4762c260ba4c6fd672b2a4e77cd61002cdf8e832d957c1e"
+      "state_sha256": "f4cff0e5f714e209e7b5ee98b94b031a3a380f1cac1ae4095721bd051b8dd403"
     },
     "FX-API-STOP-ARRIVAL-CONFLICT": {
       "fixture_id": "FX-API-STOP-ARRIVAL-CONFLICT",
@@ -22362,9 +22439,9 @@
       "fixture_id": "FX-API-TASK-IN-PROGRESS",
       "purpose": "Contrato de sucesso concreto de waitTaskForSupplier; Contrato de sucesso concreto de completeTask; Contrato de sucesso concreto de cancelTask",
       "used_by_test_ids": [
-        "TST-API-WAIT-TASK-FOR-SUPPLIER-001",
+        "TST-API-CANCEL-TASK-001",
         "TST-API-COMPLETE-TASK-001",
-        "TST-API-CANCEL-TASK-001"
+        "TST-API-WAIT-TASK-FOR-SUPPLIER-001"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -35367,18 +35444,32 @@
       "fixture_id": "FX-DATA-INTEGRITY",
       "purpose": "Um papel por usuário; Hash de sessão interna é único; Revogação exige reason code; Grants de escopo respeitam FKs; Demo Admin não possui grants operacionais; Case aceita somente estados canônicos; Case RESOLVED exige campos de resolução; Um stop principal por case; mandatory_for é coerente com is_mandatory; Task COMPLETED exige resultado; Task CANCELLED exige motivo e impacto; Replacement task não aponta para si; Uma parada ativa por veículo; Estados exigem timestamps correspondentes; Service complete permite departure nulo; Liberação não antecede conclusão; Retirada não antecede liberação; CLOSED exige closed_at e closure_reason; Duração não pode ser negativa; Uma confirmação de chegada corrente; Uma previsão corrente; Uma chave de alerta aberta; Alerta RESOLVED exige resolução; Ocorrência é idempotente por source event; Token possui exatamente um sujeito; Hash de capability token é único; Uso de capability não excede limite; Sessão externa não expira após token; Uso de ação é único por idempotency record; Sequence é única por aggregate; Um evento principal por idempotency record; Uma Outbox por evento; Receipt é único por consumer e evento; Message ID é único por source; Uma DLQ por source; Somente um reset ativo; Falha de reset preserva dataset anterior; Auditoria sobrevive ao reset; Fórmulas de métricas correspondem aos dados canônicos",
       "used_by_test_ids": [
-        "TST-DATA-IAM-001",
-        "TST-DATA-IAM-002",
-        "TST-DATA-IAM-003",
-        "TST-DATA-IAM-004",
-        "TST-DATA-IAM-005",
+        "TST-DATA-ALERT-001",
+        "TST-DATA-ALERT-002",
+        "TST-DATA-ALERT-003",
+        "TST-DATA-ARRIVAL-001",
         "TST-DATA-CASE-001",
         "TST-DATA-CASE-002",
         "TST-DATA-CASE-003",
-        "TST-DATA-TASK-001",
-        "TST-DATA-TASK-002",
-        "TST-DATA-TASK-003",
-        "TST-DATA-TASK-004",
+        "TST-DATA-DLQ-001",
+        "TST-DATA-EVT-001",
+        "TST-DATA-EVT-002",
+        "TST-DATA-EVT-003",
+        "TST-DATA-EVT-004",
+        "TST-DATA-EXT-001",
+        "TST-DATA-EXT-002",
+        "TST-DATA-EXT-003",
+        "TST-DATA-EXT-004",
+        "TST-DATA-EXT-005",
+        "TST-DATA-FORECAST-001",
+        "TST-DATA-IAM-001",
+        "TST-DATA-IAM-004",
+        "TST-DATA-IAM-005",
+        "TST-DATA-INBOX-001",
+        "TST-DATA-METRIC-001",
+        "TST-DATA-RESET-001",
+        "TST-DATA-RESET-002",
+        "TST-DATA-RESET-003",
         "TST-DATA-STOP-001",
         "TST-DATA-STOP-002",
         "TST-DATA-STOP-003",
@@ -35386,26 +35477,10 @@
         "TST-DATA-STOP-005",
         "TST-DATA-STOP-006",
         "TST-DATA-STOP-007",
-        "TST-DATA-ARRIVAL-001",
-        "TST-DATA-FORECAST-001",
-        "TST-DATA-ALERT-001",
-        "TST-DATA-ALERT-002",
-        "TST-DATA-ALERT-003",
-        "TST-DATA-EXT-001",
-        "TST-DATA-EXT-002",
-        "TST-DATA-EXT-003",
-        "TST-DATA-EXT-004",
-        "TST-DATA-EXT-005",
-        "TST-DATA-EVT-001",
-        "TST-DATA-EVT-002",
-        "TST-DATA-EVT-003",
-        "TST-DATA-EVT-004",
-        "TST-DATA-INBOX-001",
-        "TST-DATA-DLQ-001",
-        "TST-DATA-RESET-001",
-        "TST-DATA-RESET-002",
-        "TST-DATA-RESET-003",
-        "TST-DATA-METRIC-001"
+        "TST-DATA-TASK-001",
+        "TST-DATA-TASK-002",
+        "TST-DATA-TASK-003",
+        "TST-DATA-TASK-004"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -36336,6 +36411,30 @@
             "requested_by_display_name": "Admin Demo",
             "requested_at": "2026-08-01T14:50:00Z",
             "completed_at": "2026-08-01T15:00:00Z"
+          },
+          {
+            "id": "0f18c55b-46d4-59a3-94d9-ea2b8517d7cc",
+            "requested_seed_version": "2.1.3",
+            "source_generation_id": "2c1ba275-c95c-5806-b72d-5010ecc775d5",
+            "target_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "status": "RUNNING",
+            "requested_by_user_id_snapshot": "9ac59c75-4e8d-58cd-b495-96e9dfcd1360",
+            "requested_by_identity_code": "demo.admin",
+            "requested_by_display_name": "Admin Demo",
+            "requested_at": "2026-08-01T14:50:00Z",
+            "completed_at": null,
+            "database_reset_started_at": "2026-08-01T15:00:30Z",
+            "database_reset_committed_at": null,
+            "projections_rebuilt_at": null,
+            "failed_at": null,
+            "failure_code": null,
+            "warning_codes": [],
+            "lease_owner_instance_id": "seed-owner",
+            "heartbeat_at": "2026-08-01T15:00:30Z",
+            "lease_expires_at": "2026-08-01T15:05:30Z",
+            "recovery_attempt_count": 0,
+            "last_recovery_started_at": null,
+            "recovered_by_instance_id": null
           }
         ]
       },
@@ -36345,7 +36444,7 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "state_sha256": "81c6efcfcc746659dc650884d850948576d6e7ee4c50118f244a74a3956cb608"
+      "state_sha256": "e7aae2c0d3012676bedffc70d4c71038a4e50a8cbf2ae0ea5d32b1cc8e08e200"
     },
     "FX-DEMO-ADMIN-SESSION": {
       "fixture_id": "FX-DEMO-ADMIN-SESSION",
@@ -49601,8 +49700,8 @@
       "fixture_id": "FX-EXTERNAL-DRIVER-SUBJECT-CHANGED",
       "purpose": "Retirada externa não atravessa recurso; Condutor não acessa outra parada",
       "used_by_test_ids": [
-        "TST-SM-CROSS-015",
-        "TST-AUTH-EXT-006"
+        "TST-AUTH-EXT-006",
+        "TST-SM-CROSS-015"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -50519,8 +50618,8 @@
       "fixture_id": "FX-EXTERNAL-SUPPLIER-SUBJECT-CHANGED",
       "purpose": "Forecast externo não atravessa recurso; Fornecedor não acessa outra parada",
       "used_by_test_ids": [
-        "TST-SM-CROSS-014",
-        "TST-AUTH-EXT-005"
+        "TST-AUTH-EXT-005",
+        "TST-SM-CROSS-014"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -54217,7 +54316,30 @@
         "conversation": [],
         "communication_message": [],
         "phone_call": [],
-        "demo_internal_session": [],
+        "demo_internal_session": [
+          {
+            "id": "52de2994-4fcd-5b06-9323-d6a4ca200298",
+            "user_id": "9ac59c75-4e8d-58cd-b495-96e9dfcd1360",
+            "demo_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "session_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.admin.cookie"
+            },
+            "csrf_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.admin.csrf"
+            },
+            "created_at": "2026-08-01T12:00:00Z",
+            "last_seen_at": "2026-08-03T14:00:00Z",
+            "idle_expires_at": "2026-08-03T16:00:00Z",
+            "expires_at": "2026-08-03T20:00:00Z",
+            "revoked_at": null,
+            "revocation_reason_code": null,
+            "replaced_by_session_id": null,
+            "created_ip_hash": null,
+            "version": 1
+          }
+        ],
         "external_action_token": [],
         "external_action_capability": [],
         "external_session": [],
@@ -54248,7 +54370,7 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "state_sha256": "5bdae7feff6030316ea1b4bd4caf0a79e8da1ebbe7b99d65e84d99d0564f4854"
+      "state_sha256": "3245ca0aec3e8a9c3e9705b1abf17dc4307c9417eccc84e306f5684449be09de"
     },
     "FX-NO-SESSION": {
       "fixture_id": "FX-NO-SESSION",
@@ -55173,8 +55295,8 @@
       "purpose": "Mutação falha fechada durante reset; Commit de geração antiga é rejeitado; Commit tardio de worker é rejeitado",
       "used_by_test_ids": [
         "TST-API-POLICY-009",
-        "TST-EVT-CONTRACT-011",
-        "TST-DATA-RESET-004"
+        "TST-DATA-RESET-004",
+        "TST-EVT-CONTRACT-011"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -58012,8 +58134,8 @@
       "fixture_id": "FX-STOP-ARRIVAL-CONFIRMED",
       "purpose": "CorrectArrival preserva confirmação anterior; Correção não apaga relatos ou confirmação anterior",
       "used_by_test_ids": [
-        "TST-SM-STOP-004",
-        "TST-SM-ARRIVAL-005"
+        "TST-SM-ARRIVAL-005",
+        "TST-SM-STOP-004"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -61032,8 +61154,8 @@
       "fixture_id": "FX-STOP-AWAITING-ARRIVAL",
       "purpose": "ReportArrival cria ocorrência sem confirmar chegada; Um relato mantém confirmação em REPORTED",
       "used_by_test_ids": [
-        "TST-SM-STOP-002",
-        "TST-SM-ARRIVAL-001"
+        "TST-SM-ARRIVAL-001",
+        "TST-SM-STOP-002"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -61950,9 +62072,9 @@
       "fixture_id": "FX-STOP-AWAITING-PICKUP",
       "purpose": "ConfirmDeparture move AWAITING_PICKUP para VEHICLE_PICKED_UP; CloseVehicleStop é bloqueado sem retirada confirmada; Duração usa retirada menos chegada",
       "used_by_test_ids": [
-        "TST-SM-STOP-009",
         "TST-SM-CROSS-004",
-        "TST-SM-CROSS-009"
+        "TST-SM-CROSS-009",
+        "TST-SM-STOP-009"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -64807,9 +64929,9 @@
       "fixture_id": "FX-STOP-IN-EXECUTION",
       "purpose": "UpdateCompletionForecast preserva histórico e previsão corrente; CompleteService move IN_EXECUTION para SERVICE_COMPLETED; CompleteService não preenche retirada",
       "used_by_test_ids": [
+        "TST-SM-CROSS-007",
         "TST-SM-STOP-006",
-        "TST-SM-STOP-007",
-        "TST-SM-CROSS-007"
+        "TST-SM-STOP-007"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -73207,8 +73329,8 @@
       "fixture_id": "FX-STOP-SERVICE-COMPLETED",
       "purpose": "ReleaseVehicle move SERVICE_COMPLETED para AWAITING_PICKUP; ReleaseVehicle é transição separada",
       "used_by_test_ids": [
-        "TST-SM-STOP-008",
-        "TST-SM-CROSS-008"
+        "TST-SM-CROSS-008",
+        "TST-SM-STOP-008"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -90289,8 +90411,8 @@
       "fixture_id": "FX-SEED-V213",
       "purpose": "Seed determinístico por versão; Catálogo e seed não contêm dados reais",
       "used_by_test_ids": [
-        "TST-DEMO-SEED-001",
-        "TST-DEMO-DATA-001"
+        "TST-DEMO-DATA-001",
+        "TST-DEMO-SEED-001"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {

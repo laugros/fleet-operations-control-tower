@@ -13,42 +13,42 @@ selection_policy:
 gates:
   G1_FOUNDATION:
     bundle_file: tests/spec/seed-layers/g1-foundation.json
-    bundle_sha256: e733bded83e4036d9130b3ec6b372c93965366c0e9ea9bcefcc21f5901ed896b
+    bundle_sha256: 53942e9de451fa88e7c76dea34cc63d2df64ee468a2fd76e199c743aa643ce34
     required_test_count: 26
     required_fixture_count: 9
     schema_table_count: 32
     seed_table_count: 32
   G2_DOMAIN:
     bundle_file: tests/spec/seed-layers/g2-domain.json
-    bundle_sha256: d3e7a5ddd6da635d116a7cd2d1de8630462d8368c392be9ca5ecb86e8100595e
+    bundle_sha256: afba03fc68febbd08512406abec3f419fc07b6a1b4ef2dc12d5b486c8469777b
     required_test_count: 95
     required_fixture_count: 47
     schema_table_count: 45
     seed_table_count: 40
   G3_PROJECTIONS:
     bundle_file: tests/spec/seed-layers/g3-projections.json
-    bundle_sha256: 9bde9ac5d415a63a9ec71a9fd6efb91abeac3d28c01939c1883dc8ce7f81fa48
+    bundle_sha256: b96db9cdbd12659a64ee4457697a5ec688cdaf7dfbd64e1d423963b65da84aa1
     required_test_count: 116
     required_fixture_count: 54
     schema_table_count: 52
     seed_table_count: 40
   G4_TIME_COMMUNICATION:
     bundle_file: tests/spec/seed-layers/g4-time-communication.json
-    bundle_sha256: 1bb77f0d04ac1afebec171dd0582695ece4ff6e53bbc24737536981da4bdf1d0
+    bundle_sha256: 0606e75f8cad3f5b0a995824fc63cf7de4f1cc725efc2b688379f980f1bb4f33
     required_test_count: 139
     required_fixture_count: 67
     schema_table_count: 56
     seed_table_count: 43
   G5_EXTERNAL:
     bundle_file: tests/spec/seed-layers/g5-external.json
-    bundle_sha256: 1417681fd2278bfdd1a2ec7c76fb9cb314c52aee71e0be58050e5cea3124ec83
+    bundle_sha256: 83fd0d1d678a500b47fe55274bcf24fc95594c9d5ac8872885e08936b10e4479
     required_test_count: 202
     required_fixture_count: 92
     schema_table_count: 61
     seed_table_count: 47
   G6_EXECUTIVE:
     bundle_file: tests/spec/seed-layers/g6-executive.json
-    bundle_sha256: 5bb920b4abef9b25dc6f0aa999c61c3fad5fa5051be7898d4d862259546abf27
+    bundle_sha256: 50ad3a344c17bdb7a61d8ebe3e07c29ff38c50b1d132a2493f1478257e75fedc
     required_test_count: 208
     required_fixture_count: 98
     schema_table_count: 61

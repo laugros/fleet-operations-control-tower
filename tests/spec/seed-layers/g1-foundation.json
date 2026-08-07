@@ -90,7 +90,9 @@
       "fixture_id": "FX-ACTIVE-ATTENDANT-SESSION",
       "purpose": "Nova seleção revoga sessão anterior",
       "used_by_test_ids": [
-        "TST-AUTH-SESSION-003"
+        "TST-AUTH-SESSION-003",
+        "TST-DATA-IAM-002",
+        "TST-DATA-IAM-003"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -981,10 +983,39 @@
       "used_by_test_ids": [
         "TST-API-CREATE-DEMO-SESSION-001",
         "TST-API-DELETE-DEMO-SESSION-001",
+        "TST-API-GET-CASE-OPERATIONAL-VIEW-001",
+        "TST-API-GET-CASE-TIMELINE-001",
         "TST-API-GET-CURRENT-SESSION-001",
-        "TST-API-GET-DEMO-STATUS-001",
+        "TST-API-GET-DEMO-METRICS-001",
         "TST-API-GET-LIVENESS-001",
-        "TST-API-GET-READINESS-001"
+        "TST-API-GET-READINESS-001",
+        "TST-API-GET-STOP-OPERATIONAL-VIEW-001",
+        "TST-API-GET-STOP-TIMELINE-001",
+        "TST-API-LIST-CASE-CONVERSATIONS-001",
+        "TST-API-LIST-CASE-TASKS-001",
+        "TST-API-LIST-STOP-DASHBOARD-001",
+        "TST-API-POLICY-001",
+        "TST-API-POLICY-002",
+        "TST-API-POLICY-003",
+        "TST-API-POLICY-004",
+        "TST-API-POLICY-005",
+        "TST-API-POLICY-006",
+        "TST-API-POLICY-007",
+        "TST-API-POLICY-010",
+        "TST-API-SEARCH-OPERATIONAL-RESOURCES-001",
+        "TST-AUDIT-001",
+        "TST-AUDIT-002",
+        "TST-EVT-CONTRACT-001",
+        "TST-EVT-CONTRACT-002",
+        "TST-EVT-CONTRACT-003",
+        "TST-EVT-CONTRACT-004",
+        "TST-EVT-CONTRACT-005",
+        "TST-EVT-CONTRACT-006",
+        "TST-EVT-CONTRACT-007",
+        "TST-EVT-CONTRACT-008",
+        "TST-EVT-CONTRACT-009",
+        "TST-EVT-CONTRACT-010",
+        "TST-EVT-CONTRACT-012"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -1832,7 +1863,30 @@
         "conversation": [],
         "communication_message": [],
         "phone_call": [],
-        "demo_internal_session": [],
+        "demo_internal_session": [
+          {
+            "id": "4eff8b08-0d5d-58cc-9f71-09eb6bd5f7e8",
+            "user_id": "12bf12cc-fd44-537e-a622-daa43e0eb811",
+            "demo_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "session_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.operations.cookie"
+            },
+            "csrf_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.operations.csrf"
+            },
+            "created_at": "2026-08-01T12:00:00Z",
+            "last_seen_at": "2026-08-01T14:00:00Z",
+            "idle_expires_at": "2026-08-01T16:00:00Z",
+            "expires_at": "2026-08-01T20:00:00Z",
+            "revoked_at": null,
+            "revocation_reason_code": null,
+            "replaced_by_session_id": null,
+            "created_ip_hash": null,
+            "version": 1
+          }
+        ],
         "integration_outbox": [],
         "worker_lease": [],
         "security_audit_record": []
@@ -1843,14 +1897,16 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "c030029b1213e8dd4b803e8e4a80b68c8e612e847cb8bcb6b1d51ca35fe1e8f3",
-      "layer_state_sha256": "01c47a71f06639e21806771d8db9daf6092b2cf187295dca1ef4f307b0fafc1a"
+      "full_state_sha256": "8d97a517f8675fdc8c1c9ced7c39cfe801b5d5986536ebe503d4da1216b34bf2",
+      "layer_state_sha256": "c9507094d6d5a7c86afd3594da356ac9cecc70632f6cb11f9acc5ae13e799cd1"
     },
     "FX-API-RESET": {
       "fixture_id": "FX-API-RESET",
       "purpose": "Contrato de sucesso concreto de advanceDemoClock; Contrato de sucesso concreto de resetDemoScenario; Contrato de sucesso concreto de getDemoReset; Execução preservada não bloqueia reseed de usuários; Auditoria permanece após reset",
       "used_by_test_ids": [
+        "TST-API-ADVANCE-DEMO-CLOCK-001",
         "TST-API-GET-DEMO-RESET-001",
+        "TST-API-GET-DEMO-STATUS-001",
         "TST-API-RESET-DEMO-SCENARIO-001",
         "TST-AUDIT-003",
         "TST-DATA-RESET-005"
@@ -1887,7 +1943,20 @@
             "failure_code": null
           }
         ],
-        "demo_reset_execution": [],
+        "demo_reset_execution": [
+          {
+            "id": "2a5e717a-d5e0-5dda-bf7a-b9f57b64f065",
+            "requested_seed_version": "2.1.3",
+            "source_generation_id": "2c1ba275-c95c-5806-b72d-5010ecc775d5",
+            "target_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "status": "COMPLETED",
+            "requested_by_user_id_snapshot": "9ac59c75-4e8d-58cd-b495-96e9dfcd1360",
+            "requested_by_identity_code": "demo.admin",
+            "requested_by_display_name": "Admin Demo",
+            "requested_at": "2026-08-01T14:50:00Z",
+            "completed_at": "2026-08-01T15:00:00Z"
+          }
+        ],
         "demo_runtime_control": [
           {
             "singleton_key": true,
@@ -2701,10 +2770,49 @@
         "conversation": [],
         "communication_message": [],
         "phone_call": [],
-        "demo_internal_session": [],
+        "demo_internal_session": [
+          {
+            "id": "52de2994-4fcd-5b06-9323-d6a4ca200298",
+            "user_id": "9ac59c75-4e8d-58cd-b495-96e9dfcd1360",
+            "demo_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "session_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.admin.cookie"
+            },
+            "csrf_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.admin.csrf"
+            },
+            "created_at": "2026-08-01T12:00:00Z",
+            "last_seen_at": "2026-08-01T14:00:00Z",
+            "idle_expires_at": "2026-08-01T16:00:00Z",
+            "expires_at": "2026-08-01T20:00:00Z",
+            "revoked_at": null,
+            "revocation_reason_code": null,
+            "replaced_by_session_id": null,
+            "created_ip_hash": null,
+            "version": 1
+          }
+        ],
         "integration_outbox": [],
         "worker_lease": [],
-        "security_audit_record": []
+        "security_audit_record": [
+          {
+            "id": "f6c8f964-9304-5c71-9a6a-10ad000c9dea",
+            "demo_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "actor_type": "INTERNAL_USER",
+            "actor_id": "e3a92bad-0ab1-51b7-ad7d-2a8db369d8c7",
+            "action_code": "SEED_VALIDATION",
+            "resource_type": "DEMO_SEED",
+            "resource_id": null,
+            "decision": "ALLOW",
+            "reason_code": "FIXTURE_BASELINE",
+            "metadata": {
+              "fictitious": true
+            },
+            "occurred_at": "2026-08-01T15:00:00Z"
+          }
+        ]
       },
       "post_restore": [
         "REBUILD_PROJECTIONS",
@@ -2712,21 +2820,50 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "6a87bfd838cb5afcd4762c260ba4c6fd672b2a4e77cd61002cdf8e832d957c1e",
-      "layer_state_sha256": "db0051b9d494033f8fead24d6d2d5a4205223c5a83bb2ba3e7d1fc0ac409c697"
+      "full_state_sha256": "f4cff0e5f714e209e7b5ee98b94b031a3a380f1cac1ae4095721bd051b8dd403",
+      "layer_state_sha256": "2166acf3afe16165485bde00c382ecb6fdb6cf1533c77aaa69bdd921c93e7ef6"
     },
     "FX-DATA-INTEGRITY": {
       "fixture_id": "FX-DATA-INTEGRITY",
       "purpose": "Um papel por usuário; Hash de sessão interna é único; Revogação exige reason code; Grants de escopo respeitam FKs; Demo Admin não possui grants operacionais; Case aceita somente estados canônicos; Case RESOLVED exige campos de resolução; Um stop principal por case; mandatory_for é coerente com is_mandatory; Task COMPLETED exige resultado; Task CANCELLED exige motivo e impacto; Replacement task não aponta para si; Uma parada ativa por veículo; Estados exigem timestamps correspondentes; Service complete permite departure nulo; Liberação não antecede conclusão; Retirada não antecede liberação; CLOSED exige closed_at e closure_reason; Duração não pode ser negativa; Uma confirmação de chegada corrente; Uma previsão corrente; Uma chave de alerta aberta; Alerta RESOLVED exige resolução; Ocorrência é idempotente por source event; Token possui exatamente um sujeito; Hash de capability token é único; Uso de capability não excede limite; Sessão externa não expira após token; Uso de ação é único por idempotency record; Sequence é única por aggregate; Um evento principal por idempotency record; Uma Outbox por evento; Receipt é único por consumer e evento; Message ID é único por source; Uma DLQ por source; Somente um reset ativo; Falha de reset preserva dataset anterior; Auditoria sobrevive ao reset; Fórmulas de métricas correspondem aos dados canônicos",
       "used_by_test_ids": [
+        "TST-DATA-ALERT-001",
+        "TST-DATA-ALERT-002",
+        "TST-DATA-ALERT-003",
+        "TST-DATA-ARRIVAL-001",
+        "TST-DATA-CASE-001",
+        "TST-DATA-CASE-002",
+        "TST-DATA-CASE-003",
+        "TST-DATA-DLQ-001",
+        "TST-DATA-EVT-001",
+        "TST-DATA-EVT-002",
+        "TST-DATA-EVT-003",
+        "TST-DATA-EVT-004",
+        "TST-DATA-EXT-001",
+        "TST-DATA-EXT-002",
+        "TST-DATA-EXT-003",
+        "TST-DATA-EXT-004",
+        "TST-DATA-EXT-005",
+        "TST-DATA-FORECAST-001",
         "TST-DATA-IAM-001",
-        "TST-DATA-IAM-002",
-        "TST-DATA-IAM-003",
         "TST-DATA-IAM-004",
         "TST-DATA-IAM-005",
+        "TST-DATA-INBOX-001",
+        "TST-DATA-METRIC-001",
         "TST-DATA-RESET-001",
         "TST-DATA-RESET-002",
-        "TST-DATA-RESET-003"
+        "TST-DATA-RESET-003",
+        "TST-DATA-STOP-001",
+        "TST-DATA-STOP-002",
+        "TST-DATA-STOP-003",
+        "TST-DATA-STOP-004",
+        "TST-DATA-STOP-005",
+        "TST-DATA-STOP-006",
+        "TST-DATA-STOP-007",
+        "TST-DATA-TASK-001",
+        "TST-DATA-TASK-002",
+        "TST-DATA-TASK-003",
+        "TST-DATA-TASK-004"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -2772,6 +2909,30 @@
             "requested_by_display_name": "Admin Demo",
             "requested_at": "2026-08-01T14:50:00Z",
             "completed_at": "2026-08-01T15:00:00Z"
+          },
+          {
+            "id": "0f18c55b-46d4-59a3-94d9-ea2b8517d7cc",
+            "requested_seed_version": "2.1.3",
+            "source_generation_id": "2c1ba275-c95c-5806-b72d-5010ecc775d5",
+            "target_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "status": "RUNNING",
+            "requested_by_user_id_snapshot": "9ac59c75-4e8d-58cd-b495-96e9dfcd1360",
+            "requested_by_identity_code": "demo.admin",
+            "requested_by_display_name": "Admin Demo",
+            "requested_at": "2026-08-01T14:50:00Z",
+            "completed_at": null,
+            "database_reset_started_at": "2026-08-01T15:00:30Z",
+            "database_reset_committed_at": null,
+            "projections_rebuilt_at": null,
+            "failed_at": null,
+            "failure_code": null,
+            "warning_codes": [],
+            "lease_owner_instance_id": "seed-owner",
+            "heartbeat_at": "2026-08-01T15:00:30Z",
+            "lease_expires_at": "2026-08-01T15:05:30Z",
+            "recovery_attempt_count": 0,
+            "last_recovery_started_at": null,
+            "recovered_by_instance_id": null
           }
         ],
         "demo_runtime_control": [
@@ -3614,8 +3775,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "81c6efcfcc746659dc650884d850948576d6e7ee4c50118f244a74a3956cb608",
-      "layer_state_sha256": "8834e8d46447692f2b63942ca8818bc67c1ac20d103a8dd50b719599624560ff"
+      "full_state_sha256": "e7aae2c0d3012676bedffc70d4c71038a4e50a8cbf2ae0ea5d32b1cc8e08e200",
+      "layer_state_sha256": "ea742a1fe9ff2190e3a3ba6ade3c1cb726e642be91d37e1d2c1b5cefcaab2445"
     },
     "FX-EMPTY-LOCAL": {
       "fixture_id": "FX-EMPTY-LOCAL",
@@ -5424,7 +5585,30 @@
         "conversation": [],
         "communication_message": [],
         "phone_call": [],
-        "demo_internal_session": [],
+        "demo_internal_session": [
+          {
+            "id": "52de2994-4fcd-5b06-9323-d6a4ca200298",
+            "user_id": "9ac59c75-4e8d-58cd-b495-96e9dfcd1360",
+            "demo_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "session_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.admin.cookie"
+            },
+            "csrf_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.admin.csrf"
+            },
+            "created_at": "2026-08-01T12:00:00Z",
+            "last_seen_at": "2026-08-03T14:00:00Z",
+            "idle_expires_at": "2026-08-03T16:00:00Z",
+            "expires_at": "2026-08-03T20:00:00Z",
+            "revoked_at": null,
+            "revocation_reason_code": null,
+            "replaced_by_session_id": null,
+            "created_ip_hash": null,
+            "version": 1
+          }
+        ],
         "integration_outbox": [],
         "worker_lease": [],
         "security_audit_record": []
@@ -5435,8 +5619,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "5bdae7feff6030316ea1b4bd4caf0a79e8da1ebbe7b99d65e84d99d0564f4854",
-      "layer_state_sha256": "01093e65766c56e66a633123e865c0f3cf6ac0a270868bdaaeffe1a5fb55edd2"
+      "full_state_sha256": "3245ca0aec3e8a9c3e9705b1abf17dc4307c9417eccc84e306f5684449be09de",
+      "layer_state_sha256": "b5303ed821b8ff8f721475ac80353eca9dfca8d50fee5b2c7156dd94db839dd0"
     },
     "FX-NO-SESSION": {
       "fixture_id": "FX-NO-SESSION",
