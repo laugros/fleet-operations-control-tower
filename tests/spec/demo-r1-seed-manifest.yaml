@@ -99,6 +99,8 @@ fixtures:
     state_sha256: 74534f5ee31394c220671de8f512548c3b7e0f084c185c8f2cdb53aeff5508b0
     used_by_test_ids:
     - TST-AUTH-SESSION-003
+    - TST-DATA-IAM-002
+    - TST-DATA-IAM-003
     purpose: Nova seleção revoga sessão anterior
   FX-ADAPTER-BAD-SIGNATURE:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ADAPTER-BAD-SIGNATURE
@@ -128,9 +130,9 @@ fixtures:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-CASE-IN-PROGRESS
     state_sha256: 1fbaea521d50ac1dfff41dc56f56ed9da953317afb69b47238e871c59bdeb35a
     used_by_test_ids:
-    - TST-API-WAIT-CASE-FOR-SUPPLIER-001
     - TST-API-CREATE-TASK-001
     - TST-API-RECORD-PHONE-CALL-001
+    - TST-API-WAIT-CASE-FOR-SUPPLIER-001
     - TST-DATA-EVT-006
     purpose: Contrato de sucesso concreto de waitCaseForSupplier; Contrato de sucesso concreto de createTask; Contrato de sucesso concreto de recordPhoneCall;
       PhoneCallRecorded usa aggregate CASE
@@ -170,28 +172,27 @@ fixtures:
     used_by_test_ids:
     - TST-API-CREATE-EXTERNAL-SESSION-001
     - TST-API-GET-EXTERNAL-CONTEXT-001
-    - TST-API-UPDATE-FORECAST-EXTERNAL-001
     - TST-API-POLICY-008
+    - TST-API-UPDATE-FORECAST-EXTERNAL-001
     purpose: Contrato de sucesso concreto de createExternalSession; Contrato de sucesso concreto de getExternalContext; Contrato de sucesso concreto de
       updateForecastExternal; Respostas externas usam headers de proteção
   FX-API-READ-BASE:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-READ-BASE
-    state_sha256: c030029b1213e8dd4b803e8e4a80b68c8e612e847cb8bcb6b1d51ca35fe1e8f3
+    state_sha256: 8d97a517f8675fdc8c1c9ced7c39cfe801b5d5986536ebe503d4da1216b34bf2
     used_by_test_ids:
-    - TST-API-GET-LIVENESS-001
-    - TST-API-GET-READINESS-001
     - TST-API-CREATE-DEMO-SESSION-001
     - TST-API-DELETE-DEMO-SESSION-001
-    - TST-API-GET-CURRENT-SESSION-001
-    - TST-API-SEARCH-OPERATIONAL-RESOURCES-001
-    - TST-API-LIST-STOP-DASHBOARD-001
-    - TST-API-GET-DEMO-METRICS-001
     - TST-API-GET-CASE-OPERATIONAL-VIEW-001
     - TST-API-GET-CASE-TIMELINE-001
-    - TST-API-LIST-CASE-TASKS-001
+    - TST-API-GET-CURRENT-SESSION-001
+    - TST-API-GET-DEMO-METRICS-001
+    - TST-API-GET-LIVENESS-001
+    - TST-API-GET-READINESS-001
     - TST-API-GET-STOP-OPERATIONAL-VIEW-001
     - TST-API-GET-STOP-TIMELINE-001
     - TST-API-LIST-CASE-CONVERSATIONS-001
+    - TST-API-LIST-CASE-TASKS-001
+    - TST-API-LIST-STOP-DASHBOARD-001
     - TST-API-POLICY-001
     - TST-API-POLICY-002
     - TST-API-POLICY-003
@@ -200,6 +201,9 @@ fixtures:
     - TST-API-POLICY-006
     - TST-API-POLICY-007
     - TST-API-POLICY-010
+    - TST-API-SEARCH-OPERATIONAL-RESOURCES-001
+    - TST-AUDIT-001
+    - TST-AUDIT-002
     - TST-EVT-CONTRACT-001
     - TST-EVT-CONTRACT-002
     - TST-EVT-CONTRACT-003
@@ -211,8 +215,6 @@ fixtures:
     - TST-EVT-CONTRACT-009
     - TST-EVT-CONTRACT-010
     - TST-EVT-CONTRACT-012
-    - TST-AUDIT-001
-    - TST-AUDIT-002
     purpose: Contrato de sucesso concreto de getLiveness; Contrato de sucesso concreto de getReadiness; Contrato de sucesso concreto de createDemoSession;
       Contrato de sucesso concreto de deleteDemoSession; Contrato de sucesso concreto de getCurrentSession; Contrato de sucesso concreto de getDemoStatus;
       Contrato de sucesso concreto de searchOperationalResources; Contrato de sucesso concreto de listStopDashboard; Contrato de sucesso concreto de getDemoMetrics;
@@ -226,15 +228,14 @@ fixtures:
       permitidas geram auditoria sanitizada; Negação sensível gera auditoria DENY
   FX-API-RESET:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-RESET
-    state_sha256: ef77af0a82892d0dfe535792b5fb9889daddc7ed01c32945cd89fca17d731c14
+    state_sha256: f4cff0e5f714e209e7b5ee98b94b031a3a380f1cac1ae4095721bd051b8dd403
     used_by_test_ids:
     - TST-API-ADVANCE-DEMO-CLOCK-001
-    - TST-API-RESET-DEMO-SCENARIO-001
     - TST-API-GET-DEMO-RESET-001
     - TST-API-GET-DEMO-STATUS-001
-    - TST-DATA-RESET-001
-    - TST-DATA-RESET-005
+    - TST-API-RESET-DEMO-SCENARIO-001
     - TST-AUDIT-003
+    - TST-DATA-RESET-005
     purpose: Contrato de sucesso concreto de advanceDemoClock; Contrato de sucesso concreto de resetDemoScenario; Contrato de sucesso concreto de getDemoReset;
       Execução preservada não bloqueia reseed de usuários; Auditoria permanece após reset
   FX-API-STOP-ARRIVAL-CONFLICT:
@@ -303,9 +304,9 @@ fixtures:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-TASK-IN-PROGRESS
     state_sha256: 285acc7b2cfdb04256c9cc7e45a62db1d7124a36575425317cdceb1df6c48ab3
     used_by_test_ids:
-    - TST-API-WAIT-TASK-FOR-SUPPLIER-001
-    - TST-API-COMPLETE-TASK-001
     - TST-API-CANCEL-TASK-001
+    - TST-API-COMPLETE-TASK-001
+    - TST-API-WAIT-TASK-FOR-SUPPLIER-001
     purpose: Contrato de sucesso concreto de waitTaskForSupplier; Contrato de sucesso concreto de completeTask; Contrato de sucesso concreto de cancelTask
   FX-API-TASK-NOT-STARTED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-TASK-NOT-STARTED
@@ -388,20 +389,34 @@ fixtures:
     purpose: Forecast retoma caso em espera
   FX-DATA-INTEGRITY:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DATA-INTEGRITY
-    state_sha256: 81c6efcfcc746659dc650884d850948576d6e7ee4c50118f244a74a3956cb608
+    state_sha256: e7aae2c0d3012676bedffc70d4c71038a4e50a8cbf2ae0ea5d32b1cc8e08e200
     used_by_test_ids:
-    - TST-DATA-IAM-001
-    - TST-DATA-IAM-002
-    - TST-DATA-IAM-003
-    - TST-DATA-IAM-004
-    - TST-DATA-IAM-005
+    - TST-DATA-ALERT-001
+    - TST-DATA-ALERT-002
+    - TST-DATA-ALERT-003
+    - TST-DATA-ARRIVAL-001
     - TST-DATA-CASE-001
     - TST-DATA-CASE-002
     - TST-DATA-CASE-003
-    - TST-DATA-TASK-001
-    - TST-DATA-TASK-002
-    - TST-DATA-TASK-003
-    - TST-DATA-TASK-004
+    - TST-DATA-DLQ-001
+    - TST-DATA-EVT-001
+    - TST-DATA-EVT-002
+    - TST-DATA-EVT-003
+    - TST-DATA-EVT-004
+    - TST-DATA-EXT-001
+    - TST-DATA-EXT-002
+    - TST-DATA-EXT-003
+    - TST-DATA-EXT-004
+    - TST-DATA-EXT-005
+    - TST-DATA-FORECAST-001
+    - TST-DATA-IAM-001
+    - TST-DATA-IAM-004
+    - TST-DATA-IAM-005
+    - TST-DATA-INBOX-001
+    - TST-DATA-METRIC-001
+    - TST-DATA-RESET-001
+    - TST-DATA-RESET-002
+    - TST-DATA-RESET-003
     - TST-DATA-STOP-001
     - TST-DATA-STOP-002
     - TST-DATA-STOP-003
@@ -409,25 +424,10 @@ fixtures:
     - TST-DATA-STOP-005
     - TST-DATA-STOP-006
     - TST-DATA-STOP-007
-    - TST-DATA-ARRIVAL-001
-    - TST-DATA-FORECAST-001
-    - TST-DATA-ALERT-001
-    - TST-DATA-ALERT-002
-    - TST-DATA-ALERT-003
-    - TST-DATA-EXT-001
-    - TST-DATA-EXT-002
-    - TST-DATA-EXT-003
-    - TST-DATA-EXT-004
-    - TST-DATA-EXT-005
-    - TST-DATA-EVT-001
-    - TST-DATA-EVT-002
-    - TST-DATA-EVT-003
-    - TST-DATA-EVT-004
-    - TST-DATA-INBOX-001
-    - TST-DATA-DLQ-001
-    - TST-DATA-RESET-002
-    - TST-DATA-RESET-003
-    - TST-DATA-METRIC-001
+    - TST-DATA-TASK-001
+    - TST-DATA-TASK-002
+    - TST-DATA-TASK-003
+    - TST-DATA-TASK-004
     purpose: Um papel por usuário; Hash de sessão interna é único; Revogação exige reason code; Grants de escopo respeitam FKs; Demo Admin não possui grants
       operacionais; Case aceita somente estados canônicos; Case RESOLVED exige campos de resolução; Um stop principal por case; mandatory_for é coerente
       com is_mandatory; Task COMPLETED exige resultado; Task CANCELLED exige motivo e impacto; Replacement task não aponta para si; Uma parada ativa por
@@ -533,15 +533,15 @@ fixtures:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EXTERNAL-DRIVER-SUBJECT-CHANGED
     state_sha256: 334bc070d286010f13f2020ad3549b031655a64722d3c209272a443862757e43
     used_by_test_ids:
-    - TST-SM-CROSS-015
     - TST-AUTH-EXT-006
+    - TST-SM-CROSS-015
     purpose: Retirada externa não atravessa recurso; Condutor não acessa outra parada
   FX-EXTERNAL-SUPPLIER-SUBJECT-CHANGED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EXTERNAL-SUPPLIER-SUBJECT-CHANGED
     state_sha256: a6c947de3821da60ca57a121a70326984cab5eb298feca39ecadf69d827aee77
     used_by_test_ids:
-    - TST-SM-CROSS-014
     - TST-AUTH-EXT-005
+    - TST-SM-CROSS-014
     purpose: Forecast externo não atravessa recurso; Fornecedor não acessa outra parada
   FX-IDEMPOTENT-COMMAND:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-IDEMPOTENT-COMMAND
@@ -557,7 +557,7 @@ fixtures:
     purpose: Manager não executa escrita
   FX-MUTATED-DEMO:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-MUTATED-DEMO
-    state_sha256: 5bdae7feff6030316ea1b4bd4caf0a79e8da1ebbe7b99d65e84d99d0564f4854
+    state_sha256: 3245ca0aec3e8a9c3e9705b1abf17dc4307c9417eccc84e306f5684449be09de
     used_by_test_ids:
     - TST-DEMO-RESET-001
     purpose: Reset restaura a versão seedada
@@ -573,8 +573,8 @@ fixtures:
     state_sha256: 756cbde9f901096b4a40f1f6c2f71fcd72f73cfcd571a9dbf8ac48bdf4bbfcc3
     used_by_test_ids:
     - TST-API-POLICY-009
-    - TST-EVT-CONTRACT-011
     - TST-DATA-RESET-004
+    - TST-EVT-CONTRACT-011
     purpose: Mutação falha fechada durante reset; Commit de geração antiga é rejeitado; Commit tardio de worker é rejeitado
   FX-REVOKED-ACTIVE-SESSION:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-REVOKED-ACTIVE-SESSION
@@ -592,15 +592,15 @@ fixtures:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SEED-V213
     state_sha256: ca8e4caa50748a5eba44dbea94b8a0f33ee38e7f62594efa18badf184d06e954
     used_by_test_ids:
-    - TST-DEMO-SEED-001
     - TST-DEMO-DATA-001
+    - TST-DEMO-SEED-001
     purpose: Seed determinístico por versão; Catálogo e seed não contêm dados reais
   FX-STOP-ARRIVAL-CONFIRMED:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-ARRIVAL-CONFIRMED
     state_sha256: 970c5175e7fe89312e8aa36029b230d2d9b831c5d3a5a09eae202dfbec9b16f5
     used_by_test_ids:
-    - TST-SM-STOP-004
     - TST-SM-ARRIVAL-005
+    - TST-SM-STOP-004
     purpose: CorrectArrival preserva confirmação anterior; Correção não apaga relatos ou confirmação anterior
   FX-STOP-ARRIVAL-CONFLICT:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-ARRIVAL-CONFLICT
@@ -618,16 +618,16 @@ fixtures:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-AWAITING-ARRIVAL
     state_sha256: 5005e6bb8024ffb2ae1b91fab6f1396fea2d6198faa5f8012faf0fa4ae51f1d3
     used_by_test_ids:
-    - TST-SM-STOP-002
     - TST-SM-ARRIVAL-001
+    - TST-SM-STOP-002
     purpose: ReportArrival cria ocorrência sem confirmar chegada; Um relato mantém confirmação em REPORTED
   FX-STOP-AWAITING-PICKUP:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-AWAITING-PICKUP
     state_sha256: 8aadea9731b53848951acc53d0b891f6f87059b3148cbf34e77bad776833d68e
     used_by_test_ids:
-    - TST-SM-STOP-009
     - TST-SM-CROSS-004
     - TST-SM-CROSS-009
+    - TST-SM-STOP-009
     purpose: ConfirmDeparture move AWAITING_PICKUP para VEHICLE_PICKED_UP; CloseVehicleStop é bloqueado sem retirada confirmada; Duração usa retirada menos
       chegada
   FX-STOP-CURRENT-ARRIVAL:
@@ -646,9 +646,9 @@ fixtures:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-IN-EXECUTION
     state_sha256: 565aff3197df997e7f534c3b2241b2e630095e50addc5f5e12b781e69a4f47ac
     used_by_test_ids:
+    - TST-SM-CROSS-007
     - TST-SM-STOP-006
     - TST-SM-STOP-007
-    - TST-SM-CROSS-007
     purpose: UpdateCompletionForecast preserva histórico e previsão corrente; CompleteService move IN_EXECUTION para SERVICE_COMPLETED; CompleteService
       não preenche retirada
   FX-STOP-INACTIVE-NO-ALERT:
@@ -705,8 +705,8 @@ fixtures:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-SERVICE-COMPLETED
     state_sha256: 3e439c9c0176b45b187067ccfbc213b8f7884fe3a583c715df087bb982a15651
     used_by_test_ids:
-    - TST-SM-STOP-008
     - TST-SM-CROSS-008
+    - TST-SM-STOP-008
     purpose: ReleaseVehicle move SERVICE_COMPLETED para AWAITING_PICKUP; ReleaseVehicle é transição separada
   FX-STOP-TWO-ARRIVAL-REPORTS:
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-TWO-ARRIVAL-REPORTS

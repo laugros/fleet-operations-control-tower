@@ -7035,7 +7035,7 @@ tests:
   - DEMO-DATA-002
   source_refs:
   - '19'
-  fixture: FX-API-RESET
+  fixture: FX-DATA-INTEGRITY
   actor: SYSTEM_TEST
   preconditions:
   - Schema revision DEMO_R1_V213 aplicada.
@@ -7043,7 +7043,7 @@ tests:
   action:
     type: DB_PROGRAM
     program_id: TST-DATA-RESET-001
-    fixture_id: FX-API-RESET
+    fixture_id: FX-DATA-INTEGRITY
     timeout_ms: 30000
   expected:
     error_code: DATA_CONSTRAINT_VIOLATION
@@ -7055,7 +7055,7 @@ tests:
   - database
   - constraint
   fixture_refs:
-  - FX-API-RESET
+  - FX-DATA-INTEGRITY
   invariant_ids: []
   data_adr_ids:
   - DATA-ADR-012

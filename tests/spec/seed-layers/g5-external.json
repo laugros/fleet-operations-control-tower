@@ -364,7 +364,9 @@
       "fixture_id": "FX-ACTIVE-ATTENDANT-SESSION",
       "purpose": "Nova seleção revoga sessão anterior",
       "used_by_test_ids": [
-        "TST-AUTH-SESSION-003"
+        "TST-AUTH-SESSION-003",
+        "TST-DATA-IAM-002",
+        "TST-DATA-IAM-003"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
       "tables": {
@@ -11495,7 +11497,6 @@
         "TST-API-GET-CASE-TIMELINE-001",
         "TST-API-GET-CURRENT-SESSION-001",
         "TST-API-GET-DEMO-METRICS-001",
-        "TST-API-GET-DEMO-STATUS-001",
         "TST-API-GET-LIVENESS-001",
         "TST-API-GET-READINESS-001",
         "TST-API-GET-STOP-OPERATIONAL-VIEW-001",
@@ -12416,7 +12417,30 @@
         "conversation": [],
         "communication_message": [],
         "phone_call": [],
-        "demo_internal_session": [],
+        "demo_internal_session": [
+          {
+            "id": "4eff8b08-0d5d-58cc-9f71-09eb6bd5f7e8",
+            "user_id": "12bf12cc-fd44-537e-a622-daa43e0eb811",
+            "demo_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "session_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.operations.cookie"
+            },
+            "csrf_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.operations.csrf"
+            },
+            "created_at": "2026-08-01T12:00:00Z",
+            "last_seen_at": "2026-08-01T14:00:00Z",
+            "idle_expires_at": "2026-08-01T16:00:00Z",
+            "expires_at": "2026-08-01T20:00:00Z",
+            "revoked_at": null,
+            "revocation_reason_code": null,
+            "replaced_by_session_id": null,
+            "created_ip_hash": null,
+            "version": 1
+          }
+        ],
         "external_action_token": [],
         "external_action_capability": [],
         "external_session": [],
@@ -12435,8 +12459,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "c030029b1213e8dd4b803e8e4a80b68c8e612e847cb8bcb6b1d51ca35fe1e8f3",
-      "layer_state_sha256": "a8b46c284d2c8d95a49c9f7f906187e07c472453b75108217e2b29b258887662"
+      "full_state_sha256": "8d97a517f8675fdc8c1c9ced7c39cfe801b5d5986536ebe503d4da1216b34bf2",
+      "layer_state_sha256": "8d97a517f8675fdc8c1c9ced7c39cfe801b5d5986536ebe503d4da1216b34bf2"
     },
     "FX-API-RESET": {
       "fixture_id": "FX-API-RESET",
@@ -12447,7 +12471,6 @@
         "TST-API-GET-DEMO-STATUS-001",
         "TST-API-RESET-DEMO-SCENARIO-001",
         "TST-AUDIT-003",
-        "TST-DATA-RESET-001",
         "TST-DATA-RESET-005"
       ],
       "restore_mode": "REPLACE_ALL_RESETTABLE",
@@ -12494,30 +12517,6 @@
             "requested_by_display_name": "Admin Demo",
             "requested_at": "2026-08-01T14:50:00Z",
             "completed_at": "2026-08-01T15:00:00Z"
-          },
-          {
-            "id": "0f18c55b-46d4-59a3-94d9-ea2b8517d7cc",
-            "requested_seed_version": "2.1.3",
-            "source_generation_id": "2c1ba275-c95c-5806-b72d-5010ecc775d5",
-            "target_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
-            "status": "RUNNING",
-            "requested_by_user_id_snapshot": "9ac59c75-4e8d-58cd-b495-96e9dfcd1360",
-            "requested_by_identity_code": "demo.admin",
-            "requested_by_display_name": "Admin Demo",
-            "requested_at": "2026-08-01T14:50:00Z",
-            "completed_at": null,
-            "database_reset_started_at": "2026-08-01T15:00:30Z",
-            "database_reset_committed_at": null,
-            "projections_rebuilt_at": null,
-            "failed_at": null,
-            "failure_code": null,
-            "warning_codes": [],
-            "lease_owner_instance_id": "seed-owner",
-            "heartbeat_at": "2026-08-01T15:00:30Z",
-            "lease_expires_at": "2026-08-01T15:05:30Z",
-            "recovery_attempt_count": 0,
-            "last_recovery_started_at": null,
-            "recovered_by_instance_id": null
           }
         ],
         "demo_runtime_control": [
@@ -13435,8 +13434,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "ef77af0a82892d0dfe535792b5fb9889daddc7ed01c32945cd89fca17d731c14",
-      "layer_state_sha256": "ef77af0a82892d0dfe535792b5fb9889daddc7ed01c32945cd89fca17d731c14"
+      "full_state_sha256": "f4cff0e5f714e209e7b5ee98b94b031a3a380f1cac1ae4095721bd051b8dd403",
+      "layer_state_sha256": "f4cff0e5f714e209e7b5ee98b94b031a3a380f1cac1ae4095721bd051b8dd403"
     },
     "FX-API-STOP-ARRIVAL-CONFLICT": {
       "fixture_id": "FX-API-STOP-ARRIVAL-CONFLICT",
@@ -35858,8 +35857,6 @@
         "TST-DATA-EXT-005",
         "TST-DATA-FORECAST-001",
         "TST-DATA-IAM-001",
-        "TST-DATA-IAM-002",
-        "TST-DATA-IAM-003",
         "TST-DATA-IAM-004",
         "TST-DATA-IAM-005",
         "TST-DATA-INBOX-001",
@@ -35923,6 +35920,30 @@
             "requested_by_display_name": "Admin Demo",
             "requested_at": "2026-08-01T14:50:00Z",
             "completed_at": "2026-08-01T15:00:00Z"
+          },
+          {
+            "id": "0f18c55b-46d4-59a3-94d9-ea2b8517d7cc",
+            "requested_seed_version": "2.1.3",
+            "source_generation_id": "2c1ba275-c95c-5806-b72d-5010ecc775d5",
+            "target_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "status": "RUNNING",
+            "requested_by_user_id_snapshot": "9ac59c75-4e8d-58cd-b495-96e9dfcd1360",
+            "requested_by_identity_code": "demo.admin",
+            "requested_by_display_name": "Admin Demo",
+            "requested_at": "2026-08-01T14:50:00Z",
+            "completed_at": null,
+            "database_reset_started_at": "2026-08-01T15:00:30Z",
+            "database_reset_committed_at": null,
+            "projections_rebuilt_at": null,
+            "failed_at": null,
+            "failure_code": null,
+            "warning_codes": [],
+            "lease_owner_instance_id": "seed-owner",
+            "heartbeat_at": "2026-08-01T15:00:30Z",
+            "lease_expires_at": "2026-08-01T15:05:30Z",
+            "recovery_attempt_count": 0,
+            "last_recovery_started_at": null,
+            "recovered_by_instance_id": null
           }
         ],
         "demo_runtime_control": [
@@ -36817,8 +36838,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "81c6efcfcc746659dc650884d850948576d6e7ee4c50118f244a74a3956cb608",
-      "layer_state_sha256": "bbce5f23db54a21c028f4fd3e0c2f8b6040616b85826ed46497b48f9a62ebc99"
+      "full_state_sha256": "e7aae2c0d3012676bedffc70d4c71038a4e50a8cbf2ae0ea5d32b1cc8e08e200",
+      "layer_state_sha256": "e7aae2c0d3012676bedffc70d4c71038a4e50a8cbf2ae0ea5d32b1cc8e08e200"
     },
     "FX-DEMO-ADMIN-SESSION": {
       "fixture_id": "FX-DEMO-ADMIN-SESSION",
@@ -49046,7 +49067,30 @@
         "conversation": [],
         "communication_message": [],
         "phone_call": [],
-        "demo_internal_session": [],
+        "demo_internal_session": [
+          {
+            "id": "52de2994-4fcd-5b06-9323-d6a4ca200298",
+            "user_id": "9ac59c75-4e8d-58cd-b495-96e9dfcd1360",
+            "demo_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+            "session_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.admin.cookie"
+            },
+            "csrf_token_hash": {
+              "$derive": "SHA256",
+              "from": "fixture://credentials/internal.admin.csrf"
+            },
+            "created_at": "2026-08-01T12:00:00Z",
+            "last_seen_at": "2026-08-03T14:00:00Z",
+            "idle_expires_at": "2026-08-03T16:00:00Z",
+            "expires_at": "2026-08-03T20:00:00Z",
+            "revoked_at": null,
+            "revocation_reason_code": null,
+            "replaced_by_session_id": null,
+            "created_ip_hash": null,
+            "version": 1
+          }
+        ],
         "external_action_token": [],
         "external_action_capability": [],
         "external_session": [],
@@ -49074,8 +49118,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "5bdae7feff6030316ea1b4bd4caf0a79e8da1ebbe7b99d65e84d99d0564f4854",
-      "layer_state_sha256": "431dc59616f0224acc57fdc667d49d8eb410098439cc9ad896fa8c958b163dd4"
+      "full_state_sha256": "3245ca0aec3e8a9c3e9705b1abf17dc4307c9417eccc84e306f5684449be09de",
+      "layer_state_sha256": "3245ca0aec3e8a9c3e9705b1abf17dc4307c9417eccc84e306f5684449be09de"
     },
     "FX-NO-SESSION": {
       "fixture_id": "FX-NO-SESSION",

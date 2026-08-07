@@ -33,17 +33,24 @@ try {
     table_name: string;
     schema_name: string;
     is_unique: boolean;
+    access_method: string;
+    indexed_expression: string | null;
+    definition: string;
     predicate: string | null;
   }>(`
     SELECT idx.relname AS name,
            table_rel.relname AS table_name,
            schema_ns.nspname AS schema_name,
            i.indisunique AS is_unique,
+           access_method.amname AS access_method,
+           pg_get_expr(i.indexprs, i.indrelid) AS indexed_expression,
+           pg_get_indexdef(i.indexrelid) AS definition,
            pg_get_expr(i.indpred, i.indrelid) AS predicate
       FROM pg_index i
       JOIN pg_class idx ON idx.oid = i.indexrelid
       JOIN pg_class table_rel ON table_rel.oid = i.indrelid
       JOIN pg_namespace schema_ns ON schema_ns.oid = table_rel.relnamespace
+      JOIN pg_am access_method ON access_method.oid = idx.relam
      WHERE idx.relname = 'uq_demo_reset_running'
   `);
 
@@ -51,6 +58,8 @@ try {
   const fk = constraints.find((row) => row.name === "fk_user_customer_scope_customer");
   const activeIndex = indexes[0];
   const errors: string[] = [];
+  const expectedPredicate = "(status = ANY (ARRAY['REQUESTED'::text, 'RUNNING'::text, 'RECOVERING'::text]))";
+  const expectedIndexDefinition = "CREATE UNIQUE INDEX uq_demo_reset_running ON public.demo_reset_execution USING btree ((1)) WHERE (status = ANY (ARRAY['REQUESTED'::text, 'RUNNING'::text, 'RECOVERING'::text]))";
 
   if (!pk || pk.schema_name !== "public" || pk.table_name !== "user_role" || pk.type !== "p" || pk.definition !== "PRIMARY KEY (user_id)") {
     errors.push(`pk_user_role has unexpected definition: ${JSON.stringify(pk)}`);
@@ -58,7 +67,7 @@ try {
   if (!fk || fk.schema_name !== "public" || fk.table_name !== "user_customer_scope" || fk.type !== "f" || !/^FOREIGN KEY \(customer_id\) REFERENCES customer\(id\)/.test(fk.definition)) {
     errors.push(`fk_user_customer_scope_customer has unexpected definition: ${JSON.stringify(fk)}`);
   }
-  if (!activeIndex || activeIndex.schema_name !== "public" || activeIndex.table_name !== "demo_reset_execution" || !activeIndex.is_unique || !activeIndex.predicate || !["REQUESTED", "RUNNING", "RECOVERING"].every((state) => activeIndex.predicate.includes(state))) {
+  if (!activeIndex || activeIndex.schema_name !== "public" || activeIndex.table_name !== "demo_reset_execution" || !activeIndex.is_unique || activeIndex.access_method !== "btree" || activeIndex.indexed_expression !== "1" || activeIndex.predicate !== expectedPredicate || activeIndex.definition !== expectedIndexDefinition) {
     errors.push(`uq_demo_reset_running has unexpected definition: ${JSON.stringify(activeIndex)}`);
   }
   if (errors.length > 0) throw new Error(errors.join("\n"));

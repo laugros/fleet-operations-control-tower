@@ -130,7 +130,7 @@ snapshots:
       stop_id: 8969da92-27fe-5b0e-89b3-1ea8f4126813
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-READ-BASE
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-READ-BASE
-    state_sha256: 36da71a31a84b202c3c3493b255939c2cfaa584ab2a3257ff19c1687dfe3e4ef
+    state_sha256: 8d97a517f8675fdc8c1c9ced7c39cfe801b5d5986536ebe503d4da1216b34bf2
   FX-API-CASE-NEW:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -357,7 +357,7 @@ snapshots:
       target_generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-RESET
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-RESET
-    state_sha256: ef77af0a82892d0dfe535792b5fb9889daddc7ed01c32945cd89fca17d731c14
+    state_sha256: f4cff0e5f714e209e7b5ee98b94b031a3a380f1cac1ae4095721bd051b8dd403
   FX-API-EMAIL:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -487,7 +487,7 @@ seed_aliases:
   FX-DATA-INTEGRITY:
     seed_manifest_ref: demo-r1-v2.1.3/FX-DATA-INTEGRITY
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DATA-INTEGRITY
-    state_sha256: cab5d986b2fe35e1b524cad1cde100095dbe4104c897e715929c88f4e46c2fc4
+    state_sha256: e7aae2c0d3012676bedffc70d4c71038a4e50a8cbf2ae0ea5d32b1cc8e08e200
   FX-DEMO-ADMIN-SESSION:
     seed_manifest_ref: demo-r1-v2.1.3/FX-DEMO-ADMIN-SESSION
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DEMO-ADMIN-SESSION
@@ -559,7 +559,7 @@ seed_aliases:
   FX-MUTATED-DEMO:
     seed_manifest_ref: demo-r1-v2.1.3/FX-MUTATED-DEMO
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-MUTATED-DEMO
-    state_sha256: a3c097314833e475a54b485263d6b50bc317d46abb7413cbbe911733a8d4f623
+    state_sha256: 3245ca0aec3e8a9c3e9705b1abf17dc4307c9417eccc84e306f5684449be09de
   FX-NO-SESSION:
     seed_manifest_ref: demo-r1-v2.1.3/FX-NO-SESSION
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-NO-SESSION

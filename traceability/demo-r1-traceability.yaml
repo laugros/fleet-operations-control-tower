@@ -6186,7 +6186,7 @@ test_reverse_index:
   title: Somente um reset ativo
   layer: DATA
   priority: P0
-  fixture_id: FX-API-RESET
+  fixture_id: FX-DATA-INTEGRITY
   action_type: DB_PROGRAM
   requirement_ids:
   - DEMO-DATA-002

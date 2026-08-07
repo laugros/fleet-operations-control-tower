@@ -289,15 +289,16 @@ describe("G1_FOUNDATION — 26 activation tests", () => {
     }
 
     const resetProgram = runnerProgram("TST-DATA-RESET-001");
-    expect(resetProgram.fixture_id).toBe("FX-API-RESET");
-    expect(JSON.stringify(resetProgram)).toContain("seed://FX-API-RESET/tables/demo_reset_execution/1");
+    expect(resetProgram.fixture_id).toBe("FX-DATA-INTEGRITY");
+    expect(JSON.stringify(resetProgram)).toContain("seed://FX-DATA-INTEGRITY/tables/demo_reset_execution/1");
     expect(layer.fixtures["FX-API-RESET"].tables.demo_internal_session).toHaveLength(1);
-    expect(layer.fixtures["FX-API-RESET"].tables.demo_reset_execution).toHaveLength(2);
+    expect(layer.fixtures["FX-API-RESET"].tables.demo_reset_execution).toHaveLength(1);
+    expect(layer.fixtures["FX-DATA-INTEGRITY"].tables.demo_reset_execution).toHaveLength(2);
     expect(layer.fixtures["FX-API-RESET"].tables.security_audit_record).toHaveLength(1);
     const adminSession = layer.fixtures["FX-API-RESET"].tables.demo_internal_session[0] as Record<string, unknown>;
     expect((adminSession.session_token_hash as Record<string, unknown>).from).toBe("fixture://credentials/internal.admin.cookie");
     expect((layer.fixtures["FX-API-RESET"].tables.demo_reset_execution[0] as Record<string, unknown>).status).toBe("COMPLETED");
-    expect((layer.fixtures["FX-API-RESET"].tables.demo_reset_execution[1] as Record<string, unknown>).status).toBe("RUNNING");
+    expect((layer.fixtures["FX-DATA-INTEGRITY"].tables.demo_reset_execution[1] as Record<string, unknown>).status).toBe("RUNNING");
     expect(seedManifest.fixtures["FX-API-RESET"].state_sha256).toBe(layer.fixtures["FX-API-RESET"].full_state_sha256);
     expect(fixtureSnapshot.snapshots["FX-API-RESET"].state_sha256).toBe(seedManifest.fixtures["FX-API-RESET"].state_sha256);
   });
