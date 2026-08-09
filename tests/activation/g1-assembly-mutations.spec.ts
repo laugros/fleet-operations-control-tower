@@ -1,13 +1,14 @@
 import { spawnSync } from "node:child_process";
 import {
-  cpSync,
+  copyFileSync,
+  mkdirSync,
   mkdtempSync,
   readFileSync,
   rmSync,
   writeFileSync
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { join, relative, resolve } from "node:path";
+import { dirname, join, resolve } from "node:path";
 
 import { describe, expect, it } from "vitest";
 import { parse, stringify } from "yaml";
@@ -18,18 +19,22 @@ const verifierTool = resolve(repositoryRoot, "tools/verify-g1-assembly.mjs");
 
 function copyRepository(): string {
   const target = mkdtempSync(join(tmpdir(), "fotc-g1-mutation-"));
-  cpSync(repositoryRoot, target, {
-    recursive: true,
-    filter(source) {
-      const path = relative(repositoryRoot, source).replaceAll("\\", "/");
-      return ![
-        ".git",
-        ".pnpm-store",
-        "node_modules",
-        "test-results"
-      ].some((excluded) => path === excluded || path.startsWith(`${excluded}/`));
-    }
-  });
+  const checksums = readFileSync(join(repositoryRoot, "SHA256SUMS.txt"), "utf8");
+  const requiredFiles = new Set([
+    "SHA256SUMS.txt",
+    "baseline/demo-r1-baseline-manifest.yaml"
+  ]);
+  for (const line of checksums.trim().split(/\r?\n/)) {
+    const [, path] = line.split(/\s{2}/);
+    if (path) requiredFiles.add(path);
+  }
+  const baseline = parse(readFileSync(join(repositoryRoot, "baseline/demo-r1-baseline-manifest.yaml"), "utf8"));
+  for (const artifact of baseline.artifacts as Array<{ path: string }>) requiredFiles.add(artifact.path);
+  for (const path of requiredFiles) {
+    const destination = join(target, path);
+    mkdirSync(dirname(destination), { recursive: true });
+    copyFileSync(join(repositoryRoot, path), destination);
+  }
   return target;
 }
 
