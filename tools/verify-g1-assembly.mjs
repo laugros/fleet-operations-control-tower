@@ -41,18 +41,21 @@ const seedManifest = parse(text("tests/spec/demo-r1-seed-manifest.yaml"));
 const fixtureSnapshots = parse(text("tests/spec/demo-r1-test-fixtures.yaml"));
 const seedLayers = parse(text("tests/spec/demo-r1-seed-layers.yaml"));
 const testsById = new Map(catalog.tests.map((test) => [test.id, test]));
+invariant(testsById.size === catalog.tests.length, "test catalog contains duplicate test ids");
 const expectedUsage = new Map(Object.keys(resolved.fixtures).map((fixtureId) => [fixtureId, []]));
 for (const test of catalog.tests) {
   invariant(expectedUsage.has(test.fixture), `${test.id} references unknown primary fixture ${test.fixture}`);
   expectedUsage.get(test.fixture).push(test.id);
 }
+for (const usage of expectedUsage.values()) usage.sort();
 invariant(JSON.stringify(Object.keys(seedManifest.fixtures).sort()) === JSON.stringify(Object.keys(resolved.fixtures).sort()), "seed manifest fixture keys differ from resolved seed");
 for (const [fixtureId, fixture] of Object.entries(resolved.fixtures)) {
-  const expected = expectedUsage.get(fixtureId).sort();
-  const actual = [...fixture.used_by_test_ids].sort();
-  invariant(JSON.stringify(actual) === JSON.stringify(expected), `${fixtureId}.used_by_test_ids differs from catalog`);
+  const expected = expectedUsage.get(fixtureId);
+  invariant(Array.isArray(fixture.used_by_test_ids), `${fixtureId}.used_by_test_ids is not an array`);
+  invariant(JSON.stringify(fixture.used_by_test_ids) === JSON.stringify(expected), `${fixtureId}.used_by_test_ids differs from canonical catalog order`);
   const manifestFixture = seedManifest.fixtures[fixtureId];
-  invariant(JSON.stringify([...manifestFixture.used_by_test_ids].sort()) === JSON.stringify(expected), `${fixtureId}.used_by_test_ids differs in seed manifest`);
+  invariant(Array.isArray(manifestFixture.used_by_test_ids), `${fixtureId}.used_by_test_ids is not an array in seed manifest`);
+  invariant(JSON.stringify(manifestFixture.used_by_test_ids) === JSON.stringify(expected), `${fixtureId}.used_by_test_ids differs from canonical catalog order in seed manifest`);
   invariant(manifestFixture.used_by_test_ids.every((testId) => testsById.has(testId)), `${fixtureId}.seed manifest references unknown test id`);
   invariant(manifestFixture.state_sha256 === fixture.state_sha256, `${fixtureId} state hash differs in seed manifest`);
   invariant(fixture.state_sha256 === stateHash(fixture.tables), `${fixtureId} state_sha256 is not reproducible`);
@@ -74,8 +77,8 @@ for (const layerSpec of Object.values(seedLayers.gates)) {
   invariant(sha256(layerPath) === layerSpec.bundle_sha256, `${layerPath} hash differs from seed layer plan`);
   for (const [fixtureId, fixture] of Object.entries(layer.fixtures)) {
     invariant(resolved.fixtures[fixtureId], `${layerPath} references unknown fixture ${fixtureId}`);
-    invariant(JSON.stringify(fixture.used_by_test_ids) === JSON.stringify(resolved.fixtures[fixtureId].used_by_test_ids), `${layerPath} ${fixtureId}.used_by_test_ids differs from resolved seed`);
-    invariant(JSON.stringify(fixture.used_by_test_ids) === JSON.stringify(seedManifest.fixtures[fixtureId].used_by_test_ids), `${layerPath} ${fixtureId}.used_by_test_ids differs from seed manifest`);
+    invariant(Array.isArray(fixture.used_by_test_ids), `${layerPath} ${fixtureId}.used_by_test_ids is not an array`);
+    invariant(JSON.stringify(fixture.used_by_test_ids) === JSON.stringify(expectedUsage.get(fixtureId)), `${layerPath} ${fixtureId}.used_by_test_ids differs from canonical catalog order`);
     invariant(fixture.full_state_sha256 === resolved.fixtures[fixtureId].state_sha256, `${layerPath} ${fixtureId}.full_state_sha256 differs from resolved seed`);
     invariant(fixture.layer_state_sha256 === stateHash(fixture.tables), `${layerPath} ${fixtureId}.layer_state_sha256 is not reproducible`);
   }
