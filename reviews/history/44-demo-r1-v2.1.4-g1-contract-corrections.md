@@ -2,69 +2,67 @@
 
 **Base:** `880e2f2`  
 **Branch candidata:** `codex/g1-runner-contract-corrections`  
+**Commit técnico:** commit desta correção na branch candidata
 **Status:** `CANDIDATE_PENDING_INDEPENDENT_REVIEW`  
 **Classificação:** evidência histórica, não normativa  
-**Autorização:** não autoriza G2, não renova R7 e não autoriza merge
+**Autorização:** não renova R7, não autoriza G2 e não autoriza merge
 
 ## Escopo
 
-Este slice responde à revisão independente do PR #1 e corrige somente a
-executabilidade e a integridade dos contratos G1. Os achados históricos
-`G1-RUN-M006` e `G1-RUN-M007` continuam aliases de `G1-RUN-B006` e
-`G1-RUN-B007` na revisão R6.
+Este slice responde às revisões independentes do PR #1 e corrige somente a
+integridade e a executabilidade dos contratos G1. Os aliases históricos
+`G1-RUN-M006`/`G1-RUN-M007` continuam equivalentes a `G1-RUN-B006`/`G1-RUN-B007`.
 
-| Achado | Correção candidata |
+## Correções aplicadas
+
+| Achado | Resultado |
 |---|---|
-| `G1-RUN-B001` | `TST-AUTH-SESSION-002` envia `role_code: DEMO_ADMIN`. |
-| `G1-RUN-B002/B003` | Fixtures de status, reset e auditoria possuem sessões, resets e auditoria executáveis. |
-| `G1-RUN-B004` | Sessão expirada usa `internal.attendant.cookie`. |
-| `G1-RUN-B005` | IAM-002/003 referenciam a sessão de `FX-ACTIVE-ATTENDANT-SESSION`. |
-| `G1-RUN-B006` (alias M006) | Migration nomeia as três constraints físicas e o verificador compara a definição exata do índice parcial. |
-| `G1-RUN-B007` (alias M007) | Precondição de seed usa v2.1.3. |
-| Assembly | O script determinístico recompõe quatro fixtures afetadas, propaga metadados às seis camadas e atualiza manifestos, rastreabilidade e hashes derivados. |
-
-## Achados da revisão independente do PR #1
-
-| Achado | Resultado técnico |
-|---|---|
-| `PR1-BLK-001` | Corrigido. O resolved seed contém apenas `state_sha256`; os 12 artefatos aplicáveis são validados por JSON Schema/Ajv. |
-| `PR1-BLK-002` | Corrigido. `used_by_test_ids` é derivado do catálogo e validado nos dois sentidos no resolved seed, manifesto e seis bundles. |
-| `PR1-BLK-003` | Corrigido. `pnpm test:g1` executa validação estática, assembly integral e os 26 contratos reais contra API, PostgreSQL e worker. |
-| `PR1-BLK-004` | Corrigido. A cadeia foi recomposta e verificada: 67/67 artefatos do baseline e 79/79 entradas de `SHA256SUMS.txt`. |
-| `PR1-BLK-005` | **Permanece aberto como gate formal.** A correção não inventa uma nova decisão; é necessária nova revisão independente e decisão explícita de incorporação antes do merge. |
-| `PR1-MAJ-001` | Corrigido. O verificador exige btree, expressão indexada `((1))`, predicado exato e `pg_get_indexdef` completo. |
+| `PR1-BLK-001` | Resolvido: resolved seed e artefatos são validados por JSON Schema/Ajv. |
+| `PR1-BLK-002` | Resolvido: `used_by_test_ids` é derivado do catálogo e comparado entre catálogo, resolved seed, manifesto e bundles. |
+| `PR1-BLK-003` | Resolvido tecnicamente: o runner executa os 26 contratos, valida requests/responses OpenAPI, eventos, assertions de banco e grava 26 evidências estruturadas. |
+| `PR1-BLK-004` | Resolvido tecnicamente: os 98 hashes internos e todos os `layer_state_sha256` existentes nos seis bundles são recalculados e verificados. |
+| `PR1-BLK-004-A` | Resolvido: o verificador agora recalcula todos os hashes de fixture e bundle, não apenas quatro fixtures especiais. |
+| `PR1-BLK-002-A` | Resolvido: o manifesto é validado semanticamente, incluindo IDs conhecidos e igualdade ordenada de uso. |
+| `PR1-BLK-003-A` | Resolvido: `pnpm test:g1`/`pnpm test` executam o runner real e cada teste gera `test-results/<run-id>/<test-id>/evidence.json`. |
+| `PR1-MAJ-001` | Resolvido: constraint exige btree, `((1))`, predicado exato e `pg_get_indexdef`. |
+| Evento `DemoResetRequested` | Corrigido para o schema normativo: payload, `DEMO_RESET`, generation rule, source type/id e classificação. |
+| `PR1-BLK-005` | **Permanece aberto como gate formal.** Nenhuma decisão nova foi inventada ou embutida nos arquivos R7. |
 
 ## Integridade do escopo
 
-- testes de ativação G1 executados: `26`;
-- validações estáticas adicionais: `27`;
+- testes de ativação G1: `26` contratos reais;
+- validações estáticas: `27`;
 - schemas validados: `12`;
 - fixtures verificadas: `98`;
 - tabelas G1 autorizadas: `32`;
-- fixtures requeridas pelo G1: `9`;
-- bundles cumulativos recompostos: `6`;
-- work packages de G2 a G6 implementados: `0`;
-- contratos de produto, OpenAPI, eventos, comandos e políticas: não ampliados.
+- bundles cumulativos verificados: `6`;
+- work packages funcionais de G2 a G6: `0`;
+- evidências estruturadas por contrato: `26`;
+- contratos de produto ampliados: não.
 
 ## Evidências executadas
 
 ```text
-node tools/assemble-g1-correction.mjs: PASS
+node tools/assemble-g1-correction.mjs: PASS (98 fixture hashes)
 node tools/recompute-g1-hashes.mjs: PASS (6 bundles; 79 checksums)
 node tools/verify-g1-assembly.mjs: PASS (12 schemas; 98 fixtures; 67 artefatos; 79 checksums)
-pnpm test:g1: PASS (27 validações estáticas + 26 contratos reais)
+pnpm test:g1: PASS (27 estáticos + 26 contratos reais)
 pnpm test: PASS (mesma suíte integral)
 pnpm lint: PASS
 pnpm build: PASS
 pnpm db:migrate: PASS (2 migrations; nenhuma pendente)
-pnpm test:g1:db-contract: PASS (3/3, incluindo definição exata do índice parcial)
+pnpm test:g1:db-contract: PASS (3/3)
 pnpm test:g1:runtime: PASS
 ```
 
+Cada execução do runner cria um diretório `test-results/<run-id>/` ignorado pelo
+Git, com uma evidência JSON por teste contendo fixture/hash, inputs redigidos,
+assertions, diffs de banco, IDs de evento, correlação, geração e duração.
+
 ## Limite de autoridade
 
-As correções técnicas desta candidatura estão validadas, mas a autoridade R7
-não é automaticamente renovada por alterações em contratos normativos e no
-manifesto. O PR continua **NOT READY FOR MERGE** até que uma nova revisão
-independente registre formalmente a decisão de incorporação. G2 a G6 continuam
+As correções técnicas estão validadas, mas a autoridade R7 não é
+automaticamente renovada por alterações em contratos normativos, manifestos ou
+implementação. O PR continua **NOT READY FOR MERGE** até nova revisão
+independente e decisão formal incorporada ao repositório. G2 a G6 continuam
 fora do escopo e bloqueados.

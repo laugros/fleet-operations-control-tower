@@ -1134,8 +1134,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "74534f5ee31394c220671de8f512548c3b7e0f084c185c8f2cdb53aeff5508b0",
-      "layer_state_sha256": "764e2b5e6f13a1765333776ee165afc6740a4c6a60b4545ce86eb5f4f151352b"
+      "full_state_sha256": "908f161d5dcc228695615ba250b6d0d3b8590b5e35ab7d35b4202d79d92dd783",
+      "layer_state_sha256": "e8f7b8cb6b6b06efacb0e707dfe13d93cf915945ce12fa8f02634f1d3b8774bf"
     },
     "FX-API-CASE-IN-PROGRESS": {
       "fixture_id": "FX-API-CASE-IN-PROGRESS",
@@ -2048,8 +2048,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "1fbaea521d50ac1dfff41dc56f56ed9da953317afb69b47238e871c59bdeb35a",
-      "layer_state_sha256": "d10bec155075acd49577ee38c43cdc2881a85f930af273aba1161f3ceb0fdb84"
+      "full_state_sha256": "a18ac1e4319126da8ed769746050a92f87414b505d019f37be719e91989d3aac",
+      "layer_state_sha256": "4e137f9a47a64667dd01051512e989d03f1b03a0ae021d1cbc1d8c6352d9344e"
     },
     "FX-API-CASE-NEW": {
       "fixture_id": "FX-API-CASE-NEW",
@@ -2959,8 +2959,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "fd57ea9afebeb6f013b9a834061b954ba16007da4a674477c60c4e8790eedb9f",
-      "layer_state_sha256": "bf1fbd5bb507c1d5a3dc9010c3f069e5288b5b5c87a8e1e0c4fc77e8f03aec13"
+      "full_state_sha256": "a195b409bad11f6a15ad7d7c3cd45be6da5c646135f01235c03b799f8352611d",
+      "layer_state_sha256": "d71a8062aa71cd16b7be041c67e9b3a21e49d0b1cb9ca7e564f4248bbd3047a5"
     },
     "FX-API-CASE-READY": {
       "fixture_id": "FX-API-CASE-READY",
@@ -3870,8 +3870,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "fc4993bc2dd1bfda7ea1978fbee82b1610ec538cb53abf28170c14a9b454f905",
-      "layer_state_sha256": "0b06414f16acbbaeca1884c2d3a1247d85f689c9cd2b8b6dd69977421952c5ea"
+      "full_state_sha256": "9d87db34f1a8886ea678235c8eac59854fda5e9aa77e1e9e8d1b2173f483103b",
+      "layer_state_sha256": "24f18002b306375944c94f8a4dfb5c32fc5b5d56a75f69f3004a1894de27c1c3"
     },
     "FX-API-READ-BASE": {
       "fixture_id": "FX-API-READ-BASE",
@@ -6765,8 +6765,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "141ee335e9c0b2f7e25407b26b9500f1d53b83be354f4745441cca69a684d660",
-      "layer_state_sha256": "22d99f06b8f257879d81a4324bdd4f7684b982f3efa42c336808eeca0b72d021"
+      "full_state_sha256": "fb958a6ba26b69b5f321c94384877617284add9e59b56bf88c5d85e2ee002dce",
+      "layer_state_sha256": "dd008d5b38b5917df366cb7d867c4eba30379f8b5701c7ab006fc8abe1c9f2f4"
     },
     "FX-API-STOP-AWAITING-ARRIVAL": {
       "fixture_id": "FX-API-STOP-AWAITING-ARRIVAL",
@@ -7677,8 +7677,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "310e7b631cc5b6d711b08ee01dde859beca5f60f91bd71d4e237de406616dad2",
-      "layer_state_sha256": "7d7c4a7b6ca235b0001d7d8282a7900bc4b827e5e5cca99cfd087eed19108b67"
+      "full_state_sha256": "9602a772ab60cee3c0b675510b3527f464c0f9b8ba2d758f80732acd72a9a14a",
+      "layer_state_sha256": "e2a664b6c489e2f7114196af32c3878b0c2b9490944d78a4dd9689db0a500348"
     },
     "FX-API-STOP-IN-EXECUTION": {
       "fixture_id": "FX-API-STOP-IN-EXECUTION",
@@ -8589,8 +8589,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "b21744eab3096997a335ee4072e2b53ddc228892ae9856055a4eaff9250fb12e",
-      "layer_state_sha256": "f68df3e2cb5f7b265d66ba2a035ba70c7e37c28f3eb36a8b7314d666ded58bc8"
+      "full_state_sha256": "fee63858151f5d034420382678974c19e51377fd17f082bc496d720e1f65dc33",
+      "layer_state_sha256": "09f94d66ae1c030233762692a15162a6b331a87c09a862538dfe9b8777da6870"
     },
     "FX-API-STOP-PICKED-UP": {
       "fixture_id": "FX-API-STOP-PICKED-UP",
@@ -9500,8 +9500,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "c1e7b5f2466232faf2207d30169a7b32d3c6f259bdbfbdaa993e4da908670e77",
-      "layer_state_sha256": "eb14baea8562c97e5f90e6e7d4807af641e65471c22c2dbbce349a41baa192a0"
+      "full_state_sha256": "0cb26b64bac3da97c3a4929fac740a260639cbf0f1198efb407864c28e6b9b93",
+      "layer_state_sha256": "1bddad8432ee949ff46a5bc7baecf0068c97d925331f37e818b347598a4101b4"
     },
     "FX-API-STOP-RECEIVED": {
       "fixture_id": "FX-API-STOP-RECEIVED",
@@ -10411,8 +10411,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "44ad806b6e8a077cd33e3ddd44889d5a7182be365da780cf5680d0692ff9492f",
-      "layer_state_sha256": "ac34e67f437cd36fd1885989141db234fe7becc6652887e40a90419a5b27bb20"
+      "full_state_sha256": "58a60569a680f016e9fc812ee1ce025e926d61b855d96bc5bb22d33ebd817e08",
+      "layer_state_sha256": "26efc6131f1ec570e3ec2ff7a1fce65b98cb08937207a4865ce3885ba930c8df"
     },
     "FX-API-STOP-SCHEDULED": {
       "fixture_id": "FX-API-STOP-SCHEDULED",
@@ -11322,8 +11322,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "aa7b2865491d05a07334863e33aa6b02aeaab3ae912cd35d3221bdd9c4ebdb99",
-      "layer_state_sha256": "df443e81d5185dc759b9fcd65f3a9186f19a009ff404e4991911237da1817586"
+      "full_state_sha256": "f682de9e299e729697cfa6af4358619323bbbed66d46e705a5769f2c867544c5",
+      "layer_state_sha256": "7421860e6e34edbdef1554515ba25a04a41d9aa049961616bd431e3270104e13"
     },
     "FX-API-STOP-SERVICE-COMPLETED": {
       "fixture_id": "FX-API-STOP-SERVICE-COMPLETED",
@@ -12233,8 +12233,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "4fd72932f2124e218f2e2fb4b9af1862b3ebf1375ef60bf2df7812d8e0574e7a",
-      "layer_state_sha256": "fbe34129ebb36517c50190ed188b75d541a78183600f43d6fe838ae74dc86cca"
+      "full_state_sha256": "0000f627b5460c1683cff0baae793c6da6d6c6b2ce482051d74041e012434554",
+      "layer_state_sha256": "3a63585112da5398ed9b2d0b58a56f325c7011fcaac9ccc2b584dac0b8f13ea3"
     },
     "FX-API-TASK-ASSIGNED": {
       "fixture_id": "FX-API-TASK-ASSIGNED",
@@ -13144,8 +13144,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "ba75b139b0a7a6c510b8e2565694fa114339c5921b5117bc5d7cb74e12d598bb",
-      "layer_state_sha256": "fd19708906c3b15f82d3c545f92457ba6b19b14ccb8939d0bb2a315cd5d52405"
+      "full_state_sha256": "fc36c0917b3f5f772e1b2c3e24efe79f61c1eb4cd4a7881177e763c5cc2f3404",
+      "layer_state_sha256": "c6f843a74aba78eb173c6ceef6998ac780c490fd51ff62207126e758d5f8aa19"
     },
     "FX-API-TASK-IN-PROGRESS": {
       "fixture_id": "FX-API-TASK-IN-PROGRESS",
@@ -14057,8 +14057,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "285acc7b2cfdb04256c9cc7e45a62db1d7124a36575425317cdceb1df6c48ab3",
-      "layer_state_sha256": "1943811d33a7cc20aca7cb9972f01538714d696f52f23129c73abc23bbba4546"
+      "full_state_sha256": "c3c3b1ded0a277cb8f1fa0d32c8d87a8fd32f6dee3d37eb957480c233c3f1aac",
+      "layer_state_sha256": "952cc6e6bdc66af8ae8f12dbc78483ba8c6bb87497fd19a2c49aed0ab1bb568e"
     },
     "FX-API-TASK-NOT-STARTED": {
       "fixture_id": "FX-API-TASK-NOT-STARTED",
@@ -14969,8 +14969,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "e34e4c914e9aada24ad33d2cada7c4d0272dc8148d13ae6645b946412d47f5f2",
-      "layer_state_sha256": "45052036084a19984a998ca0e09c4c60097e146bbe50f7003a769d31ad0228e1"
+      "full_state_sha256": "4ee89089eaa1ce4c7bdee7642a420e5cc0ec0a3a22fe00f00913d4ed56cc8b73",
+      "layer_state_sha256": "53836ebb5b921488f1da3d486b373ae930bc52c36b22d40398d59aa6d3ce2fb5"
     },
     "FX-ATTENDANT-TEAM-A": {
       "fixture_id": "FX-ATTENDANT-TEAM-A",
@@ -15903,8 +15903,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "434735c0ffbac695f474950e3b933b33f8d4f276bc72917d17d4cb16b5d8b5ee",
-      "layer_state_sha256": "9b1bf75533e414b8c58dd37e7ef93f76662d19f9ff341354b51c3cfedef10c57"
+      "full_state_sha256": "2dbc054035fec8c28c4ead1fb444229bfebf609d61941e0bb7320228fff4d4c8",
+      "layer_state_sha256": "90128d0ddb8b5a03ed7fd6210253bc48ee35dfd442c5896f8ee88b5bcb098a26"
     },
     "FX-CASE-IN-PROGRESS-SUPPLIER-TASK": {
       "fixture_id": "FX-CASE-IN-PROGRESS-SUPPLIER-TASK",
@@ -16814,8 +16814,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "b7e144232b3ac80afd62a4bf3b038c3778a926ccbd450a23c70414b38b828550",
-      "layer_state_sha256": "7cbd0eb4e395e50ea5ec014cfa83f25d6c5e98b52a592fea774f856b7a00d8aa"
+      "full_state_sha256": "7fd5b0ddcfb2aa1e968d0ce21eb9780008ee136a4a1090b7b9f28eba7122b8b7",
+      "layer_state_sha256": "b930780bd23d938d136e9864ad87812d025f7d3358cae76e49a0ac76fb64009d"
     },
     "FX-CASE-INPROG-01": {
       "fixture_id": "FX-CASE-INPROG-01",
@@ -17725,8 +17725,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "9998fddf194278a1b2eaae91e6f0045ef4c3a122dff2455c2625957d962117ef",
-      "layer_state_sha256": "0f408b86491c9e462f484f375ebcbb877928d4118835776120901a003b85a60d"
+      "full_state_sha256": "8ab7dafa209b2caf68c280c3c449c3b47875827c8fabc96cf289df7516eefaea",
+      "layer_state_sha256": "553cc3199c5850a644846d835998662b7b1e1c8c881d2812ae084151386560ee"
     },
     "FX-CASE-NEW": {
       "fixture_id": "FX-CASE-NEW",
@@ -18636,8 +18636,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "558360a0d86781a5c737ddb971f46e2fa0c04bc4e189fa481907b1dcb19ca405",
-      "layer_state_sha256": "5c3c61749ed872872d8b9e6b0e8d074760a03ba57270f648b7dd7170a352697c"
+      "full_state_sha256": "1eed25c3da209244fef89aa6a254ad1ddac0395d9fd9563c569e9cc34fe1bfae",
+      "layer_state_sha256": "a14f3f99587f11550cf74b3d76a3ad653dc2237710e4c03b50d470c040597692"
     },
     "FX-CASE-READY-TO-RESOLVE": {
       "fixture_id": "FX-CASE-READY-TO-RESOLVE",
@@ -19547,8 +19547,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "1a5703d90b5684e143a655b51c8e311baf41fc850da6845b241505e63c7c07ff",
-      "layer_state_sha256": "857d9ad45f82ca42f7e859497b1af109ccd3ee8e360a1f322a1821fa18e107c9"
+      "full_state_sha256": "811a2f4a4d26e7717735cf21a03d299f1d31087680a55b5fea4868637dae6197",
+      "layer_state_sha256": "660bfb5772b5e647b5bff3d9e51e6e680d816fb9b2707323467adcedd996704e"
     },
     "FX-CASE-STOP-CLOSED-CONFLICT": {
       "fixture_id": "FX-CASE-STOP-CLOSED-CONFLICT",
@@ -20498,8 +20498,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "8b7fecdf060c105cba515169d7899bf59d8a6531a9020efd3dd2a96cb07169f4",
-      "layer_state_sha256": "69c5d6f9a0c8aa294d87615a234fdc42cb17f86b3159471560e86ba1fe55cec6"
+      "full_state_sha256": "fa3569e1a8fe801fa2fef29691447619aaddcf44d5a5633c458f311101876566",
+      "layer_state_sha256": "3d53ddb1ee4d5d31eaa0f6a882897b59227756261c01607d31edb14942fd60ac"
     },
     "FX-CASE-STOP-CLOSED-MANDATORY-TASK": {
       "fixture_id": "FX-CASE-STOP-CLOSED-MANDATORY-TASK",
@@ -21409,8 +21409,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "f576db594bf6da116196d2e509c7d4f64f82a48e5c18fa0a413a76d379ff8eaf",
-      "layer_state_sha256": "a7fafc572651561a34a5071e944672d4b7dbbb6ed851cffbfe417368bd838ee2"
+      "full_state_sha256": "cb220aa40f4ee922f26a9c59c9b75bf66d85d39f612fdc3f27e855d87e325ca8",
+      "layer_state_sha256": "f0213d48438e3e9e9f350ace40488d207c64cb07024a54c7223b1beb01836e5b"
     },
     "FX-CASE-STOP-OPEN": {
       "fixture_id": "FX-CASE-STOP-OPEN",
@@ -22320,8 +22320,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "92ca9ff8e4b6c4e6831103002e036347eab0790b5e85ee2cbb387d090db15be9",
-      "layer_state_sha256": "f1d083119eafd7d52de9afb2d5e3902852b150032c79409e1bf685d9cc0682d5"
+      "full_state_sha256": "cccc725be5674f5003a62a31ebd4ccaf1af7b7723218a03066778e7685cc6b65",
+      "layer_state_sha256": "0cdac3f2748a63eee097110c412146dc94a62582aa3e36d989a884d1d973bac9"
     },
     "FX-DATA-INTEGRITY": {
       "fixture_id": "FX-DATA-INTEGRITY",
@@ -24254,8 +24254,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "26e444dcfac390f3f09dd80b3dcdb4a8f7316272bb9fb5f8c8a6635f51e5f044",
-      "layer_state_sha256": "66af4585dae1d02e69feac7b847521dc6c01cc2ee889315ccdb4d6ad659df8f3"
+      "full_state_sha256": "0f0b5d05c5fc63e5ad49739ecbc4d71de477abcd4df270f6e73d58c681c5706c",
+      "layer_state_sha256": "da5eb35d76e0007bcb3bce903b63ac799278232e9331f0312606cf1b0f817d97"
     },
     "FX-EMPTY-LOCAL": {
       "fixture_id": "FX-EMPTY-LOCAL",
@@ -24320,8 +24320,8 @@
         "START_SERVICES",
         "WAIT_FOR_HEALTH"
       ],
-      "full_state_sha256": "67225c5ff63f48216d4c04e5f12cf88f1e9cfed0fd1927f2c62bb940a6da0308",
-      "layer_state_sha256": "6a57e96d9d30e3e7f85923455f73af3a827530f9aa3cbdafd9ecc0cb1d05c26f"
+      "full_state_sha256": "71494aa0d9c6ccf2011245d1e835ea9ac3ae944dd0dada19c283227afc969715",
+      "layer_state_sha256": "71494aa0d9c6ccf2011245d1e835ea9ac3ae944dd0dada19c283227afc969715"
     },
     "FX-EXPIRED-SESSION": {
       "fixture_id": "FX-EXPIRED-SESSION",
@@ -25254,8 +25254,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "e7102b3959bdeb7a7dc6783934c155d06955d043b4cfd2e9bcfd95c1f5c958a9",
-      "layer_state_sha256": "d4cf5e5868fec8c807854bd977e174d32295482f9a660c439ae0397ddd02a484"
+      "full_state_sha256": "ad628092b63e7545e6dc8756b60cbaac3b148955dff0e3d268db32bd27c4920b",
+      "layer_state_sha256": "92e1ec8a04d0c63904b643599562ee489c91be1b2d60416ccc4a4d44506ebacf"
     },
     "FX-IDEMPOTENT-COMMAND": {
       "fixture_id": "FX-IDEMPOTENT-COMMAND",
@@ -26199,8 +26199,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "b144547d2c92e6023c9848d4b34723a5662ae7c26fba8ab00b31ecfb04099724",
-      "layer_state_sha256": "3dd63a78b3f74752e2cda4f569141707deb1dcb1dc880b3b7de2d782505299bf"
+      "full_state_sha256": "adfc0f758d71e420ca31b50c8dd871270d6672a3f157c2f3ecb8bf914b306a37",
+      "layer_state_sha256": "cbc594f5d3f725157e8529d81f5e70ead3448a4c1e9a426c75f1bd2c35b4dc33"
     },
     "FX-MANAGER-SCOPE-A": {
       "fixture_id": "FX-MANAGER-SCOPE-A",
@@ -27133,8 +27133,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "df174baa50828e6851ec6b9e2b56e3081c29db238e8b1a6f03b3ff06635d196f",
-      "layer_state_sha256": "aa8b98d81363052453291e4ad2775027615304c4d27d26330feae405f10f0d1a"
+      "full_state_sha256": "5768dc51b15b2c399e00b30819c0c105315e10babf15f1bd076d09f8d21cc819",
+      "layer_state_sha256": "c5c2c1197f8d4a8eda801b5b1d95e0d1cee92f6d0e8766b78add0d54664913ee"
     },
     "FX-MUTATED-DEMO": {
       "fixture_id": "FX-MUTATED-DEMO",
@@ -28988,8 +28988,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "e5a752f86e7a341a9043f665a7d08cd5f8bfdaf79e4b028c276ce89a9958aff7",
-      "layer_state_sha256": "8814ade898742c491dbebaa36face4536b852cb5f7d9f9efabe308db65ed9466"
+      "full_state_sha256": "d937aa49f4341219658d34b34ee2757e4d287abd0e562a71e9fa24b8f637f939",
+      "layer_state_sha256": "d9a70696a3e53ca6c4f5aa4480663f754b2e95b1cdba5e6fb32ad8a6dc4d673b"
     },
     "FX-RESET-LATE-WORKER": {
       "fixture_id": "FX-RESET-LATE-WORKER",
@@ -29901,8 +29901,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "756cbde9f901096b4a40f1f6c2f71fcd72f73cfcd571a9dbf8ac48bdf4bbfcc3",
-      "layer_state_sha256": "d8be6d1492c6544859b8b8d429014d1cbda5a9011594b176e9a41d5c1120681c"
+      "full_state_sha256": "ddf2ebab7da8c319e6af446fe515d54cb902f2ab4dbf4940c21bbd3eac3fa5d4",
+      "layer_state_sha256": "80c4c879daf82158b86bf174491da5e783016dc09d6abf814b9251383b925f85"
     },
     "FX-SEED-V213": {
       "fixture_id": "FX-SEED-V213",
@@ -30813,8 +30813,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "ca8e4caa50748a5eba44dbea94b8a0f33ee38e7f62594efa18badf184d06e954",
-      "layer_state_sha256": "8ee05fb342f050210c197bf2a15bbaeb8bd1b604ba986babc2098dbb257ec605"
+      "full_state_sha256": "a3e261beb9160fadacf8f7c0835641e98a926fc0e8851f18dc0761466f9d1e2d",
+      "layer_state_sha256": "ca812efe64e51731a09f20a83dedb4dd25bb3b5b511bb6cfa01051c4ffe71e15"
     },
     "FX-STOP-ARRIVAL-CONFLICT": {
       "fixture_id": "FX-STOP-ARRIVAL-CONFLICT",
@@ -31856,8 +31856,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "85f70769ce991f44a6b5ebe327b497ab6ca4110dea7f9057e2df9a3bfc47f171",
-      "layer_state_sha256": "e5973e323930dd999bdadebbf55e9d02de6c29bbc1ec089541c12c52f6d4596f"
+      "full_state_sha256": "0879c3739e73a17b6eeeaf4fe8cc21c58b8c29851edb5c4bd282210c08123dbb",
+      "layer_state_sha256": "dad7fcc4e5e82a0de41b90425b6ee420cf3725b24bbd2e815afe5aa03d80ba03"
     },
     "FX-STOP-AWAITING-ARRIVAL": {
       "fixture_id": "FX-STOP-AWAITING-ARRIVAL",
@@ -32768,8 +32768,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "5005e6bb8024ffb2ae1b91fab6f1396fea2d6198faa5f8012faf0fa4ae51f1d3",
-      "layer_state_sha256": "ffe51e77e3b6cb74e6ed50b2757913e4b877fd3fa54a500de9bb25578bcdf3eb"
+      "full_state_sha256": "23661c3564185c9837d68326b531ed756d91f3c6e5262bab1ac42ecd02b74b89",
+      "layer_state_sha256": "26515d807401a950009881d02ddce454ac77df1c72766493555ca95ea61658a5"
     },
     "FX-STOP-PICKED-UP-CONFLICT": {
       "fixture_id": "FX-STOP-PICKED-UP-CONFLICT",
@@ -33719,8 +33719,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "85442b3fe67f1b8d44d5254c5d999de520b8d0e197f6a78e6c31be57e7d4d14e",
-      "layer_state_sha256": "c91e426e127e5de9bda28e6300815b810911ef7607fa1984030302fb03caf71e"
+      "full_state_sha256": "5e1f9fc7875e34fb680188f7fba4fcea75683ae03ba0e98d02ba52e810ff0115",
+      "layer_state_sha256": "19213cb809976424122bd98c7c50fab2fbd1c5d2e590fc47338728d65a88182b"
     },
     "FX-STOP-PICKED-UP-MANDATORY-TASK": {
       "fixture_id": "FX-STOP-PICKED-UP-MANDATORY-TASK",
@@ -34630,8 +34630,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "0bbaedcb17f2240df0ca8750bc4c6bf2d09069dc1b1ba76ead0a79189209a70c",
-      "layer_state_sha256": "6d55774a86c3f40a56e9507ea269b781c957d28f5e243f70d6a30a80aea3ca1c"
+      "full_state_sha256": "aba0a81a3f00272234927023e2861954091a1ddd1f21c357dcf3370d361e0929",
+      "layer_state_sha256": "285cbadab00c93ea8037149630284e442084d7f9402517e2b106f4fb04692611"
     },
     "FX-STOP-SERVICE-COMPLETED": {
       "fixture_id": "FX-STOP-SERVICE-COMPLETED",
@@ -35542,8 +35542,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "3e439c9c0176b45b187067ccfbc213b8f7884fe3a583c715df087bb982a15651",
-      "layer_state_sha256": "2eb70660f848d848fdd6a6499611b00b8592a78849f19b54c83b3e0c273ec33f"
+      "full_state_sha256": "5187b0dd9ee495a3f6c5d43a5e787570cb7bee56963b7210076fef21807ed501",
+      "layer_state_sha256": "423316279029ed7ec91159366b4ec0abd7a1666b0c4a65bbd68a1438fee28960"
     },
     "FX-STOP-TWO-ARRIVAL-REPORTS": {
       "fixture_id": "FX-STOP-TWO-ARRIVAL-REPORTS",
@@ -36547,8 +36547,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "f369edc1237271fc700a55102e4b00e386545a1ca883c132624263dc75e9240e",
-      "layer_state_sha256": "0c4e5642261895bd944111f2467c970c5308f9cfa2e13a99232a003dc3035777"
+      "full_state_sha256": "0673116f64db1a189f5bd681fd117cec730c7c04d88bdc0c45e86b890581a1d1",
+      "layer_state_sha256": "3f63a3202f1fc0aa07bbc86630b68e21fb5f38708d5e538107698d709f50ea98"
     },
     "FX-SUPERVISOR-UNIT-A": {
       "fixture_id": "FX-SUPERVISOR-UNIT-A",
@@ -37481,8 +37481,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "c45dcee819b3ba3cf94902c8806d7e73f6c042635c3766f2e4ee17f12c7a3ac9",
-      "layer_state_sha256": "e902f7ba118bf67db62f1628d10b5c20684889565f2054863427a4b56da01bda"
+      "full_state_sha256": "c853cbdcc4b58a7a8a3b79134cc04bcca6856b26151016ead9113533d1d112c6",
+      "layer_state_sha256": "d2baf7e151422da3826b3633bb5c37cde2c3acf0e4eac4224948b04b3633ff21"
     },
     "FX-SUPERVISOR-UNIT-A-CUSTOMER-A": {
       "fixture_id": "FX-SUPERVISOR-UNIT-A-CUSTOMER-A",
@@ -38415,8 +38415,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "da88d7b9baf1ed2b49542786da168332ccb83e1044f7449506f9ccaca41fc209",
-      "layer_state_sha256": "690ff0fe2136daf4805ea474c6f8dbc29f831bee4f60af5666b8d566ef65e251"
+      "full_state_sha256": "bb2252fd8a6ce853e4a6c58304257671d2693a9e8b669eb57f2e6a939fb36ae3",
+      "layer_state_sha256": "76bf4af2f4ff4f4b6f71fd2fcf4d4a859d7815e92f4f224266ebead022b7558d"
     },
     "FX-TASK-ASSIGNED": {
       "fixture_id": "FX-TASK-ASSIGNED",
@@ -39326,8 +39326,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "984214048ecf3c2493456b770821902ddf3f6b7d69b104083abdef5ea656b0c6",
-      "layer_state_sha256": "5349d9b1722ff26a7e9bb3941d29d236df23e97dd9cabc5cf1c559b8995c83e1"
+      "full_state_sha256": "991540c07d7894a980bd60cde3747084acdc0be81fa22c0357328499204c9af0",
+      "layer_state_sha256": "331b18f0d51897b3530cc36934dd99181e9ad68f85365843fe61093a8fc8ac19"
     },
     "FX-TASK-IN-PROGRESS": {
       "fixture_id": "FX-TASK-IN-PROGRESS",
@@ -40238,8 +40238,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "527d00116209c159bc8d70c32f08866f01e16c8a981fdad38ac08f600d5594f5",
-      "layer_state_sha256": "d204a0c299952d25edcc467cd15f3e28244cfa6d7d23cb2f4905159692194a77"
+      "full_state_sha256": "c25ad075bf7cdd80793ca64627d33acaead33cfbe8c7309faa7844c6d11d030b",
+      "layer_state_sha256": "4176e477727e67ab10ed01c208e7750e745477db11e57cb0d2895f13ace2ab50"
     },
     "FX-TASK-INPROG-SUPPLIER": {
       "fixture_id": "FX-TASK-INPROG-SUPPLIER",
@@ -41149,8 +41149,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "230d9fc76918640143606e5eeb524f506a759fe29dd0c54f531cb07b3ad99b58",
-      "layer_state_sha256": "7770c73712a758ca8f528f149589496eb876473c410160869afcd950f39df961"
+      "full_state_sha256": "bf37f269522d0ac3e8f5ec2f8c69628144a04cdc964c0bf15417fb58aae848d9",
+      "layer_state_sha256": "eee0e05b2460bcac5a11054d84f2a84ed732c234adb050d197c4ed9f25432575"
     },
     "FX-TASK-NOT-STARTED": {
       "fixture_id": "FX-TASK-NOT-STARTED",
@@ -42060,8 +42060,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "31bcf3b0ca656ab14f73f31519225ad3abc45edda6650498d02025a52e359a98",
-      "layer_state_sha256": "4c280a50e7761a607876956e4cfa9763ea8ac3efe17d0c60efae419d89ba901c"
+      "full_state_sha256": "36e9f97378d99a3fb4810748207baf1ebb51b57da43d8b11cd39c13635afbcab",
+      "layer_state_sha256": "3e9171b6262f61e730c8cc5c628b9c601fded1bf469dec21803d3e9594b9b85b"
     },
     "FX-TWO-ASSIGNED-TASKS": {
       "fixture_id": "FX-TWO-ASSIGNED-TASKS",
@@ -43007,8 +43007,8 @@
         "VALIDATE_UNIQUE_CONSTRAINTS",
         "SET_ACTIVE_GENERATION"
       ],
-      "full_state_sha256": "5688ff639caf9d3e23ed18d61fd5183a1920ac7a35c605b9d53a498c4beb83c4",
-      "layer_state_sha256": "4e1f49cef79dd2b0e78a79be0f3bf480004a0eac7fd1bef9e1a286b6ebcb4e70"
+      "full_state_sha256": "0cf5391863cc88807326bcb07ddcf4cf73b3c84affe2701768426fd1799d2dbe",
+      "layer_state_sha256": "dc30dfb486a7c69a42c2b7dffab23b9a90609adca229f11fe2462e3b5748a6e8"
     }
   }
 }

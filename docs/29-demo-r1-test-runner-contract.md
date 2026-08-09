@@ -13,7 +13,7 @@ SHA-256 do registry de workers: `69909551f749da82cec15379df2142967ccb66462d99122
 SHA-256 do registry de atores: `1c0820b2399c8cc2458af8a658bffd9918dc4a8b5cb7bed05d6971fec7b63614`.  
 SHA-256 do registry de operações DB: `90763e6af7322018c79527b08c8e2e11bb052b01cd1d4bed2fa919eb37454272`.  
 SHA-256 do plano de gates: `c2d94bd2f4b735a13d41b433bef7c9c1e3364b7548e3bd4cf70d4ede8b817776`.  
-SHA-256 do plano de seed: `d23672bfb061178555351bff14812aa5f8595e590ba4295d4570111b83cc7963`.
+SHA-256 do plano de seed: `34b6d52ddb6339e28d4981f385ded08e888e33e67531c3d62d0ab3eadaeff612`.
 
 ```text
 ACTIVE_GATE = G1_FOUNDATION

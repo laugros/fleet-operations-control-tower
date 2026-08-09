@@ -71,10 +71,7 @@ function hash(value) {
   return createHash("sha256").update(JSON.stringify(sorted(value))).digest("hex");
 }
 
-apiReset.state_sha256 = hash(apiReset.tables);
-integrity.state_sha256 = hash(integrity.tables);
-apiReadBase.state_sha256 = hash(apiReadBase.tables);
-mutatedDemo.state_sha256 = hash(mutatedDemo.tables);
+for (const fixture of Object.values(fixtures)) fixture.state_sha256 = hash(fixture.tables);
 delete apiReset.full_state_sha256;
 delete apiReset.layer_state_sha256;
 
@@ -96,7 +93,7 @@ writeFileSync(seedManifestPath, seedManifestSource);
 
 const fixtureSnapshotPath = `${root}/tests/spec/demo-r1-test-fixtures.yaml`;
 let fixtureSnapshotSource = readFileSync(fixtureSnapshotPath, "utf8");
-for (const fixtureId of ["FX-API-RESET", "FX-DATA-INTEGRITY", "FX-API-READ-BASE", "FX-MUTATED-DEMO"]) {
+for (const fixtureId of Object.keys(fixtures)) {
   const escapedId = fixtureId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   fixtureSnapshotSource = fixtureSnapshotSource.replace(
     new RegExp(`(  ${escapedId}:\\r?\\n[\\s\\S]*?    state_sha256: )[0-9a-f]{64}`),
@@ -108,7 +105,7 @@ writeFileSync(fixtureSnapshotPath, fixtureSnapshotSource);
 for (const name of ["g1-foundation.json", "g2-domain.json", "g3-projections.json", "g4-time-communication.json", "g5-external.json", "g6-executive.json"]) {
   const path = `${root}/tests/spec/seed-layers/${name}`;
   const layer = JSON.parse(readFileSync(path, "utf8"));
-  for (const fixtureId of ["FX-API-RESET", "FX-DATA-INTEGRITY", "FX-API-READ-BASE", "FX-MUTATED-DEMO"]) {
+  for (const fixtureId of Object.keys(layer.fixtures)) {
     const target = layer.fixtures[fixtureId];
     const source = fixtures[fixtureId];
     for (const table of Object.keys(target.tables)) target.tables[table] = structuredClone(source.tables[table] ?? []);
@@ -123,7 +120,7 @@ for (const name of ["g1-foundation.json", "g2-domain.json", "g3-projections.json
 }
 
 console.log(JSON.stringify({
-  fixtures_recomposed: ["FX-API-RESET", "FX-DATA-INTEGRITY", "FX-API-READ-BASE", "FX-MUTATED-DEMO"],
+  fixtures_hashed: Object.keys(fixtures).length,
   api_reset_state_sha256: apiReset.state_sha256,
   active_reset_fixture: "FX-DATA-INTEGRITY",
   active_reset_id: runningReset.id

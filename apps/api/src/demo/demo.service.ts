@@ -173,9 +173,11 @@ export class DemoService {
     const resultingVersion = runtime.version + 1;
     const payload = {
       reset_id: resetId,
-      requested_seed_version: seedVersion,
+      seed_version: seedVersion,
       source_generation_id: runtime.activeGenerationId,
-      target_generation_id: targetGenerationId
+      target_generation_id: targetGenerationId,
+      requested_by_identity_code: session.identity.identity_code,
+      requested_at: now
     };
 
     await restoreG1Fixture({
@@ -227,18 +229,19 @@ export class DemoService {
           ]
         );
         await client.query(
-          'INSERT INTO "domain_event" ("id","demo_generation_id","event_type","schema_version","aggregate_type","aggregate_id","aggregate_version","aggregate_sequence","correlation_id","idempotency_record_id","source_type","source_id","data_classification","demo_seed_version","demo_mode","payload","occurred_at","recorded_at") VALUES ($1,$2,$3,2,$4,$2,$5,$5,$6,$7,$8,$9,$10,$11,TRUE,$12::jsonb,$13,$13)',
+          'INSERT INTO "domain_event" ("id","demo_generation_id","event_type","schema_version","aggregate_type","aggregate_id","aggregate_version","aggregate_sequence","correlation_id","idempotency_record_id","source_type","source_id","data_classification","demo_seed_version","demo_mode","payload","occurred_at","recorded_at") VALUES ($1,$2,$3,2,$4,$5,$6,$6,$7,$8,$9,$10,$11,$12,TRUE,$13::jsonb,$14,$14)',
           [
             eventId,
-            targetGenerationId,
+            runtime.activeGenerationId,
             "DemoResetRequested",
-            "DEMO_RUNTIME",
+            "DEMO_RESET",
+            resetId,
             resultingVersion,
             correlationId(request),
             idempotencyId,
-            "COMMAND",
-            "ResetDemoScenario",
-            "INTERNAL",
+            session.identity.role_code === "ROLE_DEMO_ADMIN" ? "DEMO_ADMIN_USER" : "DEMO_INTERNAL_USER",
+            session.identity.user_id,
+            "CONFIDENTIAL",
             seedVersion,
             JSON.stringify(payload),
             now
