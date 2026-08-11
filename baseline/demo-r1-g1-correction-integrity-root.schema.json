@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.fotc.local/demo-r1/baseline/demo-r1-g1-correction-integrity-root.schema.json",
+  "title": "DEMO-R1 G1 Correction Candidate Integrity Root",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "root_format_version",
+    "candidate_revision",
+    "release",
+    "baseline_version",
+    "status",
+    "authority",
+    "integrity_protocol",
+    "protected_set_sha256",
+    "post_review_path_allowlist",
+    "protected_artifacts"
+  ],
+  "properties": {
+    "root_format_version": {
+      "const": "1.0.0"
+    },
+    "candidate_revision": {
+      "const": 3
+    },
+    "release": {
+      "const": "DEMO-R1"
+    },
+    "baseline_version": {
+      "const": "2.1.4"
+    },
+    "status": {
+      "const": "PENDING_FINAL_REVIEW"
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ratified",
+        "formal_decision_required",
+        "merge_authorized",
+        "authorizes_g2_to_g6",
+        "open_formal_blocker"
+      ],
+      "properties": {
+        "ratified": {
+          "const": false
+        },
+        "formal_decision_required": {
+          "const": true
+        },
+        "merge_authorized": {
+          "const": false
+        },
+        "authorizes_g2_to_g6": {
+          "const": false
+        },
+        "open_formal_blocker": {
+          "const": "PR1-BLK-005"
+        }
+      }
+    },
+    "integrity_protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "file_content_canonicalization",
+        "path_base",
+        "path_normalization",
+        "entry_order",
+        "protected_set_canonicalization",
+        "self_reference"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "SHA-256"
+        },
+        "file_content_canonicalization": {
+          "const": "RAW_BYTES"
+        },
+        "path_base": {
+          "const": "REPOSITORY_ROOT"
+        },
+        "path_normalization": {
+          "const": "POSIX_RELATIVE"
+        },
+        "entry_order": {
+          "const": "LEXICOGRAPHIC_BY_PATH"
+        },
+        "protected_set_canonicalization": {
+          "const": "JSON_SORTED_KEYS_UTF8_NO_WHITESPACE_ARRAYS_PRESERVED"
+        },
+        "self_reference": {
+          "const": "FORBIDDEN"
+        }
+      }
+    },
+    "protected_set_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "post_review_path_allowlist": {
+      "type": "array",
+      "minItems": 11,
+      "maxItems": 11,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "protected_artifacts": {
+      "type": "array",
+      "minItems": 43,
+      "maxItems": 43,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "role",
+          "sha256",
+          "size_bytes"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "role": {
+            "enum": [
+              "CONFIGURATION",
+              "DATABASE",
+              "DOCUMENTATION",
+              "EVIDENCE",
+              "G1_FUNCTIONAL",
+              "INTEGRITY_TOOL",
+              "NORMATIVE_CONTRACT",
+              "NORMATIVE_DOCUMENT",
+              "PROCEDURE",
+              "ROOT_SCHEMA",
+              "RUNNER",
+              "TEST"
+            ]
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,8 +1,16 @@
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { parse } from "yaml";
 
 const root = process.cwd();
+const candidateRootPath = resolve(root, "baseline/candidates/demo-r1-v2.1.4-g1-correction-integrity-root-v3.yaml");
+
+function writeMutableFile(path, contents) {
+  if (resolve(path) === candidateRootPath) throw new Error("CANDIDATE_ROOT_WRITE_FORBIDDEN");
+  writeFileSync(path, contents);
+}
+
 const resolvedPath = `${root}/tests/spec/demo-r1-resolved-seeds.json`;
 const resolved = JSON.parse(readFileSync(resolvedPath, "utf8"));
 const fixtures = resolved.fixtures;
@@ -75,7 +83,7 @@ for (const fixture of Object.values(fixtures)) fixture.state_sha256 = hash(fixtu
 delete apiReset.full_state_sha256;
 delete apiReset.layer_state_sha256;
 
-writeFileSync(resolvedPath, `${JSON.stringify(resolved, null, 2)}\n`);
+writeMutableFile(resolvedPath, `${JSON.stringify(resolved, null, 2)}\n`);
 
 const seedManifestPath = `${root}/tests/spec/demo-r1-seed-manifest.yaml`;
 let seedManifestSource = readFileSync(seedManifestPath, "utf8");
@@ -89,7 +97,7 @@ for (const [fixtureId, fixture] of Object.entries(fixtures)) {
     `$1${fixture.state_sha256}`
   );
 }
-writeFileSync(seedManifestPath, seedManifestSource);
+writeMutableFile(seedManifestPath, seedManifestSource);
 
 const fixtureSnapshotPath = `${root}/tests/spec/demo-r1-test-fixtures.yaml`;
 let fixtureSnapshotSource = readFileSync(fixtureSnapshotPath, "utf8");
@@ -100,7 +108,7 @@ for (const fixtureId of Object.keys(fixtures)) {
     `$1${fixtures[fixtureId].state_sha256}`
   );
 }
-writeFileSync(fixtureSnapshotPath, fixtureSnapshotSource);
+writeMutableFile(fixtureSnapshotPath, fixtureSnapshotSource);
 
 for (const name of ["g1-foundation.json", "g2-domain.json", "g3-projections.json", "g4-time-communication.json", "g5-external.json", "g6-executive.json"]) {
   const path = `${root}/tests/spec/seed-layers/${name}`;
@@ -116,7 +124,7 @@ for (const name of ["g1-foundation.json", "g2-domain.json", "g3-projections.json
     fixture.used_by_test_ids = structuredClone(fixtures[fixtureId].used_by_test_ids);
   }
   layer.source_resolved_seed = "tests/spec/demo-r1-resolved-seeds.json";
-  writeFileSync(path, `${JSON.stringify(layer, null, 2)}\n`);
+  writeMutableFile(path, `${JSON.stringify(layer, null, 2)}\n`);
 }
 
 console.log(JSON.stringify({

@@ -4,7 +4,10 @@ import { readFileSync } from "node:fs";
 import Ajv2020 from "ajv/dist/2020.js";
 import { parse } from "yaml";
 
+import { verifyCandidateRoot } from "./g1-candidate-root.mjs";
+
 const root = process.cwd();
+if (process.argv.includes("--require-ratified")) throw new Error("RATIFICATION_VALIDATION_UNAVAILABLE");
 const read = (path) => readFileSync(`${root}/${path}`);
 const text = (path) => read(path).toString("utf8");
 const json = (path) => JSON.parse(text(path));
@@ -122,4 +125,12 @@ for (const line of text("SHA256SUMS.txt").trim().split(/\r?\n/)) {
   invariant(sha256(path) === expected, `SHA256SUMS differs for ${path}`);
 }
 
-console.log(JSON.stringify({ status: "PASS", schemas: schemaPairs.length + 6, fixtures: resolved.fixture_count, baseline_artifacts: baseline.artifacts.length, checksum_entries: text("SHA256SUMS.txt").trim().split(/\r?\n/).length }));
+const candidate = verifyCandidateRoot(root);
+console.log(JSON.stringify({
+  ...candidate,
+  internal_integrity: "PASS",
+  schemas: schemaPairs.length + 6,
+  fixtures: resolved.fixture_count,
+  baseline_artifacts: baseline.artifacts.length,
+  checksum_entries: text("SHA256SUMS.txt").trim().split(/\r?\n/).length
+}));

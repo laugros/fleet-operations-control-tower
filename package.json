@@ -17,6 +17,8 @@
     "test:g1:db-contract": "tsx packages/database/scripts/verify-g1-constraint-names.mts",
     "assemble:g1:correction": "node tools/assemble-g1-correction.mjs",
     "recompute:g1:hashes": "node tools/recompute-g1-hashes.mjs",
+    "create:g1:candidate-root": "node tools/g1-candidate-root.mjs create",
+    "verify:g1:candidate-root": "node tools/g1-candidate-root.mjs verify",
     "test:g1:runtime": "node tests/runtime/g1-smoke.mjs",
     "db:generate": "pnpm --filter @fleet/database prisma:generate",
     "db:migrate": "pnpm --filter @fleet/database prisma:migrate",

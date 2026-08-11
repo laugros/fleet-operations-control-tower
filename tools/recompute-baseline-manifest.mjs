@@ -1,5 +1,13 @@
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
+
+const candidateRootPath = resolve(process.cwd(), "baseline/candidates/demo-r1-v2.1.4-g1-correction-integrity-root-v3.yaml");
+
+function writeMutableFile(path, contents) {
+  if (resolve(path) === candidateRootPath) throw new Error("CANDIDATE_ROOT_WRITE_FORBIDDEN");
+  writeFileSync(path, contents);
+}
 
 const path = "baseline/demo-r1-baseline-manifest.yaml";
 let source = readFileSync(path, "utf8");
@@ -12,5 +20,5 @@ source = source.replace(entryPattern, (full, prefix, artifactPath, suffix) => {
   updated += 1;
   return `${prefix}${digest}${suffix}${bytes.length}`;
 });
-writeFileSync(path, source);
+writeMutableFile(path, source);
 console.log(`Recomputed ${updated} manifested artifact hashes and sizes.`);

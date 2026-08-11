@@ -1,16 +1,24 @@
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 import { parse, stringify } from "yaml";
 
 const root = process.cwd();
+const candidateRootPath = resolve(root, "baseline/candidates/demo-r1-v2.1.4-g1-correction-integrity-root-v3.yaml");
+
+function writeMutableFile(path, contents) {
+  if (resolve(path) === candidateRootPath) throw new Error("CANDIDATE_ROOT_WRITE_FORBIDDEN");
+  writeFileSync(path, contents);
+}
+
 const bytes = (path) => readFileSync(`${root}/${path}`);
 const digest = (path) => createHash("sha256").update(bytes(path)).digest("hex");
 
 const layerPlanPath = "tests/spec/demo-r1-seed-layers.yaml";
 const layerPlan = parse(bytes(layerPlanPath).toString("utf8"));
 for (const gate of Object.values(layerPlan.gates)) gate.bundle_sha256 = digest(gate.bundle_file);
-writeFileSync(`${root}/${layerPlanPath}`, stringify(layerPlan, { lineWidth: 0 }));
+writeMutableFile(`${root}/${layerPlanPath}`, stringify(layerPlan, { lineWidth: 0 }));
 
 const docHashes = {
   "docs/22-demo-r1-traceability-and-test-matrix.md": {
@@ -40,7 +48,7 @@ for (const [doc, mappings] of Object.entries(docHashes)) {
     const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     source = source.replace(new RegExp("(" + escaped + ":? `)[0-9a-f]{64}(`)"), `$1${digest(artifact)}$2`);
   }
-  writeFileSync(`${root}/${doc}`, source);
+  writeMutableFile(`${root}/${doc}`, source);
 }
 
 const baselinePath = "baseline/demo-r1-baseline-manifest.yaml";
@@ -50,7 +58,7 @@ baseline = baseline.replace(entryPattern, (full, prefix, artifactPath, suffix) =
   if (!existsSync(`${root}/${artifactPath}`)) return full;
   return `${prefix}${digest(artifactPath)}${suffix}${bytes(artifactPath).length}`;
 });
-writeFileSync(`${root}/${baselinePath}`, baseline);
+writeMutableFile(`${root}/${baselinePath}`, baseline);
 
 const checksumsPath = "SHA256SUMS.txt";
 const checksums = bytes(checksumsPath).toString("utf8").trim().split(/\r?\n/).map((line) => {
@@ -58,6 +66,6 @@ const checksums = bytes(checksumsPath).toString("utf8").trim().split(/\r?\n/).ma
   if (!artifactPath || !existsSync(`${root}/${artifactPath}`)) throw new Error(`Invalid checksum entry: ${line}`);
   return `${digest(artifactPath)}  ${artifactPath}`;
 });
-writeFileSync(`${root}/${checksumsPath}`, `${checksums.join("\n")}\n`);
+writeMutableFile(`${root}/${checksumsPath}`, `${checksums.join("\n")}\n`);
 
 console.log(`Recomputed ${Object.keys(layerPlan.gates).length} bundles, documentation hashes, baseline manifest and ${checksums.length} checksum entries.`);
