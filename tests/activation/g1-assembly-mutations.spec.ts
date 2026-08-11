@@ -1,4 +1,5 @@
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import {
   copyFileSync,
   mkdirSync,
@@ -14,15 +15,21 @@ import { describe, expect, it } from "vitest";
 import { parse, stringify } from "yaml";
 
 const repositoryRoot = process.cwd();
+const assemblyTool = resolve(repositoryRoot, "tools/assemble-g1-correction.mjs");
+const recomputeBaselineTool = resolve(repositoryRoot, "tools/recompute-baseline-manifest.mjs");
 const recomputeTool = resolve(repositoryRoot, "tools/recompute-g1-hashes.mjs");
 const verifierTool = resolve(repositoryRoot, "tools/verify-g1-assembly.mjs");
+const candidateRootTool = resolve(repositoryRoot, "tools/g1-candidate-root.mjs");
+const candidateRootPath = "baseline/candidates/demo-r1-v2.1.4-g1-correction-integrity-root-v3.yaml";
 
 function copyRepository(): string {
   const target = mkdtempSync(join(tmpdir(), "fotc-g1-mutation-"));
   const checksums = readFileSync(join(repositoryRoot, "SHA256SUMS.txt"), "utf8");
   const requiredFiles = new Set([
     "SHA256SUMS.txt",
-    "baseline/demo-r1-baseline-manifest.yaml"
+    "baseline/demo-r1-baseline-manifest.yaml",
+    "baseline/demo-r1-g1-correction-integrity-root.schema.json",
+    candidateRootPath
   ]);
   for (const line of checksums.trim().split(/\r?\n/)) {
     const [, path] = line.split(/\s{2}/);
@@ -30,6 +37,8 @@ function copyRepository(): string {
   }
   const baseline = parse(readFileSync(join(repositoryRoot, "baseline/demo-r1-baseline-manifest.yaml"), "utf8"));
   for (const artifact of baseline.artifacts as Array<{ path: string }>) requiredFiles.add(artifact.path);
+  const candidate = parse(readFileSync(join(repositoryRoot, candidateRootPath), "utf8"));
+  for (const artifact of candidate.protected_artifacts as Array<{ path: string }>) requiredFiles.add(artifact.path);
   for (const path of requiredFiles) {
     const destination = join(target, path);
     mkdirSync(dirname(destination), { recursive: true });
@@ -69,6 +78,29 @@ function verify(root: string) {
     cwd: root,
     encoding: "utf8"
   });
+}
+
+function verifyCandidate(root: string) {
+  return spawnSync(process.execPath, [candidateRootTool, "verify"], {
+    cwd: root,
+    encoding: "utf8"
+  });
+}
+
+function candidateDigest(root: string): string {
+  return createHash("sha256").update(readFileSync(join(root, candidateRootPath))).digest("hex");
+}
+
+function appendMutation(root: string, path: string): void {
+  const target = join(root, path);
+  writeFileSync(target, `${readFileSync(target, "utf8")}\nCANDIDATE_ROOT_MUTATION\n`);
+}
+
+function changeApiResetVersion(root: string): void {
+  const resolvedPath = join(root, "tests/spec/demo-r1-resolved-seeds.json");
+  const resolved = JSON.parse(readFileSync(resolvedPath, "utf8"));
+  resolved.fixtures["FX-API-RESET"].tables.demo_runtime_control[0].version = 8;
+  writeFileSync(resolvedPath, `${JSON.stringify(resolved, null, 2)}\n`);
 }
 
 describe("G1 assembly mutation rejection", () => {
@@ -118,4 +150,100 @@ describe("G1 assembly mutation rejection", () => {
       rmSync(mutatedRoot, { recursive: true, force: true });
     }
   }, 60_000);
+
+  it("rejects R8-MUT-003 after assembly and full hash recomputation", () => {
+    const mutatedRoot = copyRepository();
+    try {
+      changeApiResetVersion(mutatedRoot);
+      const assembly = spawnSync(process.execPath, [assemblyTool], {
+        cwd: mutatedRoot,
+        encoding: "utf8"
+      });
+      expect(assembly.status, assembly.stderr || assembly.stdout).toBe(0);
+      const recompute = spawnSync(process.execPath, [recomputeTool], {
+        cwd: mutatedRoot,
+        encoding: "utf8"
+      });
+      expect(recompute.status, recompute.stderr || recompute.stdout).toBe(0);
+
+      const verification = verifyCandidate(mutatedRoot);
+      expect(verification.status, "R8-MUT-003 must be rejected against the frozen candidate").not.toBe(0);
+      expect(`${verification.stdout}\n${verification.stderr}`).toContain("CANDIDATE_ROOT_MISMATCH:");
+    } finally {
+      rmSync(mutatedRoot, { recursive: true, force: true });
+    }
+  }, 60_000);
+
+  it("keeps every candidate-root byte unchanged across assembly and recomposition", () => {
+    const mutatedRoot = copyRepository();
+    try {
+      const before = candidateDigest(mutatedRoot);
+      const assembly = spawnSync(process.execPath, [assemblyTool], {
+        cwd: mutatedRoot,
+        encoding: "utf8"
+      });
+      expect(assembly.status, assembly.stderr || assembly.stdout).toBe(0);
+      const recompute = spawnSync(process.execPath, [recomputeTool], {
+        cwd: mutatedRoot,
+        encoding: "utf8"
+      });
+      expect(recompute.status, recompute.stderr || recompute.stdout).toBe(0);
+      const recomputeBaseline = spawnSync(process.execPath, [recomputeBaselineTool], {
+        cwd: mutatedRoot,
+        encoding: "utf8"
+      });
+      expect(recomputeBaseline.status, recomputeBaseline.stderr || recomputeBaseline.stdout).toBe(0);
+      expect(candidateDigest(mutatedRoot)).toBe(before);
+      const verification = verify(mutatedRoot);
+      expect(verification.status, verification.stderr || verification.stdout).toBe(0);
+      expect(verification.stdout).toContain("PASS_CANDIDATE_MATCH_PENDING_RATIFICATION");
+    } finally {
+      rmSync(mutatedRoot, { recursive: true, force: true });
+    }
+  }, 60_000);
+
+  it.each([
+    ["normative fixture", "tests/spec/demo-r1-resolved-seeds.json"],
+    ["G1 executable behavior", "apps/api/src/demo/demo.service.ts"],
+    ["G1 migration", "packages/database/prisma/migrations/202608020001_g1_foundation/migration.sql"],
+    ["runtime runner", "tests/runtime/g1-contract-runner.mts"],
+    ["assembly verifier", "tools/verify-g1-assembly.mjs"],
+    ["package scripts", "package.json"],
+    ["dependency lock", "pnpm-lock.yaml"],
+    ["R8 report", "reviews/history/45-demo-r1-v2.1.4-final-independent-review.md"],
+    ["R8 evidence", "reviews/history/demo-r1-v2.1.4-final-independent-review-evidence.json"]
+  ])("rejects an independent mutation of %s", (_label, path) => {
+    const mutatedRoot = copyRepository();
+    try {
+      appendMutation(mutatedRoot, path);
+      const verification = verifyCandidate(mutatedRoot);
+      expect(verification.status, `${path} mutation must be rejected`).not.toBe(0);
+      expect(`${verification.stdout}\n${verification.stderr}`).toContain(`CANDIDATE_ROOT_MISMATCH: ${path}`);
+    } finally {
+      rmSync(mutatedRoot, { recursive: true, force: true });
+    }
+  }, 30_000);
+
+  it("refuses to overwrite an existing candidate revision", () => {
+    const mutatedRoot = copyRepository();
+    try {
+      const creation = spawnSync(process.execPath, [candidateRootTool, "create"], {
+        cwd: mutatedRoot,
+        encoding: "utf8"
+      });
+      expect(creation.status).not.toBe(0);
+      expect(`${creation.stdout}\n${creation.stderr}`).toContain("CANDIDATE_ROOT_ALREADY_EXISTS");
+    } finally {
+      rmSync(mutatedRoot, { recursive: true, force: true });
+    }
+  });
+
+  it("does not simulate ratification validation", () => {
+    const result = spawnSync(process.execPath, [candidateRootTool, "verify", "--require-ratified"], {
+      cwd: repositoryRoot,
+      encoding: "utf8"
+    });
+    expect(result.status).not.toBe(0);
+    expect(`${result.stdout}\n${result.stderr}`).toContain("RATIFICATION_VALIDATION_UNAVAILABLE");
+  });
 });
