@@ -1,0 +1,205 @@
+root_format_version: 1.0.0
+candidate_revision: 1
+release: DEMO-R1
+baseline_version: 2.1.4
+status: PENDING_FINAL_REVIEW
+authority:
+  ratified: false
+  formal_decision_required: true
+  merge_authorized: false
+  authorizes_g2_to_g6: false
+  open_formal_blocker: PR1-BLK-005
+integrity_protocol:
+  algorithm: SHA-256
+  file_content_canonicalization: RAW_BYTES
+  path_base: REPOSITORY_ROOT
+  path_normalization: POSIX_RELATIVE
+  entry_order: LEXICOGRAPHIC_BY_PATH
+  protected_set_canonicalization: JSON_SORTED_KEYS_UTF8_NO_WHITESPACE_ARRAYS_PRESERVED
+  self_reference: FORBIDDEN
+protected_set_sha256: ab0918a290abf762fa1a804f4b9b0312789d56dd1ed3d410d888e7a8007aeaac
+post_review_path_allowlist:
+  - SHA256SUMS.txt
+  - baseline/demo-r1-baseline-manifest.schema.json
+  - baseline/demo-r1-baseline-manifest.yaml
+  - baseline/demo-r1-implementation-authorization.schema.json
+  - baseline/demo-r1-implementation-authorization.yaml
+  - policies/demo-r1-implementation-authorization-policy.schema.json
+  - policies/demo-r1-implementation-authorization-policy.yaml
+  - reviews/demo-r1-v2.1.4-r9-integrity-root-decision.schema.json
+  - reviews/demo-r1-v2.1.4-r9-integrity-root-decision.yaml
+  - reviews/history/46-demo-r1-v2.1.4-r9-independent-review.md
+  - reviews/history/demo-r1-v2.1.4-r9-independent-review-evidence.json
+protected_artifacts:
+  - path: .env.example
+    role: CONFIGURATION
+    sha256: 4aa1de1605b619aa2d1ed46912cfcd0f5788cb7a3f2fa8c2945b12a4a3681292
+    size_bytes: 383
+  - path: README.md
+    role: DOCUMENTATION
+    sha256: c67cd5ead5850105c26a05288e168e4f94f5c1b4fd2b0d68811c97ee3eff233c
+    size_bytes: 717
+  - path: apps/api/src/demo/demo.service.ts
+    role: G1_FUNCTIONAL
+    sha256: 1c498f4f5cf895413eed975252b5948e146ce35d526503d7195cb7c39b4f47e9
+    size_bytes: 13005
+  - path: baseline/demo-r1-g1-correction-integrity-root.schema.json
+    role: ROOT_SCHEMA
+    sha256: 62a1d7132f713a8598ac5c57b78d21b2d885c08a1510d77aaa8551eb6c9997f7
+    size_bytes: 3759
+  - path: docs/22-demo-r1-traceability-and-test-matrix.md
+    role: NORMATIVE_DOCUMENT
+    sha256: bd18465db322fd7fc3ec3c8a2b807cf37eada9eb774641fb019a7da188ac9d1e
+    size_bytes: 638
+  - path: docs/25-demo-r1-executable-test-catalog.md
+    role: NORMATIVE_DOCUMENT
+    sha256: 8bfb07aef0a0d9fb91325682364a05e40ad03957e91b37989bd6c1d2b3a366f5
+    size_bytes: 860
+  - path: docs/28-demo-r1-seed-manifest.md
+    role: NORMATIVE_DOCUMENT
+    sha256: f0b9c703cfe90c3c460bf28e379efe15b2411eee6394392659f3a858550f6792
+    size_bytes: 861
+  - path: docs/29-demo-r1-test-runner-contract.md
+    role: NORMATIVE_DOCUMENT
+    sha256: 3a8b55ecb58581e976e28afb6baa374d97c20b4426f12e1c287a139d1038c01b
+    size_bytes: 1301
+  - path: implementation/evidence/g1-candidate-integrity-root.md
+    role: PROCEDURE
+    sha256: bfe82fc20455c843c2c9142efdd87b9c6d6e89d2175dd53bd4016120e752112e
+    size_bytes: 2127
+  - path: package.json
+    role: CONFIGURATION
+    sha256: 7625d69afc618698e3c4aafb0787298642e99e09f0f28e11722d05c9bb73c457
+    size_bytes: 1970
+  - path: packages/database/prisma/migrations/202608020001_g1_foundation/migration.sql
+    role: DATABASE
+    sha256: 753eaa60ca4e7e77f9b77d7ffb88282929c0d40b353ff4359ee9e82a623ad7bb
+    size_bytes: 15451
+  - path: packages/database/prisma/migrations/202608040001_g1_contract_constraint_names/migration.sql
+    role: DATABASE
+    sha256: bcf4bf692d6d848ab2b3ab2d873eb2575f77c326c6295e5c80e5078f148b6148
+    size_bytes: 287
+  - path: packages/database/scripts/verify-g1-constraint-names.mts
+    role: DATABASE
+    sha256: 3a091948f4936282bb67b397e563c1371e5fd94edff1a8ccc8c3d2c01054c6cf
+    size_bytes: 3521
+  - path: pnpm-lock.yaml
+    role: CONFIGURATION
+    sha256: 204bcfe213ee66267b8658c53185db36eb796f8ef95e57d9422f2ecf6d85c3af
+    size_bytes: 160722
+  - path: reviews/history/44-demo-r1-v2.1.4-g1-contract-corrections.md
+    role: EVIDENCE
+    sha256: e5c3ebc9b55202945a0d7dc79fbda489d50b47bb951e7242db5f397734241012
+    size_bytes: 3553
+  - path: reviews/history/45-demo-r1-v2.1.4-final-independent-review.md
+    role: EVIDENCE
+    sha256: ac5485612139c751596568dd87971507b4420b15f97b30c4328a003b0f357f89
+    size_bytes: 17533
+  - path: reviews/history/demo-r1-v2.1.4-final-independent-review-evidence.json
+    role: EVIDENCE
+    sha256: 4488ed2583ee86c60f755e60290192ae7d504e1de62d4ae6ad1774e35f508f55
+    size_bytes: 9486
+  - path: reviews/history/demo-r1-v2.1.4-g1-contract-correction-evidence.json
+    role: EVIDENCE
+    sha256: ca61c415aad5c3084f746d945a73237e4319ef826c32f5ccb3e6867defddc235
+    size_bytes: 2141
+  - path: tests/activation/g1-assembly-mutations.spec.ts
+    role: TEST
+    sha256: 714bd88b2caee7115a94ae455d89174a89278f99eec5838453fb22c64ccb5d1b
+    size_bytes: 10638
+  - path: tests/activation/g1-assertion-coverage.spec.ts
+    role: TEST
+    sha256: 015b928d0139b02b7f02879dba1a207be6e5d0c265809e8a505c29b75b4d46c5
+    size_bytes: 1104
+  - path: tests/activation/g1-foundation.spec.ts
+    role: TEST
+    sha256: 64b9f1ad84ed8f3634e11fb1157ae3ed93d66fcb98464e977129eb844aed2703
+    size_bytes: 13669
+  - path: tests/activation/g1-runner-evidence.spec.ts
+    role: TEST
+    sha256: 1d2aae47036d3b895fd8f73c6f770e73a254926f51e7cfe9a5f3143016129f66
+    size_bytes: 1166
+  - path: tests/runtime/g1-assertion-coverage.mts
+    role: RUNNER
+    sha256: cca77417f131feb93d66b14c59f3559e8f3392ccba98dca68a3db69787ea0ab5
+    size_bytes: 3797
+  - path: tests/runtime/g1-contract-runner.mts
+    role: RUNNER
+    sha256: 71bdb51f5660e80fb1fa48e025c715b52a3f9a93fffc930754f10672c028c653
+    size_bytes: 56624
+  - path: tests/spec/demo-r1-resolved-seeds.json
+    role: NORMATIVE_CONTRACT
+    sha256: 264456d314c81f31da5dd464a35675b092774d316e7e18574c31dffba0326ab4
+    size_bytes: 3452370
+  - path: tests/spec/demo-r1-seed-layers.yaml
+    role: NORMATIVE_CONTRACT
+    sha256: 34b6d52ddb6339e28d4981f385ded08e888e33e67531c3d62d0ab3eadaeff612
+    size_bytes: 2179
+  - path: tests/spec/demo-r1-seed-manifest.yaml
+    role: NORMATIVE_CONTRACT
+    sha256: 8748fb4994ab81c6ecacda39103012cbd0267beefcb1f67b7f9c017c87704d38
+    size_bytes: 43104
+  - path: tests/spec/demo-r1-test-catalog.yaml
+    role: NORMATIVE_CONTRACT
+    sha256: 826b7fae47cc9be6484a6ee6a21cf4f407fc76079f0c7ca302fa5e9c3023e27a
+    size_bytes: 373083
+  - path: tests/spec/demo-r1-test-fixtures.yaml
+    role: NORMATIVE_CONTRACT
+    sha256: e4519f849fb2cad40074024cc77f4bb0db538cc3993cbbbf062c83f1c45c70a1
+    size_bytes: 37876
+  - path: tests/spec/demo-r1-test-runner-programs.yaml
+    role: NORMATIVE_CONTRACT
+    sha256: a8a60e4eccfa578fef26e9724f90ae04b7ca5548c651dd24452043a6222d15a5
+    size_bytes: 60416
+  - path: tests/spec/seed-layers/g1-foundation.json
+    role: NORMATIVE_CONTRACT
+    sha256: cd3c52345b40e47dd7e3628002788c6beb0431adf2d60d90142bd40c854f0dc0
+    size_bytes: 278109
+  - path: tests/spec/seed-layers/g2-domain.json
+    role: NORMATIVE_CONTRACT
+    sha256: 38fbeb1e8b8186665656a3b849423be869d56baeed2b233bae29229f85af4b6c
+    size_bytes: 1627820
+  - path: tests/spec/seed-layers/g3-projections.json
+    role: NORMATIVE_CONTRACT
+    sha256: 518abf40a92c1b348ceb746be873f4f6a5f6e64b232f6f0ede273e1f6dfed835
+    size_bytes: 1885709
+  - path: tests/spec/seed-layers/g4-time-communication.json
+    role: NORMATIVE_CONTRACT
+    sha256: e7019c69116b6d19b5aa2d50bbb1987daa0a524a20be4a95d1181c7532b470b5
+    size_bytes: 2352711
+  - path: tests/spec/seed-layers/g5-external.json
+    role: NORMATIVE_CONTRACT
+    sha256: 79d7272009b98825e040245ca49fe098c3d958a8d07ab057ce043fbf74ce6382
+    size_bytes: 3258507
+  - path: tests/spec/seed-layers/g6-executive.json
+    role: NORMATIVE_CONTRACT
+    sha256: 3c62df5d32cf2de7fd5e7e4645c60394679955628fbc83b176f8b78d339c1df8
+    size_bytes: 3472552
+  - path: tools/assemble-g1-correction.mjs
+    role: INTEGRITY_TOOL
+    sha256: 618e6364534df63de7552723296e17720ac383208e806e147d0b6cb82f5dbac6
+    size_bytes: 6232
+  - path: tools/g1-candidate-root.mjs
+    role: INTEGRITY_TOOL
+    sha256: 1bb1a8e86df2292eb14bc2ad577afaa0afab57f49161a9d2800b2ff15c732896
+    size_bytes: 10486
+  - path: tools/recompute-baseline-manifest.mjs
+    role: INTEGRITY_TOOL
+    sha256: 4a993d9d76cec4856512c17d6366090509869df511360b49080088af30e66d9b
+    size_bytes: 1096
+  - path: tools/recompute-g1-hashes.mjs
+    role: INTEGRITY_TOOL
+    sha256: 7ffeefa47310f23d0d8a1713eec27f111922ea02ab1948cd52d87418455dcc59
+    size_bytes: 3529
+  - path: tools/verify-g1-assembly.mjs
+    role: INTEGRITY_TOOL
+    sha256: 3090991d0a1f3da939423ca33e9dd27d6ea7dfb50df70f06578368ab9c492714
+    size_bytes: 8063
+  - path: traceability/demo-r1-test-reverse-traceability.csv
+    role: NORMATIVE_CONTRACT
+    sha256: 3c39e4faa5f372b5e5d5998f9a4614e5c0b2478bf558c5a7ba76d073d0602495
+    size_bytes: 48795
+  - path: traceability/demo-r1-traceability.yaml
+    role: NORMATIVE_CONTRACT
+    sha256: 9a7ef6e4a9688ee6838afa51de74c5952f11a6ebb779dcdf46953d8bd478d47b
+    size_bytes: 177930
