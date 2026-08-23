@@ -173,30 +173,24 @@ export class DemoService {
     const resultingVersion = runtime.version + 1;
     const payload = {
       reset_id: resetId,
-      requested_seed_version: seedVersion,
+      seed_version: seedVersion,
       source_generation_id: runtime.activeGenerationId,
-      target_generation_id: targetGenerationId
+      target_generation_id: targetGenerationId,
+      requested_by_identity_code: session.identity.identity_code,
+      requested_at: now
     };
 
     await restoreG1Fixture({
       fixtureId: "FX-SEED-V213",
-      preserveTables: ["demo_generation", "demo_reset_execution", "security_audit_record"],
+      preserveTables: ["demo_generation", "demo_reset_execution", "demo_runtime_control", "security_audit_record"],
       targetGenerationId,
       beforeLoad: async (client) => {
         await client.query(
-          'UPDATE "demo_generation" SET "status" = $1, "retired_at" = $2 WHERE "id" = $3',
-          ["RETIRED", now, runtime.activeGenerationId]
-        );
-        await client.query(
-          'INSERT INTO "demo_generation" ("id","seed_version","status","created_at","activated_at") VALUES ($1,$2,$3,$4,$4)',
-          [targetGenerationId, seedVersion, "ACTIVE", now]
+          'INSERT INTO "demo_generation" ("id","seed_version","status","created_at") VALUES ($1,$2,$3,$4)',
+          [targetGenerationId, seedVersion, "PREPARING", now]
         );
       },
       afterLoad: async (client) => {
-        await client.query(
-          'UPDATE "demo_runtime_control" SET "active_generation_id"=$1,"runtime_status"=$2,"reset_execution_id"=NULL,"updated_at"=$3,"version"=$4 WHERE "singleton_key"=TRUE',
-          [targetGenerationId, "ACTIVE", now, resultingVersion]
-        );
         await client.query(
           'INSERT INTO "demo_reset_execution" ("id","requested_seed_version","source_generation_id","target_generation_id","status","requested_by_user_id_snapshot","requested_by_identity_code","requested_by_display_name","requested_at","database_reset_started_at","database_reset_committed_at","projections_rebuilt_at","completed_at","warning_codes","recovery_attempt_count") VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$9,$9,$9,$9,$10,0)',
           [
@@ -226,23 +220,40 @@ export class DemoService {
             now
           ]
         );
-        await client.query(
-          'INSERT INTO "domain_event" ("id","demo_generation_id","event_type","schema_version","aggregate_type","aggregate_id","aggregate_version","aggregate_sequence","correlation_id","idempotency_record_id","source_type","source_id","data_classification","demo_seed_version","demo_mode","payload","occurred_at","recorded_at") VALUES ($1,$2,$3,2,$4,$2,$5,$5,$6,$7,$8,$9,$10,$11,TRUE,$12::jsonb,$13,$13)',
+        const producedEvent = await client.query(
+          'INSERT INTO "domain_event" ("id","demo_generation_id","event_type","schema_version","aggregate_type","aggregate_id","aggregate_version","aggregate_sequence","correlation_id","idempotency_record_id","source_type","source_id","data_classification","demo_seed_version","demo_mode","payload","occurred_at","recorded_at") SELECT $1,r."active_generation_id",$2,2,$3,$4,$5,$5,$6,$7,$8,$9,$10,$11,TRUE,$12::jsonb,$13,$13 FROM "demo_runtime_control" r WHERE r."singleton_key"=TRUE AND r."runtime_status"=$14 AND r."active_generation_id"=$15 RETURNING "demo_generation_id"',
           [
             eventId,
-            targetGenerationId,
             "DemoResetRequested",
-            "DEMO_RUNTIME",
+            "DEMO_RESET",
+            resetId,
             resultingVersion,
             correlationId(request),
             idempotencyId,
-            "COMMAND",
-            "ResetDemoScenario",
-            "INTERNAL",
+            session.identity.role_code === "ROLE_DEMO_ADMIN" ? "DEMO_ADMIN_USER" : "DEMO_INTERNAL_USER",
+            session.identity.user_id,
+            "CONFIDENTIAL",
             seedVersion,
             JSON.stringify(payload),
-            now
+            now,
+            "ACTIVE",
+            runtime.activeGenerationId
           ]
+        );
+        if (producedEvent.rowCount !== 1 || producedEvent.rows[0]?.demo_generation_id !== runtime.activeGenerationId) {
+          throw new Error("DemoResetRequested must be produced in the active source generation");
+        }
+        await client.query(
+          'UPDATE "demo_generation" SET "status"=$1,"retired_at"=$2 WHERE "id"=$3',
+          ["RETIRED", now, runtime.activeGenerationId]
+        );
+        await client.query(
+          'UPDATE "demo_generation" SET "status"=$1,"activated_at"=$2 WHERE "id"=$3',
+          ["ACTIVE", now, targetGenerationId]
+        );
+        await client.query(
+          'UPDATE "demo_runtime_control" SET "active_generation_id"=$1,"runtime_status"=$2,"reset_execution_id"=NULL,"updated_at"=$3,"version"=$4 WHERE "singleton_key"=TRUE',
+          [targetGenerationId, "ACTIVE", now, resultingVersion]
         );
         await client.query(
           'INSERT INTO "integration_outbox" ("id","domain_event_id","demo_generation_id","event_type","payload","status","available_at","attempt_count","created_at") VALUES ($1,$2,$3,$4,$5::jsonb,$6,$7,0,$7)',

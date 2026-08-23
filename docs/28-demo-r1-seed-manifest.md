@@ -4,12 +4,12 @@
 **Status:** `NORMATIVE_AUTHORIZED_FOR_SCAFFOLD`  
 **Escopo autorizado:** `G1_FOUNDATION`
 
-SHA-256 do manifest: `600d195af824cc7988c9a1736afc3f8f4f12604e5753e3620246745fd2cbe385`.  
-SHA-256 dos estados completos: `b51c27de10dd4f829a975ca0ff3c222cfc0cf4a9af5ec0222786ea8ee60956b9`.  
-SHA-256 das fixtures: `d5c28516ea05bc03c53a38a03e057f3d0858cb39236ec567680c20cd00dec783`.  
+SHA-256 do manifest: `8748fb4994ab81c6ecacda39103012cbd0267beefcb1f67b7f9c017c87704d38`.
+SHA-256 dos estados completos: `264456d314c81f31da5dd464a35675b092774d316e7e18574c31dffba0326ab4`.
+SHA-256 das fixtures: `e4519f849fb2cad40074024cc77f4bb0db538cc3993cbbbf062c83f1c45c70a1`.
 SHA-256 do contrato de tabelas: `5991bc280a563ea2f9d7db9b55a42a93ae976a12ec130b8a6407bb339c7cbca4`.  
-SHA-256 do plano de camadas: `ea45b7ba88fa76156855ba992aa08f031d3b6f1f1f1e2864564d32bafe78fc03`.  
-SHA-256 do bundle G1: `e733bded83e4036d9130b3ec6b372c93965366c0e9ea9bcefcc21f5901ed896b`.
+SHA-256 do plano de camadas: `34b6d52ddb6339e28d4981f385ded08e888e33e67531c3d62d0ab3eadaeff612`.
+SHA-256 do bundle G1: `cd3c52345b40e47dd7e3628002788c6beb0431adf2d60d90142bd40c854f0dc0`.
 
 ```text
 FULL_FIXTURES = 98

@@ -1,0 +1,246 @@
+{
+  "evidence_version": "1.0.0",
+  "review_id": "R8",
+  "release": "DEMO-R1",
+  "baseline_version": "2.1.4",
+  "review_type": "FINAL_INDEPENDENT_REVIEW",
+  "verdict": "NOT_READY_FOR_MERGE",
+  "reviewed_repository": "https://github.com/laugros/fleet-operations-control-tower",
+  "pull_request": 1,
+  "branch": "codex/g1-runner-contract-corrections",
+  "base_commit": "880e2f202014f8a9f17f58657ccf49e45541f796",
+  "reviewed_commit": "39aa28173ca6c5e4199ca8e1b4ddf81489f8dc0e",
+  "review_date": "2026-08-09",
+  "authority": {
+    "this_report_is_authorization": false,
+    "renews_r7": false,
+    "authorizes_merge": false,
+    "authorizes_g2": false,
+    "embedded_post_r7_decision_found": false,
+    "formal_blocker": "PR1-BLK-005"
+  },
+  "input_presence": {
+    "AGENTS.md": "ABSENT",
+    "docs/00-document-index.md": "ABSENT",
+    "all_other_mandatory_inputs": "READ_OR_PARSED_IN_FULL",
+    "seed_layer_bundles": 6
+  },
+  "pull_request_state": {
+    "state": "open",
+    "merged": false,
+    "draft": false,
+    "head_matches_reviewed_commit": true,
+    "changed_files": 33,
+    "commits": 4,
+    "github_reviews": 0,
+    "github_review_threads": 0
+  },
+  "hash_verification": {
+    "canonicalization": "recursive_sorted_object_keys_arrays_preserved_json_utf8",
+    "state_sha256": { "passed": 98, "total": 98 },
+    "full_state_sha256": { "passed": 367, "total": 367 },
+    "layer_state_sha256": { "passed": 367, "total": 367 },
+    "bundle_file_sha256": { "passed": 6, "total": 6 },
+    "fixture_snapshot_or_alias_hashes": { "passed": 98, "total": 98 },
+    "baseline_manifest_hashes": { "passed": 67, "total": 67 },
+    "baseline_manifest_sizes": { "passed": 67, "total": 67 },
+    "sha256sums": { "passed": 79, "total": 79 },
+    "bundle_fixture_distribution": {
+      "G1_FOUNDATION": 9,
+      "G2_DOMAIN": 47,
+      "G3_PROJECTIONS": 54,
+      "G4_TIME_COMMUNICATION": 67,
+      "G5_EXTERNAL": 92,
+      "G6_EXECUTIVE": 98
+    }
+  },
+  "semantic_usage_verification": {
+    "catalog_test_ids": 208,
+    "resolved_seed_ordered_equal": { "passed": 98, "total": 98 },
+    "seed_manifest_ordered_equal": { "passed": 98, "total": 98 },
+    "bundle_ordered_equal": { "passed": 367, "total": 367 },
+    "unknown_test_ids": [],
+    "unknown_primary_fixtures": [],
+    "verifier_enforces_order": false
+  },
+  "mutation_tests": [
+    {
+      "id": "R8-MUT-001",
+      "description": "Change FX-API-RESET demo_runtime_control.version without updating state_sha256",
+      "expected": "REJECT",
+      "actual": "REJECT",
+      "verifier_exit_code": 1,
+      "error": "FX-API-RESET state_sha256 is not reproducible"
+    },
+    {
+      "id": "R8-MUT-002",
+      "description": "Reverse FX-API-RESET used_by_test_ids in resolved seed, manifest and all bundles, then recompute hashes",
+      "expected": "REJECT",
+      "actual": "ACCEPT",
+      "hash_recompute_exit_code": 0,
+      "verifier_exit_code": 0,
+      "verifier_result": "PASS_12_SCHEMAS_98_FIXTURES_67_BASELINE_79_CHECKSUMS"
+    },
+    {
+      "id": "R8-MUT-003",
+      "description": "Change FX-API-RESET demo_runtime_control.version from 1 to 8, then run assembly, hash recomputation and verifier",
+      "expected": "REJECT",
+      "actual": "ACCEPT",
+      "assembly_exit_code": 0,
+      "hash_recompute_exit_code": 0,
+      "verifier_exit_code": 0,
+      "verifier_result": "PASS_12_SCHEMAS_98_FIXTURES_67_BASELINE_79_CHECKSUMS"
+    }
+  ],
+  "runner": {
+    "literal_command": "pnpm test:g1",
+    "exit_code": 0,
+    "static_validations": { "passed": 27, "total": 27 },
+    "real_contracts": { "passed": 26, "total": 26 },
+    "assembly_summary": {
+      "schemas": 12,
+      "fixtures": 98,
+      "baseline_artifacts": 67,
+      "checksum_entries": 79
+    },
+    "executed_components": {
+      "pnpm_demo_up": true,
+      "api": true,
+      "postgresql": true,
+      "worker": true
+    },
+    "openapi_request_validation": true,
+    "openapi_response_validation": true,
+    "openapi_operation_id_comparison": false,
+    "event_schema_validation": true,
+    "event_generation_assertion_executed": false,
+    "all_declared_database_assertions_executed": false,
+    "run_id": "g1-20260809202158473",
+    "evidence_files": 26,
+    "evidence_files_with_all_required_fields": 26,
+    "credential_references_in_evidence": 0,
+    "fake_secret_markers_in_evidence": 0,
+    "redacted_credential_markers": 12,
+    "sandbox_note": "Initial sandboxed run stopped at docker access; authorized local Docker run passed and is the recorded result."
+  },
+  "event_demo_reset_requested": {
+    "normative_schema_valid": true,
+    "payload_complete": true,
+    "payload_keys": [
+      "requested_at",
+      "requested_by_identity_code",
+      "reset_id",
+      "seed_version",
+      "source_generation_id",
+      "target_generation_id"
+    ],
+    "aggregate_type": "DEMO_RESET",
+    "aggregate_sequence_equals_aggregate_version": true,
+    "source_type": "DEMO_ADMIN_USER",
+    "source_id_present": true,
+    "data_classification": "CONFIDENTIAL",
+    "schema_version": 2,
+    "event_generation_id": "64b8509b-d1e2-5e34-b3b5-fc05deaa648a",
+    "active_generation_id_after_commit": "5db71f6e-8ff4-4c3c-a336-48e26cc3c1c4",
+    "event_generation_matches_active_after_commit": false,
+    "event_generation_matches_payload_source": true,
+    "payload_target_matches_active_after_commit": true,
+    "runner_passed_without_executing_declared_generation_assertion": true
+  },
+  "database_and_quality_commands": [
+    {
+      "command": "pnpm db:migrate",
+      "exit_code": 0,
+      "result": "2 migrations found; no pending migrations"
+    },
+    {
+      "command": "pnpm test:g1:db-contract",
+      "exit_code": 0,
+      "result": "PASS_3_OF_3"
+    },
+    {
+      "command": "pnpm lint",
+      "exit_code": 0,
+      "result": "PASS"
+    }
+  ],
+  "scope": {
+    "functional_g2_to_g6_work_packages_implemented": 0,
+    "later_bundle_fixture_additions": 0,
+    "later_bundle_fixture_removals": 0,
+    "later_bundle_table_payload_changes": [
+      "FX-API-READ-BASE",
+      "FX-API-RESET",
+      "FX-DATA-INTEGRITY",
+      "FX-MUTATED-DEMO"
+    ],
+    "later_bundle_changes_classification": "CUMULATIVE_G1_PROPAGATION_AND_DERIVED_USAGE_HASHES",
+    "changed_manifested_normative_artifacts": 18,
+    "formal_ratification_for_changed_normative_artifacts": false
+  },
+  "previous_findings": {
+    "PR1-BLK-004-A": "REOPENED_PARTIALLY_RESOLVED",
+    "PR1-BLK-002-A": "REOPENED",
+    "PR1-BLK-003-A": "REOPENED_PARTIALLY_RESOLVED",
+    "PR1-BLK-005": "OPEN_FORMAL",
+    "PR1-MAJ-001": "RESOLVED"
+  },
+  "findings": [
+    {
+      "id": "PR1-BLK-004-A",
+      "severity": "BLOCKER",
+      "area": "hash integrity and authorized root",
+      "blocks_merge": true,
+      "evidence": "A semantically changed fixture passes after assembly and all mutable hashes are recomputed.",
+      "recommended_correction": "Verify against an independently authorized immutable root and reject semantic drift without a new embedded decision."
+    },
+    {
+      "id": "PR1-BLK-002-A",
+      "severity": "BLOCKER",
+      "area": "ordered used_by_test_ids equality",
+      "blocks_merge": true,
+      "evidence": "The verifier sorts observed arrays; a reversed order propagated consistently passes.",
+      "recommended_correction": "Compare every observed array directly with one canonical expected order and add a negative order test."
+    },
+    {
+      "id": "PR1-BLK-003-A",
+      "severity": "BLOCKER",
+      "area": "real runner event generation contract",
+      "blocks_merge": true,
+      "evidence": "The runner ignores event_assertions.demo_generation_id and passes an event whose generation differs from the active generation after the producing transaction.",
+      "recommended_correction": "Execute the declared generation assertion and prove the active-generation rule at the transactional production point."
+    },
+    {
+      "id": "PR1-BLK-005",
+      "severity": "BLOCKER",
+      "area": "formal incorporation authorization",
+      "blocks_merge": true,
+      "evidence": "No repository-embedded decision exists after R7; 18 manifested artifacts changed while the baseline still declares R7.",
+      "recommended_correction": "After technical closure and independent re-review, embed a new formal decision and perform authorized post-assembly verification."
+    },
+    {
+      "id": "R8-MAJ-001",
+      "severity": "MAJOR",
+      "area": "declared assertion coverage",
+      "blocks_merge": true,
+      "evidence": "Some database/security expectations and operationId conformance are declared but have no complete executor/evidence record.",
+      "recommended_correction": "Require one executed and evidenced result for every declared assertion."
+    },
+    {
+      "id": "R8-MAJ-002",
+      "severity": "MAJOR",
+      "area": "database_diff evidence isolation",
+      "blocks_merge": true,
+      "evidence": "The before snapshot precedes fixture restoration, so database_diff mixes fixture preparation with contract effects and only reports counts.",
+      "recommended_correction": "Restore before snapshot and separate preparation, action and rollback diffs at relevant row level."
+    },
+    {
+      "id": "R8-MIN-001",
+      "severity": "MINOR",
+      "area": "Windows runner portability",
+      "blocks_merge": false,
+      "evidence": "Runner contains a user-specific Docker Desktop path and Node emitted DEP0190 for shell=true.",
+      "recommended_correction": "Use environment/PATH discovery and direct argv execution without shell=true."
+    }
+  ]
+}

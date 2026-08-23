@@ -98,7 +98,7 @@ database_programs:
         database_unchanged_after_rejection: true
   TST-DATA-IAM-002:
     program_id: TST-DATA-IAM-002
-    fixture_id: FX-DATA-INTEGRITY
+    fixture_id: FX-ACTIVE-ATTENDANT-SESSION
     transaction:
       isolation: SERIALIZABLE
       rollback: ALWAYS
@@ -107,8 +107,8 @@ database_programs:
       op: CLONE_INSERT
       target_table: demo_internal_session
       source:
-        kind: ROW_TEMPLATE
-        template_id: VALID_DEMO_INTERNAL_SESSION
+        kind: SEED_ROW
+        ref: seed://FX-ACTIVE-ATTENDANT-SESSION/tables/demo_internal_session/0
       mutations:
       - path: /id
         value: 42c9db37-6c01-56af-bff7-2498a31ec220
@@ -119,7 +119,7 @@ database_programs:
         database_unchanged_after_rejection: true
   TST-DATA-IAM-003:
     program_id: TST-DATA-IAM-003
-    fixture_id: FX-DATA-INTEGRITY
+    fixture_id: FX-ACTIVE-ATTENDANT-SESSION
     transaction:
       isolation: SERIALIZABLE
       rollback: ALWAYS
@@ -128,8 +128,8 @@ database_programs:
       op: PATCH_UPDATE
       target_table: demo_internal_session
       source:
-        kind: ROW_TEMPLATE
-        template_id: VALID_DEMO_INTERNAL_SESSION
+        kind: SEED_ROW
+        ref: seed://FX-ACTIVE-ATTENDANT-SESSION/tables/demo_internal_session/0
       mutations:
       - path: /revoked_at
         value: '2026-08-01T15:00:00Z'
@@ -881,12 +881,10 @@ database_programs:
       target_table: demo_reset_execution
       source:
         kind: SEED_ROW
-        ref: seed://FX-DATA-INTEGRITY/tables/demo_reset_execution/0
+        ref: seed://FX-DATA-INTEGRITY/tables/demo_reset_execution/1
       mutations:
       - path: /id
         value: a895d29b-7bd9-549f-9179-b341668a0c59
-      - path: /status
-        value: RUNNING
       expect:
         outcome: REJECT
         error_code: '23505'

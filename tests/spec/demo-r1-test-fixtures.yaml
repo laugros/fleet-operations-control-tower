@@ -130,7 +130,7 @@ snapshots:
       stop_id: 8969da92-27fe-5b0e-89b3-1ea8f4126813
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-READ-BASE
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-READ-BASE
-    state_sha256: 36da71a31a84b202c3c3493b255939c2cfaa584ab2a3257ff19c1687dfe3e4ef
+    state_sha256: 8d97a517f8675fdc8c1c9ced7c39cfe801b5d5986536ebe503d4da1216b34bf2
   FX-API-CASE-NEW:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -141,7 +141,7 @@ snapshots:
       case_version: 1
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-CASE-NEW
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-CASE-NEW
-    state_sha256: 1cea2298fc3d6a5e86df23e45686a08596eed1eb4fea055154ad615120bdb89f
+    state_sha256: a195b409bad11f6a15ad7d7c3cd45be6da5c646135f01235c03b799f8352611d
   FX-API-CASE-IN-PROGRESS:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -154,7 +154,7 @@ snapshots:
       supplier_id: d2be58d2-2978-505e-98a6-68deb7ed811b
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-CASE-IN-PROGRESS
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-CASE-IN-PROGRESS
-    state_sha256: 6fcc2938e0ee47fe6cd02154a139ee743a901876b04521d9bb75f1f3d78b8acf
+    state_sha256: a18ac1e4319126da8ed769746050a92f87414b505d019f37be719e91989d3aac
   FX-API-CASE-READY:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -168,7 +168,7 @@ snapshots:
       open_conflict_count: 0
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-CASE-READY
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-CASE-READY
-    state_sha256: bfa1775d4a98dababfbec018cd8bc56125312e411fd9ebd8007d935690271e41
+    state_sha256: 9d87db34f1a8886ea678235c8eac59854fda5e9aa77e1e9e8d1b2173f483103b
   FX-API-TASK-NOT-STARTED:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -179,7 +179,7 @@ snapshots:
       task_version: 1
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-TASK-NOT-STARTED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-TASK-NOT-STARTED
-    state_sha256: 7100431ae01e588307a13f3775f973ae1ffb5ea88e1eb0953d1ff3b89200db9d
+    state_sha256: 4ee89089eaa1ce4c7bdee7642a420e5cc0ec0a3a22fe00f00913d4ed56cc8b73
   FX-API-TASK-ASSIGNED:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -190,7 +190,7 @@ snapshots:
       task_version: 2
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-TASK-ASSIGNED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-TASK-ASSIGNED
-    state_sha256: f746f2159252a97cc940d17c6d86b7a464cf5ba077c9a52a887b517545f9ac65
+    state_sha256: fc36c0917b3f5f772e1b2c3e24efe79f61c1eb4cd4a7881177e763c5cc2f3404
   FX-API-TASK-IN-PROGRESS:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -202,7 +202,7 @@ snapshots:
       supplier_id: d2be58d2-2978-505e-98a6-68deb7ed811b
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-TASK-IN-PROGRESS
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-TASK-IN-PROGRESS
-    state_sha256: 912775dc3b2e07d3ad713d87ccacc779d6cd25b29115ff68e5779ab6df009d80
+    state_sha256: c3c3b1ded0a277cb8f1fa0d32c8d87a8fd32f6dee3d37eb957480c233c3f1aac
   FX-API-STOP-SCHEDULED:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -213,7 +213,7 @@ snapshots:
       stop_version: 1
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-STOP-SCHEDULED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-SCHEDULED
-    state_sha256: db9ac013ccfee3f8383014d011a2b920c18163a01210796d814770772fc254b8
+    state_sha256: f682de9e299e729697cfa6af4358619323bbbed66d46e705a5769f2c867544c5
   FX-API-STOP-AWAITING-ARRIVAL:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -224,7 +224,7 @@ snapshots:
       stop_version: 2
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-STOP-AWAITING-ARRIVAL
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-AWAITING-ARRIVAL
-    state_sha256: 1db87be7ddfaf999abd9c110b31a1ec7e0174b5a1347e3ad9379fca1c9740094
+    state_sha256: 9602a772ab60cee3c0b675510b3527f464c0f9b8ba2d758f80732acd72a9a14a
   FX-API-STOP-ARRIVAL-REPORTED:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -237,7 +237,7 @@ snapshots:
       - d88eda5d-5e59-50bd-b401-da38591abfad
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-STOP-ARRIVAL-REPORTED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-ARRIVAL-REPORTED
-    state_sha256: ca06cd3fa003c9747058395d72104576efe3c77d49281b57645358ab46e53677
+    state_sha256: fb958a6ba26b69b5f321c94384877617284add9e59b56bf88c5d85e2ee002dce
   FX-API-STOP-ARRIVAL-CONFLICT:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -252,7 +252,7 @@ snapshots:
       arrival_conflict_task_id: 37381f71-8246-5d61-bdef-db6ab158fdbc
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-STOP-ARRIVAL-CONFLICT
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-ARRIVAL-CONFLICT
-    state_sha256: 911de64f474b4c66a729009e7e0115250c384afa055053b8250399801e67b835
+    state_sha256: c16fc8987f95e237982483cd41cba094578eb31dbe13142f564b5a4ec0d23a31
   FX-API-STOP-RECEIVED:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -263,7 +263,7 @@ snapshots:
       stop_version: 5
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-STOP-RECEIVED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-RECEIVED
-    state_sha256: 5446daf7ed4dfaab388c834c05729dfb9e0a7f0f2db940a6d9fc6c1fb5b68a20
+    state_sha256: 58a60569a680f016e9fc812ee1ce025e926d61b855d96bc5bb22d33ebd817e08
   FX-API-STOP-IN-EXECUTION:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -275,7 +275,7 @@ snapshots:
       supplier_id: d2be58d2-2978-505e-98a6-68deb7ed811b
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-STOP-IN-EXECUTION
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-IN-EXECUTION
-    state_sha256: dcfc73ad0cce2b2ec219e33bef72410aebda7933d9b99fe5a67a589f423bbd23
+    state_sha256: fee63858151f5d034420382678974c19e51377fd17f082bc496d720e1f65dc33
   FX-API-STOP-SERVICE-COMPLETED:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -286,7 +286,7 @@ snapshots:
       stop_version: 7
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-STOP-SERVICE-COMPLETED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-SERVICE-COMPLETED
-    state_sha256: 60fe56f8cb990deb01416d04dfca760894d4fecb0a42746336b0c00a87f9bd35
+    state_sha256: 0000f627b5460c1683cff0baae793c6da6d6c6b2ce482051d74041e012434554
   FX-API-STOP-AWAITING-PICKUP:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -298,7 +298,7 @@ snapshots:
       driver_id: 6bf0c2fe-c6e1-5aa6-995b-4034ad507c52
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-STOP-AWAITING-PICKUP
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-AWAITING-PICKUP
-    state_sha256: 113c562d8b2e5b06e9623c9873062f138fa6d536543878fd5d3c192359a63f2b
+    state_sha256: 45981f30bc8915b00bc6f153c95a0ed50086ec62e338f3aa3b8bc4bcdcada508
   FX-API-STOP-PICKED-UP:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -311,7 +311,7 @@ snapshots:
       open_conflict_count: 0
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-STOP-PICKED-UP
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-STOP-PICKED-UP
-    state_sha256: 2e761d54b6a60e16cdad1c74d4863192c303a99424a895e5de0daa10d4419637
+    state_sha256: 0cb26b64bac3da97c3a4929fac740a260639cbf0f1198efb407864c28e6b9b93
   FX-API-CONVERSATION-SUGGESTED:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -322,7 +322,7 @@ snapshots:
       case_id: 5fcd3e0b-6480-5769-bbc7-fe653f4a4c29
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-CONVERSATION-SUGGESTED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-CONVERSATION-SUGGESTED
-    state_sha256: 6aee77a9fcc9972cc58086ab40436e72a6361c04984573a6dd17fae0173ce9c1
+    state_sha256: 663e157d185e7c42000793433fd03cda1b521b99da8ab3283280a78bb7099f2c
   FX-API-EXTERNAL-SUPPLIER:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -334,7 +334,7 @@ snapshots:
       external_session_id: 4b90895d-c7bb-5cc4-8f70-dab4b5f2f3fc
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-EXTERNAL-SUPPLIER
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-EXTERNAL-SUPPLIER
-    state_sha256: 6cb71abbdd99f2cb58151f3e53c6407c0847b1867991aecdb6c88dc7a522ddef
+    state_sha256: 51393a0a65e9fa7643685afc58e301430941ac80c4b77c57866967790e439b4b
   FX-API-EXTERNAL-DRIVER:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -346,7 +346,7 @@ snapshots:
       external_session_id: 3e2e8aa4-1796-5074-a1ca-d69b6be073e8
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-EXTERNAL-DRIVER
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-EXTERNAL-DRIVER
-    state_sha256: bf91d6fc92c809d2e9c29c495fc31d5a3a54c8997602364c27bdfa745674883b
+    state_sha256: 010e4fc8265bab6c6c8c2a2cad20200ee8ca690e8d68e85d3e4266771e48de78
   FX-API-RESET:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -357,7 +357,7 @@ snapshots:
       target_generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-RESET
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-RESET
-    state_sha256: dbf1098fc98d2a48df61f125b7058b2a8809e9d93f629cf0045f56ade9810c83
+    state_sha256: f4cff0e5f714e209e7b5ee98b94b031a3a380f1cac1ae4095721bd051b8dd403
   FX-API-EMAIL:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -367,7 +367,7 @@ snapshots:
       provider_thread_id: thread-demo-001
     seed_manifest_ref: demo-r1-v2.1.3/FX-API-EMAIL
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-API-EMAIL
-    state_sha256: bd589ce4a901c7218eb6ace1c44df5629f783033e156dee2b0d91e795373d1c6
+    state_sha256: e941a7a1f8ce30607d464bc0a3c2abee897fdc848ba34c172b4f52d4a9ddd8b2
   FX-RESET-LATE-WORKER:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: RESETTING
@@ -378,7 +378,7 @@ snapshots:
       lease_id: 01ad6dac-51a0-5c5b-a490-34cb685a5d74
     seed_manifest_ref: demo-r1-v2.1.3/FX-RESET-LATE-WORKER
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-RESET-LATE-WORKER
-    state_sha256: b86229a657bb3b6b617e3b7b5dd9156e9628e9679e86a236c55ace25d0d5bb0b
+    state_sha256: ddf2ebab7da8c319e6af446fe515d54cb902f2ab4dbf4940c21bbd3eac3fa5d4
   FX-EXTERNAL-SUPPLIER-SUBJECT-CHANGED:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -390,7 +390,7 @@ snapshots:
       token_status: REVOKED
     seed_manifest_ref: demo-r1-v2.1.3/FX-EXTERNAL-SUPPLIER-SUBJECT-CHANGED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EXTERNAL-SUPPLIER-SUBJECT-CHANGED
-    state_sha256: 8b18d1bc6eebf2442cd2ddbb636a55203ade329dd0f03884ff008d613228d87a
+    state_sha256: eea94c8559344620d71aeaa11d96dd4bb779bfb797151639a6c684c8dd632557
   FX-EXTERNAL-DRIVER-SUBJECT-CHANGED:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -402,7 +402,7 @@ snapshots:
       token_status: REVOKED
     seed_manifest_ref: demo-r1-v2.1.3/FX-EXTERNAL-DRIVER-SUBJECT-CHANGED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EXTERNAL-DRIVER-SUBJECT-CHANGED
-    state_sha256: 53d9a63dade73f689beaddd6821a6c4d7b60f3c2428c18e52c4bc0c5a5b4eb63
+    state_sha256: be095db37c955a0e79f1ef44ffde144227c9c917cf687164aecc808703dcfa32
   FX-TOKEN-CONCURRENT-ISSUANCE:
     generation_id: 64b8509b-d1e2-5e34-b3b5-fc05deaa648a
     runtime_status: ACTIVE
@@ -414,300 +414,300 @@ snapshots:
       stop_lock: FOR UPDATE
     seed_manifest_ref: demo-r1-v2.1.3/FX-TOKEN-CONCURRENT-ISSUANCE
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TOKEN-CONCURRENT-ISSUANCE
-    state_sha256: bb92fd7693b9a0e6fb4749ab3af01ca8bfefceccf4988c4a2bd4b7f44af35dd7
+    state_sha256: f583d087f15cbda2d865c7615212f30e87fdb4587b5d04e18a63a567680639fe
 seed_aliases:
   FX-ACTIVE-ATTENDANT-SESSION:
     seed_manifest_ref: demo-r1-v2.1.3/FX-ACTIVE-ATTENDANT-SESSION
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ACTIVE-ATTENDANT-SESSION
-    state_sha256: 186c5593712e876c7e812c0e373762fe98722c7f2eab170300dfa9ea405452cd
+    state_sha256: 908f161d5dcc228695615ba250b6d0d3b8590b5e35ab7d35b4202d79d92dd783
   FX-ADAPTER-BAD-SIGNATURE:
     seed_manifest_ref: demo-r1-v2.1.3/FX-ADAPTER-BAD-SIGNATURE
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ADAPTER-BAD-SIGNATURE
-    state_sha256: 966489d81f89bd42e7f4cbd894959571dd49b06713455671e7a8031b81f894fb
+    state_sha256: cbb89d7efe5f981026b502ccf52a8487fd924cc797643b41b7ed0bba756c5b76
   FX-ADAPTER-OLD-TIMESTAMP:
     seed_manifest_ref: demo-r1-v2.1.3/FX-ADAPTER-OLD-TIMESTAMP
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ADAPTER-OLD-TIMESTAMP
-    state_sha256: c739bffe5c37e33464f45d2bac8331b73369e3cacbca0a2497a64d3fafe68db6
+    state_sha256: 467436e5323ce1e946124376a15da47e9749e57c1cc23737e6fe90b44b8aa689
   FX-ADAPTER-REPLAY-CONFLICT:
     seed_manifest_ref: demo-r1-v2.1.3/FX-ADAPTER-REPLAY-CONFLICT
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ADAPTER-REPLAY-CONFLICT
-    state_sha256: b9c3d522e491828c97bd81b7ef83cca3e6070c2a2c01c4aace0abe0a25f7f8e0
+    state_sha256: 8e444b9b5e0eb84d84d86b6b7f37d8694e9ca08cb36d898949f9a347fd125049
   FX-ADAPTER-VALID:
     seed_manifest_ref: demo-r1-v2.1.3/FX-ADAPTER-VALID
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ADAPTER-VALID
-    state_sha256: 3f95150560527f092bdffc13490e30300e52abada81c567bf3977df09e702fdb
+    state_sha256: 65d9e6fa48dc35cbe3dd3b5259d01e5b4ce3bcd2164f2d50b1da2a5df178fa4e
   FX-ATTENDANT-CUSTOMER-A:
     seed_manifest_ref: demo-r1-v2.1.3/FX-ATTENDANT-CUSTOMER-A
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ATTENDANT-CUSTOMER-A
-    state_sha256: f332f05f3c6c47e1bf03cdf2be0349eca90936f5ea179755a532d416444070d8
+    state_sha256: 88c0fa6144614fa6575d9c5daa9096d6f0b980fb849792ec01228e0be3fda858
   FX-ATTENDANT-SCOPE-A:
     seed_manifest_ref: demo-r1-v2.1.3/FX-ATTENDANT-SCOPE-A
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ATTENDANT-SCOPE-A
-    state_sha256: cb3f8dbc9c40e7fb39d228b5269f98fbaa8a26f41b9dd2b90e99bf3be20e472f
+    state_sha256: f76912f111526f55d3f6b59239cf8dfe966ab5c11497b0ce0a0a743ccff91ebb
   FX-ATTENDANT-TEAM-A:
     seed_manifest_ref: demo-r1-v2.1.3/FX-ATTENDANT-TEAM-A
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ATTENDANT-TEAM-A
-    state_sha256: 5da8c89b1c35d6b1a99e1cf0ee03506831ec527886413faff0e7b265da2f8928
+    state_sha256: 2dbc054035fec8c28c4ead1fb444229bfebf609d61941e0bb7320228fff4d4c8
   FX-ATTENDANT-UNIT-A:
     seed_manifest_ref: demo-r1-v2.1.3/FX-ATTENDANT-UNIT-A
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-ATTENDANT-UNIT-A
-    state_sha256: 8056629188d16c4216350cedd327bc4755e8da3299afb75646c466888c9617de
+    state_sha256: 7a750ce738ce3cc7fce03d969f9750b8de77768d0eb9da774940ba0ce48c659f
   FX-CASE-IN-PROGRESS-SUPPLIER-TASK:
     seed_manifest_ref: demo-r1-v2.1.3/FX-CASE-IN-PROGRESS-SUPPLIER-TASK
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-IN-PROGRESS-SUPPLIER-TASK
-    state_sha256: e7959c18cc8078e5f962b3c1071c7f5bb94e7f2b8f00bbd1cff0f7b572330541
+    state_sha256: 7fd5b0ddcfb2aa1e968d0ce21eb9780008ee136a4a1090b7b9f28eba7122b8b7
   FX-CASE-INPROG-01:
     seed_manifest_ref: demo-r1-v2.1.3/FX-CASE-INPROG-01
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-INPROG-01
-    state_sha256: be548e091fe3b516ddc0d7b5f95c10cbe83782804e8ff37fd3c883566026f1b5
+    state_sha256: 8ab7dafa209b2caf68c280c3c449c3b47875827c8fabc96cf289df7516eefaea
   FX-CASE-NEW:
     seed_manifest_ref: demo-r1-v2.1.3/FX-CASE-NEW
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-NEW
-    state_sha256: 8d220778c10e0be00f4134c29c81b12a826b9e2917dbce735c76b44161b9aa40
+    state_sha256: 1eed25c3da209244fef89aa6a254ad1ddac0395d9fd9563c569e9cc34fe1bfae
   FX-CASE-READY-TO-RESOLVE:
     seed_manifest_ref: demo-r1-v2.1.3/FX-CASE-READY-TO-RESOLVE
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-READY-TO-RESOLVE
-    state_sha256: 05c83f0074b3a88402b3b3ca73b62ab94cb8ad9561abe7df9c6701de90840f21
+    state_sha256: 811a2f4a4d26e7717735cf21a03d299f1d31087680a55b5fea4868637dae6197
   FX-CASE-STOP-CLOSED-CONFLICT:
     seed_manifest_ref: demo-r1-v2.1.3/FX-CASE-STOP-CLOSED-CONFLICT
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-STOP-CLOSED-CONFLICT
-    state_sha256: 03cf9db8b1cbdbea7df7f262c35e3132ba6f481dce6844270bac0fb4e63b7412
+    state_sha256: fa3569e1a8fe801fa2fef29691447619aaddcf44d5a5633c458f311101876566
   FX-CASE-STOP-CLOSED-MANDATORY-TASK:
     seed_manifest_ref: demo-r1-v2.1.3/FX-CASE-STOP-CLOSED-MANDATORY-TASK
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-STOP-CLOSED-MANDATORY-TASK
-    state_sha256: f2fbb894773d7d792da3833c6f140aad83fb6dc70e67dbd441c3a4818de84051
+    state_sha256: cb220aa40f4ee922f26a9c59c9b75bf66d85d39f612fdc3f27e855d87e325ca8
   FX-CASE-STOP-OPEN:
     seed_manifest_ref: demo-r1-v2.1.3/FX-CASE-STOP-OPEN
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-STOP-OPEN
-    state_sha256: f5997120d88048b0f15b97cc37f9930ab58fc536165f62be23d487ce7eb65ae7
+    state_sha256: cccc725be5674f5003a62a31ebd4ccaf1af7b7723218a03066778e7685cc6b65
   FX-CASE-WAITING-SUPPLIER:
     seed_manifest_ref: demo-r1-v2.1.3/FX-CASE-WAITING-SUPPLIER
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-CASE-WAITING-SUPPLIER
-    state_sha256: 4b3fa398f4bab848600c1986a623d4d150e1a1fde4a8c185a9f23b64a993595a
+    state_sha256: f22ded5f5d4227113377e06f2c9cc276791460c773dea11e88575a860bc7ef56
   FX-DATA-INTEGRITY:
     seed_manifest_ref: demo-r1-v2.1.3/FX-DATA-INTEGRITY
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DATA-INTEGRITY
-    state_sha256: cab5d986b2fe35e1b524cad1cde100095dbe4104c897e715929c88f4e46c2fc4
+    state_sha256: e7aae2c0d3012676bedffc70d4c71038a4e50a8cbf2ae0ea5d32b1cc8e08e200
   FX-DEMO-ADMIN-SESSION:
     seed_manifest_ref: demo-r1-v2.1.3/FX-DEMO-ADMIN-SESSION
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DEMO-ADMIN-SESSION
-    state_sha256: 607dd4e9b8717a6b6c3843ea6055ac429220d5b211b15fa27c5c72b116fc6dbe
+    state_sha256: 0f0b5d05c5fc63e5ad49739ecbc4d71de477abcd4df270f6e73d58c681c5706c
   FX-DEMO-ADMIN-SESSION-BAD-CSRF:
     seed_manifest_ref: demo-r1-v2.1.3/FX-DEMO-ADMIN-SESSION-BAD-CSRF
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DEMO-ADMIN-SESSION-BAD-CSRF
-    state_sha256: 6ebb9774de14bf452158f39f96c9d4f756d1a9c55ac94f7b74d9706ab0b2eefa
+    state_sha256: b369c8fbe4e92ca533b3469075985c1d1bdb62e6de0279b27fe83306f7b96b41
   FX-DEMO-ADMIN-SESSION-NO-CSRF:
     seed_manifest_ref: demo-r1-v2.1.3/FX-DEMO-ADMIN-SESSION-NO-CSRF
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DEMO-ADMIN-SESSION-NO-CSRF
-    state_sha256: 9a656078b149deb6a1de294d6c8d6dc4fbd431f15569f3a5c214764bfe94ec43
+    state_sha256: 29c8a0da2ddde63e19a6e3b2d7b0df441b89b9adf345aa8ade9c5d5495fc85f5
   FX-DEMO-MODE-OFF:
     seed_manifest_ref: demo-r1-v2.1.3/FX-DEMO-MODE-OFF
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DEMO-MODE-OFF
-    state_sha256: 405e7b60c3587c18fb19b2ca6ef103f5698ee4d92462bde077245588de4de968
+    state_sha256: b0981e90838078e2d29696cbc6a90f48ca7a178cde5c4479da6ded960e6ea7d7
   FX-DRIVER-SESSION:
     seed_manifest_ref: demo-r1-v2.1.3/FX-DRIVER-SESSION
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-DRIVER-SESSION
-    state_sha256: fb7339ae01e67cf01510370ae4ae8aeee4dff38cd28cf35d01a03362435be625
+    state_sha256: df02d7cba201d81382dae9d479758c577f6804a1dc13122bcb9f43a93ee6fb2c
   FX-E2E-ARRIVAL-CONFLICT:
     seed_manifest_ref: demo-r1-v2.1.3/FX-E2E-ARRIVAL-CONFLICT
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-ARRIVAL-CONFLICT
-    state_sha256: 169faffdaf7026da183ce3a60ae58dbda873b19dea2b90046d0b30c10d28db4a
+    state_sha256: c7e60ec97dfa554a9e368bf958d9595663577398a9e94f3c65a6b15ea9252a51
   FX-E2E-BASE:
     seed_manifest_ref: demo-r1-v2.1.3/FX-E2E-BASE
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-BASE
-    state_sha256: 6568d8a78caf34109dd72ec96cea652722c85cfde9fc83468f7a4e1531c5c928
+    state_sha256: 75fc9202d66500041f6a72e03f5541dc7638b59e35898a29ff3bda454a8c0cee
   FX-E2E-EMAIL-LINK:
     seed_manifest_ref: demo-r1-v2.1.3/FX-E2E-EMAIL-LINK
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-EMAIL-LINK
-    state_sha256: 22ce1e802066e33efbd79557f50b70c5db81425328988a28fc96eb5fa6c29f9d
+    state_sha256: 72d4d9ace9f9fd031da844af6bf94b5855d388f8e7355cd934c3b91a2718f825
   FX-E2E-EXECUTIVE:
     seed_manifest_ref: demo-r1-v2.1.3/FX-E2E-EXECUTIVE
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-EXECUTIVE
-    state_sha256: c633b7afcacbdcdaa61714529db50a0d70d178ca1da0194013dc080bfadfbfd3
+    state_sha256: d1dbe685d1046b1d5f79a7e3b9c653e51dbbd19e1d902baf1740753bba5908e7
   FX-E2E-INACTIVITY:
     seed_manifest_ref: demo-r1-v2.1.3/FX-E2E-INACTIVITY
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-INACTIVITY
-    state_sha256: 9b1101730466a702b5f7e33fca57405f9a17e064aab5b0d9d4df1241ef28a06c
+    state_sha256: 493c7a055bec542c81722f74b52c13aa3887b11a936330ffcbe3381d01947e49
   FX-E2E-NO-PICKUP:
     seed_manifest_ref: demo-r1-v2.1.3/FX-E2E-NO-PICKUP
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-NO-PICKUP
-    state_sha256: 5d9a339aaf7984b4fbdd4d758d51ffbe197caaf0e290c43feefd147c35d2d639
+    state_sha256: 9423d0fdaa4ad0a890a798c740ef10d2bdb29a6ec32dc2ab19147d3714778b08
   FX-E2E-PARALLEL-TASKS:
     seed_manifest_ref: demo-r1-v2.1.3/FX-E2E-PARALLEL-TASKS
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-E2E-PARALLEL-TASKS
-    state_sha256: a267a7942d67f4a6dd82826b548b9b0d7bbc53c55f313624afec7d3d0e3f9c16
+    state_sha256: 87434fbb0bd596a184bae359eac22a962528049f25b1fdfd1229e02374d52a15
   FX-EMPTY-LOCAL:
     seed_manifest_ref: demo-r1-v2.1.3/FX-EMPTY-LOCAL
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EMPTY-LOCAL
-    state_sha256: 67bbcf88a213dace3e8bf48bb695e8825d2539bca351da111d50c07132e570ab
+    state_sha256: 71494aa0d9c6ccf2011245d1e835ea9ac3ae944dd0dada19c283227afc969715
   FX-EXPIRED-SESSION:
     seed_manifest_ref: demo-r1-v2.1.3/FX-EXPIRED-SESSION
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EXPIRED-SESSION
-    state_sha256: f2d22133df4468f1b2cf3d2a7eae3fb12ba8f3dd80acf3a1d8476e501507f387
+    state_sha256: ad628092b63e7545e6dc8756b60cbaac3b148955dff0e3d268db32bd27c4920b
   FX-EXPIRED-SUPPLIER-TOKEN:
     seed_manifest_ref: demo-r1-v2.1.3/FX-EXPIRED-SUPPLIER-TOKEN
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-EXPIRED-SUPPLIER-TOKEN
-    state_sha256: 3fca84bbc1f1cb86318ad93a656deaaca1468eaa2e5be554af1b4c28465dfc1a
+    state_sha256: 39acdf9fc40a4a569acdc3f0463e238775be8c865aace9494e1357012899c7c1
   FX-IDEMPOTENT-COMMAND:
     seed_manifest_ref: demo-r1-v2.1.3/FX-IDEMPOTENT-COMMAND
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-IDEMPOTENT-COMMAND
-    state_sha256: eb2211991a50825804af83d5cc7df072b3309bb6995286e2c18636fed1f9c845
+    state_sha256: adfc0f758d71e420ca31b50c8dd871270d6672a3f157c2f3ecb8bf914b306a37
   FX-MANAGER-SCOPE-A:
     seed_manifest_ref: demo-r1-v2.1.3/FX-MANAGER-SCOPE-A
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-MANAGER-SCOPE-A
-    state_sha256: 12af8515d6f2bb9db6ad80f623515cfb85e0905861d9bad4a585937b13310882
+    state_sha256: 5768dc51b15b2c399e00b30819c0c105315e10babf15f1bd076d09f8d21cc819
   FX-MUTATED-DEMO:
     seed_manifest_ref: demo-r1-v2.1.3/FX-MUTATED-DEMO
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-MUTATED-DEMO
-    state_sha256: a3c097314833e475a54b485263d6b50bc317d46abb7413cbbe911733a8d4f623
+    state_sha256: 3245ca0aec3e8a9c3e9705b1abf17dc4307c9417eccc84e306f5684449be09de
   FX-NO-SESSION:
     seed_manifest_ref: demo-r1-v2.1.3/FX-NO-SESSION
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-NO-SESSION
-    state_sha256: 3defba9bb71ebd11c2e9428bce26cc6d40ac22fd3ab194b797d820a4f7290370
+    state_sha256: d937aa49f4341219658d34b34ee2757e4d287abd0e562a71e9fa24b8f637f939
   FX-REVOKED-ACTIVE-SESSION:
     seed_manifest_ref: demo-r1-v2.1.3/FX-REVOKED-ACTIVE-SESSION
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-REVOKED-ACTIVE-SESSION
-    state_sha256: 391f81233d6aeff449adf4c5710d6ea5e52e0926ec9b37dd398bce952e438241
+    state_sha256: 484468d54bb81dfdd88661a77c75b55a9d60fbce78044a1c5698f5571a5edb54
   FX-REVOKED-SUPPLIER-TOKEN:
     seed_manifest_ref: demo-r1-v2.1.3/FX-REVOKED-SUPPLIER-TOKEN
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-REVOKED-SUPPLIER-TOKEN
-    state_sha256: baa4ef5a235608ef95be0dad51b369692f75cb5175caac2bcea8bc3c66c17df3
+    state_sha256: 5f19176a10671035891207928f02eabbf860b5690044e09d167c153d87f6414c
   FX-STOP-ARRIVAL-CONFIRMED:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-ARRIVAL-CONFIRMED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-ARRIVAL-CONFIRMED
-    state_sha256: 58aed7ad44a3996c6287bb6b0621ac61ea7cbce0dc8e07cf9386edb3d057865d
+    state_sha256: 69e1339a6b76ee61263b5bf4e98c1cca12f690bce218e7092ef9341888c5deac
   FX-STOP-ARRIVAL-CONFLICT:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-ARRIVAL-CONFLICT
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-ARRIVAL-CONFLICT
-    state_sha256: cfeb6e625ee21c57f1e0882f5a67d93d876329c0270626872affc4be48d5aed8
+    state_sha256: 0879c3739e73a17b6eeeaf4fe8cc21c58b8c29851edb5c4bd282210c08123dbb
   FX-STOP-ARRIVAL-REPORTED:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-ARRIVAL-REPORTED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-ARRIVAL-REPORTED
-    state_sha256: d220a2ec118b795b10921dc13724d4ca0c0282bc04a74c1acd1096ec1ae18187
+    state_sha256: 66103ed596bf02f3fea2fd293e5dca7c38f3027e7b76dcb553ad01cb08e8595b
   FX-STOP-AWAITING-ARRIVAL:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-AWAITING-ARRIVAL
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-AWAITING-ARRIVAL
-    state_sha256: 11c58f41258e653808eb505c71f5f2a0d1235936c42c9457a9401a1cd9c9ee47
+    state_sha256: 23661c3564185c9837d68326b531ed756d91f3c6e5262bab1ac42ecd02b74b89
   FX-STOP-AWAITING-PICKUP:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-AWAITING-PICKUP
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-AWAITING-PICKUP
-    state_sha256: 2224c605e40be7fa2ab6af17701c2a1410500717b2a636fa01b080259b7a0e02
+    state_sha256: 4890d367343bb56cce4237ded36aaeea6e992a128889a71af5a622c8d971649f
   FX-STOP-CURRENT-ARRIVAL:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-CURRENT-ARRIVAL
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-CURRENT-ARRIVAL
-    state_sha256: ee922263cb2acb3d3b2b5d4d6c9c527f8ad87c1a116c17632e1f6398471b1a7d
+    state_sha256: 39af671f11ff9bc3c9a16df369234e180802bf2540d594ffc7b3e640af026f32
   FX-STOP-CURRENT-FORECAST:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-CURRENT-FORECAST
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-CURRENT-FORECAST
-    state_sha256: eb33bbb473df1f98d2bc075e94d3fd366adc90d2f5b0245e389ce8d72211b0a1
+    state_sha256: 56dedec3f0b173c61a7e20a3a240ecb338b9d5bf2feeb356779678a676b8dc4a
   FX-STOP-IN-EXECUTION:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-IN-EXECUTION
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-IN-EXECUTION
-    state_sha256: 4997d7bd8e4a5cfa087f283e4d7fa16f35edb73dd8ff373983586022c979b025
+    state_sha256: f21d6487afcc12ba6677b7e24dc64106282a14696e92d6b533f230d328df6b28
   FX-STOP-INACTIVE-NO-ALERT:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-INACTIVE-NO-ALERT
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-INACTIVE-NO-ALERT
-    state_sha256: 0322db5ccec7c3bf50b6a1abb6e3599c828b270b3162ea46ecbed0f66ee5169c
+    state_sha256: 262f8adffb52cda81207f4c3cc31c04087f44d7f4606eabc9c55a65af2e5bc0c
   FX-STOP-INACTIVE-OPEN-ALERT:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-INACTIVE-OPEN-ALERT
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-INACTIVE-OPEN-ALERT
-    state_sha256: 2639b890d865935c39c8f7035cbab26a11c503f91ff9fd8b3ab98572b7502610
+    state_sha256: 4b188ad0ab00d286ee5163030e052c07954fa8c36c98411c621d23232159d1d9
   FX-STOP-OPEN-NO-UPDATE:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-OPEN-NO-UPDATE
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-OPEN-NO-UPDATE
-    state_sha256: 4bbd0460105d987ce2f85336619622bab7f714a425c5a592faeafd81ef4aabc5
+    state_sha256: 2c8b97e215ff020c9da846d7e395b6f76beafc4c58b385f3b2ce52c6e7097bb9
   FX-STOP-PICKED-UP-CONFLICT:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-PICKED-UP-CONFLICT
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-PICKED-UP-CONFLICT
-    state_sha256: c9dd721e6b4f847a28004219e3b91ee9066276ae9ddde8eef0d343c25871edd6
+    state_sha256: 5e1f9fc7875e34fb680188f7fba4fcea75683ae03ba0e98d02ba52e810ff0115
   FX-STOP-PICKED-UP-MANDATORY-TASK:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-PICKED-UP-MANDATORY-TASK
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-PICKED-UP-MANDATORY-TASK
-    state_sha256: 9bab9c43d31863ce141c925a65851043bb2045245476e1d75729ef4ee4ba356a
+    state_sha256: aba0a81a3f00272234927023e2861954091a1ddd1f21c357dcf3370d361e0929
   FX-STOP-READY-TO-CLOSE:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-READY-TO-CLOSE
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-READY-TO-CLOSE
-    state_sha256: 56a167d2c848f8f6985772a7dbae11adaf58f58eb71fe2d3ad022d37c758391d
+    state_sha256: 12a6ca91cd56766da993bb1252c3c69252a7ce3182bdb91d2e5cd4da26ef2c60
   FX-STOP-RECEIVED:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-RECEIVED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-RECEIVED
-    state_sha256: 5885fdaff25bd4c98295a5cd8139dd568300f90018f53a9e174b5f282ef744ee
+    state_sha256: fa8ded6371494c321466d1149327bac8fe0dda0e2b9b563236f58e35989338c7
   FX-STOP-SCHEDULED:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-SCHEDULED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-SCHEDULED
-    state_sha256: eae845fc6145f5d69d8f3ce9aa5b82b838be81c87ab0e4b91ca9e42d620e22d7
+    state_sha256: 1a995f126735b5c26f3af1b6e2d1b705cb79049bb0ecb247818318af27467e28
   FX-STOP-SERVICE-COMPLETED:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-SERVICE-COMPLETED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-SERVICE-COMPLETED
-    state_sha256: 8982002e66f1cce55e8ede145fe0f229d73e46668a85ebe9c2b228092e0af04d
+    state_sha256: 5187b0dd9ee495a3f6c5d43a5e787570cb7bee56963b7210076fef21807ed501
   FX-STOP-TWO-ARRIVAL-REPORTS:
     seed_manifest_ref: demo-r1-v2.1.3/FX-STOP-TWO-ARRIVAL-REPORTS
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-STOP-TWO-ARRIVAL-REPORTS
-    state_sha256: 6924539ec54debd6bfd62e4568961b71ab4881718989223c0944f78f31844801
+    state_sha256: 0673116f64db1a189f5bd681fd117cec730c7c04d88bdc0c45e86b890581a1d1
   FX-SUPERVISOR-UNIT-A:
     seed_manifest_ref: demo-r1-v2.1.3/FX-SUPERVISOR-UNIT-A
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPERVISOR-UNIT-A
-    state_sha256: 212e16e365ecb94f9c62b936ec72e4f7945726b8f3a22f47aaae25eeb200d271
+    state_sha256: c853cbdcc4b58a7a8a3b79134cc04bcca6856b26151016ead9113533d1d112c6
   FX-SUPERVISOR-UNIT-A-CUSTOMER-A:
     seed_manifest_ref: demo-r1-v2.1.3/FX-SUPERVISOR-UNIT-A-CUSTOMER-A
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPERVISOR-UNIT-A-CUSTOMER-A
-    state_sha256: f345629a1433132a0354607f43d60fc63e2d29b5ee66f24491e5d6e3d42ac16c
+    state_sha256: bb2252fd8a6ce853e4a6c58304257671d2693a9e8b669eb57f2e6a939fb36ae3
   FX-SUPPLIER-SESSION:
     seed_manifest_ref: demo-r1-v2.1.3/FX-SUPPLIER-SESSION
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPPLIER-SESSION
-    state_sha256: ab7a1d5587b89cea7fd0be0f4de580851cad597d3a34ffb4435dd1b239561fdc
+    state_sha256: ea702efd0e64c227b9b4bbacbc11c8854f85eb6f07767fede461086db83c6e27
   FX-SUPPLIER-SESSION-NO-CSRF:
     seed_manifest_ref: demo-r1-v2.1.3/FX-SUPPLIER-SESSION-NO-CSRF
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPPLIER-SESSION-NO-CSRF
-    state_sha256: fe8e4130ff5cc710502a8e1427bd63d95397372927738da449356fb1f7ed5f16
+    state_sha256: 6fb39f87f0aeb3eff829a8c3978c34d75f4f455851bd43b444398c5ea9bc4d5d
   FX-SUPPLIER-SESSION-RATE-LIMIT:
     seed_manifest_ref: demo-r1-v2.1.3/FX-SUPPLIER-SESSION-RATE-LIMIT
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPPLIER-SESSION-RATE-LIMIT
-    state_sha256: eb07f9e5b8ccf4a71acd8e1174b53b5701644a25ef32cf66f66f20781a1a1b76
+    state_sha256: 20a3b0bbac262dd124ff6c43755a9aa637189deeafa0f20163e6cdd4d8432f86
   FX-SUPPLIER-TOKEN-5-USES:
     seed_manifest_ref: demo-r1-v2.1.3/FX-SUPPLIER-TOKEN-5-USES
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SUPPLIER-TOKEN-5-USES
-    state_sha256: 7a6a49eff8acac2e7acaa28ef6881fb0d2cd2135e2b6bbac2b93eeeb6557f5e6
+    state_sha256: ead72194b9787820e30ffd52f07b5e62bdd7b14edee61e1d30d8d609def4121a
   FX-TASK-ASSIGNED:
     seed_manifest_ref: demo-r1-v2.1.3/FX-TASK-ASSIGNED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TASK-ASSIGNED
-    state_sha256: fd8febd3aa352c1fb23d6c3a4a046d20bed60b5cf515d90212938d330f5ca71d
+    state_sha256: 991540c07d7894a980bd60cde3747084acdc0be81fa22c0357328499204c9af0
   FX-TASK-IN-PROGRESS:
     seed_manifest_ref: demo-r1-v2.1.3/FX-TASK-IN-PROGRESS
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TASK-IN-PROGRESS
-    state_sha256: 93242aab64b27bc4627e3eb482d4c3c69af1d998a5ecc2c4d372addc3631b6e3
+    state_sha256: c25ad075bf7cdd80793ca64627d33acaead33cfbe8c7309faa7844c6d11d030b
   FX-TASK-INPROG-SUPPLIER:
     seed_manifest_ref: demo-r1-v2.1.3/FX-TASK-INPROG-SUPPLIER
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TASK-INPROG-SUPPLIER
-    state_sha256: b32bf2021a6ecbf124bd3ed5b8382b662875adaeb79ce1245cf2eae959d5f5c0
+    state_sha256: bf37f269522d0ac3e8f5ec2f8c69628144a04cdc964c0bf15417fb58aae848d9
   FX-TASK-NOT-STARTED:
     seed_manifest_ref: demo-r1-v2.1.3/FX-TASK-NOT-STARTED
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TASK-NOT-STARTED
-    state_sha256: e25b0f292afb126f818c3d8af08fbe3201b59d460e82d6b90788a2258189d7f1
+    state_sha256: 36e9f97378d99a3fb4810748207baf1ebb51b57da43d8b11cd39c13635afbcab
   FX-TASK-WAITING-SUPPLIER:
     seed_manifest_ref: demo-r1-v2.1.3/FX-TASK-WAITING-SUPPLIER
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TASK-WAITING-SUPPLIER
-    state_sha256: 7f2c045efc2032e2678f71c6e9b89eb12085b98b142a1a3014669195b5e33b69
+    state_sha256: db2ff95f66f60d4b704439e73ce6c6994476677d894e4002fd89862ff777cba5
   FX-TERMINAL-AGGREGATES:
     seed_manifest_ref: demo-r1-v2.1.3/FX-TERMINAL-AGGREGATES
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TERMINAL-AGGREGATES
-    state_sha256: bfeaef3b43bbac736b8d0074f8b23678d47ea9c4750426ede41c89a2bee94247
+    state_sha256: 27d55277289372fe0db886373771848ef7f43694e513f96eceb0459dc917ead6
   FX-TWO-ASSIGNED-TASKS:
     seed_manifest_ref: demo-r1-v2.1.3/FX-TWO-ASSIGNED-TASKS
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-TWO-ASSIGNED-TASKS
-    state_sha256: d79ed8817866c05732e342365918e18f672f3d0e44c77cf042d3cb34b8341043
+    state_sha256: 0cf5391863cc88807326bcb07ddcf4cf73b3c84affe2701768426fd1799d2dbe
   FX-VALID-SUPPLIER-TOKEN:
     seed_manifest_ref: demo-r1-v2.1.3/FX-VALID-SUPPLIER-TOKEN
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-VALID-SUPPLIER-TOKEN
-    state_sha256: dcfb68c54490db9ad1a1909cc86c151974ba38d42926f2b67e02e2fd66eb6f93
+    state_sha256: 1116e7f2e1874b9489e701e584d20a30474cc1e33fcd3b34332bf3ac920fd7ad
   FX-VEHICLE-ACTIVE-STOP:
     seed_manifest_ref: demo-r1-v2.1.3/FX-VEHICLE-ACTIVE-STOP
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-VEHICLE-ACTIVE-STOP
-    state_sha256: 259c17e62703412be365bb3f8c8dc451946e099e988288ce480fe727c9af8ab0
+    state_sha256: 970d286a5a0089270c7843d99e48abda078f5099b4fa7323da1675a1b1182e1e
   FX-SEED-V213:
     seed_manifest_ref: demo-r1-v2.1.3/FX-SEED-V213
     resolved_state_ref: demo-r1-resolved-seeds.json#/fixtures/FX-SEED-V213
-    state_sha256: 656e5ee518b4b397329de5a33a20ad03f98ffc0f6061633b2b194093c821c49b
+    state_sha256: a3e261beb9160fadacf8f7c0835641e98a926fc0e8851f18dc0761466f9d1e2d
 seed_manifest_file: tests/spec/demo-r1-seed-manifest.yaml
 resolved_seed_file: tests/spec/demo-r1-resolved-seeds.json
 layered_resolved_seed_files:

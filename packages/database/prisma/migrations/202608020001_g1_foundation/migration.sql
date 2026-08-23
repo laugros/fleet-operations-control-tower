@@ -16,7 +16,7 @@ CREATE TABLE "demo_generation" (
   "retired_at" TIMESTAMPTZ(3),
   "failed_at" TIMESTAMPTZ(3),
   "failure_code" TEXT,
-  CONSTRAINT "ck_demo_generation_status" CHECK ("status" IN ('CREATED','ACTIVE','RETIRED','FAILED'))
+  CONSTRAINT "ck_demo_generation_status" CHECK ("status" IN ('CREATED','PREPARING','ACTIVE','RETIRED','FAILED'))
 );
 
 CREATE TABLE "demo_reset_execution" (
